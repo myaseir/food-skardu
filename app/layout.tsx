@@ -17,7 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Prevent browsers from forcing their own auto-darkening/lightening */}
+        {/* Nuclear Fix: Tell the browser that your app is 'dark mode aware'. 
+          This prevents mobile browsers from force-applying their own 
+          filters or light-gray overlays to your text.
+        */}
         <meta name="color-scheme" content="light dark" />
       </head>
       <body className={`${inter.className} antialiased`}>
