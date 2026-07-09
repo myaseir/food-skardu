@@ -4,29 +4,6 @@
   --background: #ffffff;
   --foreground: #171717;
 }
-@layer utilities {
-  .bg-parchment {
-    background-color: #e5d9d0;
-    background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
-  }
-  .font-handwritten {
-    font-family: 'Dancing Script', cursive; /* Make sure to import this in layout.tsx */
-  }
-  /* Add this to app/globals.css */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-}
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -42,4 +19,30 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+@layer utilities {
+  .bg-parchment {
+    background-color: #e5d9d0;
+    background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+  }
+
+  .font-handwritten {
+    font-family: 'Dancing Script', cursive;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
