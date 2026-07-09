@@ -48,3 +48,10 @@ body {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
+/* Add to the bottom of app/globals.css */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--foreground) !important; /* Uses your CSS variable */
+  font-weight: 900 !important;
+  opacity: 1 !important;
+  -webkit-font-smoothing: antialiased;
+}
