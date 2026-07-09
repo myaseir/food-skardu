@@ -6,15 +6,19 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
-        port: '',
-        pathname: '/**',
+        hostname: 'encrypted-tbn0.gstatic.com',
       },
       {
         protocol: 'https',
-        hostname: 'i.ibb.co',
-        port: '',
-        pathname: '/**',
+        hostname: 'foodpanda.dhmedia.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'static.tossdown.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.dribbble.com', // NEW: Added Dribbble for Skardu Mart
       },
     ],
   },

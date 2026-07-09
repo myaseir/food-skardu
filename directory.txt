@@ -1,0 +1,26 @@
+/food-skardu
+├── /app
+│   ├── /restaurant
+│   │   └── /[id]
+│   │       └── page.tsx      // Dynamic Restaurant Menu
+│   ├── layout.tsx            // Fonts, Global Providers
+│   └── page.tsx              // Main Landing Page (Food Skardu)
+├── /components
+│   ├── Navbar.tsx            // Sticky Nav
+│   ├── Footer.tsx            // Minimalist Footer
+│   ├── Hero.tsx              // White/Purple Hero
+│   ├── Categories.tsx        // Category Filter UI
+│   ├── ProductGrid.tsx       // Main Product List Engine
+│   ├── ProductCard.tsx       // Individual Item UI
+│   ├── CartDrawer.tsx        // Side-Cart
+│   └── CheckoutModal.tsx     // Hotel/Room Details Popup
+├── /data
+│   ├── config.ts             // Shop hours & availability
+│   └── products.ts           // 5000+ items (typed)
+├── /hooks
+│   └── useAvailability.ts    // Time & toggle logic
+├── /store
+│   └── useCart.ts            // Zustand cart state
+├── /lib
+│   └── utils.ts              // Utility functions
+└── tailwind.config.ts
