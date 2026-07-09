@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css"; // Ensure this points to your CSS file
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Prevent browsers from forcing their own auto-darkening/lightening */}
+        <meta name="color-scheme" content="light dark" />
+      </head>
       <body className={`${inter.className} antialiased`}>
-        {/* If you eventually add Auth or Theme Providers, 
-          you would wrap the {children} here.
-        */}
         {children}
       </body>
     </html>
