@@ -2,14 +2,8 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #000000; /* Set to absolute black for consistency */
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ffffff; /* Set to absolute white for dark mode */
-  }
+  --foreground: #171717;
+  color-scheme: light;
 }
 
 body {
@@ -19,14 +13,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-}
-
-/* Force all headings to use the CSS variable */
-h1, h2, h3, h4, h5, h6 {
-  color: var(--foreground) !important;
-  font-weight: 900 !important;
-  opacity: 1 !important;
-  -webkit-font-smoothing: antialiased;
 }
 
 @layer utilities {

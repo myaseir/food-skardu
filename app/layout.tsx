@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "./globals.css"; // Ensure this points to your CSS file
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,14 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* Nuclear Fix: Tell the browser that your app is 'dark mode aware'. 
-          This prevents mobile browsers from force-applying their own 
-          filters or light-gray overlays to your text.
-        */}
-        <meta name="color-scheme" content="light dark" />
-      </head>
       <body className={`${inter.className} antialiased`}>
+        {/* If you eventually add Auth or Theme Providers, 
+          you would wrap the {children} here.
+        */}
         {children}
       </body>
     </html>
