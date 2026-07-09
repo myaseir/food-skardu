@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-white text-gray-900 antialiased`}>
+      <body className={`${inter.className} antialiased`}>
         {/* If you eventually add Auth or Theme Providers, 
           you would wrap the {children} here.
         */}
