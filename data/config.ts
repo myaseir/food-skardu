@@ -6,7 +6,8 @@ export interface Shop {
   closeTime: string;  // Format "HH:mm"
   alwaysOpen: boolean;
   logo: string;       // Added for cleaner UI rendering
-  isActive?: boolean; // NEW: Master switch to manually close a shop anytime
+  isActive?: boolean;
+  distanceFromHub: number; // NEW: Master switch to manually close a shop anytime
 }
 
 export interface CategoryConfig {
@@ -39,7 +40,8 @@ export const shops: Shop[] = [
     openTime: "10:00", 
     closeTime: "23:00", 
     alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10"
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
+  distanceFromHub: 1.5
   },
   { 
     id: "mfc", 
@@ -48,7 +50,8 @@ export const shops: Shop[] = [
     openTime: "11:00", 
     closeTime: "23:00", 
     alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMQ6dmqgrHiuXYkuCAjoK9uflq4-G8JiXB6Fglzqfsw9AAN9KhQRlQ6vs&s=10"
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMQ6dmqgrHiuXYkuCAjoK9uflq4-G8JiXB6Fglzqfsw9AAN9KhQRlQ6vs&s=10",
+    distanceFromHub: 1.5
   },
   { 
     id: "pizza-king", 
@@ -57,7 +60,8 @@ export const shops: Shop[] = [
     openTime: "10:00", 
     closeTime: "23:00", 
     alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa8xtMwcGub4wGh9HgvVns3fAAIMH8V7a5rR3IzlQMijEyMbt9XXL4Rhrv&s=10"
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa8xtMwcGub4wGh9HgvVns3fAAIMH8V7a5rR3IzlQMijEyMbt9XXL4Rhrv&s=10",
+    distanceFromHub: 1.5
   },
   { 
     id: "skyway-pizza", 
@@ -66,7 +70,8 @@ export const shops: Shop[] = [
     openTime: "10:00", 
     closeTime: "00:00", 
     alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10"
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
+    distanceFromHub: 1.5
   },
   
 
