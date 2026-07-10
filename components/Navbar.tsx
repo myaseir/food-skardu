@@ -76,7 +76,7 @@ export default function Navbar({ onFoodClick, onMartClick, onCartClick, currentV
       {/* Mobile Hamburger Menu Dropdown */}
       {isOpen && (
         <div className="absolute top-full left-0 w-full bg-white border-b border-gray-100 p-6 flex flex-col gap-4 md:hidden shadow-2xl">
-          {["Profile", "My Orders", "Help & Support"].map((item) => (
+          {["About Us", "contact"].map((item) => (
             <Link 
               key={item} 
               href={`/${item.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`} 

@@ -49,6 +49,7 @@ export default function Home() {
           onCartClick={() => setIsCartOpen(true)} 
         />
       </div>
+      <Footer/>
     </main>
   );
 }
