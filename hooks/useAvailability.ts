@@ -6,8 +6,12 @@ import { shops, categoryConfig, Shop } from "@/data/config";
  */
 export const useAvailability = () => {
   
-  const checkShopStatus = (shop: Shop): boolean => {
-    // 1. If always open, skip calculations
+  const checkShopStatus = (shop: Shop & { isActive?: boolean }): boolean => {
+    // NEW: Master Override Switch. 
+    // If you add `isActive: false` to the mart in config.ts, it closes immediately.
+    if (shop.isActive === false) return false;
+
+    // 1. If always open, skip calculations (Protects your restaurant logic)
     if (shop.alwaysOpen) return true;
 
     // 2. Get current time in minutes from midnight
@@ -22,18 +26,23 @@ export const useAvailability = () => {
     const closeMinutes = closeH * 60 + closeM;
 
     // 4. Handle overnight logic (e.g., 6 PM to 2 AM)
-    // If openTime > closeTime, the shop stays open past midnight
     if (openMinutes > closeMinutes) {
       return currentMinutes >= openMinutes || currentMinutes <= closeMinutes;
     }
 
-    // 5. Standard daily hours
+    // 5. Standard daily hours (Handles Mart 08:00 to 17:00 perfectly)
     return currentMinutes >= openMinutes && currentMinutes <= closeMinutes;
   };
 
   const isCategoryAvailable = (catName: string): boolean => {
-    // Safely check if category exists and is toggled on
-    return !!categoryConfig[catName]?.isAvailable;
+    // RESTAURANT LOGIC: If the category is explicitly in your config, respect that toggle.
+    if (categoryConfig && categoryConfig[catName] !== undefined) {
+      return !!categoryConfig[catName].isAvailable;
+    }
+    
+    // MART LOGIC: If the category is NOT in config (like "Fresh Food & Dairy"),
+    // default to true so it doesn't get hidden. 
+    return true;
   };
 
   return { 

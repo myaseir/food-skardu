@@ -6,6 +6,7 @@ export interface Shop {
   closeTime: string;  // Format "HH:mm"
   alwaysOpen: boolean;
   logo: string;       // Added for cleaner UI rendering
+  isActive?: boolean; // NEW: Master switch to manually close a shop anytime
 }
 
 export interface CategoryConfig {
@@ -20,6 +21,14 @@ export const categoryConfig: CategoryConfig = {
   "Electronics": { isAvailable: true },
   "Pharmacy": { isAvailable: true },
   "Hardware": { isAvailable: true },
+  
+  // Optional: You can explicitly list your new Panda Mart categories here 
+  // if you want a central place to toggle them off in the future.
+  "Fresh Food & Dairy": { isAvailable: true },
+  "Pantry & Cooking Staples": { isAvailable: true },
+  "Snacks & Beverages": { isAvailable: true },
+  "Household & Personal Needs": { isAvailable: true },
+  "Specialty & Promos": { isAvailable: true },
 };
 
 export const shops: Shop[] = [
@@ -59,13 +68,6 @@ export const shops: Shop[] = [
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10"
   },
- { 
-    id: "skardu-mart", 
-    name: "Skardu Mart", 
-    type: "mart", 
-    openTime: "00:00", 
-    closeTime: "23:59", 
-    alwaysOpen: true,
-    logo: "https://cdn.dribbble.com/userupload/10093652/file/original-ca4f833ed735ea013f32bb15bc7bc2d8.png?resize=752x&vertical=center" // Ensure this image is in your public/images folder
-  }
+  
+
 ];

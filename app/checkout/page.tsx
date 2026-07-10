@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/store/useCart";
 import emailjs from '@emailjs/browser';
-import { ChevronLeft, Home, Building, CheckCircle2 } from "lucide-react";
+import { ChevronLeft, Home, Building, CheckCircle2,PhoneCall } from "lucide-react";
 
 export default function CheckoutPage() {
   const { items, clearCart } = useCart() as any;
@@ -22,6 +22,7 @@ export default function CheckoutPage() {
   
   // Smart Hotel Search State
   const [hotelName, setHotelName] = useState("");
+  const [roomNumber, setRoomNumber] = useState(""); // NEW: Separate state for Room Number
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   // The Master Hotel List
@@ -44,24 +45,35 @@ export default function CheckoutPage() {
     // Basic Validation
     if (!name || !phone) return alert("Please enter your name and phone number.");
     if (deliveryType === 'home' && !homeAddress) return alert("Please enter your home address.");
-    if (deliveryType === 'hotel' && !hotelName) return alert("Please enter or select a hotel.");
+    
+    // Updated validation to require the new room number field
+    if (deliveryType === 'hotel' && (!hotelName || !roomNumber)) {
+      return alert("Please enter both the hotel name and your room number.");
+    }
 
     setIsSending(true);
 
+    // Format the address clearly for the email
     const finalAddress = deliveryType === 'home' 
-      ? `HOME: ${homeAddress}` 
-      : `HOTEL/ROOM: ${hotelName}`;
+      ? `HOME DELIVERY: ${homeAddress}` 
+      : `HOTEL DELIVERY: ${hotelName} | ROOM NO: ${roomNumber}`;
+
+    // Format the items clearly with quantities and sub-totals
+    const detailedItems = items.map((i: any) => {
+      const qty = i.quantity || 1;
+      const subtotal = i.price * qty;
+      return `${qty}x ${i.name} (Rs. ${subtotal})`;
+    }).join("  •  "); // Uses a bullet point to separate items clearly
 
     const templateParams = {
       user_name: name,
       user_phone: phone,
       address: finalAddress,
-      order_items: items.map((i: any) => i.name).join(", "),
+      order_items: detailedItems, // Now sends detailed quantity/price info
       total_price: total,
     };
 
-  try {
-      // Pulling credentials securely from .env.local
+    try {
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
@@ -82,12 +94,24 @@ export default function CheckoutPage() {
   // SUCCESS SCREEN
   if (step === 'success') {
     return (
-      <main className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 text-center">
-        <div className="bg-white p-10 rounded-3xl shadow-xl max-w-md w-full flex flex-col items-center animate-in zoom-in duration-500">
-          <CheckCircle2 size={80} className="text-purple-600 mb-6" />
-          <h1 className="text-3xl font-black uppercase tracking-tighter mb-2">Order Confirmed!</h1>
-          <p className="text-gray-500 font-bold mb-8">Your order is cooking. Thank you for choosing Food Skardu.</p>
-          <Link href="/" className="w-full bg-purple-600 text-white py-4 rounded-xl font-black uppercase tracking-widest hover:bg-purple-700 transition-colors">
+  <main className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4 sm:p-6 text-center">
+        <div className="bg-white p-6 sm:p-10 rounded-3xl shadow-xl max-w-md w-full flex flex-col items-center animate-in zoom-in duration-500">
+          <CheckCircle2 size={64} className="text-purple-600 mb-4 sm:mb-6 sm:w-20 sm:h-20" />
+          <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-2">Order Confirmed!</h1>
+          <p className="text-gray-500 font-bold mb-5 text-sm sm:text-base">
+            Your order is cooking. Thank you for choosing Food Skardu.
+          </p>
+
+          <div className="w-full flex items-center gap-3 bg-purple-50 border border-purple-100 rounded-2xl p-4 mb-8 text-left">
+            <div className="shrink-0 w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center">
+              <PhoneCall size={18} className="text-white" />
+            </div>
+            <p className="text-purple-700 font-bold text-xs sm:text-sm leading-snug">
+              You'll get a confirmation call on WhatsApp or your phone number shortly.
+            </p>
+          </div>
+
+          <Link href="/" className="w-full bg-purple-600 text-white py-3.5 sm:py-4 rounded-xl font-black uppercase tracking-widest text-sm hover:bg-purple-700 transition-colors">
             Back to Home
           </Link>
         </div>
@@ -132,8 +156,7 @@ export default function CheckoutPage() {
             
             {/* Toggle Hotel vs Home */}
             <div className="flex bg-gray-100 p-1 rounded-2xl mb-6">
-
-                  <button 
+              <button 
                 onClick={() => setDeliveryType('hotel')}
                 className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold uppercase tracking-widest text-xs transition-all ${deliveryType === 'hotel' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-500 hover:text-gray-900'}`}
               >
@@ -145,7 +168,6 @@ export default function CheckoutPage() {
               >
                 <Home size={16} /> Home
               </button>
-            
             </div>
 
             {/* Conditional Inputs */}
@@ -158,47 +180,56 @@ export default function CheckoutPage() {
               />
             ) : (
               <div className="space-y-4 relative">
-                {/* Smart Autocomplete Input */}
+                
+                {/* Smart Autocomplete Input for Hotel Name */}
+                <div className="relative">
+                  <input 
+                    type="text" 
+                    placeholder="Search or type hotel name..." 
+                    value={hotelName} 
+                    onChange={(e) => {
+                      setHotelName(e.target.value);
+                      setShowSuggestions(true);
+                    }}
+                    onFocus={() => setShowSuggestions(true)}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                    className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl font-medium outline-none focus:border-purple-600 transition-colors" 
+                  />
+                  
+                  {/* Custom Dropdown Suggestions */}
+                  {showSuggestions && (
+                    <div className="absolute top-full mt-2 left-0 w-full bg-white border border-gray-100 shadow-xl rounded-xl z-50 max-h-48 overflow-y-auto animate-in fade-in slide-in-from-top-2">
+                      {filteredHotels.length > 0 ? (
+                        filteredHotels.map(hotel => (
+                          <div 
+                            key={hotel} 
+                            onClick={() => {
+                              setHotelName(hotel);
+                              setShowSuggestions(false);
+                            }}
+                            className="p-4 border-b border-gray-50 last:border-0 hover:bg-purple-50 hover:text-purple-600 cursor-pointer transition-colors font-medium text-sm text-gray-700"
+                          >
+                            {hotel}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="p-4 text-sm text-gray-500 italic bg-gray-50 rounded-xl">
+                          "{hotelName}" will be saved as a custom hotel.
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* NEW: Dedicated Room Number Input */}
                 <input 
                   type="text" 
-                  placeholder="Search or type hotel & room no..." 
-                  value={hotelName} 
-                  onChange={(e) => {
-                    setHotelName(e.target.value);
-                    setShowSuggestions(true);
-                  }}
-                  onFocus={() => setShowSuggestions(true)}
-                  // The timeout ensures the user's click on a suggestion registers before the dropdown hides
-                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                  placeholder="Room Number (e.g., 102, 3B)" 
+                  value={roomNumber} 
+                  onChange={(e) => setRoomNumber(e.target.value)} 
                   className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl font-medium outline-none focus:border-purple-600 transition-colors" 
                 />
                 
-                {/* Custom Dropdown Suggestions */}
-                {showSuggestions && (
-                  <div className="absolute top-full mt-2 left-0 w-full bg-white border border-gray-100 shadow-xl rounded-xl z-50 max-h-48 overflow-y-auto animate-in fade-in slide-in-from-top-2">
-                    {filteredHotels.length > 0 ? (
-                      filteredHotels.map(hotel => (
-                        <div 
-                          key={hotel} 
-                          onClick={() => {
-                            setHotelName(hotel);
-                            setShowSuggestions(false);
-                          }}
-                          className="p-4 border-b border-gray-50 last:border-0 hover:bg-purple-50 hover:text-purple-600 cursor-pointer transition-colors font-medium text-sm text-gray-700"
-                        >
-                          {hotel}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="p-4 text-sm text-gray-500 italic bg-gray-50 rounded-xl">
-                        "{hotelName}" will be saved as a custom hotel.
-                      </div>
-                    )}
-                  </div>
-                )}
-                <p className="text-[10px] uppercase font-bold tracking-widest text-gray-400 pl-2">
-                  Tip: Include your room number (e.g., Rus Olive Lodge - Room 102)
-                </p>
               </div>
             )}
           </section>
@@ -211,14 +242,13 @@ export default function CheckoutPage() {
             
             <div className="space-y-3 mb-6 max-h-64 overflow-y-auto pr-2">
               {items.map((item: any, index: number) => (
-  <div key={`${item.id}-${index}`} className="flex justify-between items-center text-sm">
-    <span className="font-bold text-gray-700">
-      {/* ADD THE QUANTITY HERE */}
-      {item.quantity > 1 ? `${item.quantity}x ` : ''}{item.name}
-    </span>
-    <span className="font-black">Rs. {item.price * (item.quantity || 1)}</span>
-  </div>
-))}
+                <div key={`${item.id}-${index}`} className="flex justify-between items-center text-sm">
+                  <span className="font-bold text-gray-700">
+                    {item.quantity > 1 ? `${item.quantity}x ` : ''}{item.name}
+                  </span>
+                  <span className="font-black">Rs. {item.price * (item.quantity || 1)}</span>
+                </div>
+              ))}
             </div>
 
             <div className="border-t border-dashed border-gray-200 pt-6 mb-6">

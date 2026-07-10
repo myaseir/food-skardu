@@ -3,20 +3,232 @@ export interface Product {
   name: string;
   price: number;
   category: string;
+  department: "Mart"; // Defines which tab the item belongs to
   shopId: string; // Must match the ID in data/config.ts
+  image?: string; // Optional: Add this if you plan to use images later
 }
 
 export const products: Product[] = [
-  // FOOD CATEGORY
-  { id: "p1", name: "Margherita Pizza", price: 1200, category: "Food", shopId: "rest-1" },
-  { id: "p2", name: "BBQ Platter", price: 2500, category: "Food", shopId: "rest-2" },
-  
-  // MART CATEGORY
-  { id: "m1", name: "Fresh Milk (1L)", price: 250, category: "Mart", shopId: "mart-1" },
-  { id: "m2", name: "Basmati Rice (5kg)", price: 1800, category: "Mart", shopId: "mart-1" },
+  // ==========================================
+  // MART DEPARTMENT
+  // ==========================================
 
-  // HARDWARE CATEGORY
-  { id: "h1", name: "Hammer", price: 800, category: "Hardware", shopId: "mart-1" },
-  
-  // Add your remaining thousands of items here...
+  // FRESH PRODUCE
+  { id: "m_fp1", name: "Potato (Aloo) - 1kg", price: 100, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://assets.bonappetit.com/photos/64ac604a047251c7e5ee272e/1:1/w_3625,h_3625,c_limit/20230509-0823-APPLIANCES-30922.jpg" },
+  { id: "m_fp2", name: "Onion (Pyaz) - 1kg", price: 110, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Onion" },
+  { id: "m_fp3", name: "Tomato (Tamatar) - 1kg", price: 140, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Tomato" },
+  { id: "m_fp4", name: "Fresh Garlic (Lehsan) - 250g", price: 150, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Fresh+Garlic" },
+  { id: "m_fp5", name: "Ginger (Adrak) - 250g", price: 140, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Ginger" },
+  { id: "m_fp6", name: "Green Chili (Hari Mirch) - 250g", price: 90, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Green+Chili" },
+  { id: "m_fp7", name: "Carrot (Gajar) - 1kg", price: 130, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Carrot" },
+  { id: "m_fp8", name: "Cabbage (Band Gobi) - 1pc", price: 110, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Cabbage" },
+  { id: "m_fp9", name: "Cauliflower (Phool Gobi) - 1pc", price: 130, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Cauliflower" },
+  { id: "m_fp10", name: "Spinach (Palak) - Bundle", price: 80, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Spinach" },
+  { id: "m_fp11", name: "Local Apple (Skardu) - 1kg", price: 220, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Local+Apple" },
+  { id: "m_fp12", name: "Apricot Dried (Khubani) - 500g", price: 380, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Apricot+Dried" },
+  { id: "m_fp13", name: "Banana - 1 Dozen", price: 220, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Banana" },
+  { id: "m_fp14", name: "Orange (Kinnow) - 1kg", price: 160, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Orange" },
+  { id: "m_fp15", name: "Lemon (Nimbu) - 250g", price: 100, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Lemon" },
+  { id: "m_fp16", name: "Cucumber (Kheera) - 1kg", price: 120, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Cucumber" },
+  { id: "m_fp17", name: "Capsicum (Shimla Mirch) - 500g", price: 150, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Capsicum" },
+  { id: "m_fp18", name: "Okra (Bhindi) - 500g", price: 130, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Okra" },
+
+  // MEAT & SEAFOOD
+  { id: "m_ms1", name: "Fresh Chicken (Broiler) - 1kg", price: 480, category: "Meat & Seafood", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffcdd2/b71c1c?text=Fresh+Chicken" },
+  { id: "m_ms2", name: "Chicken Boneless Breast - 1kg", price: 780, category: "Meat & Seafood", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffcdd2/b71c1c?text=Chicken+Boneless" },
+  { id: "m_ms3", name: "Beef (Gosht) - 1kg", price: 1100, category: "Meat & Seafood", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffcdd2/b71c1c?text=Beef" },
+  { id: "m_ms4", name: "Mutton (Sheep) - 1kg", price: 2200, category: "Meat & Seafood", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffcdd2/b71c1c?text=Mutton" },
+  { id: "m_ms5", name: "Fresh Trout Fish (Local) - 1kg", price: 900, category: "Meat & Seafood", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffcdd2/b71c1c?text=Fresh+Trout" },
+  { id: "m_ms6", name: "K&N's Chicken Seekh Kabab (Pack)", price: 650, category: "Meat & Seafood", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffcdd2/b71c1c?text=K&N's+Chicken" },
+  { id: "m_ms7", name: "K&N's Chicken Nuggets (500g)", price: 720, category: "Meat & Seafood", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffcdd2/b71c1c?text=K&N's+Chicken" },
+  { id: "m_ms8", name: "Chicken Mince (Qeema) - 1kg", price: 620, category: "Meat & Seafood", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffcdd2/b71c1c?text=Chicken+Mince" },
+
+  // DAIRY & EGGS
+  { id: "m_de1", name: "Olper's Milk (1L)", price: 295, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Olper's+Milk" },
+  { id: "m_de2", name: "Nestlé Milkpak (1L)", price: 295, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Nestlé+Milkpak" },
+  { id: "m_de3", name: "Farm Fresh Eggs (Dozen)", price: 320, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Farm+Fresh" },
+  { id: "m_de4", name: "Anhaar Fresh Milk (1L)", price: 260, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Anhaar+Fresh" },
+  { id: "m_de5", name: "Nurpur Butter (200g)", price: 450, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Nurpur+Butter" },
+  { id: "m_de6", name: "Adam's Cheddar Cheese Slices (200g)", price: 580, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Adam's+Cheddar" },
+  { id: "m_de7", name: "Nestlé Everyday Milk Powder (1kg)", price: 1650, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Nestlé+Everyday" },
+  { id: "m_de8", name: "Nestlé Yogurt Sweet (400g)", price: 190, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Nestlé+Yogurt" },
+  { id: "m_de9", name: "Local Fresh Yogurt (Dahi) - 1kg", price: 220, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Local+Fresh" },
+  { id: "m_de10", name: "Nestlé Cream (200ml)", price: 210, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Nestlé+Cream" },
+  { id: "m_de11", name: "Olpers Lite Milk (1L)", price: 300, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Olpers+Lite" },
+  { id: "m_de12", name: "Kausar Ghee (1kg Tin)", price: 1250, category: "Dairy & Eggs", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/fff9c4/827717?text=Kausar+Ghee" },
+
+  // BAKERY & BREAKFAST
+  { id: "m_bb1", name: "Bake Parlor Sliced White Bread", price: 180, category: "Bakery & Breakfast", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffe0b2/e65100?text=Bake+Parlor" },
+  { id: "m_bb2", name: "Dunkin Sliced Brown Bread", price: 200, category: "Bakery & Breakfast", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffe0b2/e65100?text=Dunkin+Sliced" },
+  { id: "m_bb3", name: "Local Bakery Bun (Pack of 6)", price: 150, category: "Bakery & Breakfast", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffe0b2/e65100?text=Local+Bakery" },
+  { id: "m_bb4", name: "Kellogg's Corn Flakes (275g)", price: 780, category: "Bakery & Breakfast", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffe0b2/e65100?text=Kellogg's+Corn" },
+  { id: "m_bb5", name: "National Oats (400g)", price: 340, category: "Bakery & Breakfast", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffe0b2/e65100?text=National+Oats" },
+  { id: "m_bb6", name: "Shan Custard Powder (275g)", price: 220, category: "Bakery & Breakfast", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffe0b2/e65100?text=Shan+Custard" },
+  { id: "m_bb7", name: "Nestlé Honey (400g)", price: 950, category: "Bakery & Breakfast", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffe0b2/e65100?text=Nestlé+Honey" },
+  { id: "m_bb8", name: "Local Apricot Jam (500g)", price: 420, category: "Bakery & Breakfast", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffe0b2/e65100?text=Local+Apricot" },
+  { id: "m_bb9", name: "Nutella Chocolate Spread (350g)", price: 1450, category: "Bakery & Breakfast", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffe0b2/e65100?text=Nutella+Chocolate" },
+  { id: "m_bb10", name: "Rusk / Toast (Pack)", price: 160, category: "Bakery & Breakfast", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffe0b2/e65100?text=Rusk+/" },
+
+  // GROCERIES & STAPLES
+  { id: "m_gs1", name: "Basmati Rice Premium (5kg)", price: 1850, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Basmati+Rice" },
+  { id: "m_gs2", name: "Dal Chana (1kg)", price: 340, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Dal+Chana" },
+  { id: "m_gs3", name: "Dal Moong Washed (1kg)", price: 310, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Dal+Moong" },
+  { id: "m_gs4", name: "Sufi Sunflower Cooking Oil (5L Tin)", price: 2650, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Sufi+Sunflower" },
+  { id: "m_gs5", name: "Dalda Banaspati Ghee (1kg Pouch)", price: 520, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Dalda+Banaspati" },
+  { id: "m_gs6", name: "Fine Atta / Wheat Flour (10kg)", price: 1350, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Fine+Atta" },
+  { id: "m_gs7", name: "Refined White Sugar (1kg)", price: 150, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Refined+White" },
+  { id: "m_gs8", name: "National Iodized Salt (800g)", price: 60, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=National+Iodized" },
+  { id: "m_gs9", name: "National Red Chili Powder (200g)", price: 290, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=National+Red" },
+  { id: "m_gs10", name: "Shan Bombay Biryani Masala", price: 130, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Shan+Bombay" },
+  { id: "m_gs11", name: "National Tomato Ketchup (800g Pouch)", price: 380, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=National+Tomato" },
+  { id: "m_gs12", name: "Knorr Chicken Noodles (Pack of 6)", price: 360, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Knorr+Chicken" },
+  { id: "m_gs13", name: "Dal Masoor (1kg)", price: 320, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Dal+Masoor" },
+  { id: "m_gs14", name: "Dal Mash Washed (1kg)", price: 480, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Dal+Mash" },
+  { id: "m_gs15", name: "Rajma Red Kidney Beans (1kg)", price: 420, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Rajma+Red" },
+  { id: "m_gs16", name: "Shan Haleem Masala", price: 120, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Shan+Haleem" },
+  { id: "m_gs17", name: "National Turmeric Powder (Haldi, 200g)", price: 260, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=National+Turmeric" },
+  { id: "m_gs18", name: "Vinegar (White, 300ml)", price: 90, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Vinegar" },
+  { id: "m_gs19", name: "Maggi Chicken Cubes (Pack of 6)", price: 280, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Maggi+Chicken" },
+  { id: "m_gs20", name: "Mitchell's Mixed Pickle (1kg)", price: 480, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Mitchell's+Mixed" },
+  { id: "m_gs21", name: "Shezan Mayonnaise (500ml)", price: 480, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Shezan+Mayonnaise" },
+  { id: "m_gs22", name: "Vermicelli / Seviyan (200g)", price: 110, category: "Groceries & Staples", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/4e342e?text=Vermicelli+/" },
+
+  // SNACKS & CHIPS
+  { id: "m_sc1", name: "Lays Masala Chips (Family Pack)", price: 130, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Lays+Masala" },
+  { id: "m_sc2", name: "Wavy BBQ Chips (Medium)", price: 70, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Wavy+BBQ" },
+  { id: "m_sc3", name: "Kurkure Toofani Mirch", price: 60, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Kurkure+Toofani" },
+  { id: "m_sc4", name: "Cheetos Bites Cheese", price: 60, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Cheetos+Bites" },
+  { id: "m_sc5", name: "Sooper Biscuits (Half Roll)", price: 50, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Sooper+Biscuits" },
+  { id: "m_sc6", name: "Prince Chocolate Biscuits (Family Pack)", price: 120, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Prince+Chocolate" },
+  { id: "m_sc7", name: "Chocolatto Biscuits Premium", price: 60, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Chocolatto+Biscuits" },
+  { id: "m_sc8", name: "Nimco Mix Nimkeen (250g)", price: 180, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Nimco+Mix" },
+  { id: "m_sc9", name: "Peek Freans Rite Digestive Biscuits", price: 190, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Peek+Freans" },
+  { id: "m_sc10", name: "Bisconni Chocolate Chip Cookies", price: 140, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Bisconni+Chocolate" },
+  { id: "m_sc11", name: "Slanty Snacks (Small Pack)", price: 40, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Slanty+Snacks" },
+  { id: "m_sc12", name: "Popcorn Salted (Ready Pack)", price: 90, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Popcorn+Salted" },
+  { id: "m_sc13", name: "Roasted Salted Peanuts (250g)", price: 220, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Roasted+Salted" },
+  { id: "m_sc14", name: "Local Dried Apricot Kernels (250g)", price: 350, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Local+Dried" },
+  { id: "m_sc15", name: "Local Walnuts (Akhrot) - 500g", price: 700, category: "Snacks & Chips", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/ffecb3/ff6f00?text=Local+Walnuts" },
+
+  // SWEETS & CHOCOLATES
+  { id: "m_sw1", name: "Cadbury Dairy Milk (Large)", price: 250, category: "Sweets & Chocolates", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f8bbd0/880e4f?text=Cadbury+Dairy" },
+  { id: "m_sw2", name: "KitKat 4 Finger", price: 150, category: "Sweets & Chocolates", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f8bbd0/880e4f?text=KitKat+4" },
+  { id: "m_sw3", name: "Snickers Chocolate Bar", price: 170, category: "Sweets & Chocolates", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f8bbd0/880e4f?text=Snickers+Chocolate" },
+  { id: "m_sw4", name: "Candyland Chili Milli", price: 40, category: "Sweets & Chocolates", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f8bbd0/880e4f?text=Candyland+Chili" },
+  { id: "m_sw5", name: "Eclairs Toffee (Pack)", price: 100, category: "Sweets & Chocolates", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f8bbd0/880e4f?text=Eclairs+Toffee" },
+  { id: "m_sw6", name: "Bisconni Chocolatto Wafer", price: 60, category: "Sweets & Chocolates", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f8bbd0/880e4f?text=Bisconni+Chocolatto" },
+  { id: "m_sw7", name: "Local Gulab Jamun Tin (1kg)", price: 650, category: "Sweets & Chocolates", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f8bbd0/880e4f?text=Local+Gulab" },
+  { id: "m_sw8", name: "Peak Freans Gluco Biscuits", price: 45, category: "Sweets & Chocolates", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f8bbd0/880e4f?text=Peak+Freans" },
+  { id: "m_sw9", name: "Dairy Milk Silk Chocolate Bar", price: 480, category: "Sweets & Chocolates", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f8bbd0/880e4f?text=Dairy+Milk" },
+  { id: "m_sw10", name: "Local Halwa (500g)", price: 380, category: "Sweets & Chocolates", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f8bbd0/880e4f?text=Local+Halwa" },
+
+  // COLD BEVERAGES
+  { id: "m_cb1", name: "Coca-Cola (1.5L)", price: 150, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=Coca" },
+  { id: "m_cb2", name: "Sprite Regular (1.5L)", price: 150, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=Sprite+Regular" },
+  { id: "m_cb3", name: "Pepsi Cola (1.5L)", price: 145, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=Pepsi+Cola" },
+  { id: "m_cb4", name: "7Up Soda (1.5L)", price: 145, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=7Up+Soda" },
+  { id: "m_cb5", name: "Nestlé Pure Life Water (1.5L)", price: 90, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=Nestlé+Pure" },
+  { id: "m_cb6", name: "Gourmet Cola (1.5L)", price: 110, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=Gourmet+Cola" },
+  { id: "m_cb7", name: "Nestlé Fruita Vitals Apple Juice (1L)", price: 340, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=Nestlé+Fruita" },
+  { id: "m_cb8", name: "Sting Energy Drink (Berry Blast)", price: 120, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=Sting+Energy" },
+  { id: "m_cb9", name: "Red Bull Energy Drink (250ml)", price: 650, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=Red+Bull" },
+  { id: "m_cb10", name: "Shezan Mango Juice (1L)", price: 320, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=Shezan+Mango" },
+  { id: "m_cb11", name: "Rooh Afza Syrup (800ml)", price: 480, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=Rooh+Afza" },
+  { id: "m_cb12", name: "Murree Brewery Cold Drink (Apple Cider, 1L)", price: 280, category: "Cold Beverages", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b3e5fc/01579b?text=Murree+Brewery" },
+
+  // TEA & COFFEE
+  { id: "m_tc1", name: "Lipton Yellow Label Tea (400g)", price: 950, category: "Tea & Coffee", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/3e2723?text=Lipton+Yellow" },
+  { id: "m_tc2", name: "Tapal Danedar Tea (475g)", price: 1050, category: "Tea & Coffee", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/3e2723?text=Tapal+Danedar" },
+  { id: "m_tc3", name: "Vital Tea (475g)", price: 980, category: "Tea & Coffee", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/3e2723?text=Vital+Tea" },
+  { id: "m_tc4", name: "Green Tea Lipton (25 Bags)", price: 380, category: "Tea & Coffee", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/3e2723?text=Green+Tea" },
+  { id: "m_tc5", name: "Nescafé Classic Coffee (50g Jar)", price: 690, category: "Tea & Coffee", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/3e2723?text=Nescafé+Classic" },
+  { id: "m_tc6", name: "Nescafé 3in1 Coffee (Pack of 30)", price: 950, category: "Tea & Coffee", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/3e2723?text=Nescafé+3in1" },
+  { id: "m_tc7", name: "Kashmiri Pink Tea (Noon Chai) - 200g", price: 420, category: "Tea & Coffee", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/3e2723?text=Kashmiri+Pink" },
+  { id: "m_tc8", name: "Everyday Whitener (400g)", price: 620, category: "Tea & Coffee", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/3e2723?text=Everyday+Whitener" },
+  { id: "m_tc9", name: "Tapal Family Mixture Tea (900g)", price: 1650, category: "Tea & Coffee", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d7ccc8/3e2723?text=Tapal+Family" },
+
+  // HOUSEHOLD & CLEANING
+  { id: "m_hc1", name: "Vim Dishwash Liquid (500ml)", price: 340, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Vim+Dishwash" },
+  { id: "m_hc2", name: "Surf Excel Laundry Powder (1kg)", price: 690, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Surf+Excel" },
+  { id: "m_hc3", name: "Ariel Automatic Powder (1kg)", price: 740, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Ariel+Automatic" },
+  { id: "m_hc4", name: "Max Lemon Dishwash Bar (Long)", price: 130, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Max+Lemon" },
+  { id: "m_hc5", name: "Harpic Toilet Cleaner Liquid (500ml)", price: 320, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Harpic+Toilet" },
+  { id: "m_hc6", name: "Dettol Liquid Surface Cleanser (250ml)", price: 410, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Dettol+Liquid" },
+  { id: "m_hc7", name: "Rose Petal Luxury Facial Tissues (Twin Pack)", price: 290, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Rose+Petal" },
+  { id: "m_hc8", name: "Toshiba AA Batteries (Pack of 4)", price: 180, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Toshiba+AA" },
+  { id: "m_hc9", name: "Mortein Mosquito Killer Spray", price: 550, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Mortein+Mosquito" },
+  { id: "m_hc10", name: "Bonus Tissue Box", price: 150, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Bonus+Tissue" },
+  { id: "m_hc11", name: "Lifebuoy Handwash Refill (700ml)", price: 380, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Lifebuoy+Handwash" },
+  { id: "m_hc12", name: "Kiwi Shoe Polish (Black)", price: 180, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Kiwi+Shoe" },
+  { id: "m_hc13", name: "Match Box (Local, Pack of 10)", price: 100, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Match+Box" },
+  { id: "m_hc14", name: "Candles (Pack of 6)", price: 150, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Candles" },
+  { id: "m_hc15", name: "Aluminium Foil Roll (9m)", price: 320, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Aluminium+Foil" },
+  { id: "m_hc16", name: "Garbage Bags (Roll of 30)", price: 220, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Garbage+Bags" },
+  { id: "m_hc17", name: "Scotch Brite Scrub Pad (Pack of 3)", price: 160, category: "Household & Cleaning", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/c8e6c9/1b5e20?text=Scotch+Brite" },
+
+  // PERSONAL CARE
+  { id: "m_pc1", name: "Head & Shoulders Shampoo (360ml)", price: 680, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Head+&" },
+  { id: "m_pc2", name: "Sunsilk Black Shine Shampoo (185ml)", price: 360, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Sunsilk+Black" },
+  { id: "m_pc3", name: "Lifebuoy Total 10 Soap Bar", price: 120, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Lifebuoy+Total" },
+  { id: "m_pc4", name: "Lux Velvet Touch Soap", price: 140, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Lux+Velvet" },
+  { id: "m_pc5", name: "Colgate MaxFresh Toothpaste (100g)", price: 240, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Colgate+MaxFresh" },
+  { id: "m_pc6", name: "Sensodyne Rapid Relief Toothpaste", price: 390, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Sensodyne+Rapid" },
+  { id: "m_pc7", name: "Dettol Handwash Liquid Pump (250ml)", price: 290, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Dettol+Handwash" },
+  { id: "m_pc8", name: "Gillette Mach 3 Razor", price: 850, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Gillette+Mach" },
+  { id: "m_pc9", name: "Nivea Body Lotion (400ml)", price: 950, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Nivea+Body" },
+  { id: "m_pc10", name: "Fair & Lovely / Glow & Lovely Cream (50g)", price: 320, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Fair+&" },
+  { id: "m_pc11", name: "Vaseline Petroleum Jelly (100ml)", price: 380, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Vaseline+Petroleum" },
+  { id: "m_pc12", name: "Colgate Toothbrush (Medium)", price: 150, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Colgate+Toothbrush" },
+  { id: "m_pc13", name: "Rexona Roll-On Deodorant (50ml)", price: 420, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Rexona+Roll" },
+  { id: "m_pc14", name: "Always Sanitary Pads (Maxi Wings, 8s)", price: 220, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Always+Sanitary" },
+  { id: "m_pc15", name: "Gillette Shaving Foam (200ml)", price: 480, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Gillette+Shaving" },
+  { id: "m_pc16", name: "Johnson's Baby Powder (200g)", price: 450, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Johnson's+Baby" },
+  { id: "m_pc17", name: "Fogg Body Spray (150ml)", price: 650, category: "Personal Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/e1bee7/4a148c?text=Fogg+Body" },
+
+  // PHARMACY & WELLNESS
+  { id: "m_pw1", name: "Panadol Tablets (Strip of 10)", price: 40, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=Panadol+Tablets" },
+  { id: "m_pw2", name: "Disprin Tablets (Strip of 10)", price: 35, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=Disprin+Tablets" },
+  { id: "m_pw3", name: "ORS Rehydration Salts (Sachet)", price: 30, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=ORS+Rehydration" },
+  { id: "m_pw4", name: "Surgical Face Mask (Box of 50)", price: 350, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=Surgical+Face" },
+  { id: "m_pw5", name: "Hand Sanitizer (100ml)", price: 180, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=Hand+Sanitizer" },
+  { id: "m_pw6", name: "First Aid Bandage Roll", price: 90, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=First+Aid" },
+  { id: "m_pw7", name: "Cotton Wool Roll (100g)", price: 150, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=Cotton+Wool" },
+  { id: "m_pw8", name: "Digital Thermometer", price: 450, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=Digital+Thermometer" },
+  { id: "m_pw9", name: "Centrum Multivitamin Tablets (30s)", price: 1450, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=Centrum+Multivitamin" },
+  { id: "m_pw10", name: "Vicks VapoRub (25g)", price: 320, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=Vicks+VapoRub" },
+  { id: "m_pw11", name: "Strepsils Throat Lozenges (Pack)", price: 220, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=Strepsils+Throat" },
+  { id: "m_pw12", name: "Band-Aid Adhesive Bandages (Box)", price: 180, category: "Pharmacy & Wellness", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/b2dfdb/004d40?text=Band" },
+
+  // BABY CARE
+  { id: "m_bc1", name: "Pampers Baby Dry Diapers (Large, 34s)", price: 1950, category: "Baby Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f0f4c3/827717?text=Pampers+Baby" },
+  { id: "m_bc2", name: "Molfix Diapers Economy (Size 4, 40s)", price: 1650, category: "Baby Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f0f4c3/827717?text=Molfix+Diapers" },
+  { id: "m_bc3", name: "Nestlé Cerelac Wheat Baby Cereal (350g)", price: 850, category: "Baby Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f0f4c3/827717?text=Nestlé+Cerelac" },
+  { id: "m_bc4", name: "Nestlé Lactogen Infant Formula (400g)", price: 1600, category: "Baby Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f0f4c3/827717?text=Nestlé+Lactogen" },
+  { id: "m_bc5", name: "Johnson's Baby Shampoo (200ml)", price: 550, category: "Baby Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f0f4c3/827717?text=Johnson's+Baby" },
+  { id: "m_bc6", name: "Johnson's Baby Oil (200ml)", price: 480, category: "Baby Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f0f4c3/827717?text=Johnson's+Baby" },
+  { id: "m_bc7", name: "Baby Wet Wipes (80 Sheets)", price: 350, category: "Baby Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f0f4c3/827717?text=Baby+Wet" },
+  { id: "m_bc8", name: "Baby Feeding Bottle (250ml)", price: 450, category: "Baby Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f0f4c3/827717?text=Baby+Feeding" },
+  { id: "m_bc9", name: "SMA Pro Infant Formula (400g)", price: 1750, category: "Baby Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/f0f4c3/827717?text=SMA+Pro" },
+
+  // PET CARE
+  { id: "m_pt1", name: "Friskies Cat Food Dry (1.2kg)", price: 1350, category: "Pet Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d1c4e9/311b92?text=Friskies+Cat" },
+  { id: "m_pt2", name: "Whiskas Adult Cat Food Pouch (85g)", price: 180, category: "Pet Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d1c4e9/311b92?text=Whiskas+Adult" },
+  { id: "m_pt3", name: "Bonnie Dog Food Dry (1kg)", price: 850, category: "Pet Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d1c4e9/311b92?text=Bonnie+Dog" },
+  { id: "m_pt4", name: "Pet Feeding Bowl (Plastic)", price: 250, category: "Pet Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d1c4e9/311b92?text=Pet+Feeding" },
+  { id: "m_pt5", name: "Cat Litter Sand (5L)", price: 750, category: "Pet Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d1c4e9/311b92?text=Cat+Litter" },
+  { id: "m_pt6", name: "Dog Leash (Nylon)", price: 450, category: "Pet Care", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/d1c4e9/311b92?text=Dog+Leash" },
+
+  // STATIONERY & OFFICE
+  { id: "m_so1", name: "Xtra Gel Pen (Blue, Pack of 5)", price: 250, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=Xtra+Gel" },
+  { id: "m_so2", name: "Pentonic Ball Point Pen (Pack of 10)", price: 350, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=Pentonic+Ball" },
+  { id: "m_so3", name: "Single Line Notebook (200 Pages)", price: 220, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=Single+Line" },
+  { id: "m_so4", name: "A4 Printing Paper (Ream, 500 Sheets)", price: 1450, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=A4+Printing" },
+  { id: "m_so5", name: "Stapler with Pins", price: 320, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=Stapler+with" },
+  { id: "m_so6", name: "Scotch Tape Roll (2 Inch)", price: 150, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=Scotch+Tape" },
+  { id: "m_so7", name: "Whitener / Correction Pen", price: 120, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=Whitener+/" },
+  { id: "m_so8", name: "Pencil HB (Pack of 10)", price: 180, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=Pencil+HB" },
+  { id: "m_so9", name: "Eraser & Sharpener Set", price: 90, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=Eraser+&" },
+  { id: "m_so10", name: "File Folder (Cardboard)", price: 60, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=File+Folder" },
+  { id: "m_so11", name: "Highlighter Markers (Pack of 4)", price: 380, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=Highlighter+Markers" },
+  { id: "m_so12", name: "Calculator (Basic, Casio)", price: 950, category: "Stationery & Office", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/cfd8dc/263238?text=Calculator" },
 ];

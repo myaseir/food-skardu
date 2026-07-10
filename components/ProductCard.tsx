@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { useCart } from "@/store/useCart";
 import { formatPrice } from "@/lib/utils";
 
@@ -8,15 +9,28 @@ interface ProductProps {
   price: number;
   category: string;
   shopId: string;
+  image?: string;
 }
 
-export default function ProductCard({ id, name, price, category, shopId }: ProductProps) {
-const addItem = useCart((state) => state.addItem);
+export default function ProductCard({ id, name, price, category, shopId, image }: ProductProps) {
+  const addItem = useCart((state) => state.addItem);
+  const [imgError, setImgError] = useState(false);
+  const hasImage = image && !imgError;
 
   return (
     <div className="group p-5 bg-white border border-gray-100 rounded-3xl hover:border-purple-200 hover:shadow-xl transition-all duration-300">
-      <div className="h-48 bg-gray-50 rounded-2xl mb-5 flex items-center justify-center">
-        <span className="text-gray-300 text-[10px] font-black uppercase tracking-widest">Preview</span>
+      <div className="h-48 bg-gray-50 rounded-2xl mb-5 overflow-hidden flex items-center justify-center">
+        {hasImage ? (
+          <img
+            src={image}
+            alt={name}
+            loading="lazy"
+            onError={() => setImgError(true)}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <span className="text-gray-300 text-[10px] font-black uppercase tracking-widest">Preview</span>
+        )}
       </div>
       <h3 className="font-bold text-gray-900 leading-tight">{name}</h3>
       <p className="text-purple-600 font-black mt-1 mb-4">{formatPrice(price)}</p>
