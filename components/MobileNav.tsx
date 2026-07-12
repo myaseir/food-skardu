@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Utensils, ShoppingBasket, Search, ShoppingCart } from "lucide-react";
+import { Utensils, ShoppingBasket, Truck, ShoppingCart } from "lucide-react";
 import { useCart } from "@/store/useCart"; // 1. Import the cart store
 
 // Define the complete Props interface to match app/page.tsx
@@ -20,7 +20,7 @@ export default function MobileNav({ onFoodClick, onMartClick, onCartClick }: Mob
       {/* Pass the specific click handlers to each button */}
       <NavButton icon={<Utensils size={20} />} label="Food" onClick={onFoodClick} />
       <NavButton icon={<ShoppingBasket size={20} />} label="Mart" onClick={onMartClick} />
-      <NavButton icon={<Search size={20} />} label="Search" /> 
+      <NavButton icon={<Truck size={20} />} label="Courier" /> 
       
       {/* 3. Assign the onCartClick event and add the Notification Badge */}
       <button 

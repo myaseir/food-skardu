@@ -10,7 +10,7 @@ export default function Footer() {
         
         {/* Brand + Coverage */}
         <div className="space-y-2 text-center sm:text-left">
-          <h2 className="text-lg font-black tracking-tighter text-gray-900">FOOD SKARDU</h2>
+          <h2 className="text-lg font-black tracking-tighter text-gray-900">Meal Bear Skardu</h2>
           <div className="flex items-center justify-center sm:justify-start gap-2 text-[11px] text-gray-600">
             <MapPin size={14} className="text-purple-600" />
             <span>Skardu, Gilgit-Baltistan</span>
@@ -40,7 +40,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-gray-200 text-center text-[9px] font-bold uppercase tracking-widest text-gray-400">
-        © 2026 FOOD SKARDU. ALL RIGHTS RESERVED.
+        © 2026 Meal Bear. ALL RIGHTS RESERVED.
       </div>
     </footer>
   );

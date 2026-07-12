@@ -27,7 +27,7 @@ export default function Navbar({ onFoodClick, onMartClick, onCartClick, currentV
         <Link href="/" className="flex flex-col">
           <span className="text-[9px] tracking-[0.2em] font-bold text-purple-600 uppercase">Skardu Delivery</span>
           <span className="text-xl font-black tracking-tighter text-gray-900">
-            FOOD <span className="text-purple-600">SKARDU</span>
+            Meal <span className="text-purple-600">Bear</span>
           </span>
         </Link>
 

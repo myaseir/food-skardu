@@ -5,7 +5,7 @@ import type { FormEvent } from "react";
 import Link from "next/link";
 import { ArrowLeft, Mail, MapPin, Phone, Send } from "lucide-react";
 
-const CONTACT_EMAIL = "info.foodskardu@gmail.com";
+const CONTACT_EMAIL = "info.mealbear@gmail.com";
 
 export default function ContactPage() {
   const [name, setName] = useState("");
