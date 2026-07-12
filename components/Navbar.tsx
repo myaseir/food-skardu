@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X, ShoppingCart, Utensils, ShoppingBasket } from "lucide-react";
 import { useCart } from "@/store/useCart"; // Import the cart store
-
+import Image from "next/image";
 interface NavbarProps {
   onFoodClick?: () => void;
   onMartClick?: () => void;
@@ -24,13 +24,21 @@ export default function Navbar({ onFoodClick, onMartClick, onCartClick, currentV
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         
         {/* Logo */}
-        <Link href="/" className="flex flex-col">
-          <span className="text-[9px] tracking-[0.2em] font-bold text-purple-600 uppercase">Skardu Delivery</span>
-          <span className="text-xl font-black tracking-tighter text-gray-900">
-            Meal <span className="text-purple-600">Bear</span>
-          </span>
-        </Link>
-
+<Link href="/" className="flex items-end gap-2">
+  <Image
+    src="/logo.png"
+    alt="Meal Bear Logo"
+    width={28}
+    height={28}
+    className="inline-block"
+  />
+  <div className="flex flex-col">
+    <span className="text-[9px] tracking-[0.2em] font-bold text-purple-600 uppercase">Skardu Delivery</span>
+    <span className="text-xl font-black tracking-tighter text-gray-900">
+      Meal <span className="text-purple-600">Bear</span>
+    </span>
+  </div>
+</Link>
         {/* Desktop Links (Hidden on Mobile) */}
         <div className="hidden md:flex gap-8 items-center">
           
