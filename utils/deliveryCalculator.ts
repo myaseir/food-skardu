@@ -1,12 +1,12 @@
 import { Shop } from "@/data/config";
-import { SKARDU_HOTELS } from "@/data/hotels";
+import { SKARDU_LOCATIONS } from "@/data/location";
 
 const FUEL_PRICE_PER_LITER = 299;
 const BIKE_AVERAGE_KM_PER_LITER = 55;
 const BASE_PROFIT = 100;
 
 export const calculateDeliveryFee = (shop: Shop, hotelName: string) => {
-  const hotelDist = SKARDU_HOTELS[hotelName] || 5.0; // Default to 5km if hotel not found
+  const hotelDist = SKARDU_LOCATIONS[hotelName] || 5.0; // Default to 5km if hotel not found
   const restDist = shop.distanceFromHub;
 
   // Total trip: Office -> Restaurant -> Hotel -> Office

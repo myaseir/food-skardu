@@ -15,9 +15,12 @@ import {
   Loader2,
   ShoppingBag,
   ChevronDown,
-  PhoneCall ,
+  PhoneCall,
+  Home,
+  Building,
+  MapPin
 } from "lucide-react";
-import { SKARDU_HOTELS } from "@/data/hotels";
+import { SKARDU_HOTELS, SKARDU_AREAS } from "@/data/location";
 import { shops } from "@/data/config";
 import { calculateDeliveryFee } from "@/utils/deliveryCalculator";
 
@@ -30,30 +33,46 @@ export default function CheckoutPage() {
 
   const [step, setStep] = useState<"form" | "success">("form");
   const [isSending, setIsSending] = useState(false);
+  
+  // Contact State
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
-  const [hotelName, setHotelName] = useState("");
-  const [roomNumber, setRoomNumber] = useState("");
+  // Delivery State
+  const [deliveryMode, setDeliveryMode] = useState<"hotel" | "home">("hotel");
+  const [locationName, setLocationName] = useState(""); // Acts as Hotel Name OR Area Name
+  const [addressDetail, setAddressDetail] = useState(""); // Acts as Room No OR Complete Address
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showMobileSummary, setShowMobileSummary] = useState(false);
 
+  // Dynamic Delivery Calculation
   const currentShop = shops.find((s) => s.id === items[0]?.shopId);
-  const deliveryFee = currentShop ? calculateDeliveryFee(currentShop, hotelName) : 0;
+  const deliveryFee = currentShop && locationName ? calculateDeliveryFee(currentShop, locationName) : 0;
   const total = subtotal + deliveryFee;
 
-  const filteredHotels = Object.keys(SKARDU_HOTELS).filter((hotel) =>
-    hotel.toLowerCase().includes(hotelName.toLowerCase())
+  // SMART FILTER: Choose the right list based on delivery mode
+  const currentList = deliveryMode === "hotel" ? SKARDU_HOTELS : SKARDU_AREAS;
+  const filteredLocations = Object.keys(currentList).filter((loc) =>
+    loc.toLowerCase().includes(locationName.toLowerCase())
   );
 
   const handlePlaceOrder = async () => {
-    if (!name || !phone) return alert("Please enter your name and phone number.");
-    if (!hotelName || !roomNumber)
-      return alert("Please select your hotel and enter your room number.");
+    if (!name || !phone) return alert("Please enter your name and whatsapp number.");
+    
+    if (!locationName || !addressDetail) {
+      const errorMsg = deliveryMode === 'hotel' 
+        ? "Please select your hotel and enter your room number." 
+        : "Please select your area and enter your complete house address.";
+      return alert(errorMsg);
+    }
 
     setIsSending(true);
 
-    const finalAddress = "HOTEL: " + hotelName + " | ROOM: " + roomNumber;
+    // Format address for the email based on the delivery mode
+    const finalAddress = deliveryMode === 'hotel'
+      ? `HOTEL: ${locationName} | ROOM: ${addressDetail}`
+      : `HOME AREA: ${locationName} | ADDRESS: ${addressDetail}`;
+
     const detailedItems = items
       .map(
         (i: any) =>
@@ -109,6 +128,7 @@ export default function CheckoutPage() {
     );
   }
 
+  // Success Screen
   if (step === "success") {
     return (
       <main className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4 sm:p-6 text-center">
@@ -136,6 +156,7 @@ export default function CheckoutPage() {
     );
   }
 
+  // Form Screen
   return (
     <main className="min-h-screen bg-gray-50 pb-56 md:pb-16">
       {/* Header */}
@@ -180,7 +201,7 @@ export default function CheckoutPage() {
                 />
                 <input
                   type="tel"
-                  placeholder="Phone Number"
+                  placeholder="Whatsapp Number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
@@ -195,18 +216,35 @@ export default function CheckoutPage() {
               Delivery Location
             </h2>
 
+            {/* Delivery Toggle (Hotel vs Home) */}
+            <div className="flex bg-gray-100 p-1 rounded-xl mb-5">
+              <button 
+                onClick={() => { setDeliveryMode('hotel'); setLocationName(''); setAddressDetail(''); }}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold uppercase tracking-widest text-[11px] transition-all ${deliveryMode === 'hotel' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-500 hover:text-gray-900'}`}
+              >
+                <Building size={14} /> Hotel
+              </button>
+              <button 
+                onClick={() => { setDeliveryMode('home'); setLocationName(''); setAddressDetail(''); }}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold uppercase tracking-widest text-[11px] transition-all ${deliveryMode === 'home' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-500 hover:text-gray-900'}`}
+              >
+                <Home size={14} /> Home/Office
+              </button>
+            </div>
+
             <div className="space-y-3">
+              {/* Dropdown Input for Location/Area */}
               <div className="relative">
-                <Hotel
+                <MapPin
                   size={17}
                   className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"
                 />
                 <input
                   type="text"
-                  placeholder="Select your hotel..."
-                  value={hotelName}
+                  placeholder={deliveryMode === 'hotel' ? "Search for your hotel..." : "Select Area (e.g., Sundus, Olding)..."}
+                  value={locationName}
                   onChange={(e) => {
-                    setHotelName(e.target.value);
+                    setLocationName(e.target.value);
                     setShowSuggestions(true);
                   }}
                   onFocus={() => setShowSuggestions(true)}
@@ -214,36 +252,46 @@ export default function CheckoutPage() {
                   className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
                 />
 
-                {showSuggestions && filteredHotels.length > 0 && (
+                {showSuggestions && filteredLocations.length > 0 && (
                   <div className="absolute w-full bg-white border border-gray-100 shadow-xl rounded-xl z-50 max-h-52 overflow-y-auto mt-2">
-                    {filteredHotels.map((h) => (
+                    {filteredLocations.map((loc) => (
                       <div
-                        key={h}
+                        key={loc}
                         onClick={() => {
-                          setHotelName(h);
+                          setLocationName(loc);
                           setShowSuggestions(false);
                         }}
                         className="px-4 py-3 text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-700 cursor-pointer transition-colors first:rounded-t-xl last:rounded-b-xl"
                       >
-                        {h}
+                        {loc}
                       </div>
                     ))}
                   </div>
                 )}
               </div>
 
+              {/* Room Number OR Full Address Input */}
               <div className="relative">
                 <DoorOpen
                   size={17}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  className={`absolute left-4 ${deliveryMode === 'home' ? 'top-4' : 'top-1/2 -translate-y-1/2'} text-gray-400`}
                 />
-                <input
-                  type="text"
-                  placeholder="Room Number"
-                  value={roomNumber}
-                  onChange={(e) => setRoomNumber(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
-                />
+                {deliveryMode === 'hotel' ? (
+                  <input
+                    type="text"
+                    placeholder="Room Number"
+                    value={addressDetail}
+                    onChange={(e) => setAddressDetail(e.target.value)}
+                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
+                  />
+                ) : (
+                  <textarea
+                    placeholder="Complete House Address (Street, nearest landmark...)"
+                    value={addressDetail}
+                    onChange={(e) => setAddressDetail(e.target.value)}
+                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all h-24 resize-none"
+                  />
+                )}
               </div>
             </div>
           </section>
