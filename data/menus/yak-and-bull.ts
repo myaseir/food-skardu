@@ -24,7 +24,7 @@ export const menu = {
           name: "Chicken Tikka", 
           price: 750, 
           desc: "Classic chicken tikka flavor", 
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ9j4jjQgO_TihlJzrv0hpq65NYAb2pD_IFmCXrn7NKEHTRKM2VWeuPniP&s=10", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt1JRih4z-zESXuoKBmlkBt2wR4CJS2jZVyuCbFr-Ici3Hvpzg_mO0C-dx&s=10", 
           variants: [
             { name: "Small", price: 750 },
             { name: "Medium", price: 1500 },
