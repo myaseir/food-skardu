@@ -10,7 +10,7 @@ export default function FeaturedCarousel() {
 
   return (
     <div className="py-8">
-      <h2 className="text-xl font-black px-6 mb-4 uppercase tracking-tighter">Featured Restaurants</h2>
+      <h2 className="text-xl font-black px-6 mb-4 uppercase tracking-tighter">Popular Restaurants</h2>
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-4 px-6">
           {shops.map((shop) => (
