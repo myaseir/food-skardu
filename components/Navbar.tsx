@@ -64,7 +64,7 @@ export default function Navbar({ onFoodClick, onMartClick, onCartClick, currentV
             className="relative flex items-center gap-2 px-6 py-2 bg-purple-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-gray-900 transition-all active:scale-95"
           >
             <ShoppingCart size={16} />
-            Order Now
+            Cart
             
             {/* Red Notification Badge */}
             {itemCount > 0 && (
