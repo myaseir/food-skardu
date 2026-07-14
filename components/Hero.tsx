@@ -83,9 +83,9 @@ export default function Hero() {
         <h1 className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter mb-4">
           Cravings in <span className="text-purple-600">Skardu?</span>
         </h1>
-        <p className="text-lg md:text-xl text-gray-600 mb-8 font-medium">
-          Fast, reliable, and fresh delivery to your doorstep.
-        </p>
+      <p className="text-lg md:text-xl text-gray-600 mb-8 font-medium">
+  Fast food delivery in Skardu — from your favorite restaurants to your doorstep, office, or hotel room.
+</p>
 
         {/* Smart Search Bar */}
         <div className="relative w-full max-w-lg mx-auto">
