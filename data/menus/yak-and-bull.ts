@@ -11,7 +11,7 @@ export const menu = {
           name: "Special Pizza", 
           price: 850, 
           desc: "Our signature house special pizza", 
-          image: "", 
+          image: "https://static.vecteezy.com/system/resources/previews/059/656/822/non_2x/delicious-pizza-on-white-background-on-transparent-background-png.png", 
           variants: [
             { name: "Small", price: 850 },
             { name: "Medium", price: 1600 },
@@ -24,7 +24,7 @@ export const menu = {
           name: "Chicken Tikka", 
           price: 750, 
           desc: "Classic chicken tikka flavor", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ9j4jjQgO_TihlJzrv0hpq65NYAb2pD_IFmCXrn7NKEHTRKM2VWeuPniP&s=10", 
           variants: [
             { name: "Small", price: 750 },
             { name: "Medium", price: 1500 },
@@ -37,7 +37,7 @@ export const menu = {
           name: "BBQ", 
           price: 750, 
           desc: "Smoky BBQ flavor", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhZGstztDwyX0fAsnGwROvr_QNKm0kdXyvFkM43oWf7g&s=10", 
           variants: [
             { name: "Small", price: 750 },
             { name: "Medium", price: 1500 },
@@ -50,7 +50,7 @@ export const menu = {
           name: "Hot and Spicy", 
           price: 750, 
           desc: "For those who like it hot", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzalXAg6iz0N8grQZaQbHddpHfNmKME6LSCW7T-0CDzg&s=10", 
           variants: [
             { name: "Small", price: 750 },
             { name: "Medium", price: 1500 },
@@ -63,7 +63,7 @@ export const menu = {
           name: "Fajita", 
           price: 750, 
           desc: "Mexican style fajita pizza", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIq9Z3n0cyqAdaVyS7ee-XfuMhfLxEM9ehxcxFIN7twkW1yzmBd1kmgE&s=10", 
           variants: [
             { name: "Small", price: 750 },
             { name: "Medium", price: 1500 },
@@ -76,7 +76,7 @@ export const menu = {
           name: "Garlic Mayo", 
           price: 850, 
           desc: "Creamy garlic mayo delight", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4e4if9z3dQC7HaPU8yBnoD3_y075JDywTAvSF_26SIg&s=10", 
           variants: [
             { name: "Small", price: 850 },
             { name: "Medium", price: 1600 },
@@ -89,7 +89,7 @@ export const menu = {
           name: "Cheese Lovers", 
           price: 750, 
           desc: "Loaded with extra cheese", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbcwqHxv33dU2agf8kw1_mrK2jOLxaFwSiYhqHlgeN3g&s=10", 
           variants: [
             { name: "Small", price: 750 },
             { name: "Medium", price: 1500 },
@@ -102,7 +102,7 @@ export const menu = {
           name: "Vegetable", 
           price: 750, 
           desc: "Fresh garden vegetables", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-ettEBhj2b5prusGLgHx56jN_gjp0HUbM11kq7yJ_jmTl6sr5xW87Rak&s=10", 
           variants: [
             { name: "Small", price: 750 },
             { name: "Medium", price: 1500 },
@@ -120,7 +120,7 @@ export const menu = {
           name: "Special Yak Burger", 
           price: 1100, 
           desc: "Premium yak meat", 
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZi7IUejuIvn8hAUgkb3xzVvJSgG-Q6ASrO0dgVv7GovczlKkOLZVpShXA&s=10", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX-UVLgBNHt2W-hgExgqk2uOn51EIqDVFD0sOo01XshtoAwgXUdMLi86NU&s=10", 
           variants: [] 
         },
         { 
@@ -128,7 +128,7 @@ export const menu = {
           name: "Beef Grill Burger", 
           price: 850, 
           desc: "Juicy grilled beef patty", 
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZi7IUejuIvn8hAUgkb3xzVvJSgG-Q6ASrO0dgVv7GovczlKkOLZVpShXA&s=10", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbIJp3DoN8_cyZi07nsj9eaimA8_RulWKNPD3jyeAvNA&s=10", 
           variants: [] 
         },
         { 
@@ -136,7 +136,7 @@ export const menu = {
           name: "Chicken Grill Burger", 
           price: 750, 
           desc: "Tender grilled chicken", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTylRaZUJGrSLI6G4X-4SR71gR8KdRDAw6SD3XPF78gZQ&s=10", 
           variants: [] 
         },
         { 
@@ -144,7 +144,7 @@ export const menu = {
           name: "Zinger Burger", 
           price: 600, 
           desc: "Crispy fried chicken", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnCy6x0-WLu7-QK0MZkTrM08z9RKIeF253t0HxQ3MJeg&s=10", 
           variants: [] 
         },
         { 
@@ -152,7 +152,7 @@ export const menu = {
           name: "Beef Roll paratha", 
           price: 600, 
           desc: "Wrapped in crispy paratha", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLxidJUps3OtJ8iFPb0gKvkkndiMUWSP1xSjlGk4LypQ&s=10", 
           variants: [] 
         },
         { 
@@ -160,7 +160,7 @@ export const menu = {
           name: "Chicken Roll paratha", 
           price: 450, 
           desc: "Wrapped in crispy paratha", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0nHEP04zvI5EJhszj5x4Kcs7pf9JRdLBcnd4QI1kdYg&s=10", 
           variants: [] 
         },
         { 
@@ -168,7 +168,7 @@ export const menu = {
           name: "Chicken Twister", 
           price: 500, 
           desc: "Delicious chicken wrap", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThwG6Ic3nbvBSnC-aFY5dCEuvkwAmJ4TqAg_eKmmKgKA&s=10", 
           variants: [] 
         }
       ]
@@ -181,7 +181,7 @@ export const menu = {
           name: "Bull Steak", 
           price: 1200, 
           desc: "Grilled to perfection", 
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnAXsC8AbZ7jUIAzDKovy5PH3nQ1jdZ7OaCqhN24AqpRN9S3dkhNKU-OM&s=10", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbdVKAwseAdTDoo-dDjiL8b4mZqbCbajRbT9vYQ3HnSQ&s=10", 
           variants: [] 
         }
       ]
@@ -194,7 +194,7 @@ export const menu = {
           name: "Special Chowmain", 
           price: 600, 
           desc: "House special noodles", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6aVmdbLipf1T8-fmO86i36wMwdNqc-FYVc18qq5oWMgXFbTRGqg__-BA&s=10", 
           variants: [
             { name: "Half", price: 600 },
             { name: "Full", price: 1100 }
@@ -205,7 +205,7 @@ export const menu = {
           name: "Chicken Chowmain", 
           price: 550, 
           desc: "Stir-fried chicken noodles", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLlG1uL4S8TW61nvfqXebYMErjPvAsNX5i8BSRnO8NE7aZjRq5wRLNSbE&s=10", 
           variants: [
             { name: "Half", price: 550 },
             { name: "Full", price: 1050 }
@@ -216,7 +216,7 @@ export const menu = {
           name: "Vegetable Chowmain", 
           price: 500, 
           desc: "Fresh vegetable noodles", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyviH-k_Fvuh_hEo3sr7qZROJxkeXvm19SZP7MhY_4Dw&s=10", 
           variants: [
             { name: "Half", price: 500 },
             { name: "Full", price: 1000 }
@@ -227,7 +227,7 @@ export const menu = {
           name: "Chicken Alfredo Pasta", 
           price: 750, 
           desc: "Creamy white sauce pasta", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx2QvF3l_lfSVNufeEEMyQi59ddv3zuBtrp0Nt2giXbA&s=10", 
           variants: [
             { name: "Half", price: 750 },
             { name: "Full", price: 1300 }
@@ -238,7 +238,7 @@ export const menu = {
           name: "Chilli Dry with Rice", 
           price: 900, 
           desc: "Spicy chicken with rice", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVnf9nPiz_AAZmzq6nJyO0dYxF1s6GEDssqMRyj4UQLA&s=10", 
           variants: [
             { name: "Half", price: 900 },
             { name: "Full", price: 1700 }
@@ -249,7 +249,7 @@ export const menu = {
           name: "Manchurian with Rice", 
           price: 800, 
           desc: "Classic Manchurian chicken", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkHAAIwQVaUe3RacDra-Wl74gXj4TArywGxGKApep6MQ&s=10", 
           variants: [
             { name: "Half", price: 800 },
             { name: "Full", price: 1500 }
@@ -265,7 +265,7 @@ export const menu = {
           name: "Spicy Honey Wings", 
           price: 600, 
           desc: "Sweet and spicy chicken wings", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlA8PvW0w3XKaUf-TuxD8PYNSp6KvTYCQlRH_y8EDVSQ&s=10", 
           variants: [
             { name: "Half", price: 600 },
             { name: "Full", price: 1100 }
@@ -276,7 +276,7 @@ export const menu = {
           name: "Chicken hot Wings", 
           price: 550, 
           desc: "Classic hot wings", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSc8Vlk7zUYYYT5xhGdwfDHamsws1365GALSqHyaxyKMg&s=10", 
           variants: [
             { name: "Half", price: 550 },
             { name: "Full", price: 1000 }
@@ -287,7 +287,7 @@ export const menu = {
           name: "Chicken nuggets", 
           price: 400, 
           desc: "Crispy bite-sized chicken", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT33sId1Px8Kk2RmMylgKpvtFqFVldIh2JAKqe3C2HPfkV5PXwQw6rtp38A&s=10", 
           variants: [
             { name: "Half", price: 400 },
             { name: "Full", price: 700 }
@@ -298,7 +298,7 @@ export const menu = {
           name: "French Fries", 
           price: 250, 
           desc: "Classic potato fries", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyvf_oiRwgo3laBu57mw5bJoTjxOYFRmoD-m-hbUBM7mpjdkRv7eEatXE8&s=10", 
           variants: [
             { name: "Half", price: 250 },
             { name: "Full", price: 450 }
@@ -309,7 +309,7 @@ export const menu = {
           name: "Cheese Fries", 
           price: 400, 
           desc: "Topped with melted cheese", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUqJJm2qIyEeAVQNNvsC53kDYjLL_B3OyTY2hKMaGhEg&s=10", 
           variants: [
             { name: "Half", price: 400 },
             { name: "Full", price: 700 }
@@ -320,7 +320,7 @@ export const menu = {
           name: "Loaded Fries", 
           price: 450, 
           desc: "Fully loaded special fries", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG2p73djFuQqGDq6WHUt8n3PDlaS9XAghRIg4aqExvLcHOeGbHNoh3yv8&s=10", 
           variants: [
             { name: "Half", price: 450 },
             { name: "Full", price: 800 }
@@ -331,7 +331,7 @@ export const menu = {
           name: "Specail Soup", 
           price: 700, 
           desc: "Chef's special recipe", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZHtXOAU0YhJZKAnipEX7zYo90MEb3Ssx6bgh3mdfXqqfv5GG3mjVtUCQ&s=10", 
           variants: [
             { name: "Half", price: 700 },
             { name: "Full", price: 1300 }
@@ -342,7 +342,7 @@ export const menu = {
           name: "Hot & Source Soup", 
           price: 600, 
           desc: "Classic hot and sour soup", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWGKihQwZQ4zRV_ANsyB1TdL0IVGUwcdDo79gFSf32Tw&s=10", 
           variants: [
             { name: "Half", price: 600 },
             { name: "Full", price: 1100 }
@@ -353,7 +353,7 @@ export const menu = {
           name: "Chicken Corn Soup", 
           price: 600, 
           desc: "Warm and comforting", 
-          image: "", 
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiTbqK0BNB8_NXXAwtTThBavo9PfVZJQ8FSg2XM8gOHg&s=10", 
           variants: [
             { name: "Half", price: 600 },
             { name: "Full", price: 1100 }
@@ -364,23 +364,23 @@ export const menu = {
     {
       name: "Ice Cream Shakes",
       items: [
-        { id: "ics-1", name: "Cold Coffee with Scoop", price: 500, desc: "Chilled coffee with ice cream", image: "", variants: [] },
-        { id: "ics-2", name: "Chocolate Shake", price: 400, desc: "Rich chocolate flavor", image: "", variants: [] },
-        { id: "ics-3", name: "Vanilla Shake", price: 380, desc: "Classic vanilla shake", image: "", variants: [] },
-        { id: "ics-4", name: "Mango Shake", price: 380, desc: "Sweet mango flavor", image: "", variants: [] },
-        { id: "ics-5", name: "Strawberry Shake", price: 380, desc: "Fresh strawberry taste", image: "", variants: [] },
-        { id: "ics-6", name: "Caramel Shake", price: 400, desc: "Sweet caramel delight", image: "", variants: [] },
-        { id: "ics-7", name: "Peanut Butter Shake", price: 400, desc: "Creamy peanut butter", image: "", variants: [] },
-        { id: "ics-8", name: "Oreo Shake", price: 400, desc: "Blended with Oreo cookies", image: "", variants: [] }
+        { id: "ics-1", name: "Cold Coffee with Scoop", price: 500, desc: "Chilled coffee with ice cream", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4Z3871e236lOmHSU_RTX3dJWfl51zM_VB9wfpKlUKMADMw-nyATWN5ws&s=10", variants: [] },
+        { id: "ics-2", name: "Chocolate Shake", price: 400, desc: "Rich chocolate flavor", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zuuFnPyVpMC7X0NOQi99ZNzGZfPx9s78ga-o2T6lYrZ3CaCMXbxzZUwU&s=10", variants: [] },
+        { id: "ics-3", name: "Vanilla Shake", price: 380, desc: "Classic vanilla shake", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiVQhFb36QEXtDC3lcR8mKTonQCF2wKFO24N2LKd-SsQ&s=10", variants: [] },
+        { id: "ics-4", name: "Mango Shake", price: 380, desc: "Sweet mango flavor", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-Kni6n-TYMfj6Bgg3-vGyJU953z9Av_nXJqwpT_8G0w&s=10", variants: [] },
+        { id: "ics-5", name: "Strawberry Shake", price: 380, desc: "Fresh strawberry taste", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRrvNTa3-EfbkK2gG-HGsIOXfX__SHMsLsyarC-altiQ&s=10", variants: [] },
+        { id: "ics-6", name: "Caramel Shake", price: 400, desc: "Sweet caramel delight", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3gDczhb51yA2VTQAMiWQ0_GGQJGoerpa3MM4Cq6rNiAlpM-t0EL_koG27&s=10", variants: [] },
+        { id: "ics-7", name: "Peanut Butter Shake", price: 400, desc: "Creamy peanut butter", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2tIHWp-_yjPjIUqi-0MaRUErU-mjoe2qagu8PUt767w&s=10", variants: [] },
+        { id: "ics-8", name: "Oreo Shake", price: 400, desc: "Blended with Oreo cookies", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_Wwh7-XfnliWeQTKOAwr8_UcrxDyiYaKHm3PqWm1JBmrJ5cF0RQjFkdD7&s=10", variants: [] }
       ]
     },
     {
       name: "Organic Shakes",
       items: [
-        { id: "os-1", name: "Special Salajeet Shake", price: 600, desc: "Premium organic ingredients", image: "", variants: [] },
-        { id: "os-2", name: "Zeerish Shake", price: 550, desc: "Healthy and refreshing", image: "", variants: [] },
-        { id: "os-3", name: "Cocktail Shake", price: 550, desc: "Mixed fruit organic blend", image: "", variants: [] },
-        { id: "os-4", name: "Blueberry Shake", price: 450, desc: "Antioxidant rich blueberries", image: "", variants: [] }
+        { id: "os-1", name: "Special Salajeet Shake", price: 600, desc: "Premium organic ingredients", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMoT873DiIjuCN0opb-XPVXCbzIfTY3AuapznsCY9qrg&s=10", variants: [] },
+        { id: "os-2", name: "Zeerish Shake", price: 550, desc: "Healthy and refreshing", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvhVUsV-ki3rW1h-3Ona2RbwcNcR_NQTlJWbZSnWKz9g&s=10", variants: [] },
+        { id: "os-3", name: "Cocktail Shake", price: 550, desc: "Mixed fruit organic blend", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8kBJNsWwapxnOjCS-UipK9ojNF9We3sRWiknWH0eP_A&s=10", variants: [] },
+        { id: "os-4", name: "Blueberry Shake", price: 450, desc: "Antioxidant rich blueberries", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd3h0lfMYhjIbaCAna3KfUo421K-Qal1zFL-rmGyif6A&s=10", variants: [] }
       ]
     },
     {

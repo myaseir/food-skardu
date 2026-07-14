@@ -6,19 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'encrypted-tbn0.gstatic.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'foodpanda.dhmedia.io',
-      },
-      {
-        protocol: 'https',
-        hostname: 'static.tossdown.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'cdn.dribbble.com', // NEW: Added Dribbble for Skardu Mart
+        hostname: '**', // This wildcard allows images from ANY secure website
       },
     ],
   },
