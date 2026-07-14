@@ -84,7 +84,7 @@ export default function Hero() {
           Cravings in <span className="text-purple-600">Skardu?</span>
         </h1>
       <p className="text-lg md:text-xl text-gray-600 mb-8 font-medium">
-  Fast food delivery in Skardu — from your favorite restaurants to your doorstep, office, or hotel room.
+  Fast food delivery in Skardu-From your favorite restaurants to your doorstep, office, or hotel room.
 </p>
 
         {/* Smart Search Bar */}
