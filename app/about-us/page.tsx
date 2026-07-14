@@ -2,8 +2,8 @@ import Link from "next/link";
 import { ArrowLeft, Zap, ShieldCheck, HeartHandshake, MapPin } from "lucide-react";
 
 export const metadata = {
-  title: "About Us | Food Skardu",
-  description: "Learn about Food Skardu, the premium on-demand food delivery platform for Skardu.",
+  title: "About Us | Meal Bear Skardu",
+  description: "Learn about Meal Bear Skardu, the premium on-demand food delivery platform for Skardu.",
 };
 
 const values = [
@@ -38,10 +38,10 @@ export default function AboutPage() {
 
         <header className="mb-10">
           <h1 className="text-2xl sm:text-3xl font-black tracking-tighter text-gray-900 uppercase">
-            About Food Skardu
+            About Meal Bear Skardu
           </h1>
           <p className="text-[13px] text-gray-500 mt-3 leading-relaxed max-w-xl">
-            Food Skardu is a premium, on-demand food delivery platform bringing
+            Meal Bear Skardu is a premium, on-demand food delivery platform bringing
             the best culinary experiences in Skardu directly to your door, or
             your hotel room.
           </p>
@@ -56,7 +56,7 @@ export default function AboutPage() {
             We bridge the gap between Skardu's finest local restaurants and
             the people who want to enjoy them, without the wait, the walk, or
             the guesswork. Whether you are relaxing at home or staying at a
-            partner hotel, Food Skardu brings quality meals to you with
+            partner hotel, Meal Bear Skardu brings quality meals to you with
             reliability, speed, and care in every order.
           </p>
           <p className="text-[13px] leading-relaxed text-gray-600">

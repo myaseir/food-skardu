@@ -2,14 +2,14 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Privacy Policy | Food Skardu",
-  description: "How Food Skardu collects, uses, and protects your information.",
+  title: "Privacy Policy | Meal Bear Skardu",
+  description: "How Meal Bear Skardu collects, uses, and protects your information.",
 };
 
 const sections = [
   {
     title: "1. Introduction",
-    body: `This Privacy Policy explains how Food Skardu ("we", "us", "our") collects, uses, and protects information when you use our website, app, or in-room QR ordering service. By using Food Skardu, you agree to the practices described below.`,
+    body: `This Privacy Policy explains how Meal Bear Skardu ("we", "us", "our") collects, uses, and protects information when you use our website, app, or in-room QR ordering service. By using Meal Bear Skardu, you agree to the practices described below.`,
   },
   {
     title: "2. Information We Collect",
@@ -25,11 +25,11 @@ const sections = [
   },
   {
     title: "5. Hotel Partnerships",
-    body: `When you order via an in-room QR code, your delivery location (room number or reception) is shared only with the restaurant and rider needed to complete that order. Hotels do not receive your personal order history, and Food Skardu does not share guest data with hotel management beyond what is required for delivery coordination.`,
+    body: `When you order via an in-room QR code, your delivery location (room number or reception) is shared only with the restaurant and rider needed to complete that order. Hotels do not receive your personal order history, and Meal Bear Skardu does not share guest data with hotel management beyond what is required for delivery coordination.`,
   },
   {
     title: "6. Payment Information",
-    body: `Payments are processed through secure third-party payment providers. Food Skardu does not store your full card details on our servers. Please refer to your payment provider's own privacy policy for details on how they handle your payment data.`,
+    body: `Payments are processed through secure third-party payment providers. Meal Bear Skardu does not store your full card details on our servers. Please refer to your payment provider's own privacy policy for details on how they handle your payment data.`,
   },
   {
     title: "7. Data Retention",
@@ -45,7 +45,7 @@ const sections = [
   },
   {
     title: "10. Changes to This Policy",
-    body: `We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. Continued use of Food Skardu after changes are posted constitutes acceptance of the updated policy.`,
+    body: `We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. Continued use of Meal Bear Skardu after changes are posted constitutes acceptance of the updated policy.`,
   },
   {
     title: "11. Contact Us",

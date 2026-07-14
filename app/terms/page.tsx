@@ -2,14 +2,14 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Terms of Service | Food Skardu",
-  description: "Terms and conditions for using Food Skardu's delivery platform.",
+  title: "Terms of Service | Meal Bear Skardu",
+  description: "Terms and conditions for using Meal Bear Skardu's delivery platform.",
 };
 
 const sections = [
   {
-    title: "1. About Food Skardu",
-    body: `Food Skardu is an on-demand food delivery platform connecting customers and hotel guests in Skardu with local restaurants and shops. We act solely as an intermediary that facilitates ordering, pickup, payment coordination, and delivery. We do not prepare, cook, or own the food listed on our platform.`,
+    title: "1. About Meal Bear Skardu",
+    body: `Meal Bear Skardu is an on-demand food delivery platform connecting customers and hotel guests in Skardu with local restaurants and shops. We act solely as an intermediary that facilitates ordering, pickup, payment coordination, and delivery. We do not prepare, cook, or own the food listed on our platform.`,
   },
   {
     title: "2. Placing Orders",
@@ -17,15 +17,15 @@ const sections = [
   },
   {
     title: "3. Payments",
-    body: `All transactions are processed securely through our supported payment methods. Food Skardu is not responsible for issues arising from a customer's bank, card issuer, or payment provider. Prices displayed at checkout are final unless a restaurant or system error requires correction, in which case we will notify you before confirming the order.`,
+    body: `All transactions are processed securely through our supported payment methods. Meal Bear Skardu is not responsible for issues arising from a customer's bank, card issuer, or payment provider. Prices displayed at checkout are final unless a restaurant or system error requires correction, in which case we will notify you before confirming the order.`,
   },
   {
     title: "4. Delivery",
-    body: `Food Skardu is responsible for delivering your order from the restaurant to the address provided — including hotel receptions or in-room delivery where applicable — within a reasonable timeframe. Delivery times are estimates and may vary due to weather, traffic, or restaurant delays.`,
+    body: `Meal Bear Skardu is responsible for delivering your order from the restaurant to the address provided — including hotel receptions or in-room delivery where applicable — within a reasonable timeframe. Delivery times are estimates and may vary due to weather, traffic, or restaurant delays.`,
   },
   {
     title: "5. Hotel Partnerships",
-    body: `Hotels listed on our platform partner with Food Skardu at no cost or commission. Once an order is handed over at the hotel premises, any further handling — including room access, guest interaction, or internal security — is governed by that hotel's own policies. Food Skardu is not liable for incidents occurring after handover at the hotel premises.`,
+    body: `Hotels listed on our platform partner with Meal Bear Skardu at no cost or commission. Once an order is handed over at the hotel premises, any further handling — including room access, guest interaction, or internal security — is governed by that hotel's own policies. Meal Bear Skardu is not liable for incidents occurring after handover at the hotel premises.`,
   },
   {
     title: "6. Food Quality & Safety",
@@ -37,11 +37,11 @@ const sections = [
   },
   {
     title: "8. Limitation of Liability",
-    body: `Food Skardu is not liable for indirect, incidental, or consequential damages arising from the use of our platform, including but not limited to delays, food quality issues caused by restaurant partners, or incidents occurring on hotel premises after delivery handover.`,
+    body: `Meal Bear Skardu is not liable for indirect, incidental, or consequential damages arising from the use of our platform, including but not limited to delays, food quality issues caused by restaurant partners, or incidents occurring on hotel premises after delivery handover.`,
   },
   {
     title: "9. Changes to These Terms",
-    body: `We may update these Terms from time to time to reflect changes in our service or legal requirements. Continued use of Food Skardu after changes are posted constitutes acceptance of the updated Terms.`,
+    body: `We may update these Terms from time to time to reflect changes in our service or legal requirements. Continued use of Meal Bear Skardu after changes are posted constitutes acceptance of the updated Terms.`,
   },
   {
     title: "10. Contact Us",
@@ -84,7 +84,7 @@ export default function TermsPage() {
         </div>
 
         <p className="text-[10px] text-gray-400 mt-8 text-center">
-          By using Food Skardu, you agree to these Terms of Service.{" "}
+          By using Meal Bear Skardu, you agree to these Terms of Service.{" "}
           <Link href="/privacy" className="text-purple-600 font-bold hover:underline">
             View our Privacy Policy
           </Link>
