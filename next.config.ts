@@ -1,12 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    optimizeCss: true,
+  },
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**', // This wildcard allows images from ANY secure website
+        hostname: '**',
       },
     ],
   },
