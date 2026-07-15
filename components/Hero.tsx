@@ -3,26 +3,21 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Search, AlertCircle } from "lucide-react";
-import { getShops } from "@/lib/dataService"; // Import your centralized data fetcher
+import { getShops } from "@/lib/dataService";
 
 interface Shop {
   id: string;
   name: string;
-  // Add other properties if needed, but we only need id and name for the search
 }
 
 export default function Hero() {
   const router = useRouter();
-  
-  // State for centralized data
+
   const [restaurants, setRestaurants] = useState<Shop[]>([]);
-  
-  // Search state
   const [query, setQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [notFoundError, setNotFoundError] = useState(false);
 
-  // Fetch the real restaurant list on mount
   useEffect(() => {
     async function fetchRestaurants() {
       try {
@@ -37,8 +32,7 @@ export default function Hero() {
     fetchRestaurants();
   }, []);
 
-  // Case-insensitive filtering logic using the LIVE data
-  const filteredRestaurants = restaurants.filter(r => 
+  const filteredRestaurants = restaurants.filter((r) =>
     r.name.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -47,10 +41,8 @@ export default function Hero() {
     if (!query.trim()) return;
 
     if (filteredRestaurants.length > 0) {
-      // If they type a valid name and hit "Find", auto-route to the best match
       handleSelect(filteredRestaurants[0].id, filteredRestaurants[0].name);
     } else {
-      // Show inline error if no match exists
       setNotFoundError(true);
       setShowSuggestions(false);
     }
@@ -60,57 +52,61 @@ export default function Hero() {
     setQuery(name);
     setShowSuggestions(false);
     setNotFoundError(false);
-    // Route them directly to the restaurant's menu
-    router.push(`/restaurant/${id}`); 
+    router.push(`/restaurant/${id}`);
   };
 
   return (
-    <section className="relative w-full h-[400px] md:h-[500px] flex items-center justify-center overflow-hidden bg-gray-50">
-      
-      {/* Light Background Theme */}
-      <div className="absolute inset-0">
-    
+    // NOTE: overflow-hidden removed here — it was clipping the
+    // absolutely-positioned suggestions dropdown.
+    <section className="relative w-full min-h-[400px] md:h-[500px] flex items-center justify-center bg-gray-50 py-16 md:py-0">
+      {/* Background gradient gets its own clipped layer so it doesn't
+          affect the dropdown */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-20 text-center px-6 w-full max-w-2xl mt-12 md:mt-0">
-        
-        <h1 className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter mb-4">
+      <div className="relative z-20 text-center px-4 sm:px-6 w-full max-w-2xl mt-4 md:mt-0">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter mb-3 md:mb-4">
           Cravings in <span className="text-purple-600">Skardu?</span>
         </h1>
-      <p className="text-lg md:text-xl text-gray-600 mb-8 font-medium">
-  Fast food delivery in Skardu - From your favorite restaurants to your doorstep, office, or hotel room.
-</p>
+        <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 md:mb-8 font-medium px-2">
+          Fast food delivery in Skardu - From your favorite restaurants to
+          your doorstep, office, or hotel room.
+        </p>
 
         {/* Smart Search Bar */}
         <div className="relative w-full max-w-lg mx-auto">
-          <form 
-            onSubmit={handleSearch} 
-            className={`flex bg-white p-2 rounded-2xl shadow-xl border transition-colors ${notFoundError ? 'border-red-500' : 'border-gray-100'}`}
+          <form
+            onSubmit={handleSearch}
+            className={`flex bg-white p-1.5 sm:p-2 rounded-2xl shadow-xl border transition-colors ${
+              notFoundError ? "border-red-500" : "border-gray-100"
+            }`}
           >
-            <div className="flex items-center pl-4 text-gray-500">
-              <Search size={20} />
+            <div className="flex items-center pl-3 sm:pl-4 text-gray-500 shrink-0">
+              <Search size={18} className="sm:hidden" />
+              <Search size={20} className="hidden sm:block" />
             </div>
-            
-            <input 
-              type="text" 
+
+            <input
+              type="text"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
                 setShowSuggestions(true);
-                setNotFoundError(false); // Clear the error instantly when they start typing again
+                setNotFoundError(false);
               }}
               onFocus={() => setShowSuggestions(true)}
-              // Delay allows the click event on a suggestion to fire before the dropdown closes
+              // Delay still helps for mouse users; touch is handled via
+              // onMouseDown/onTouchStart on the suggestion items below.
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-              placeholder="Search for restaurants..." 
-              className="w-full px-4 py-3 bg-transparent outline-none font-bold text-gray-700 placeholder:text-gray-300"
+              placeholder="Search for restaurants..."
+              className="w-full min-w-0 px-2 sm:px-4 py-2.5 sm:py-3 bg-transparent outline-none font-bold text-sm sm:text-base text-gray-700 placeholder:text-gray-300"
             />
-            
-            <button 
+
+            <button
               type="submit"
-              className="bg-purple-600 text-white px-8 py-3 rounded-xl font-black uppercase tracking-widest hover:bg-purple-700 active:scale-95 transition-all"
+              className="bg-purple-600 text-white px-4 sm:px-8 py-2.5 sm:py-3 rounded-xl font-black uppercase tracking-widest text-xs sm:text-sm hover:bg-purple-700 active:scale-95 transition-all shrink-0"
             >
               Find
             </button>
@@ -118,27 +114,37 @@ export default function Hero() {
 
           {/* Inline "Not Found" Error Message */}
           {notFoundError && (
-            <div className="absolute top-full mt-3 w-full flex items-center justify-center gap-2 text-red-500 bg-red-50 py-2 rounded-xl border border-red-100 animate-in fade-in slide-in-from-top-2">
+            <div className="absolute top-full mt-3 w-full flex items-center justify-center gap-2 text-red-500 bg-red-50 py-2 rounded-xl border border-red-100 animate-in fade-in slide-in-from-top-2 z-[100]">
               <AlertCircle size={16} />
-              <span className="text-sm font-bold uppercase tracking-widest">No restaurant found</span>
+              <span className="text-sm font-bold uppercase tracking-widest">
+                No restaurant found
+              </span>
             </div>
           )}
 
           {/* Dynamic Suggestions Dropdown */}
           {showSuggestions && query.length > 0 && !notFoundError && (
-            <div className="absolute top-full mt-4 left-0 w-full bg-white border border-gray-100 shadow-2xl rounded-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 text-left">
+            <div className="absolute top-full mt-3 sm:mt-4 left-0 w-full bg-white border border-gray-100 shadow-2xl rounded-2xl z-[100] overflow-hidden animate-in fade-in slide-in-from-top-2 text-left max-h-[60vh]">
               {filteredRestaurants.length > 0 ? (
-                <ul className="max-h-60 overflow-y-auto">
-                  {filteredRestaurants.map(restaurant => (
-                    <li 
+                <ul className="max-h-60 overflow-y-auto overscroll-contain">
+                  {filteredRestaurants.map((restaurant) => (
+                    <li
                       key={restaurant.id}
-                      onClick={() => handleSelect(restaurant.id, restaurant.name)}
-                      className="px-6 py-4 border-b border-gray-50 last:border-0 hover:bg-purple-50 hover:text-purple-600 cursor-pointer transition-colors flex items-center justify-between group"
+                      // onMouseDown/onTouchStart fire BEFORE the input's
+                      // onBlur, so taps register reliably on mobile
+                      onMouseDown={(e) => e.preventDefault()}
+                      onTouchStart={() =>
+                        handleSelect(restaurant.id, restaurant.name)
+                      }
+                      onClick={() =>
+                        handleSelect(restaurant.id, restaurant.name)
+                      }
+                      className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-50 last:border-0 hover:bg-purple-50 hover:text-purple-600 active:bg-purple-50 cursor-pointer transition-colors flex items-center justify-between group"
                     >
-                      <span className="font-bold text-gray-700 group-hover:text-purple-600 transition-colors">
+                      <span className="font-bold text-sm sm:text-base text-gray-700 group-hover:text-purple-600 transition-colors truncate pr-2">
                         {restaurant.name}
                       </span>
-                      <span className="text-[10px] uppercase font-black tracking-widest text-gray-300 group-hover:text-purple-400 transition-colors">
+                      <span className="text-[9px] sm:text-[10px] uppercase font-black tracking-widest text-gray-300 group-hover:text-purple-400 transition-colors shrink-0">
                         Restaurant
                       </span>
                     </li>
@@ -146,14 +152,17 @@ export default function Hero() {
                 </ul>
               ) : (
                 <div className="px-6 py-8 text-center">
-                  <p className="text-gray-500 font-bold text-sm">No restaurants found for "{query}"</p>
-                  <p className="text-xs text-gray-500 mt-1">Try searching for something else.</p>
+                  <p className="text-gray-500 font-bold text-sm">
+                    No restaurants found for "{query}"
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Try searching for something else.
+                  </p>
                 </div>
               )}
             </div>
           )}
         </div>
-
       </div>
     </section>
   );
