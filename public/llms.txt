@@ -3,10 +3,10 @@
 > On-demand food delivery service in Skardu, Gilgit-Baltistan, Pakistan. Delivers from local restaurants to homes, offices, and hotel rooms. Cash on Delivery.
 
 ## Key Pages
-- Homepage: https://www.mealbear.pk
-- Restaurants: https://www.mealbear.pk/restaurant/[id]
-- About: https://www.mealbear.pk/about
-- Contact: https://www.mealbear.pk/contact
+- [Homepage](https://www.mealbear.pk)
+- [Restaurants](https://www.mealbear.pk/restaurant/)
+- [About](https://www.mealbear.pk/about)
+- [Contact](https://www.mealbear.pk/contact)
 
 ## Coverage Area
 Skardu city, Gilgit-Baltistan, including hotel delivery and residential areas such as Katpanah, Sundus, and surrounding neighborhoods.
