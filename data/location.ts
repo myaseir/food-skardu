@@ -1,4 +1,6 @@
-export const SKARDU_HOTELS: { [key: string]: number } = {
+// All distances are in kilometers, measured from the delivery hub.
+
+export const SKARDU_HOTELS: Record<string, number> = {
   "Rus Olive Lodge": 0,
   "Hargisa Hut": 0.5,
   "Hargisa Resort Skardu": 0.6,
@@ -89,21 +91,27 @@ export const SKARDU_HOTELS: { [key: string]: number } = {
   "TheQue Skardu": 20.4,
 };
 
-export const SKARDU_AREAS: { [key: string]: number } = {
-  "Sondus": 0.2,
-  "Newranga": 2.4,
-  "Katpana": 3.2,
-  "Khargrong": 3.3,
+export const SKARDU_AREAS: Record<string, number> = {
+  Sundus: 0.2,
+  Newranga: 2.4,
+  Katpana: 3.2,
+  Khargrong: 3.3,
   "Hasnain Nagar": 3.4,
   "Hassan Colony": 3.5,
-  "Aliabad": 3.7,
-  "Gayool": 3.9,
-  "Patwal": 4.5,
-  "Olding": 5.3,
-  "Trasmathang": 5.6,
-  "Hussainabad": 7.9,
-  "Kachura": 19.8,
+  Aliabad: 3.7,
+  Gayool: 3.9,
+  Patwal: 4.5,
+  Olding: 5.3,
+  Trasmathang: 5.6,
+  Hussainabad: 7.9,
+  Kachura: 19.8,
 };
 
-// Merged list for the delivery calculator to use
-export const SKARDU_LOCATIONS = { ...SKARDU_HOTELS, ...SKARDU_AREAS };
+// Merged lookup table for the delivery calculator to use.
+// No key collisions currently exist between hotels and areas —
+// if a name is ever added to both, the SKARDU_AREAS value wins here
+// since it's spread second.
+export const SKARDU_LOCATIONS: Record<string, number> = {
+  ...SKARDU_HOTELS,
+  ...SKARDU_AREAS,
+};

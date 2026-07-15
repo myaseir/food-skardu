@@ -1,13 +1,13 @@
 export interface Shop {
   id: string;
   name: string;
-  type: 'restaurant' | 'mart';
-  openTime: string;   // Format "HH:mm"
-  closeTime: string;  // Format "HH:mm"
+  type: "restaurant" | "mart";
+  openTime: string; // Format "HH:mm" (24-hour, zero-padded)
+  closeTime: string; // Format "HH:mm" (24-hour, zero-padded)
   alwaysOpen: boolean;
-  logo: string;       // Added for cleaner UI rendering
-  isActive?: boolean;
-  distanceFromHub: number; // NEW: Master switch to manually close a shop anytime
+  logo: string; // Added for cleaner UI rendering
+  isActive?: boolean; // Master switch to manually close a shop anytime
+  distanceFromHub: number; // Distance in km, used for delivery fee calculation
 }
 
 export interface CategoryConfig {
@@ -17,14 +17,14 @@ export interface CategoryConfig {
 }
 
 export const categoryConfig: CategoryConfig = {
-  "Food": { isAvailable: true },
-  "Mart": { isAvailable: true },
-  "Electronics": { isAvailable: true },
-  "Pharmacy": { isAvailable: true },
-  "Hardware": { isAvailable: true },
-  
-  // Optional: You can explicitly list your new Panda Mart categories here 
-  // if you want a central place to toggle them off in the future.
+  Food: { isAvailable: true },
+  Mart: { isAvailable: true },
+  Electronics: { isAvailable: true },
+  Pharmacy: { isAvailable: true },
+  Hardware: { isAvailable: true },
+
+  // Panda Mart categories — listed here so they can be toggled off
+  // centrally in the future without touching product data.
   "Fresh Food & Dairy": { isAvailable: true },
   "Pantry & Cooking Staples": { isAvailable: true },
   "Snacks & Beverages": { isAvailable: true },
@@ -33,57 +33,54 @@ export const categoryConfig: CategoryConfig = {
 };
 
 export const shops: Shop[] = [
-  { 
-    id: "yak-and-bull", 
-    name: "Yak and Bull Cafe Skardu", 
-    type: "restaurant", 
-    openTime: "12:00", 
-    closeTime: "1:00", 
+  {
+    id: "yak-and-bull",
+    name: "Yak and Bull Cafe Skardu",
+    type: "restaurant",
+    openTime: "12:00",
+    closeTime: "01:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
-  distanceFromHub: 4.5
+    distanceFromHub: 4.5,
   },
-  { 
-    id: "mfc", 
-    name: "MFC Skardu", 
-    type: "restaurant", 
-    openTime: "11:00", 
-    closeTime: "23:00", 
+  {
+    id: "mfc",
+    name: "MFC Skardu",
+    type: "restaurant",
+    openTime: "11:00",
+    closeTime: "23:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMQ6dmqgrHiuXYkuCAjoK9uflq4-G8JiXB6Fglzqfsw9AAN9KhQRlQ6vs&s=10",
-    distanceFromHub: 4.5
+    distanceFromHub: 4.5,
   },
-  { 
-    id: "pizza-king", 
-    name: "Pizza King Skardu", 
-    type: "restaurant", 
-    openTime: "11:00", 
-    closeTime: "23:00", 
+  {
+    id: "pizza-king",
+    name: "Pizza King Skardu",
+    type: "restaurant",
+    openTime: "11:00",
+    closeTime: "23:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa8xtMwcGub4wGh9HgvVns3fAAIMH8V7a5rR3IzlQMijEyMbt9XXL4Rhrv&s=10",
-    distanceFromHub: 4
+    distanceFromHub: 4,
   },
-   { 
-    id: "yak-grill-skardu", 
-    name: "Yak Grill Skardu", 
-    type: "restaurant", 
-    openTime: "12:00", 
-    closeTime: "23:30", 
+  {
+    id: "yak-grill-skardu",
+    name: "Yak Grill Skardu",
+    type: "restaurant",
+    openTime: "12:00",
+    closeTime: "23:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCK1MjSAqQF5vWaFQeoB26t69zQdIJEkEBA8pGEZYAs8QhCwkmFSRmwcG&s=10",
-    distanceFromHub: 3.8
+    distanceFromHub: 3.8,
   },
-  { 
-    id: "skyway-pizza", 
-    name: "Skyway Pizza Skardu", 
-    type: "restaurant", 
-    openTime: "12:00", 
-    closeTime: "1:00", 
+  {
+    id: "skyway-pizza",
+    name: "Skyway Pizza Skardu",
+    type: "restaurant",
+    openTime: "12:00",
+    closeTime: "01:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
-    distanceFromHub: 4.6
+    distanceFromHub: 4.6,
   },
- 
-  
-
 ];
