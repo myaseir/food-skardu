@@ -17,7 +17,38 @@ export default function HomeClient() {
   return (
     <main className="min-h-screen bg-white text-gray-900 pb-24 md:pb-0">
       {/* 1. Pass the props to the Navbar for Desktop users */}
-     
+      <Navbar 
+        onFoodClick={() => setView('restaurants')} 
+        onMartClick={() => setView('products')} 
+        onCartClick={() => setIsCartOpen(true)}
+        currentView={view} // Optional: helps highlight the active tab
+      />
+      
+      <Hero />
+
+      {view === 'restaurants' && <FeaturedCarousel />}
+
+      <section id="shop" className="py-12">
+        <div className="max-w-7xl mx-auto px-6 mb-8">
+          <h2 className="text-3xl lg:text-4xl font-black uppercase tracking-tighter">
+            {view === 'restaurants' ? 'All Restaurants' : 'Everything Available'}
+          </h2>
+        </div>
+
+        {view === 'restaurants' ? <RestaurantList /> : <ProductGrid />}
+      </section>
+
+      <div className="hidden md:block"><Footer /></div>
+
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      <div className="md:hidden">
+        <MobileNav 
+          onFoodClick={() => setView('restaurants')} 
+          onMartClick={() => setView('products')} 
+          onCartClick={() => setIsCartOpen(true)} 
+        />
+      </div>
       
     </main>
   );
