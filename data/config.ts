@@ -35,7 +35,7 @@ export const categoryConfig: CategoryConfig = {
 export const shops: Shop[] = [
   { 
     id: "yak-and-bull", 
-    name: "Yak & Bull", 
+    name: "Yak and Bull Cafe", 
     type: "restaurant", 
     openTime: "10:00", 
     closeTime: "23:00", 
