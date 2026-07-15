@@ -35,7 +35,7 @@ export const categoryConfig: CategoryConfig = {
 export const shops: Shop[] = [
   { 
     id: "yak-and-bull", 
-    name: "Yak and Bull Cafe", 
+    name: "Yak and Bull Cafe Skardu", 
     type: "restaurant", 
     openTime: "10:00", 
     closeTime: "23:00", 
@@ -45,7 +45,7 @@ export const shops: Shop[] = [
   },
   { 
     id: "mfc", 
-    name: "MFC", 
+    name: "MFC Skardu", 
     type: "restaurant", 
     openTime: "11:00", 
     closeTime: "23:00", 
@@ -55,7 +55,7 @@ export const shops: Shop[] = [
   },
   { 
     id: "pizza-king", 
-    name: "Pizza King", 
+    name: "Pizza King Skardu", 
     type: "restaurant", 
     openTime: "10:00", 
     closeTime: "23:00", 
@@ -65,7 +65,7 @@ export const shops: Shop[] = [
   },
   { 
     id: "skyway-pizza", 
-    name: "Skyway Pizza", 
+    name: "Skyway Pizza Skardu", 
     type: "restaurant", 
     openTime: "10:00", 
     closeTime: "00:00", 
