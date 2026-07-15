@@ -37,11 +37,11 @@ export const shops: Shop[] = [
     id: "yak-and-bull", 
     name: "Yak and Bull Cafe Skardu", 
     type: "restaurant", 
-    openTime: "10:00", 
-    closeTime: "23:00", 
+    openTime: "12:00", 
+    closeTime: "1:00", 
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
-  distanceFromHub: 1.5
+  distanceFromHub: 4.5
   },
   { 
     id: "mfc", 
@@ -51,37 +51,37 @@ export const shops: Shop[] = [
     closeTime: "23:00", 
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMQ6dmqgrHiuXYkuCAjoK9uflq4-G8JiXB6Fglzqfsw9AAN9KhQRlQ6vs&s=10",
-    distanceFromHub: 1.5
+    distanceFromHub: 4.5
   },
   { 
     id: "pizza-king", 
     name: "Pizza King Skardu", 
     type: "restaurant", 
-    openTime: "10:00", 
+    openTime: "11:00", 
     closeTime: "23:00", 
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa8xtMwcGub4wGh9HgvVns3fAAIMH8V7a5rR3IzlQMijEyMbt9XXL4Rhrv&s=10",
-    distanceFromHub: 1.5
+    distanceFromHub: 4
   },
    { 
     id: "yak-grill-skardu", 
     name: "Yak Grill Skardu", 
     type: "restaurant", 
-    openTime: "10:00", 
-    closeTime: "00:00", 
+    openTime: "12:00", 
+    closeTime: "23:30", 
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCK1MjSAqQF5vWaFQeoB26t69zQdIJEkEBA8pGEZYAs8QhCwkmFSRmwcG&s=10",
-    distanceFromHub: 1.5
+    distanceFromHub: 3.8
   },
   { 
     id: "skyway-pizza", 
     name: "Skyway Pizza Skardu", 
     type: "restaurant", 
-    openTime: "10:00", 
-    closeTime: "00:00", 
+    openTime: "12:00", 
+    closeTime: "1:00", 
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
-    distanceFromHub: 1.5
+    distanceFromHub: 4.6
   },
  
   
