@@ -24,11 +24,12 @@ export default function FeaturedCarousel() {
                   src={shop.logo} 
                   alt={shop.name} 
                   fill 
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover rounded-2xl" 
                 />
               </div>
               <h3 className="font-bold text-lg">{shop.name}</h3>
-              <p className="text-xs text-gray-400 uppercase">{shop.type}</p>
+              <p className="text-xs text-gray-500 uppercase">{shop.type}</p>
             </Link>
           ))}
         </div>

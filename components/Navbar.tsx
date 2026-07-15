@@ -76,9 +76,15 @@ export default function Navbar({ onFoodClick, onMartClick, onCartClick, currentV
         </div>
 
         {/* Mobile Toggle (Hamburger icon) */}
-        <button className="md:hidden p-2 text-gray-900" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+     <button
+  className="md:hidden p-2 text-gray-900"
+  onClick={() => setIsOpen(!isOpen)}
+  aria-label={isOpen ? "Close menu" : "Open menu"}
+  aria-expanded={isOpen}
+  aria-controls="mobile-menu"
+>
+  {isOpen ? <X size={20} /> : <Menu size={20} />}
+</button>
       </div>
 
       {/* Mobile Hamburger Menu Dropdown */}

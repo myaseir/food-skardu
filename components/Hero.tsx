@@ -69,11 +69,7 @@ export default function Hero() {
       
       {/* Light Background Theme */}
       <div className="absolute inset-0">
-        <img 
-          src="/images/hero-bg.jpg" 
-          alt="Skardu Food Delivery" 
-          className="w-full h-full object-cover opacity-20"
-        />
+    
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
       </div>
 
@@ -93,7 +89,7 @@ export default function Hero() {
             onSubmit={handleSearch} 
             className={`flex bg-white p-2 rounded-2xl shadow-xl border transition-colors ${notFoundError ? 'border-red-500' : 'border-gray-100'}`}
           >
-            <div className="flex items-center pl-4 text-gray-400">
+            <div className="flex items-center pl-4 text-gray-500">
               <Search size={20} />
             </div>
             
@@ -151,7 +147,7 @@ export default function Hero() {
               ) : (
                 <div className="px-6 py-8 text-center">
                   <p className="text-gray-500 font-bold text-sm">No restaurants found for "{query}"</p>
-                  <p className="text-xs text-gray-400 mt-1">Try searching for something else.</p>
+                  <p className="text-xs text-gray-500 mt-1">Try searching for something else.</p>
                 </div>
               )}
             </div>

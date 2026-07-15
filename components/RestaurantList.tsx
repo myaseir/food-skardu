@@ -18,6 +18,7 @@ export default function RestaurantList() {
               src={shop.logo} 
               alt={shop.name} 
               fill 
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover rounded-2xl shadow-sm border border-gray-50"
             />
           </div>
@@ -32,7 +33,7 @@ export default function RestaurantList() {
             <div className="mb-2">
               <ShopStatusBadge shop={shop} />
             </div>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
               {shop.type === 'restaurant' ? 'Food & Beverages' : 'General Store'}
             </p>
           </div>

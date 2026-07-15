@@ -172,7 +172,7 @@ export default function RestaurantPageClient({ params }: PageProps) {
             className={`rounded-2xl border object-cover ${!isShopOpen ? "grayscale opacity-60" : ""}`}
           />
           <div>
-            <h1 className={`text-2xl font-black uppercase ${!isShopOpen ? "text-gray-400" : ""}`}>
+            <h1 className={`text-2xl font-black uppercase ${!isShopOpen ? "text-gray-500" : ""}`}>
               {menu.name}
             </h1>
             <ShopStatusBadge shop={shop} />
@@ -195,7 +195,7 @@ export default function RestaurantPageClient({ params }: PageProps) {
       <div className="max-w-3xl mx-auto px-6 py-8">
         {menu.categories.map((cat: Category) => (
         <section key={cat.name} id={cat.name} className="scroll-mt-24 mb-12">
-            <h2 className={`text-xl font-black mb-6 uppercase tracking-tighter ${!isShopOpen ? "text-gray-400" : ""}`}>
+            <h2 className={`text-xl font-black mb-6 uppercase tracking-tighter ${!isShopOpen ? "text-gray-500" : ""}`}>
               {cat.name}
             </h2>
 
@@ -271,13 +271,13 @@ export default function RestaurantPageClient({ params }: PageProps) {
 
                     {/* Details */}
                     <div className="p-3 pt-5 flex flex-col flex-grow text-left">
-                      <h3 className={`font-bold text-sm leading-snug line-clamp-2 ${!isShopOpen ? "text-gray-400" : ""}`}>
+                      <h3 className={`font-bold text-sm leading-snug line-clamp-2 ${!isShopOpen ? "text-gray-500" : ""}`}>
                         {item.name}
                       </h3>
                       {item.desc && (
                         <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.desc}</p>
                       )}
-                      <p className={`font-black text-sm mt-auto pt-3 ${isShopOpen ? "text-purple-600" : "text-gray-400"}`}>
+                      <p className={`font-black text-sm mt-auto pt-3 ${isShopOpen ? "text-purple-600" : "text-gray-500"}`}>
                         {isShopOpen ? displayPrice : "Closed"}
                       </p>
                     </div>
