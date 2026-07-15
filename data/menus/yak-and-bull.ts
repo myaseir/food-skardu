@@ -1,6 +1,6 @@
 export const menu = {
   shopId: "yak-and-bull",
-  name: "Yak & Bull",
+  name: "Yak and Bull Cafe",
   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
   categories: [
     {

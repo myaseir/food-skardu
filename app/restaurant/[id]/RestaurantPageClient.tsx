@@ -163,21 +163,27 @@ export default function RestaurantPageClient({ params }: PageProps) {
           </svg>
         </Link>
 
-        <div className="max-w-3xl mx-auto flex items-center gap-4 pl-10">
-          <Image
-            src={menu.logo}
-            alt={menu.name}
-            width={80}
-            height={80}
-            className={`rounded-2xl border object-cover ${!isShopOpen ? "grayscale opacity-60" : ""}`}
-          />
-          <div>
-            <h1 className={`text-2xl font-black uppercase ${!isShopOpen ? "text-gray-500" : ""}`}>
-              {menu.name}
-            </h1>
-            <ShopStatusBadge shop={shop} />
-          </div>
-        </div>
+       <div className="max-w-3xl mx-auto flex items-center gap-4 pl-10">
+  {menu.logo ? (
+    <Image
+      src={menu.logo}
+      alt={menu.name}
+      width={80}
+      height={80}
+      className={`rounded-2xl border object-cover ${!isShopOpen ? "grayscale opacity-60" : ""}`}
+    />
+  ) : (
+    <div className="w-20 h-20 rounded-2xl border bg-gray-100 flex items-center justify-center text-gray-300 text-[9px] font-black uppercase tracking-widest text-center px-1">
+      No Logo
+    </div>
+  )}
+  <div>
+    <h1 className={`text-2xl font-black uppercase ${!isShopOpen ? "text-gray-500" : ""}`}>
+      {menu.name}
+    </h1>
+    <ShopStatusBadge shop={shop} />
+  </div>
+</div>
       </div>
 
       {/* Closed banner */}

@@ -63,6 +63,16 @@ export const shops: Shop[] = [
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa8xtMwcGub4wGh9HgvVns3fAAIMH8V7a5rR3IzlQMijEyMbt9XXL4Rhrv&s=10",
     distanceFromHub: 1.5
   },
+   { 
+    id: "yak-grill-skardu", 
+    name: "Yak Grill Skardu", 
+    type: "restaurant", 
+    openTime: "10:00", 
+    closeTime: "00:00", 
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCK1MjSAqQF5vWaFQeoB26t69zQdIJEkEBA8pGEZYAs8QhCwkmFSRmwcG&s=10",
+    distanceFromHub: 1.5
+  },
   { 
     id: "skyway-pizza", 
     name: "Skyway Pizza Skardu", 
@@ -73,6 +83,7 @@ export const shops: Shop[] = [
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
     distanceFromHub: 1.5
   },
+ 
   
 
 ];

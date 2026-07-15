@@ -1,6 +1,6 @@
 export const menu = {
   shopId: "skyway-pizza",
-  name: "Skyway Pizza",
+  name: "Skyway Pizza Skardu",
   logo: "/images/skyway-pizza-logo.png",
   categories: [
     {

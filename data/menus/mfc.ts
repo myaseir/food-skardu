@@ -1,6 +1,6 @@
 export const menu = {
   shopId: "mfc",
-  name: "MFC",
+  name: "MFC Skardu",
   logo: "/images/mfc-logo.png",
   categories: [
     {

@@ -1,6 +1,6 @@
 export const menu = {
   shopId: "pizza-king",
-  name: "Pizza King",
+  name: "Pizza King Skardu",
   logo: "/images/pizza-king-logo.png",
   categories: [
     {
