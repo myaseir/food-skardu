@@ -59,14 +59,10 @@ export const metadata: Metadata = {
     images: ["/images/og-cover.jpg"],
   },
 
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon1.png", type: "image/png", sizes: "192x192" },
-    ],
-    apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
-    shortcut: "/favicon.ico",
-  },
+  // NOTE: no manual "icons" field needed here.
+  // favicon.ico, icon0.svg, icon1.png, and apple-icon.png live directly
+  // inside app/ — Next.js auto-detects these special filenames and
+  // injects the correct <link rel="icon"> tags at build time.
 
   manifest: "/manifest.json",
 
