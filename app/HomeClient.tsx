@@ -24,14 +24,17 @@ export default function HomeClient() {
         currentView={view} // Optional: helps highlight the active tab
       />
       
-      <Hero />
+      {view === 'restaurants' && <Hero />}
 
       {view === 'restaurants' && <FeaturedCarousel />}
 
-      <section id="shop" className="py-12">
+      <section 
+        id="shop" 
+        className={`py-12 ${view === 'products' ? 'pt-28 md:pt-32' : ''}`}
+      >
         <div className="max-w-7xl mx-auto px-6 mb-8">
           <h2 className="text-3xl lg:text-4xl font-black uppercase tracking-tighter">
-            {view === 'restaurants' ? 'All Restaurants' : 'Everything Available'}
+            {view === 'restaurants' ? 'All Restaurants' : 'Fresh Picks From The Mart'}
           </h2>
         </div>
 
