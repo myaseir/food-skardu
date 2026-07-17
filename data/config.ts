@@ -44,8 +44,20 @@ export const shops: Shop[] = [
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
     distanceFromHub: 4.5,
-    rating: 4.8,
-    reviews: 38,
+    rating: 4.6,
+    reviews: 185,
+  },
+  {
+    id: "dominos-skardu",
+    name: "Domino's Pizza Skardu",
+    type: "restaurant",
+    openTime: "11:00",
+    closeTime: "01:00",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
+    distanceFromHub: 4, // adjust to actual distance
+    rating: 4.5,          // adjust as needed
+    reviews: 46,
   },
   {
     id: "mfc",
@@ -68,8 +80,8 @@ export const shops: Shop[] = [
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa8xtMwcGub4wGh9HgvVns3fAAIMH8V7a5rR3IzlQMijEyMbt9XXL4Rhrv&s=10",
     distanceFromHub: 4,
-    rating: 4.6,
-    reviews: 65,
+    rating: 4.0,
+    reviews: 29,
   },
   {
     id: "yak-grill-skardu",
@@ -80,8 +92,8 @@ export const shops: Shop[] = [
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCK1MjSAqQF5vWaFQeoB26t69zQdIJEkEBA8pGEZYAs8QhCwkmFSRmwcG&s=10",
     distanceFromHub: 3.8,
-    rating: 4.5,
-    reviews: 17,
+    rating: 4.2,
+    reviews: 37,
   },
   {
     id: "skyway-pizza",
@@ -93,6 +105,6 @@ export const shops: Shop[] = [
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
     distanceFromHub: 4.6,
     rating: 4.1,
-    reviews: 29,
+    reviews: 106,
   },
 ];

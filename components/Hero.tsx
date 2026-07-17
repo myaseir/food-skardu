@@ -58,7 +58,7 @@ export default function Hero() {
   return (
     // NOTE: overflow-hidden removed here — it was clipping the
     // absolutely-positioned suggestions dropdown.
-    <section className="relative w-full min-h-[400px] md:h-[500px] flex items-center justify-center bg-gray-50 py-16 md:py-0">
+    <section className="relative w-full min-h-[280px] md:h-[500px] flex items-center justify-center bg-gray-50 pt-20 pb-6 md:py-0">
       {/* Background gradient gets its own clipped layer so it doesn't
           affect the dropdown */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -66,7 +66,7 @@ export default function Hero() {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-20 text-center px-4 sm:px-6 w-full max-w-2xl mt-4 md:mt-0">
+      <div className="relative z-20 text-center px-4 sm:px-6 w-full max-w-2xl mt-1 md:mt-0">
         <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter mb-3 md:mb-4">
           Cravings in <span className="text-purple-600">Skardu?</span>
         </h1>

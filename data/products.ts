@@ -2,6 +2,7 @@ export interface Product {
   id: string;
   name: string;
   price: number;
+  discountPrice?: number; 
   category: string;
   department: "Mart"; // Defines which tab the item belongs to
   shopId: string; // Must match the ID in data/config.ts
@@ -14,7 +15,7 @@ export const products: Product[] = [
   // ==========================================
 
   // FRESH PRODUCE
-  { id: "m_fp1", name: "Potato (Aloo) - 1kg", price: 100, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://assets.bonappetit.com/photos/64ac604a047251c7e5ee272e/1:1/w_3625,h_3625,c_limit/20230509-0823-APPLIANCES-30922.jpg" },
+  { id: "m_fp1", name: "Potato (Aloo) - 1kg", price: 100,  discountPrice: 80, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://assets.bonappetit.com/photos/64ac604a047251c7e5ee272e/1:1/w_3625,h_3625,c_limit/20230509-0823-APPLIANCES-30922.jpg" },
   { id: "m_fp2", name: "Onion (Pyaz) - 1kg", price: 110, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Onion" },
   { id: "m_fp3", name: "Tomato (Tamatar) - 1kg", price: 140, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Tomato" },
   { id: "m_fp4", name: "Fresh Garlic (Lehsan) - 250g", price: 150, category: "Fresh Produce", department: "Mart", shopId: "mart-1", image: "https://placehold.co/400x400/dcedc8/33691e?text=Fresh+Garlic" },

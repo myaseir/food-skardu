@@ -14,12 +14,14 @@ import { useAvailability } from "@/hooks/useAvailability";
 interface Variant {
   name: string;
   price: number;
+  discountPrice?: number;
 }
 
 interface MenuItem {
   id: string;
   name: string;
   price: number;
+  discountPrice?: number;
   desc?: string;
   image?: string;
   variants?: Variant[];
@@ -32,6 +34,18 @@ interface Category {
 
 interface PageProps {
   params: Promise<{ id: string }>;
+}
+
+// A discount only counts if it's a positive number strictly less than the
+// original price — protects against bad data (e.g. discountPrice higher
+// than price, or 0/negative values).
+function getEffectivePrice(price: number, discountPrice?: number): number {
+  const hasDiscount = typeof discountPrice === "number" && discountPrice > 0 && discountPrice < price;
+  return hasDiscount ? discountPrice : price;
+}
+
+function hasValidDiscount(price: number, discountPrice?: number): boolean {
+  return typeof discountPrice === "number" && discountPrice > 0 && discountPrice < price;
 }
 
 export default function RestaurantPageClient({ params }: PageProps) {
@@ -130,18 +144,21 @@ export default function RestaurantPageClient({ params }: PageProps) {
       setSelectedItem({ ...item, category: catName });
       setSelectedVariant(item.variants[0]);
     } else {
-      addItem({ ...item, shopId: id, category: catName });
+      const effectivePrice = getEffectivePrice(item.price, item.discountPrice);
+      addItem({ ...item, price: effectivePrice, shopId: id, category: catName });
     }
   };
 
   const confirmVariantAdd = () => {
     if (!isShopOpen || !selectedItem || !selectedVariant) return;
 
+    const effectivePrice = getEffectivePrice(selectedVariant.price, selectedVariant.discountPrice);
+
     addItem({
       ...selectedItem,
       id: `${selectedItem.id}-${selectedVariant.name}`,
       name: `${selectedItem.name} (${selectedVariant.name})`,
-      price: selectedVariant.price,
+      price: effectivePrice,
       shopId: id,
       category: selectedItem.category,
     });
@@ -208,9 +225,39 @@ export default function RestaurantPageClient({ params }: PageProps) {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {cat.items.map((item: MenuItem) => {
                 const isVariant = item.variants && item.variants.length > 0;
+
+                // Simple item: compare original vs discounted price directly.
+                const simpleHasDiscount = !isVariant && hasValidDiscount(item.price, item.discountPrice);
+                const simpleEffectivePrice = !isVariant
+                  ? getEffectivePrice(item.price, item.discountPrice)
+                  : item.price;
+
+                // Variant item: "From Rs. X" should use the lowest effective
+                // (post-discount) price across all variants, and the crossed
+                // out price should be that SAME variant's original price
+                // (not just any variant's), so the two numbers line up.
+                let variantEffectivePrices: number[] = [];
+                let variantAnyDiscount = false;
+                let variantCheapestOriginal = 0;
+
+                if (isVariant) {
+                  variantEffectivePrices = item.variants!.map((v) => getEffectivePrice(v.price, v.discountPrice));
+                  variantAnyDiscount = item.variants!.some((v) => hasValidDiscount(v.price, v.discountPrice));
+
+                  // Find the variant that produced the lowest effective price,
+                  // so the strikethrough shows ITS original price.
+                  let cheapestIndex = 0;
+                  for (let i = 1; i < variantEffectivePrices.length; i++) {
+                    if (variantEffectivePrices[i] < variantEffectivePrices[cheapestIndex]) cheapestIndex = i;
+                  }
+                  variantCheapestOriginal = item.variants![cheapestIndex].price;
+                }
+
                 const displayPrice = isVariant
-                  ? `From Rs. ${Math.min(...(item.variants?.map((v) => v.price) || [item.price]))}`
-                  : `Rs. ${item.price}`;
+                  ? `From Rs. ${Math.min(...variantEffectivePrices)}`
+                  : `Rs. ${simpleEffectivePrice}`;
+
+                const showBadge = isShopOpen && (simpleHasDiscount || variantAnyDiscount);
 
                 return (
                   <div
@@ -245,6 +292,12 @@ export default function RestaurantPageClient({ params }: PageProps) {
                           <div className="w-full h-full flex items-center justify-center text-gray-300 text-[10px] font-black uppercase tracking-widest">
                             No Image
                           </div>
+                        )}
+
+                        {showBadge && (
+                          <span className="absolute top-2 left-2 z-10 bg-red-500 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg">
+                            Sale
+                          </span>
                         )}
 
                         {!isShopOpen && (
@@ -283,9 +336,21 @@ export default function RestaurantPageClient({ params }: PageProps) {
                       {item.desc && (
                         <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.desc}</p>
                       )}
-                      <p className={`font-black text-sm mt-auto pt-3 ${isShopOpen ? "text-purple-600" : "text-gray-500"}`}>
-                        {isShopOpen ? displayPrice : "Closed"}
-                      </p>
+                      <div className="flex items-center gap-2 mt-auto pt-3">
+                        <p className={`font-black text-sm ${isShopOpen ? "text-purple-600" : "text-gray-500"}`}>
+                          {isShopOpen ? displayPrice : "Closed"}
+                        </p>
+                        {isShopOpen && simpleHasDiscount && (
+                          <p className="text-gray-400 text-xs font-semibold line-through">
+                            Rs. {item.price}
+                          </p>
+                        )}
+                        {isShopOpen && isVariant && variantAnyDiscount && (
+                          <p className="text-gray-400 text-xs font-semibold line-through">
+                            Rs. {variantCheapestOriginal}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 );
@@ -322,29 +387,41 @@ export default function RestaurantPageClient({ params }: PageProps) {
 
               <h3 className="font-bold text-lg mb-3">Select Size / Option</h3>
               <div className="space-y-3 mb-2">
-                {selectedItem.variants?.map((variant) => (
-                  <label
-                    key={variant.name}
-                    className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                      selectedVariant?.name === variant.name
-                        ? "border-purple-600 bg-purple-50"
-                        : "border-gray-100 hover:border-purple-200"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="radio"
-                        name="variant"
-                        value={variant.name}
-                        checked={selectedVariant?.name === variant.name}
-                        onChange={() => setSelectedVariant(variant)}
-                        className="w-5 h-5 text-purple-600 border-gray-300 focus:ring-purple-600 focus:ring-2"
-                      />
-                      <span className="font-bold text-gray-800">{variant.name}</span>
-                    </div>
-                    <span className="font-black text-purple-600">Rs. {variant.price}</span>
-                  </label>
-                ))}
+                {selectedItem.variants?.map((variant) => {
+                  const variantDiscounted = hasValidDiscount(variant.price, variant.discountPrice);
+                  const variantEffective = getEffectivePrice(variant.price, variant.discountPrice);
+
+                  return (
+                    <label
+                      key={variant.name}
+                      className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                        selectedVariant?.name === variant.name
+                          ? "border-purple-600 bg-purple-50"
+                          : "border-gray-100 hover:border-purple-200"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="radio"
+                          name="variant"
+                          value={variant.name}
+                          checked={selectedVariant?.name === variant.name}
+                          onChange={() => setSelectedVariant(variant)}
+                          className="w-5 h-5 text-purple-600 border-gray-300 focus:ring-purple-600 focus:ring-2"
+                        />
+                        <span className="font-bold text-gray-800">{variant.name}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-black text-purple-600">Rs. {variantEffective}</span>
+                        {variantDiscounted && (
+                          <span className="text-gray-400 text-xs font-semibold line-through">
+                            Rs. {variant.price}
+                          </span>
+                        )}
+                      </div>
+                    </label>
+                  );
+                })}
               </div>
             </div>
 
@@ -354,7 +431,9 @@ export default function RestaurantPageClient({ params }: PageProps) {
                 className="w-full bg-purple-600 text-white py-4 rounded-xl font-black text-lg hover:bg-purple-700 active:scale-95 transition-all flex justify-between px-6"
               >
                 <span>Add to Cart</span>
-                <span>Rs. {selectedVariant?.price}</span>
+                <span>
+                  Rs. {selectedVariant ? getEffectivePrice(selectedVariant.price, selectedVariant.discountPrice) : 0}
+                </span>
               </button>
             </div>
           </div>

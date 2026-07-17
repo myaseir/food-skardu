@@ -10,104 +10,112 @@ export const menu = {
           id: "pz-1", 
           name: "Special Pizza", 
           price: 850, 
+          discountPrice: 765,
           desc: "Our signature house special pizza", 
           image: "https://static.vecteezy.com/system/resources/previews/059/656/822/non_2x/delicious-pizza-on-white-background-on-transparent-background-png.png", 
           variants: [
-            { name: "Small", price: 850 },
-            { name: "Medium", price: 1600 },
-            { name: "Large", price: 2200 },
-            { name: "XL", price: 2600 }
+            { name: "Small", price: 850, discountPrice: 765 },
+            { name: "Medium", price: 1600, discountPrice: 1440 },
+            { name: "Large", price: 2200, discountPrice: 1980 },
+            { name: "XL", price: 2600, discountPrice: 2340 }
           ]
         },
         { 
           id: "pz-2", 
           name: "Chicken Tikka", 
           price: 750, 
+          discountPrice: 675,
           desc: "Classic chicken tikka flavor", 
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt1JRih4z-zESXuoKBmlkBt2wR4CJS2jZVyuCbFr-Ici3Hvpzg_mO0C-dx&s=10", 
           variants: [
-            { name: "Small", price: 750 },
-            { name: "Medium", price: 1500 },
-            { name: "Large", price: 2000 },
-            { name: "XL", price: 2400 }
+            { name: "Small", price: 750, discountPrice: 675 },
+            { name: "Medium", price: 1500, discountPrice: 1350 },
+            { name: "Large", price: 2000, discountPrice: 1800 },
+            { name: "XL", price: 2400, discountPrice: 2160 }
           ]
         },
         { 
           id: "pz-3", 
           name: "BBQ", 
           price: 750, 
+          discountPrice: 675,
           desc: "Smoky BBQ flavor", 
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhZGstztDwyX0fAsnGwROvr_QNKm0kdXyvFkM43oWf7g&s=10", 
           variants: [
-            { name: "Small", price: 750 },
-            { name: "Medium", price: 1500 },
-            { name: "Large", price: 2000 },
-            { name: "XL", price: 2400 }
+            { name: "Small", price: 750, discountPrice: 675 },
+            { name: "Medium", price: 1500, discountPrice: 1350 },
+            { name: "Large", price: 2000, discountPrice: 1800 },
+            { name: "XL", price: 2400, discountPrice: 2160 }
           ]
         },
         { 
           id: "pz-4", 
           name: "Hot and Spicy", 
           price: 750, 
+          discountPrice: 675,
           desc: "For those who like it hot", 
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzalXAg6iz0N8grQZaQbHddpHfNmKME6LSCW7T-0CDzg&s=10", 
           variants: [
-            { name: "Small", price: 750 },
-            { name: "Medium", price: 1500 },
-            { name: "Large", price: 2200 },
-            { name: "XL", price: 2400 }
+            { name: "Small", price: 750, discountPrice: 675 },
+            { name: "Medium", price: 1500, discountPrice: 1350 },
+            { name: "Large", price: 2200, discountPrice: 1980 },
+            { name: "XL", price: 2400, discountPrice: 2160 }
           ]
         },
         { 
           id: "pz-5", 
           name: "Fajita", 
           price: 750, 
+          discountPrice: 675,
           desc: "Mexican style fajita pizza", 
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAIq9Z3n0cyqAdaVyS7ee-XfuMhfLxEM9ehxcxFIN7twkW1yzmBd1kmgE&s=10", 
           variants: [
-            { name: "Small", price: 750 },
-            { name: "Medium", price: 1500 },
-            { name: "Large", price: 2200 },
-            { name: "XL", price: 2400 }
+            { name: "Small", price: 750, discountPrice: 675 },
+            { name: "Medium", price: 1500, discountPrice: 1350 },
+            { name: "Large", price: 2200, discountPrice: 1980 },
+            { name: "XL", price: 2400, discountPrice: 2160 }
           ]
         },
         { 
           id: "pz-6", 
           name: "Garlic Mayo", 
           price: 850, 
+          discountPrice: 765,
           desc: "Creamy garlic mayo delight", 
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4e4if9z3dQC7HaPU8yBnoD3_y075JDywTAvSF_26SIg&s=10", 
           variants: [
-            { name: "Small", price: 850 },
-            { name: "Medium", price: 1600 },
-            { name: "Large", price: 2200 },
-            { name: "XL", price: 2600 }
+            { name: "Small", price: 850, discountPrice: 765 },
+            { name: "Medium", price: 1600, discountPrice: 1440 },
+            { name: "Large", price: 2200, discountPrice: 1980 },
+            { name: "XL", price: 2600, discountPrice: 2340 }
           ]
         },
         { 
           id: "pz-7", 
           name: "Cheese Lovers", 
           price: 750, 
+          discountPrice: 675,
           desc: "Loaded with extra cheese", 
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbcwqHxv33dU2agf8kw1_mrK2jOLxaFwSiYhqHlgeN3g&s=10", 
           variants: [
-            { name: "Small", price: 750 },
-            { name: "Medium", price: 1500 },
-            { name: "Large", price: 2200 },
-            { name: "XL", price: 2400 }
+            { name: "Small", price: 750, discountPrice: 675 },
+            { name: "Medium", price: 1500, discountPrice: 1350 },
+            { name: "Large", price: 2200, discountPrice: 1980 },
+            { name: "XL", price: 2400, discountPrice: 2160 }
           ]
         },
         { 
           id: "pz-8", 
           name: "Vegetable", 
           price: 750, 
+          discountPrice: 675,
           desc: "Fresh garden vegetables", 
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-ettEBhj2b5prusGLgHx56jN_gjp0HUbM11kq7yJ_jmTl6sr5xW87Rak&s=10", 
           variants: [
-            { name: "Small", price: 750 },
-            { name: "Medium", price: 1500 },
-            { name: "Large", price: 2000 },
-            { name: "XL", price: 2400 }
+            { name: "Small", price: 750, discountPrice: 675 },
+            { name: "Medium", price: 1500, discountPrice: 1350 },
+            { name: "Large", price: 2000, discountPrice: 1800 },
+            { name: "XL", price: 2400, discountPrice: 2160 }
           ]
         }
       ]

@@ -1,7 +1,6 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { products } from "../data/products";
-import { shops } from "../data/config";
 import { useAvailability } from "../hooks/useAvailability";
 import ProductCard from "./ProductCard";
 
@@ -25,44 +24,79 @@ export const MART_CATEGORIES = [
   "Stationery & Office",
 ];
 
+// ---- Mart-only timing config ----
+// Fully isolated from data/config.ts and the restaurant shops array.
+// Change these two values any time to adjust mart hours.
+const MART_OPEN_HOUR = 8;  // 8 AM
+const MART_CLOSE_HOUR = 17; // 5 PM
+
+function getMartStatus() {
+  const now = new Date();
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+  const openMinutes = MART_OPEN_HOUR * 60;
+  const closeMinutes = MART_CLOSE_HOUR * 60;
+
+  const isOpen = currentMinutes >= openMinutes && currentMinutes < closeMinutes;
+
+  const formatHour = (h: number) => {
+    const period = h >= 12 ? "PM" : "AM";
+    const hour12 = h % 12 === 0 ? 12 : h % 12;
+    return `${hour12}:00 ${period}`;
+  };
+
+  return {
+    isOpen,
+    openText: formatHour(MART_OPEN_HOUR),
+    closeText: formatHour(MART_CLOSE_HOUR),
+  };
+}
+
 export default function ProductGrid() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [search, setSearch] = useState("");
-  const { checkShopStatus, isCategoryAvailable } = useAvailability();
+  const { isCategoryAvailable } = useAvailability();
+
+  // Re-check every minute so the grid auto-closes/opens without a page refresh
+  const [martStatus, setMartStatus] = useState(getMartStatus());
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMartStatus(getMartStatus());
+    }, 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const filtered = useMemo(() => {
+    // Mart is closed entirely outside operating hours — nothing to show.
+    if (!martStatus.isOpen) return [];
+
     return products.filter((p) => {
-      // 1. Basic Availability Check
+      // 1. Basic Availability Check (category-level toggle, e.g. category disabled centrally)
       if (!isCategoryAvailable(p.category)) return false;
-      
-      const shop = shops.find((s) => s.id === p.shopId);
-      if (shop && !checkShopStatus(shop)) return false;
 
       // 2. Search Logic
       const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
-      
+
       // 3. Category Logic
       if (selectedCategory === "All") {
-        // Only show items that belong to the predefined Mart categories
         return MART_CATEGORIES.includes(p.category) && matchesSearch;
       }
-      
+
       return p.category === selectedCategory && matchesSearch;
     });
-  }, [selectedCategory, search, checkShopStatus, isCategoryAvailable]);
+  }, [selectedCategory, search, isCategoryAvailable, martStatus.isOpen]);
 
   return (
     <div className="max-w-7xl mx-auto px-0 md:px-6 py-8">
-      
+
       {/* Search Bar - Professional rounded design */}
       <div className="px-6 md:px-0 mb-6">
         <div className="relative max-w-xl">
-          <input 
+          <input
             className="w-full p-4 pl-12 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-purple-600 focus:bg-white transition-all font-medium text-gray-900"
             placeholder="Search for reliable mart items..."
             onChange={(e) => setSearch(e.target.value)}
           />
-          <svg className="absolute left-4 top-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="absolute left-4 top-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
@@ -89,7 +123,19 @@ export default function ProductGrid() {
 
       {/* Product Grid */}
       <div className="px-6 md:px-0">
-        {filtered.length > 0 ? (
+        {!martStatus.isOpen ? (
+          <div className="text-center py-20 bg-gray-50 rounded-3xl border border-gray-100 mx-6 md:mx-0">
+            <div className="text-gray-500 mb-4">
+              <svg className="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-black text-gray-900 uppercase">Mart is Closed</h3>
+            <p className="text-gray-500 font-medium text-sm mt-1">
+              We're open daily from {martStatus.openText} to {martStatus.closeText}. Please check back soon.
+            </p>
+          </div>
+        ) : filtered.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
             {filtered.map((p) => (
               <ProductCard key={p.id} {...p} />
@@ -97,7 +143,7 @@ export default function ProductGrid() {
           </div>
         ) : (
           <div className="text-center py-20 bg-gray-50 rounded-3xl border border-gray-100 mx-6 md:mx-0">
-            <div className="text-gray-400 mb-4">
+            <div className="text-gray-500 mb-4">
               <svg className="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
