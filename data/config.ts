@@ -71,6 +71,18 @@ export const shops: Shop[] = [
     rating: 0.0,
     reviews: 0,
   },
+    {
+    id: "sungum-hotel-restaurant",
+    name: "Sungum Hotel Restaurant Skardu ",
+    type: "restaurant",
+    openTime: "11:00",
+    closeTime: "22:00",
+    alwaysOpen: false,
+    logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784291847/ChatGPT_Image_Jul_17_2026_05_37_05_PM_t6yq3u.jpg",
+    distanceFromHub: 4.5,
+    rating: 4.5,
+    reviews: 15,
+  },
   {
     id: "mfc",
     name: "MFC Skardu",
