@@ -59,6 +59,18 @@ export const shops: Shop[] = [
     rating: 4.5,          // adjust as needed
     reviews: 46,
   },
+    {
+    id: "aima-kitchen",
+    name: "Aima's Kitchen Skardu",
+    type: "restaurant",
+    openTime: "11:00",
+    closeTime: "22:00",
+    alwaysOpen: false,
+    logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784286414/ChatGPT_Image_Jul_17_2026_04_05_47_PM_hk9ubt.png",
+    distanceFromHub: 4.5,
+    rating: 4.4,
+    reviews: 7,
+  },
   {
     id: "mfc",
     name: "MFC Skardu",
@@ -71,6 +83,7 @@ export const shops: Shop[] = [
     rating: 4.3,
     reviews: 21,
   },
+
   {
     id: "pizza-king",
     name: "Pizza King Skardu",

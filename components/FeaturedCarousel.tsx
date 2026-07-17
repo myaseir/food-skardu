@@ -7,7 +7,7 @@ import { Star } from 'lucide-react';
 import { shops, Shop } from "@/data/config";
 
 // Add/remove shop ids here to control what shows in the carousel
-const FEATURED_SHOP_IDS = ["yak-and-bull", "yak-grill-skardu", "dominos-skardu", "pizza-king", "skyway-pizza"];
+const FEATURED_SHOP_IDS = ["yak-and-bull", "aima-kitchen",, "dominos-skardu","yak-grill-skardu", "pizza-king", "skyway-pizza"];
 
 function FeaturedLogo({ shop }: { shop: Shop }) {
   const [imgError, setImgError] = useState(false);
