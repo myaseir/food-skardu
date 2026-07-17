@@ -14,14 +14,17 @@ function FeaturedLogo({ shop }: { shop: Shop }) {
   const hasLogo = !!shop.logo && !imgError;
 
   return (
-    <div className="relative w-full h-32 mb-3 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100">
+    <div className="relative w-full h-36 mb-3 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 flex items-center justify-center">
       {hasLogo ? (
+        // object-contain + padding so the WHOLE logo is always visible,
+        // never cropped — important since the same logo is reused across
+        // multiple shop cards here.
         <Image
           src={shop.logo}
           alt={shop.name}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105"
+          sizes="(max-width: 768px) 70vw, (max-width: 1200px) 30vw, 20vw"
+          className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
           onError={() => setImgError(true)}
         />
       ) : (
@@ -47,9 +50,15 @@ export default function FeaturedCarousel() {
 
   return (
     <div className="py-8">
-      <h2 className="text-xl font-black px-6 mb-4 uppercase tracking-tighter">Popular Restaurants</h2>
+      <div className="flex items-center justify-between px-6 mb-4">
+        <h2 className="text-xl font-black uppercase tracking-tighter">Popular Restaurants</h2>
+        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+          Swipe to explore
+        </span>
+      </div>
+
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-4 px-6">
+        <div className="flex gap-4 px-6 pb-2">
           {featuredShops.map((shop) => (
             <Link
               href={`/restaurant/${shop.id}`}
@@ -60,8 +69,12 @@ export default function FeaturedCarousel() {
 
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
-                  <h3 className="font-bold text-lg truncate">{shop.name}</h3>
-                  <p className="text-xs text-gray-500 uppercase">{shop.type}</p>
+                  <h3 className="font-black text-base leading-tight truncate group-hover:text-purple-600 transition-colors">
+                    {shop.name}
+                  </h3>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">
+                    {shop.type === "restaurant" ? "Food & Beverages" : "General Store"}
+                  </p>
                 </div>
 
                 {typeof shop.rating === "number" && (
