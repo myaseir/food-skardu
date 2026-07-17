@@ -197,8 +197,8 @@ export const menu = {
           desc: "Assorted soft drinks",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpRFQEyUYT1bF_phn_E-vZilzxsAguqGyuJQceOFj6aQ&s=10",
           variants: [
-            { name: "Regular 345ml", price: 0, discountPrice: 0 },
-            { name: "1.5 Ltr", price: 0, discountPrice: 0 }
+            { name: "Regular 345ml", price: 90, discountPrice: 0 },
+            { name: "1.5 Ltr", price: 190, discountPrice: 0 }
           ]
         }
       ]
