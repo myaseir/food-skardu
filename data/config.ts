@@ -68,8 +68,8 @@ export const shops: Shop[] = [
     alwaysOpen: false,
     logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784286414/ChatGPT_Image_Jul_17_2026_04_05_47_PM_hk9ubt.png",
     distanceFromHub: 4.5,
-    rating: 4.4,
-    reviews: 7,
+    rating: 0.0,
+    reviews: 0,
   },
   {
     id: "mfc",
