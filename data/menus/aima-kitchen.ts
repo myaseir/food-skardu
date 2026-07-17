@@ -192,8 +192,8 @@ export const menu = {
         {
           id: "ak-cd-1",
           name: "Cold Drink",
-          price: 0, // TODO: prices not provided — please confirm flavors & sizes
-          discountPrice: 0,
+          price: 100, // TODO: prices not provided — please confirm flavors & sizes
+          discountPrice: 90,
           desc: "Assorted soft drinks",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpRFQEyUYT1bF_phn_E-vZilzxsAguqGyuJQceOFj6aQ&s=10",
           variants: [
