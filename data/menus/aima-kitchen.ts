@@ -1,7 +1,7 @@
 export const menu = {
   shopId: "aimas-kitchen-skardu",
   name: "Aima's Kitchen Skardu",
-  logo: "", // TODO: add real Aima's Kitchen Skardu logo URL
+  logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784286414/ChatGPT_Image_Jul_17_2026_04_05_47_PM_hk9ubt.png", // TODO: add real Aima's Kitchen Skardu logo URL
   categories: [
     {
       name: "Deals",
