@@ -7,7 +7,7 @@ import { Star } from 'lucide-react';
 import { shops, Shop } from "@/data/config";
 
 // Add/remove shop ids here to control what shows in the carousel
-const FEATURED_SHOP_IDS = ["yak-and-bull", "aima-kitchen",, "dominos-skardu","yak-grill-skardu", "pizza-king", "skyway-pizza"];
+const FEATURED_SHOP_IDS = ["yak-and-bull", "aima-kitchen", "dominos-skardu", "yak-grill-skardu", "pizza-king", "skyway-pizza"];
 
 function FeaturedLogo({ shop }: { shop: Shop }) {
   const [imgError, setImgError] = useState(false);
@@ -20,7 +20,7 @@ function FeaturedLogo({ shop }: { shop: Shop }) {
           src={shop.logo}
           alt={shop.name}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 30vw, 33vw"
           className="object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105"
           onError={() => setImgError(true)}
         />
@@ -49,19 +49,19 @@ export default function FeaturedCarousel() {
     <div className="py-8">
       <h2 className="text-xl font-black px-6 mb-4 uppercase tracking-tighter">Popular Restaurants</h2>
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-4 px-6">
+        <div className="flex gap-4 px-6 snap-x snap-mandatory">
           {featuredShops.map((shop) => (
             <Link
               href={`/restaurant/${shop.id}`}
               key={shop.id}
-              className="group flex-[0_0_70%] md:flex-[0_0_30%] bg-white p-4 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all duration-300"
+              className="group flex-[0_0_44%] sm:flex-[0_0_36%] md:flex-[0_0_30%] lg:flex-[0_0_23%] snap-start bg-white p-4 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all duration-300"
             >
               <FeaturedLogo shop={shop} />
 
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
-                  <h3 className="font-bold text-lg truncate">{shop.name}</h3>
-                  <p className="text-xs text-gray-500 uppercase">{shop.type}</p>
+                  <h3 className="font-bold text-sm md:text-lg truncate">{shop.name}</h3>
+                  <p className="text-[10px] md:text-xs text-gray-500 uppercase truncate">{shop.type}</p>
                 </div>
 
                 {typeof shop.rating === "number" && (

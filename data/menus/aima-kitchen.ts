@@ -140,7 +140,7 @@ export const menu = {
           price: 80,
           discountPrice: 50,
           desc: "Homemade chapati",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5Fch-m-hZoOYndPhUHBh_4wpFOxarib4Wru-wxf-_NgQnXz-VRoKJISko&s=10",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKu7L7KhCoHZlRDcUawqxAddf0VVGCF89Cqdauyk1sHw&s=10",
           variants: []
         }
       ]
