@@ -254,7 +254,7 @@ export default function RestaurantPageClient({ params }: PageProps) {
                 }
 
                 const displayPrice = isVariant
-                  ? `From Rs. ${Math.min(...variantEffectivePrices)}`
+                  ? `Rs. ${Math.min(...variantEffectivePrices)}`
                   : `Rs. ${simpleEffectivePrice}`;
 
                 const showBadge = isShopOpen && (simpleHasDiscount || variantAnyDiscount);
