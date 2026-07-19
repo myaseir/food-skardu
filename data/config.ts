@@ -59,6 +59,18 @@ export const shops: Shop[] = [
     rating: 4.5,          // adjust as needed
     reviews: 46,
   },
+  {
+    id: "the-kitchen-skardu",
+    name: "The Kitchen",
+    type: "restaurant",
+    openTime: "12:00", // TODO: confirm actual opening time
+    closeTime: "21:00", // TODO: confirm actual closing time
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpO1EPdDa0L41JIdnK45cWhQVFiulx09fx2p5amMNXFXwBXUiOyj8itdI&s=10", // TODO: paste real logo URL
+    distanceFromHub: 3.9, // TODO: adjust to actual distance
+    rating: 4.8, // TODO: adjust once real reviews exist
+    reviews: 61, // TODO: adjust once real reviews exist
+  },
     {
     id: "aima-kitchen",
     name: "Aima's Kitchen Skardu",

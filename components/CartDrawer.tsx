@@ -1,15 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/store/useCart";
-import { Trash2, Plus, Minus } from "lucide-react"; // Added Minus
+import { Trash2, Plus, Minus } from "lucide-react";
 import { getMenuByShopId } from "@/lib/dataService";
+import { useAvailability } from "@/hooks/useAvailability";
+import { shops } from "@/data/config";
 
 export default function CartDrawer({ isOpen, onClose }: any) {
-  const { items, removeItem, addItem, removeSingleItem } = useCart() as any;
-  
+  const { items, removeItem, addItem, removeSingleItem, clearCart } = useCart() as any;
+  const { checkShopStatus } = useAvailability();
+
+  // Live check: is the shop this cart belongs to currently open?
+  // Re-evaluates on every render the drawer is open, not just once on
+  // load — a shop can close while the user is browsing the cart.
+  const currentShop = useMemo(() => {
+    if (items.length === 0) return null;
+    return shops.find((s) => s.id === items[0].shopId) || null;
+  }, [items]);
+
+  const shopIsOpen = currentShop ? checkShopStatus(currentShop) : true;
+
+  // If the shop closed while the drawer was open (or on load, before
+  // CartValidator gets a chance to run), wipe the cart so nothing
+  // stale can be ordered.
+  useEffect(() => {
+    if (currentShop && !shopIsOpen) {
+      clearCart();
+    }
+  }, [currentShop, shopIsOpen, clearCart]);
+
   // Updated Math: Price * Quantity
   const total = items.reduce((sum: number, item: any) => sum + (item.price * (item.quantity || 1)), 0);
 
@@ -62,8 +84,14 @@ export default function CartDrawer({ isOpen, onClose }: any) {
         
         <div className="bg-white px-6 py-4 flex justify-between items-center shadow-sm z-10">
           <h2 className="text-xl font-black uppercase tracking-tighter">Your Cart</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-900 transition-colors">✕</button>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-900 transition-colors">✕</button>
         </div>
+
+        {currentShop && !shopIsOpen && (
+          <div className="bg-red-50 text-red-700 text-xs font-bold uppercase tracking-wide px-6 py-3 text-center">
+            {currentShop.name} is currently closed. Your cart has been cleared.
+          </div>
+        )}
         
         {/* SCROLLABLE AREA */}
         <div className="flex-grow overflow-y-auto flex flex-col">
@@ -127,9 +155,15 @@ export default function CartDrawer({ isOpen, onClose }: any) {
               <span className="font-bold text-gray-500 uppercase tracking-widest text-xs">Subtotal</span>
               <span className="font-black text-lg text-gray-900">Rs. {total}</span>
             </div>
-            <Link href="/checkout" onClick={onClose} className="w-full flex items-center justify-center bg-purple-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-purple-700">
-              Continue
-            </Link>
+            {shopIsOpen ? (
+              <Link href="/checkout" onClick={onClose} className="w-full flex items-center justify-center bg-purple-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-purple-700">
+                Continue
+              </Link>
+            ) : (
+              <button disabled className="w-full flex items-center justify-center bg-gray-300 text-gray-500 py-4 rounded-2xl font-black uppercase tracking-widest cursor-not-allowed">
+                Restaurant Closed
+              </button>
+            )}
           </div>
         )}
       </div>

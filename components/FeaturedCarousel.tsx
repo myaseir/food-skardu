@@ -3,34 +3,57 @@ import React, { useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Star } from 'lucide-react';
+import { Star, Clock } from 'lucide-react';
 import { shops, Shop } from "@/data/config";
+import { useAvailability } from "@/hooks/useAvailability";
 
 // Add/remove shop ids here to control what shows in the carousel
-const FEATURED_SHOP_IDS = ["yak-and-bull","sungum-hotel-restaurant", "aima-kitchen", "dominos-skardu", "yak-grill-skardu", "pizza-king", "skyway-pizza"];
+const FEATURED_SHOP_IDS = ["yak-and-bull", "the-kitchen-skardu", "pizza-king", "sungum-hotel-restaurant", "dominos-skardu", "yak-grill-skardu", "skyway-pizza"];
 
-function FeaturedLogo({ shop }: { shop: Shop }) {
+// Turns "11:00" into "11:00 AM" for display
+function formatOpenTime(time: string): string {
+  const [h, m] = time.split(":").map(Number);
+  const period = h >= 12 ? "PM" : "AM";
+  const hour12 = h % 12 === 0 ? 12 : h % 12;
+  return `${hour12}:${String(m).padStart(2, "0")} ${period}`;
+}
+
+function FeaturedCover({ shop, isOpen }: { shop: Shop; isOpen: boolean }) {
   const [imgError, setImgError] = useState(false);
   const hasLogo = !!shop.logo && !imgError;
 
   return (
-    <div className="relative w-full h-32 mb-3 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100">
+    <div className="relative w-full aspect-[3/2] overflow-hidden bg-gray-100">
       {hasLogo ? (
         <Image
           src={shop.logo}
           alt={shop.name}
           fill
           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 30vw, 33vw"
-          className="object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105"
+          className={`object-cover transition-transform duration-300 group-hover:scale-105 ${!isOpen ? "grayscale" : ""}`}
           onError={() => setImgError(true)}
         />
       ) : (
-        <div className="w-full h-full flex flex-col items-center justify-center gap-1">
-          <span className="text-2xl font-black text-gray-300">
+        <div className="w-full h-full flex flex-col items-center justify-center gap-1 bg-gray-50">
+          <span className="text-3xl font-black text-gray-300">
             {shop.name.charAt(0)}
           </span>
-          <span className="text-gray-300 text-[9px] font-black uppercase tracking-widest">
-            No Logo
+        </div>
+      )}
+
+      {/* Rating badge — floats on the image, foodpanda-style */}
+      {typeof shop.rating === "number" && (
+        <span className="absolute bottom-2 left-2 flex items-center gap-1 text-[11px] font-bold text-white bg-black/60 backdrop-blur-sm px-2 py-1 rounded-md">
+          <Star size={11} className="fill-yellow-400 text-yellow-400" />
+          {shop.rating.toFixed(1)}
+        </span>
+      )}
+
+      {/* Closed overlay */}
+      {!isOpen && (
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+          <span className="text-white text-xs font-black uppercase tracking-widest bg-black/70 px-3 py-1.5 rounded-full text-center">
+            {shop.alwaysOpen ? "Closed" : `Opens at ${formatOpenTime(shop.openTime)}`}
           </span>
         </div>
       )}
@@ -40,6 +63,7 @@ function FeaturedLogo({ shop }: { shop: Shop }) {
 
 export default function FeaturedCarousel() {
   const [emblaRef] = useEmblaCarousel({ dragFree: true, containScroll: "trimSnaps" });
+  const { checkShopStatus } = useAvailability();
 
   const featuredShops = FEATURED_SHOP_IDS
     .map((id) => shops.find((shop) => shop.id === id))
@@ -50,32 +74,34 @@ export default function FeaturedCarousel() {
       <h2 className="text-xl font-black px-6 mb-4 uppercase tracking-tighter">Popular Restaurants</h2>
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-4 px-6 snap-x snap-mandatory">
-          {featuredShops.map((shop) => (
-            <Link
-              href={`/restaurant/${shop.id}`}
-              key={shop.id}
-              className="group flex-[0_0_44%] sm:flex-[0_0_36%] md:flex-[0_0_30%] lg:flex-[0_0_23%] snap-start bg-white p-4 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all duration-300"
-            >
-              <FeaturedLogo shop={shop} />
+          {featuredShops.map((shop) => {
+            const isOpen = checkShopStatus(shop);
 
-              <div className="flex items-start justify-between gap-2">
-                <div className="min-w-0">
-                  <h3 className="font-bold text-sm md:text-lg truncate">{shop.name}</h3>
-                  <p className="text-[10px] md:text-xs text-gray-500 uppercase truncate">{shop.type}</p>
-                </div>
+            return (
+              <Link
+                href={`/restaurant/${shop.id}`}
+                key={shop.id}
+                className={`group flex-[0_0_44%] sm:flex-[0_0_36%] md:flex-[0_0_30%] lg:flex-[0_0_23%] snap-start bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all duration-300 overflow-hidden ${!isOpen ? "opacity-80" : ""}`}
+              >
+                <FeaturedCover shop={shop} isOpen={isOpen} />
 
-                {typeof shop.rating === "number" && (
-                  <span className="shrink-0 flex items-center gap-1 text-xs font-bold text-gray-700 bg-gray-50 px-2 py-1 rounded-full">
-                    <Star size={12} className="fill-yellow-400 text-yellow-400" />
-                    {shop.rating.toFixed(1)}
+                <div className="p-3">
+                  <h3 className="font-bold text-sm md:text-base truncate text-gray-900">{shop.name}</h3>
+                  <p className="text-[10px] md:text-xs text-gray-500 uppercase truncate mb-1.5">{shop.type}</p>
+
+                  <div className="flex items-center justify-between gap-2 text-[11px] text-gray-500">
+                    <span className="flex items-center gap-1">
+                      <Clock size={11} />
+                      {isOpen ? "Open now" : `Opens ${formatOpenTime(shop.openTime)}`}
+                    </span>
                     {typeof shop.reviews === "number" && (
-                      <span className="text-gray-400 font-medium">({shop.reviews})</span>
+                      <span className="text-gray-400">({shop.reviews} reviews)</span>
                     )}
-                  </span>
-                )}
-              </div>
-            </Link>
-          ))}
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import CartValidator from "@/components/CartValidator"; // TODO: adjust import path to wherever you save CartValidator.tsx
 
 const inter = Inter({
   subsets: ["latin"],
@@ -131,7 +132,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <body className={`${inter.className} antialiased`}>
+        <CartValidator />
+        {children}
+      </body>
     </html>
   );
 }
