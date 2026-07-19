@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
-import CartValidator from "@/components/CartValidator"; // TODO: adjust import path to wherever you save CartValidator.tsx
+import CartValidator from "@/components/CartValidator";
+import RouteProgress from "@/components/RouteLoader";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -133,6 +135,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} antialiased`}>
+        <Suspense fallback={null}>
+          <RouteProgress />
+        </Suspense>
         <CartValidator />
         {children}
       </body>
