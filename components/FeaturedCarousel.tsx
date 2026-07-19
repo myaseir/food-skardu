@@ -81,21 +81,27 @@ export default function FeaturedCarousel() {
               <Link
                 href={`/restaurant/${shop.id}`}
                 key={shop.id}
-                className={`group flex-[0_0_44%] sm:flex-[0_0_36%] md:flex-[0_0_30%] lg:flex-[0_0_23%] snap-start bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all duration-300 overflow-hidden ${!isOpen ? "opacity-80" : ""}`}
+                className={`group flex-[0_0_48%] sm:flex-[0_0_38%] md:flex-[0_0_30%] lg:flex-[0_0_23%] snap-start bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all duration-300 overflow-hidden ${!isOpen ? "opacity-80" : ""}`}
               >
                 <FeaturedCover shop={shop} isOpen={isOpen} />
 
                 <div className="p-3">
-                  <h3 className="font-bold text-sm md:text-base truncate text-gray-900">{shop.name}</h3>
+                  <h3 className="font-bold text-base truncate text-gray-900">{shop.name}</h3>
                   <p className="text-[10px] md:text-xs text-gray-500 uppercase truncate mb-1.5">{shop.type}</p>
 
-                  <div className="flex items-center justify-between gap-2 text-[11px] text-gray-500">
-                    <span className="flex items-center gap-1">
-                      <Clock size={11} />
-                      {isOpen ? "Open now" : `Opens ${formatOpenTime(shop.openTime)}`}
+                  <div className="flex items-center justify-between gap-1.5 text-[9px] whitespace-nowrap">
+                    <span className="flex items-center gap-0.5 text-gray-500 min-w-0 truncate">
+                      <Clock size={10} className="shrink-0" />
+                      <span className="truncate">{isOpen ? "Open now" : `Opens ${formatOpenTime(shop.openTime)}`}</span>
                     </span>
-                    {typeof shop.reviews === "number" && (
-                      <span className="text-gray-400">({shop.reviews} reviews)</span>
+                    {typeof shop.rating === "number" && (
+                      <span className="flex items-center gap-0.5 shrink-0">
+                        <Star size={10} className="fill-yellow-400 text-yellow-400 shrink-0" />
+                        <span className="font-bold text-gray-800">{shop.rating.toFixed(1)}</span>
+                        {typeof shop.reviews === "number" && (
+                          <span className="text-gray-400">({shop.reviews})</span>
+                        )}
+                      </span>
                     )}
                   </div>
                 </div>
