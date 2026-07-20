@@ -1,8 +1,11 @@
+"use client";
+import { useState } from "react";
 import { shops, Shop } from "@/data/config";
 import Link from "next/link";
 import Image from "next/image";
 import ShopStatusBadge from "./ShopStatusBadge";
-import { Star } from "lucide-react";
+import { Star, Clock } from "lucide-react";
+import { estimateDeliveryTime } from "@/utils/deliveryCalculator";
 
 // ---- Open/close time helper text ----
 function parseTimeToMinutes(time: string): number {
@@ -41,63 +44,91 @@ function getOpenStatusText(shop: Shop): string | null {
     : `Opens at ${formatTime(shop.openTime)}`;
 }
 
+// Safe logo — falls back to an initial instead of crashing on a missing
+// or broken image (e.g. shops with logo: "" like new restaurants that
+// haven't had a logo added yet).
+function ShopLogo({ shop }: { shop: Shop }) {
+  const [imgError, setImgError] = useState(false);
+  const hasLogo = !!shop.logo && !imgError;
+
+  return (
+    <div className="relative w-20 h-20 flex-shrink-0 rounded-2xl overflow-hidden bg-gray-50 border border-gray-50 shadow-sm flex items-center justify-center">
+      {hasLogo ? (
+        <Image
+          src={shop.logo}
+          alt={shop.name}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover"
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        <span className="text-xl font-black text-gray-300">
+          {shop.name.charAt(0)}
+        </span>
+      )}
+    </div>
+  );
+}
+
 export default function RestaurantList() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-      {shops.map((shop) => {
-        const statusText = getOpenStatusText(shop);
+      {shops
+        .filter((shop) => shop.type === "restaurant")
+        .map((shop) => {
+          const statusText = getOpenStatusText(shop);
+          const deliveryTime = estimateDeliveryTime(shop);
 
-        return (
-          <Link
-            key={shop.id}
-            href={`/restaurant/${shop.id}`}
-            className="p-6 border border-gray-100 rounded-3xl hover:border-purple-600 transition-all shadow-sm hover:shadow-lg flex items-center gap-5"
-          >
-            {/* Logo Section */}
-            <div className="relative w-20 h-20 flex-shrink-0">
-              <Image
-                src={shop.logo}
-                alt={shop.name}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover rounded-2xl shadow-sm border border-gray-50"
-              />
-            </div>
+          return (
+            <Link
+              key={shop.id}
+              href={`/restaurant/${shop.id}`}
+              className="p-6 border border-gray-100 rounded-3xl hover:border-purple-600 transition-all shadow-sm hover:shadow-lg flex items-center gap-5"
+            >
+              {/* Logo Section */}
+              <ShopLogo shop={shop} />
 
-            {/* Info Section */}
-            <div className="flex-grow">
-              <div className="flex justify-between items-start mb-1">
-                <h3 className="text-xl font-black uppercase tracking-tighter">
-                  {shop.name}
-                </h3>
-              </div>
+              {/* Info Section */}
+              <div className="flex-grow">
+                <div className="flex justify-between items-start mb-1">
+                  <h3 className="text-xl font-black uppercase tracking-tighter">
+                    {shop.name}
+                  </h3>
+                </div>
 
-              <div className="mb-2 flex items-center gap-2 flex-wrap">
-                <ShopStatusBadge shop={shop} />
+                <div className="mb-2 flex items-center gap-2 flex-wrap">
+                  <ShopStatusBadge shop={shop} />
 
-                {/* Manually set rating, Foodpanda-style */}
-                <span className="flex items-center gap-1 text-xs font-bold text-gray-700 bg-gray-50 px-2 py-0.5 rounded-full">
-                  <Star size={12} className="fill-yellow-400 text-yellow-400" />
-                  {shop.rating.toFixed(1)}
-                  <span className="text-gray-400 font-medium">
-                    ({shop.reviews})
+                  {/* Manually set rating, Foodpanda-style */}
+                  <span className="flex items-center gap-1 text-xs font-bold text-gray-700 bg-gray-50 px-2 py-0.5 rounded-full">
+                    <Star size={12} className="fill-yellow-400 text-yellow-400" />
+                    {shop.rating.toFixed(1)}
+                    <span className="text-gray-400 font-medium">
+                      ({shop.reviews})
+                    </span>
                   </span>
-                </span>
-              </div>
 
-              <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">
-                {shop.type === "restaurant" ? "Food & Beverages" : "General Store"}
-              </p>
+                  {/* Estimated delivery time, Foodpanda-style */}
+                  <span className="flex items-center gap-1 text-xs font-bold text-gray-700 bg-gray-50 px-2 py-0.5 rounded-full">
+                    <Clock size={12} className="text-purple-600" />
+                    {deliveryTime.label}
+                  </span>
+                </div>
 
-              {statusText && (
-                <p className="text-[11px] font-semibold text-gray-500">
-                  {statusText}
+                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">
+                  {shop.type === "restaurant" ? "Food & Beverages" : "General Store"}
                 </p>
-              )}
-            </div>
-          </Link>
-        );
-      })}
+
+                {statusText && (
+                  <p className="text-[11px] font-semibold text-gray-500">
+                    {statusText}
+                  </p>
+                )}
+              </div>
+            </Link>
+          );
+        })}
     </div>
   );
 }

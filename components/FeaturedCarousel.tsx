@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Star, Clock } from 'lucide-react';
 import { shops, Shop } from "@/data/config";
 import { useAvailability } from "@/hooks/useAvailability";
+import { estimateDeliveryTime } from "@/utils/deliveryCalculator";
 
 // Add/remove shop ids here to control what shows in the carousel
 const FEATURED_SHOP_IDS = ["yak-and-bull", "the-kitchen-skardu", "pizza-king", "sungum-hotel-restaurant", "dominos-skardu", "yak-grill-skardu", "skyway-pizza"];
@@ -76,6 +77,7 @@ export default function FeaturedCarousel() {
         <div className="flex gap-4 px-6 snap-x snap-mandatory">
           {featuredShops.map((shop) => {
             const isOpen = checkShopStatus(shop);
+            const deliveryTime = estimateDeliveryTime(shop);
 
             return (
               <Link
@@ -92,7 +94,9 @@ export default function FeaturedCarousel() {
                   <div className="flex items-center justify-between gap-1.5 text-[9px] whitespace-nowrap">
                     <span className="flex items-center gap-0.5 text-gray-500 min-w-0 truncate">
                       <Clock size={10} className="shrink-0" />
-                      <span className="truncate">{isOpen ? "Open now" : `Opens ${formatOpenTime(shop.openTime)}`}</span>
+                      <span className="truncate">
+                        {isOpen ? deliveryTime.label : `Opens ${formatOpenTime(shop.openTime)}`}
+                      </span>
                     </span>
                     {typeof shop.rating === "number" && (
                       <span className="flex items-center gap-0.5 shrink-0">
