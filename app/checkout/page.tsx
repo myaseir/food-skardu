@@ -83,6 +83,7 @@ export default function CheckoutPage() {
     const templateParams = {
       user_name: name,
       user_phone: phone,
+      restaurant_name: currentShop?.name || "N/A",
       address: finalAddress,
       order_items: detailedItems,
       subtotal: subtotal,
@@ -136,7 +137,7 @@ export default function CheckoutPage() {
           <CheckCircle2 size={64} className="text-purple-600 mb-4 sm:mb-6 sm:w-20 sm:h-20" />
           <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-2">Order Confirmed!</h1>
           <p className="text-gray-500 font-bold mb-5 text-sm sm:text-base">
-            Your order is cooking. Thank you for choosing Food Skardu.
+            Your order is cooking. Thank you for choosing Meal Bear Skardu.
           </p>
 
           <div className="w-full flex items-center gap-3 bg-purple-50 border border-purple-100 rounded-2xl p-4 mb-8 text-left">
@@ -305,6 +306,12 @@ export default function CheckoutPage() {
               Order Summary
             </h2>
 
+            {currentShop && (
+              <p className="text-[11px] font-black uppercase tracking-widest text-purple-600 mb-4 -mt-1">
+                {currentShop.name}
+              </p>
+            )}
+
             <div className="space-y-2.5 mb-5 max-h-64 overflow-y-auto pr-1">
               {items.map((item: any, idx: number) => (
                 <div
@@ -361,15 +368,16 @@ export default function CheckoutPage() {
           onClick={() => setShowMobileSummary((v) => !v)}
           className="w-full flex items-center justify-between px-5 py-3"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 min-w-0">
             <Receipt size={15} className="text-purple-600 shrink-0" />
-            <span className="text-[11px] font-black uppercase tracking-widest text-gray-500">
+            <span className="text-[11px] font-black uppercase tracking-widest text-gray-500 truncate">
+              {currentShop ? `${currentShop.name} · ` : ""}
               {items.reduce((s: number, i: any) => s + (i.quantity || 1), 0)} items
             </span>
           </div>
           <ChevronDown
             size={16}
-            className={`text-gray-400 transition-transform ${showMobileSummary ? "rotate-180" : ""}`}
+            className={`text-gray-400 transition-transform shrink-0 ${showMobileSummary ? "rotate-180" : ""}`}
           />
         </button>
 
