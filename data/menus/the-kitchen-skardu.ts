@@ -53,15 +53,16 @@ export const menu = {
       items: [
         {
           id: "dr-1",
-          name: "Soft Drink 500ml",
+          name: "Soft Drink 345ml",
           price: 150,
           discountPrice: 150,
-          desc: "Chilled soft drink, 500ml",
+          desc: "Chilled soft drink, 345ml",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3srEYmAd48bCUjjnNHPvz5iHdIlpqILtLDtfZ9wOGa8kGH9MaAAnrNowp&s=10",
           variants: [
-            { name: "Pepsi", price: 150, discountPrice: 150 },
-            { name: "7Up", price: 150, discountPrice: 150 },
-            { name: "Mountain Dew", price: 150, discountPrice: 150 }
+            { name: "Pepsi", price: 100, discountPrice: 100 },
+            { name: "7Up", price: 100, discountPrice: 100 },
+            { name: "Mountain Dew", price: 100, discountPrice: 100 },
+            { name: "Coke", price: 100, discountPrice: 100 }
           ]
         },
         {

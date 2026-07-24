@@ -72,15 +72,38 @@ export const menu = {
     //     { id: "pk-sp-4", name: "Chicken Veg Soup", price: 290, desc: "Fresh, healthy vegetable medley", image: "", variants: [] }
     //   ]
     // },
-    {
-      name: "Drinks & Desserts",
+     {
+      name: "Drinks & Beverages",
       items: [
-        { id: "pk-dd-1", name: "Ice Cream", price: 150, desc: "Cool velvety scoop… Single Flavor", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBCcPw0f9gTordb4EQYurqJV4ShXyIIKrpa1s_m6a8IQ&s=10", variants: [] },
-        { id: "pk-dd-2", name: "Drink (1.5 Ltr)", price: 150, desc: "Chilled, refreshing fizzy Drink.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYnOaFZwYu0XL9LsXvb-1A1lSMUJAb-4F9Exmz8V7vgg&s=10", variants: [] },
-        { id: "pk-dd-3", name: "Drink (500 ml)", price: 150, desc: "Chilled, refreshing fizzy Drink.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpRFQEyUYT1bF_phn_E-vZilzxsAguqGyuJQceOFj6aQ&s=10", variants: [] },
-        { id: "pk-dd-4", name: "Can", price: 150, desc: "Cold, crisp refreshing can", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM_SjBNHUqOCoZxTEe0iPEnO2WV-dwrTYCttyHt9Q03A&s=10", variants: [] },
-        { id: "dr-20", name: "Pepsi Large", price: 200, desc: "Cold drink", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY42c-k_y2xZv8KJli_dSQ797LXz6v-xyfeQIWi6-dyQ&s", variants: [] },
-        { id: "dr-21", name: "Water (Small)", price: 60, desc: "Clean drinking water", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVPGdBiKSvj8WyZKo-2e4V5R0-DhY5uo5VfTCQgrrtuw&s=10", variants: [] }
+        {
+          id: "dr-1",
+          name: "Soft Drink 345ml",
+          price: 150,
+          discountPrice: 150,
+          desc: "Chilled soft drink, 345ml",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3srEYmAd48bCUjjnNHPvz5iHdIlpqILtLDtfZ9wOGa8kGH9MaAAnrNowp&s=10",
+          variants: [
+            { name: "Pepsi", price: 100, discountPrice: 100 },
+            { name: "7Up", price: 100, discountPrice: 100 },
+            { name: "Mountain Dew", price: 100, discountPrice: 100 },
+            { name: "Coke", price: 100, discountPrice: 100 }
+          ]
+        },
+        {
+          id: "dr-1b",
+          name: "Soft Drink 1.5 Ltr",
+          price: 280, // TODO: 1.5L prices not confirmed — please provide actual values
+          discountPrice: 280,
+          desc: "Chilled soft drink, 1.5 litre",
+          image: "https://static.tossdown.com/images/9cf67798-83cc-47e9-8b68-018a5b051325.webp",
+          variants: [
+            { name: "Pepsi", price: 280, discountPrice: 280 },
+            { name: "7Up", price: 280, discountPrice: 280 },
+            { name: "Mountain Dew", price: 280, discountPrice: 280 }
+          ]
+        },
+        { id: "dr-4", name: "Mineral Water (Large)", price: 100, discountPrice: 100, desc: "Pure mountain water", image: "https://static.tossdown.com/images/e747f555-54b7-4e81-b017-306abce84ba2.jpg", variants: [] },
+        { id: "dr-5", name: "Sting Energy", price: 200, discountPrice: 200, desc: "Boost your energy", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbiZo_-FAlUMhL1lwWz7jwzSn6o82u-_I6TMf12A9byjJfHV1-pXpty65-&s=10", variants: [] }
       ]
     }
   ]
