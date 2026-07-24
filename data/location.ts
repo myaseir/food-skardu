@@ -82,10 +82,10 @@ export const SKARDU_HOTELS: Record<string, { lat: number; lng: number }> = {
   "GB Lodges": { lat: 35.328043, lng: 75.529147 },
   "Bilafond Cottage": { lat: 35.315943, lng: 75.693780 },
   "Pinnacle Executive Lodges": { lat: 35.333767, lng: 75.526399 },
-  "Broq Resort, HussainAbad Nala": { lat: 35.280634, lng: 75.705931 },
+  // "Broq Resort, HussainAbad Nala": { lat: 35.280634, lng: 75.705931 },
   "Safena Hotel Skardu": { lat: 35.353392, lng: 75.510445 },
-  "Khoj Resorts Shigar": { lat: 35.3702394, lng: 75.7385099 },
-  "Dera Lamsa Resort, Shigar": { lat: 35.3738208, lng: 75.7439149 },
+  // "Khoj Resorts Shigar": { lat: 35.3702394, lng: 75.7385099 },
+  // "Dera Lamsa Resort, Shigar": { lat: 35.3738208, lng: 75.7439149 },
  
   "Byarsa Hotel Skardu": { lat: 35.420028, lng: 75.463517 },
   "Dream Nest Resort Hotels Skardu": { lat: 35.404635, lng: 75.443454 },
@@ -132,11 +132,11 @@ export const SKARDU_AREAS: Record<string, { lat: number; lng: number }> = {
   "Jafferi Mohallah": { lat: 35.302586, lng: 75.6294966 },
   "Chogo Matamsara": { lat: 35.3019392, lng: 75.6350404 },
   "Nagulispang Road": { lat: 35.2916037, lng: 75.6315213 },
-  Aliabad: { lat: 35.284291, lng: 75.637408 },
-  Gayool: { lat: 35.2737, lng: 75.5669 },
-  Patwal: { lat: 35.222, lng: 75.7603 },
-  Olding: { lat: 35.28, lng: 75.7417 },
-  Karasmathang: { lat: 35.290425, lng: 75.650962 },
+  
+  // Gayool: { lat: 35.2737, lng: 75.5669 },
+  Patwal: { lat: 35.288269, lng: 75.647929 },
+  Olding: { lat: 35.280321, lng: 75.652694 },
+  Karasmathang: { lat: 35.290438, lng: 75.650253 },
   
   Kachura: { lat: 35.434870, lng: 75.4501409 },
 };
