@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, ShoppingCart, Utensils, ShoppingBasket } from "lucide-react";
+import { Menu, X, ShoppingCart, Utensils, ShoppingBasket, Truck } from "lucide-react";
 import { useCart } from "@/store/useCart"; // Import the cart store
 import Image from "next/image";
 interface NavbarProps {
@@ -57,6 +57,14 @@ export default function Navbar({ onFoodClick, onMartClick, onCartClick, currentV
           >
             <ShoppingBasket size={16} /> Mart
           </button>
+
+          {/* Ride & Parcel — routes to its own page */}
+          <Link 
+            href="/ride-parcel"
+            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-600 hover:text-purple-600 transition-colors"
+          >
+            <Truck size={16} /> Ride & Parcel
+          </Link>
 
           {/* Cart Button with Notification Badge */}
           <button 

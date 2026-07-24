@@ -194,77 +194,77 @@ export const menu = {
         }
       ]
     },
-    {
-      name: "Chinese Main Course",
-      items: [
-        { 
-          id: "cmc-1", 
-          name: "Special Chowmain", 
-          price: 600, 
-          desc: "House special noodles", 
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6aVmdbLipf1T8-fmO86i36wMwdNqc-FYVc18qq5oWMgXFbTRGqg__-BA&s=10", 
-          variants: [
-            { name: "Half", price: 600 },
-            { name: "Full", price: 1100 }
-          ] 
-        },
-        { 
-          id: "cmc-2", 
-          name: "Chicken Chowmain", 
-          price: 550, 
-          desc: "Stir-fried chicken noodles", 
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLlG1uL4S8TW61nvfqXebYMErjPvAsNX5i8BSRnO8NE7aZjRq5wRLNSbE&s=10", 
-          variants: [
-            { name: "Half", price: 550 },
-            { name: "Full", price: 1050 }
-          ] 
-        },
-        { 
-          id: "cmc-3", 
-          name: "Vegetable Chowmain", 
-          price: 500, 
-          desc: "Fresh vegetable noodles", 
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyviH-k_Fvuh_hEo3sr7qZROJxkeXvm19SZP7MhY_4Dw&s=10", 
-          variants: [
-            { name: "Half", price: 500 },
-            { name: "Full", price: 1000 }
-          ] 
-        },
-        { 
-          id: "cmc-4", 
-          name: "Chicken Alfredo Pasta", 
-          price: 750, 
-          desc: "Creamy white sauce pasta", 
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx2QvF3l_lfSVNufeEEMyQi59ddv3zuBtrp0Nt2giXbA&s=10", 
-          variants: [
-            { name: "Half", price: 750 },
-            { name: "Full", price: 1300 }
-          ] 
-        },
-        { 
-          id: "cmc-5", 
-          name: "Chilli Dry with Rice", 
-          price: 900, 
-          desc: "Spicy chicken with rice", 
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVnf9nPiz_AAZmzq6nJyO0dYxF1s6GEDssqMRyj4UQLA&s=10", 
-          variants: [
-            { name: "Half", price: 900 },
-            { name: "Full", price: 1700 }
-          ] 
-        },
-        { 
-          id: "cmc-6", 
-          name: "Manchurian with Rice", 
-          price: 800, 
-          desc: "Classic Manchurian chicken", 
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkHAAIwQVaUe3RacDra-Wl74gXj4TArywGxGKApep6MQ&s=10", 
-          variants: [
-            { name: "Half", price: 800 },
-            { name: "Full", price: 1500 }
-          ] 
-        }
-      ]
-    },
+    // {
+    //   name: "Chinese Main Course",
+    //   items: [
+    //     { 
+    //       id: "cmc-1", 
+    //       name: "Special Chowmain", 
+    //       price: 600, 
+    //       desc: "House special noodles", 
+    //       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6aVmdbLipf1T8-fmO86i36wMwdNqc-FYVc18qq5oWMgXFbTRGqg__-BA&s=10", 
+    //       variants: [
+    //         { name: "Half", price: 600 },
+    //         { name: "Full", price: 1100 }
+    //       ] 
+    //     },
+    //     { 
+    //       id: "cmc-2", 
+    //       name: "Chicken Chowmain", 
+    //       price: 550, 
+    //       desc: "Stir-fried chicken noodles", 
+    //       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLlG1uL4S8TW61nvfqXebYMErjPvAsNX5i8BSRnO8NE7aZjRq5wRLNSbE&s=10", 
+    //       variants: [
+    //         { name: "Half", price: 550 },
+    //         { name: "Full", price: 1050 }
+    //       ] 
+    //     },
+    //     { 
+    //       id: "cmc-3", 
+    //       name: "Vegetable Chowmain", 
+    //       price: 500, 
+    //       desc: "Fresh vegetable noodles", 
+    //       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyviH-k_Fvuh_hEo3sr7qZROJxkeXvm19SZP7MhY_4Dw&s=10", 
+    //       variants: [
+    //         { name: "Half", price: 500 },
+    //         { name: "Full", price: 1000 }
+    //       ] 
+    //     },
+    //     { 
+    //       id: "cmc-4", 
+    //       name: "Chicken Alfredo Pasta", 
+    //       price: 750, 
+    //       desc: "Creamy white sauce pasta", 
+    //       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx2QvF3l_lfSVNufeEEMyQi59ddv3zuBtrp0Nt2giXbA&s=10", 
+    //       variants: [
+    //         { name: "Half", price: 750 },
+    //         { name: "Full", price: 1300 }
+    //       ] 
+    //     },
+    //     { 
+    //       id: "cmc-5", 
+    //       name: "Chilli Dry with Rice", 
+    //       price: 900, 
+    //       desc: "Spicy chicken with rice", 
+    //       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVnf9nPiz_AAZmzq6nJyO0dYxF1s6GEDssqMRyj4UQLA&s=10", 
+    //       variants: [
+    //         { name: "Half", price: 900 },
+    //         { name: "Full", price: 1700 }
+    //       ] 
+    //     },
+    //     { 
+    //       id: "cmc-6", 
+    //       name: "Manchurian with Rice", 
+    //       price: 800, 
+    //       desc: "Classic Manchurian chicken", 
+    //       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkHAAIwQVaUe3RacDra-Wl74gXj4TArywGxGKApep6MQ&s=10", 
+    //       variants: [
+    //         { name: "Half", price: 800 },
+    //         { name: "Full", price: 1500 }
+    //       ] 
+    //     }
+    //   ]
+    // },
     {
       name: "Appetizer",
       items: [

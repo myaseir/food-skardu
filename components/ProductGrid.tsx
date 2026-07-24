@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { products } from "../data/products";
 import { useAvailability } from "../hooks/useAvailability";
 import ProductCard from "./ProductCard";
@@ -8,10 +8,10 @@ import ProductCard from "./ProductCard";
 export const MART_CATEGORIES = [
   "All",
   "Fresh Produce",
-  "Meat & Seafood",
+  "Meat",
   "Dairy & Eggs",
   "Bakery & Breakfast",
-  "Groceries & Staples",
+  "Groceries",
   "Snacks & Chips",
   "Sweets & Chocolates",
   "Cold Beverages",
@@ -28,7 +28,7 @@ export const MART_CATEGORIES = [
 // Fully isolated from data/config.ts and the restaurant shops array.
 // Change these two values any time to adjust mart hours.
 const MART_OPEN_HOUR = 8;  // 8 AM
-const MART_CLOSE_HOUR = 9; // 5 PM
+const MART_CLOSE_HOUR = 18; // 6 PM
 
 function getMartStatus() {
   const now = new Date();
@@ -55,6 +55,29 @@ export default function ProductGrid() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [search, setSearch] = useState("");
   const { isCategoryAvailable } = useAvailability();
+  const categoryScrollRef = useRef<HTMLDivElement>(null);
+
+  // Let a normal mouse wheel scroll the category bar horizontally.
+  // Mice only send vertical wheel deltas, so without this, desktop
+  // users with no trackpad/touchscreen have no way to move the bar.
+  useEffect(() => {
+    const el = categoryScrollRef.current;
+    if (!el) return;
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+      }
+    };
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => el.removeEventListener("wheel", handleWheel);
+  }, []);
+
+  const scrollCategories = (direction: "left" | "right") => {
+    const el = categoryScrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: direction === "left" ? -240 : 240, behavior: "smooth" });
+  };
 
   // Re-check every minute so the grid auto-closes/opens without a page refresh
   const [martStatus, setMartStatus] = useState(getMartStatus());
@@ -104,20 +127,49 @@ export default function ProductGrid() {
 
       {/* Panda Mart Style Category Slider */}
       <div className="sticky top-[72px] z-40 bg-white/95 backdrop-blur-md py-4 border-b border-gray-100 mb-8">
-        <div className="flex overflow-x-auto gap-3 px-6 no-scrollbar pb-2">
-          {MART_CATEGORIES.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`shrink-0 px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-200 ease-in-out ${
-                selectedCategory === category
-                  ? "bg-purple-600 text-white shadow-md transform scale-105"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
+        <div className="relative group">
+          {/* Left arrow - desktop only, mouse users need a click target since a mouse wheel can't swipe */}
+          <button
+            type="button"
+            onClick={() => scrollCategories("left")}
+            aria-label="Scroll categories left"
+            className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 items-center justify-center w-8 h-8 rounded-full bg-white shadow-md border border-gray-200 text-gray-600 hover:bg-gray-50 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          <div
+            ref={categoryScrollRef}
+            className="flex overflow-x-auto gap-3 px-6 no-scrollbar pb-2 scroll-smooth cursor-grab active:cursor-grabbing"
+          >
+            {MART_CATEGORIES.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`shrink-0 px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-200 ease-in-out ${
+                  selectedCategory === category
+                    ? "bg-purple-600 text-white shadow-md transform scale-105"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          {/* Right arrow - desktop only */}
+          <button
+            type="button"
+            onClick={() => scrollCategories("right")}
+            aria-label="Scroll categories right"
+            className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 items-center justify-center w-8 h-8 rounded-full bg-white shadow-md border border-gray-200 text-gray-600 hover:bg-gray-50 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </div>
 

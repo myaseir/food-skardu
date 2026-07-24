@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import { Utensils, ShoppingBasket, Truck, ShoppingCart } from "lucide-react";
 import { useCart } from "@/store/useCart"; // 1. Import the cart store
 
@@ -20,12 +21,20 @@ export default function MobileNav({ onFoodClick, onMartClick, onCartClick }: Mob
       {/* Pass the specific click handlers to each button */}
       <NavButton icon={<Utensils size={20} />} label="Food" onClick={onFoodClick} />
       <NavButton icon={<ShoppingBasket size={20} />} label="Mart" onClick={onMartClick} />
-      <NavButton icon={<Truck size={20} />} label="Courier" /> 
-      
+
+      {/* Ride & Parcel now routes to its own page */}
+      <Link
+        href="/ride-parcel"
+        className="flex flex-col items-center justify-center py-4 gap-1 text-[10px] font-black uppercase text-gray-500 hover:text-purple-600 transition-all active:scale-95"
+      >
+        <Truck size={20} />
+        Ride & Parcel
+      </Link>
+
       {/* 3. Assign the onCartClick event and add the Notification Badge */}
       <button 
         onClick={onCartClick} 
-        className="flex flex-col items-center justify-center py-4 gap-1 text-[10px] font-black uppercase text-gray-400 hover:text-purple-600 transition-all active:scale-95"
+        className="flex flex-col items-center justify-center py-4 gap-1 text-[10px] font-black uppercase text-gray-500 hover:text-purple-600 transition-all active:scale-95"
       >
         <div className="relative">
           <ShoppingCart size={20} />
@@ -55,7 +64,7 @@ function NavButton({
   return (
     <button 
       onClick={onClick}
-      className="flex flex-col items-center justify-center py-4 gap-1 text-[10px] font-black uppercase text-gray-400 hover:text-purple-600 transition-all active:scale-95"
+      className="flex flex-col items-center justify-center py-4 gap-1 text-[10px] font-black uppercase text-gray-500 hover:text-purple-600 transition-all active:scale-95"
     >
       {icon}
       {label}
