@@ -46,6 +46,7 @@ type BookingSummary = {
   dropoffAddress: string;
   price: number | null;
   distanceKm: number | null;
+  riderPhone: string;
   senderPhone: string;
   receiverPhone: string;
 };
@@ -212,6 +213,8 @@ export default function RideParcelForm() {
     setDropoffArea("");
   }
 
+  // Ride mode needs a single contact number; courier keeps sender + receiver.
+  const [riderPhone, setRiderPhone] = useState("");
   const [senderPhone, setSenderPhone] = useState("");
   const [receiverPhone, setReceiverPhone] = useState("");
 
@@ -238,12 +241,16 @@ export default function RideParcelForm() {
       : calculateParcelFare(pickupArea, dropoffArea);
   }, [mode, pickupArea, dropoffArea]);
 
-  const canSubmit =
+  // The exact house/street address is a nice-to-have, not a requirement —
+  // the rider can always call to pin down the exact spot. Only the area
+  // (which drives pricing) and a phone number are mandatory.
+  const canSubmit = Boolean(
     pickupArea &&
-    pickupAddress.trim() &&
-    dropoffArea &&
-    dropoffAddress.trim() &&
-    (mode === "ride" || (senderPhone.trim() && receiverPhone.trim()));
+      dropoffArea &&
+      (mode === "ride"
+        ? riderPhone.trim()
+        : senderPhone.trim() && receiverPhone.trim())
+  );
 
   async function handleSubmit() {
     if (!canSubmit || status === "sending") return;
@@ -253,11 +260,12 @@ export default function RideParcelForm() {
     const templateParams = {
       mode: mode === "ride" ? "Ride" : "Courier",
       pickup_area: pickupArea,
-      pickup_address: pickupAddress,
+      pickup_address: pickupAddress.trim() || "Not provided",
       dropoff_area: dropoffArea,
-      dropoff_address: dropoffAddress,
+      dropoff_address: dropoffAddress.trim() || "Not provided",
       distance_km: distanceKm !== null ? distanceKm.toFixed(1) : "",
       price: price !== null && price > 0 ? `Rs. ${price}` : "On request",
+      rider_phone: mode === "ride" ? riderPhone : "",
       sender_phone: mode === "parcel" ? senderPhone : "",
       receiver_phone: mode === "parcel" ? receiverPhone : "",
       time: new Date().toLocaleString(),
@@ -281,6 +289,7 @@ export default function RideParcelForm() {
         dropoffAddress,
         price,
         distanceKm,
+        riderPhone,
         senderPhone,
         receiverPhone,
       });
@@ -289,6 +298,7 @@ export default function RideParcelForm() {
       setPickupAddress("");
       setDropoffArea("");
       setDropoffAddress("");
+      setRiderPhone("");
       setSenderPhone("");
       setReceiverPhone("");
     } catch (err) {
@@ -321,6 +331,7 @@ export default function RideParcelForm() {
       dropoffAddress: bookedDropoffAddress,
       price: bookedPrice,
       distanceKm: bookedDistanceKm,
+      riderPhone: bookedRiderPhone,
       senderPhone: bookedSenderPhone,
       receiverPhone: bookedReceiverPhone,
     } = confirmedBooking;
@@ -365,7 +376,9 @@ export default function RideParcelForm() {
                   <div className="text-sm font-semibold text-gray-900 truncate">
                     {bookedPickupArea}
                   </div>
-                  <div className="text-xs text-gray-500 truncate">{bookedPickupAddress}</div>
+                  {bookedPickupAddress.trim() && (
+                    <div className="text-xs text-gray-500 truncate">{bookedPickupAddress}</div>
+                  )}
                 </div>
                 <div className="min-w-0">
                   <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
@@ -374,10 +387,23 @@ export default function RideParcelForm() {
                   <div className="text-sm font-semibold text-gray-900 truncate">
                     {bookedDropoffArea}
                   </div>
-                  <div className="text-xs text-gray-500 truncate">{bookedDropoffAddress}</div>
+                  {bookedDropoffAddress.trim() && (
+                    <div className="text-xs text-gray-500 truncate">{bookedDropoffAddress}</div>
+                  )}
                 </div>
               </div>
             </div>
+
+            {bookedMode === "ride" && (
+              <div className="mt-4 rounded-xl bg-gray-50 p-3 min-w-0">
+                <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                  Your Phone
+                </div>
+                <div className="text-sm font-semibold text-gray-900 truncate">
+                  {bookedRiderPhone}
+                </div>
+              </div>
+            )}
 
             {bookedMode === "parcel" && (
               <div className="mt-4 grid grid-cols-2 gap-3">
@@ -487,7 +513,7 @@ export default function RideParcelForm() {
             <textarea
               value={pickupAddress}
               onChange={(e) => setPickupAddress(e.target.value)}
-              placeholder="House #, landmark, street..."
+              placeholder="House #, landmark, street... (optional)"
               className="w-full mt-1.5 text-sm text-gray-600 placeholder:text-gray-400 bg-gray-50 rounded-lg p-2.5 resize-none border border-transparent focus:border-purple-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 transition"
               rows={1}
             />
@@ -515,13 +541,29 @@ export default function RideParcelForm() {
             <textarea
               value={dropoffAddress}
               onChange={(e) => setDropoffAddress(e.target.value)}
-              placeholder="House #, landmark, street..."
+              placeholder="House #, landmark, street... (optional)"
               className="w-full mt-1.5 text-sm text-gray-600 placeholder:text-gray-400 bg-gray-50 rounded-lg p-2.5 resize-none border border-transparent focus:border-purple-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 transition"
               rows={1}
             />
           </div>
         </div>
       </div>
+
+      {/* Ride contact detail */}
+      {mode === "ride" && (
+        <div className="rounded-xl border border-gray-100 bg-white p-3 shadow-sm shadow-gray-200/60 mb-4 min-w-0">
+          <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
+            <Phone size={11} /> Your Phone
+          </label>
+          <input
+            type="tel"
+            value={riderPhone}
+            onChange={(e) => setRiderPhone(e.target.value)}
+            placeholder="03xx-xxxxxxx"
+            className="w-full min-w-0 mt-1 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
+          />
+        </div>
+      )}
 
       {/* Parcel contact details */}
       {mode === "parcel" && (
