@@ -119,7 +119,7 @@ export const shops: Shop[] = [
     type: "restaurant",
     openTime: "11:00",
     closeTime: "23:00",
-    alwaysOpen: true,
+    alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa8xtMwcGub4wGh9HgvVns3fAAIMH8V7a5rR3IzlQMijEyMbt9XXL4Rhrv&s=10",
     lat: 35.289174, // TODO: replace with real coordinates
     lng: 75.636453, // TODO: replace with real coordinates
