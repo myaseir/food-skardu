@@ -48,19 +48,7 @@ export const shops: Shop[] = [
     rating: 4.6,
     reviews: 185,
   },
-  {
-    id: "dominos-skardu",
-    name: "Domino's Pizza Skardu",
-    type: "restaurant",
-    openTime: "11:00",
-    closeTime: "01:00",
-    alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
-    lat: 35.302132, // TODO: replace with real coordinates
-    lng: 75.625344, // TODO: replace with real coordinates
-    rating: 4.5,          // adjust as needed
-    reviews: 46,
-  },
+
   {
     id: "the-kitchen-skardu",
     name: "The Kitchen",
@@ -138,6 +126,19 @@ export const shops: Shop[] = [
     lng: 75.643991, // TODO: replace with real coordinates
     rating: 4.2,
     reviews: 37,
+  },
+    {
+    id: "dominos-skardu",
+    name: "Domino's Pizza Skardu",
+    type: "restaurant",
+    openTime: "11:00",
+    closeTime: "01:00",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
+    lat: 35.302132, // TODO: replace with real coordinates
+    lng: 75.625344, // TODO: replace with real coordinates
+    rating: 4.5,          // adjust as needed
+    reviews: 46,
   },
   {
     id: "skyway-pizza",
