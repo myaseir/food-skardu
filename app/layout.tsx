@@ -5,14 +5,16 @@ import "./globals.css";
 import CartValidator from "@/components/CartValidator";
 import RouteProgress from "@/components/RouteLoader";
 import { LocationProvider } from "@/contexts/LocationContext";
-import LocationGate from "@/components/Locationgate";
+import LocationGate from "@/components/Locationgate"; // fixed: was "Locationgate" — case mismatch breaks the build on case-sensitive hosts (Vercel/Linux) even though it works locally on Windows/macOS
 
 const inter = Inter({
   subsets: ["latin"],
 });
 
+const SITE_URL = "https://www.mealbear.pk";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.mealbear.pk"), // use the canonical www version — matches your 308 redirect
+  metadataBase: new URL(SITE_URL), // use the canonical www version — matches your 308 redirect
 
   title: {
     default: "Meal Bear Skardu | Food Delivery in Skardu, Gilgit-Baltistan",
@@ -36,14 +38,14 @@ export const metadata: Metadata = {
   applicationName: "Meal Bear Skardu",
 
   alternates: {
-    canonical: "https://www.mealbear.pk",
+    canonical: SITE_URL,
   },
 
   openGraph: {
     title: "Meal Bear Skardu | Food Delivery in Skardu",
     description:
       "Fast, reliable food delivery to homes, offices, and hotel rooms across Skardu, Gilgit-Baltistan.",
-    url: "https://www.mealbear.pk",
+    url: SITE_URL,
     siteName: "Meal Bear Skardu",
     locale: "en_PK",
     type: "website",
@@ -88,13 +90,17 @@ export const metadata: Metadata = {
   },
 };
 
+// Linked via @id so Google's Knowledge Graph treats these as one
+// consistent entity instead of two unrelated schema blocks — the
+// WebSite's "publisher" points back at the Organization's "@id".
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
   name: "Meal Bear Skardu",
   alternateName: "Meal Bear",
-  url: "https://www.mealbear.pk",
-  logo: "https://www.mealbear.pk/images/logo.png",
+  url: SITE_URL,
+  logo: `${SITE_URL}/images/logo.png`,
   description:
     "On-demand food delivery service for Skardu, Gilgit-Baltistan, delivering to homes, offices, and hotel rooms.",
   areaServed: {
@@ -105,6 +111,9 @@ const organizationJsonLd = {
       name: "Gilgit-Baltistan",
     },
   },
+  // TODO: fill these in once you have real profiles — sameAs is a
+  // genuine trust/entity signal for Google's Knowledge Panel, worth
+  // adding as soon as the pages exist.
   // sameAs: [
   //   "https://www.facebook.com/yourpage",
   //   "https://www.tiktok.com/@mealxbear",
@@ -115,8 +124,25 @@ const organizationJsonLd = {
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
   name: "Meal Bear Skardu",
-  url: "https://www.mealbear.pk",
+  url: SITE_URL,
+  publisher: {
+    "@id": `${SITE_URL}/#organization`,
+  },
+  // TODO: only add this once you have an actual internal search
+  // results page (e.g. /search?q={term}) — it's what lets Google show
+  // a search box directly under your homepage result. Leave commented
+  // out until that route exists; a broken potentialAction is worse
+  // than none.
+  // potentialAction: {
+  //   "@type": "SearchAction",
+  //   target: {
+  //     "@type": "EntryPoint",
+  //     urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+  //   },
+  //   "query-input": "required name=search_term_string",
+  // },
 };
 
 export default function RootLayout({

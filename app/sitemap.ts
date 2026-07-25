@@ -47,12 +47,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const shopRoutes: MetadataRoute.Sitemap = shops
     .filter((shop) => shop.isActive !== false)
-    .map((shop) => ({
-      url: `${baseUrl}/${shop.type}/${shop.id}`,
-      lastModified,
-      changeFrequency: "daily",
-      priority: 0.8,
-    }));
+    .map(
+      (shop): MetadataRoute.Sitemap[number] => ({
+        url: `${baseUrl}/${shop.type}/${shop.id}`,
+        // Falls back to the build-time timestamp if the shop has no
+        // updatedAt field yet — swap in shop.updatedAt once your data
+        // source tracks per-shop edit times, so Google sees accurate
+        // "last modified" signals instead of every shop looking equally
+        // fresh on every deploy.
+        lastModified: (shop as { updatedAt?: string | Date }).updatedAt
+          ? new Date((shop as { updatedAt?: string | Date }).updatedAt!)
+          : lastModified,
+        changeFrequency: "daily",
+        priority: 0.8,
+      })
+    );
 
   return [...staticRoutes, ...shopRoutes];
 }

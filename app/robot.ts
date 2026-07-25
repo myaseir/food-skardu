@@ -1,55 +1,43 @@
 import { MetadataRoute } from "next";
 
-export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://www.mealbear.pk";
+const BASE_URL = "https://www.mealbear.pk";
 
+// Single source of truth for disallowed paths — every bot block below
+// pulls from this, so adding a new private route (e.g. a future
+// /account or /order-history page) only needs to be added once instead
+// of copy-pasted into 8 separate rule blocks.
+const DISALLOWED_PATHS = [
+  "/checkout",
+  "/_next/*",
+  "/api/*",
+  "/cart",
+];
+
+const AI_BOTS = [
+  "GPTBot", // OpenAI (ChatGPT)
+  "ChatGPT-User", // ChatGPT browsing/plugin fetches
+  "PerplexityBot", // Perplexity
+  "ClaudeBot", // Anthropic (Claude)
+  "anthropic-ai", // Anthropic (legacy tag, still seen)
+  "Google-Extended", // Google Gemini / AI Overviews training
+  "Applebot-Extended", // Apple Intelligence
+];
+
+export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: [
-          "/checkout",
-          "/_next/*",
-        ],
+        disallow: DISALLOWED_PATHS,
       },
-      {
-        userAgent: "GPTBot", // OpenAI (ChatGPT)
+      ...AI_BOTS.map((userAgent) => ({
+        userAgent,
         allow: "/",
-        disallow: ["/checkout"],
-      },
-      {
-        userAgent: "ChatGPT-User", // ChatGPT browsing/plugin fetches
-        allow: "/",
-        disallow: ["/checkout"],
-      },
-      {
-        userAgent: "PerplexityBot", // Perplexity
-        allow: "/",
-        disallow: ["/checkout"],
-      },
-      {
-        userAgent: "ClaudeBot", // Anthropic (Claude)
-        allow: "/",
-        disallow: ["/checkout"],
-      },
-      {
-        userAgent: "anthropic-ai", // Anthropic (legacy tag, still seen)
-        allow: "/",
-        disallow: ["/checkout"],
-      },
-      {
-        userAgent: "Google-Extended", // Google Gemini / AI Overviews training
-        allow: "/",
-        disallow: ["/checkout"],
-      },
-      {
-        userAgent: "Applebot-Extended", // Apple Intelligence
-        allow: "/",
-        disallow: ["/checkout"],
-      },
+        disallow: DISALLOWED_PATHS,
+      })),
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
+    sitemap: `${BASE_URL}/sitemap.xml`,
+    host: BASE_URL,
   };
 }
