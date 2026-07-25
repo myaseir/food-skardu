@@ -8,7 +8,7 @@ import {
 } from "@/data/location";
 
 const FUEL_PRICE_PER_LITER = 327;
-const BIKE_AVERAGE_KM_PER_LITER = 40;
+const BIKE_AVERAGE_KM_PER_LITER = 45;
 const BASE_PROFIT = 100;
 
 // Used when a hotel/area name isn't found in SKARDU_LOCATIONS.
