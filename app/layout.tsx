@@ -5,6 +5,7 @@ import "./globals.css";
 import CartValidator from "@/components/CartValidator";
 import RouteProgress from "@/components/RouteLoader";
 import { LocationProvider } from "@/contexts/LocationContext";
+import LocationGate from "@/components/Locationgate";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -137,11 +138,13 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} antialiased`}>
         <LocationProvider>
-          <Suspense fallback={null}>
-            <RouteProgress />
-          </Suspense>
-          <CartValidator />
-          {children}
+          <LocationGate>
+            <Suspense fallback={null}>
+              <RouteProgress />
+            </Suspense>
+            <CartValidator />
+            {children}
+          </LocationGate>
         </LocationProvider>
       </body>
     </html>

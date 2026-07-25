@@ -46,10 +46,11 @@ export default function CheckoutPage() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showMobileSummary, setShowMobileSummary] = useState(false);
 
-  // Captured silently in the background by LocationProvider (see app/layout.tsx) —
-  // never shown in the UI, just piggy-backed onto the order email so the rider
-  // can jump straight to a pin instead of relying on the hotel/area name alone.
-  const { location: userLocation, refresh: refreshLocation } = useUserLocation();
+  // Captured silently in the background by LocationProvider (see app/layout.tsx)
+  // and kept live via watchPosition — never shown in the UI, just piggy-backed
+  // onto the order email so the rider can jump straight to a pin instead of
+  // relying on the hotel/area name alone.
+  const { location: userLocation } = useUserLocation();
 
   // Dynamic Delivery Calculation
   const currentShop = shops.find((s) => s.id === items[0]?.shopId);
@@ -73,10 +74,6 @@ export default function CheckoutPage() {
     }
 
     setIsSending(true);
-
-    // Grab the freshest fix we can get right before sending, in case the
-    // background capture on page load hasn't resolved yet or has gone stale.
-    refreshLocation();
 
     const hasCoords = userLocation !== null;
     const mapsLink = hasCoords

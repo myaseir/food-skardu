@@ -226,10 +226,11 @@ export default function RideParcelForm() {
   const [errorDetail, setErrorDetail] = useState<string>("");
   const [confirmedBooking, setConfirmedBooking] = useState<BookingSummary | null>(null);
 
-  // Captured silently in the background by LocationProvider (see app/layout.tsx) —
-  // never shown in the UI, just piggy-backed onto the booking email so the
-  // rider can jump straight to a pin instead of relying on the area name alone.
-  const { location: userLocation, refresh: refreshLocation } = useUserLocation();
+  // Captured silently in the background by LocationProvider (see app/layout.tsx)
+  // and kept live via watchPosition — never shown in the UI, just piggy-backed
+  // onto the booking email so the rider can jump straight to a pin instead of
+  // relying on the area name alone.
+  const { location: userLocation } = useUserLocation();
 
 
   // Round trip: office -> pickup -> dropoff -> office.
@@ -262,10 +263,6 @@ export default function RideParcelForm() {
     if (!canSubmit || status === "sending") return;
 
     setStatus("sending");
-
-    // Grab the freshest fix we can get right before sending, in case the
-    // background capture on page load hasn't resolved yet or has gone stale.
-    refreshLocation();
 
     const hasCoords = userLocation !== null;
     const mapsLink = hasCoords
