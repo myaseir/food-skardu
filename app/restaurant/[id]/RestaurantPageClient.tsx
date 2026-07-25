@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useRef, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -60,6 +60,9 @@ export default function RestaurantPageClient({ params }: PageProps) {
   const { items, addItem } = useCart();
   const { checkShopStatus } = useAvailability();
 
+  // selectedItem now doubles as the "item details" modal state — it opens
+  // for EVERY item on tap (so long descriptions are always fully readable),
+  // and additionally shows a variant picker when the item has variants.
   const [selectedItem, setSelectedItem] = useState<(MenuItem & { category: string }) | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
 
@@ -137,35 +140,67 @@ export default function RestaurantPageClient({ params }: PageProps) {
   const { shop, menu } = data;
   const isShopOpen = checkShopStatus(shop);
 
-  const handleItemClick = (item: MenuItem, catName: string) => {
+  // Tapping anywhere on the card opens the full details view — this is
+  // where the untruncated description lives, so nothing important is ever
+  // hidden behind a line-clamp.
+  const handleCardClick = (item: MenuItem, catName: string) => {
+    if (!isShopOpen) return;
+    setSelectedItem({ ...item, category: catName });
+    setSelectedVariant(item.variants && item.variants.length > 0 ? item.variants[0] : null);
+  };
+
+  // The "+" button is the fast quick-add path. For simple items (no
+  // variants) it adds straight to the cart with no modal, preserving the
+  // one-tap convenience. Items with variants can't be quick-added — there's
+  // no single price to add — so it falls back to opening the same details
+  // view the card tap uses.
+  const handleQuickAdd = (e: React.MouseEvent, item: MenuItem, catName: string) => {
+    e.stopPropagation();
     if (!isShopOpen) return;
 
     if (item.variants && item.variants.length > 0) {
-      setSelectedItem({ ...item, category: catName });
-      setSelectedVariant(item.variants[0]);
-    } else {
-      const effectivePrice = getEffectivePrice(item.price, item.discountPrice);
-      addItem({ ...item, price: effectivePrice, shopId: id, category: catName });
+      handleCardClick(item, catName);
+      return;
     }
+
+    const effectivePrice = getEffectivePrice(item.price, item.discountPrice);
+    addItem({ ...item, price: effectivePrice, shopId: id, category: catName });
   };
 
-  const confirmVariantAdd = () => {
-    if (!isShopOpen || !selectedItem || !selectedVariant) return;
+  // Handles "Add to Cart" from inside the details modal, for both simple
+  // items and variant items.
+  const confirmAdd = () => {
+    if (!isShopOpen || !selectedItem) return;
 
-    const effectivePrice = getEffectivePrice(selectedVariant.price, selectedVariant.discountPrice);
+    if (selectedItem.variants && selectedItem.variants.length > 0) {
+      if (!selectedVariant) return;
+      const effectivePrice = getEffectivePrice(selectedVariant.price, selectedVariant.discountPrice);
 
-    addItem({
-      ...selectedItem,
-      id: `${selectedItem.id}-${selectedVariant.name}`,
-      name: `${selectedItem.name} (${selectedVariant.name})`,
-      price: effectivePrice,
-      shopId: id,
-      category: selectedItem.category,
-    });
+      addItem({
+        ...selectedItem,
+        id: `${selectedItem.id}-${selectedVariant.name}`,
+        name: `${selectedItem.name} (${selectedVariant.name})`,
+        price: effectivePrice,
+        shopId: id,
+        category: selectedItem.category,
+      });
+    } else {
+      const effectivePrice = getEffectivePrice(selectedItem.price, selectedItem.discountPrice);
+      addItem({ ...selectedItem, price: effectivePrice, shopId: id, category: selectedItem.category });
+    }
 
     setSelectedItem(null);
     setSelectedVariant(null);
   };
+
+  const selectedHasVariants = !!(selectedItem?.variants && selectedItem.variants.length > 0);
+  const modalDisplayPrice = selectedHasVariants
+    ? selectedVariant
+      ? getEffectivePrice(selectedVariant.price, selectedVariant.discountPrice)
+      : 0
+    : selectedItem
+    ? getEffectivePrice(selectedItem.price, selectedItem.discountPrice)
+    : 0;
 
   return (
     <main className="min-h-screen bg-gray-50 pb-24 relative">
@@ -180,27 +215,27 @@ export default function RestaurantPageClient({ params }: PageProps) {
           </svg>
         </Link>
 
-       <div className="max-w-3xl mx-auto flex items-center gap-4 pl-10">
-  {menu.logo ? (
-    <Image
-      src={menu.logo}
-      alt={menu.name}
-      width={80}
-      height={80}
-      className={`rounded-2xl border object-cover ${!isShopOpen ? "grayscale opacity-60" : ""}`}
-    />
-  ) : (
-    <div className="w-20 h-20 rounded-2xl border bg-gray-100 flex items-center justify-center text-gray-300 text-[9px] font-black uppercase tracking-widest text-center px-1">
-      No Logo
-    </div>
-  )}
-  <div>
-    <h1 className={`text-2xl font-black uppercase ${!isShopOpen ? "text-gray-500" : ""}`}>
-      {menu.name}
-    </h1>
-    <ShopStatusBadge shop={shop} />
-  </div>
-</div>
+        <div className="max-w-3xl mx-auto flex items-center gap-4 pl-10">
+          {menu.logo ? (
+            <Image
+              src={menu.logo}
+              alt={menu.name}
+              width={80}
+              height={80}
+              className={`rounded-2xl border object-cover ${!isShopOpen ? "grayscale opacity-60" : ""}`}
+            />
+          ) : (
+            <div className="w-20 h-20 rounded-2xl border bg-gray-100 flex items-center justify-center text-gray-300 text-[9px] font-black uppercase tracking-widest text-center px-1">
+              No Logo
+            </div>
+          )}
+          <div>
+            <h1 className={`text-2xl font-black uppercase ${!isShopOpen ? "text-gray-500" : ""}`}>
+              {menu.name}
+            </h1>
+            <ShopStatusBadge shop={shop} />
+          </div>
+        </div>
       </div>
 
       {/* Closed banner */}
@@ -217,7 +252,7 @@ export default function RestaurantPageClient({ params }: PageProps) {
       {/* Menu */}
       <div className="max-w-3xl mx-auto px-6 py-8">
         {menu.categories.map((cat: Category) => (
-        <section key={cat.name} id={cat.name} className="scroll-mt-24 mb-12">
+          <section key={cat.name} id={cat.name} className="scroll-mt-24 mb-12">
             <h2 className={`text-xl font-black mb-6 uppercase tracking-tighter ${!isShopOpen ? "text-gray-500" : ""}`}>
               {cat.name}
             </h2>
@@ -265,10 +300,10 @@ export default function RestaurantPageClient({ params }: PageProps) {
                     role="button"
                     tabIndex={isShopOpen ? 0 : -1}
                     aria-disabled={!isShopOpen}
-                    onClick={() => handleItemClick(item, cat.name)}
+                    onClick={() => handleCardClick(item, cat.name)}
                     onKeyDown={(e) => {
                       if ((e.key === "Enter" || e.key === " ") && isShopOpen) {
-                        handleItemClick(item, cat.name);
+                        handleCardClick(item, cat.name);
                       }
                     }}
                     className={`bg-white rounded-2xl shadow-sm border border-gray-100 transition-all duration-200 flex flex-col ${
@@ -310,14 +345,19 @@ export default function RestaurantPageClient({ params }: PageProps) {
                       </div>
 
                       {/* + button — positioned relative to the wrapper above,
-                          not the overflow-hidden image div, so it renders fully. */}
+                          not the overflow-hidden image div, so it renders fully.
+                          Quick-adds simple items directly; opens the details
+                          view for items that require a variant pick. */}
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (isShopOpen) handleItemClick(item, cat.name);
-                        }}
+                        onClick={(e) => handleQuickAdd(e, item, cat.name)}
                         disabled={!isShopOpen}
-                        aria-label={isShopOpen ? `Add ${item.name} to cart` : `${item.name} unavailable, shop closed`}
+                        aria-label={
+                          isShopOpen
+                            ? isVariant
+                              ? `Choose options for ${item.name}`
+                              : `Add ${item.name} to cart`
+                            : `${item.name} unavailable, shop closed`
+                        }
                         className={`absolute -bottom-4 left-1/2 -translate-x-1/2 z-10 w-9 h-9 rounded-full text-white font-black text-lg flex items-center justify-center shadow-lg border-4 border-white transition-all ${
                           isShopOpen
                             ? "bg-purple-600 hover:bg-purple-700 active:scale-90"
@@ -360,22 +400,28 @@ export default function RestaurantPageClient({ params }: PageProps) {
         ))}
       </div>
 
-      {/* Variant Selection Modal */}
+      {/* Item Details Modal — opens for every item on tap. Always shows the
+          full, untruncated description. Shows a variant picker only when
+          the item actually has variants. */}
       {selectedItem && isShopOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 sm:p-4 animate-in fade-in duration-200">
           <div className="bg-white w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in slide-in-from-bottom-10 sm:slide-in-from-bottom-0 shadow-2xl">
             {selectedItem.image && (
-              <div className="relative w-full h-48 bg-gray-100">
+              <div className="relative w-full h-48 bg-gray-100 flex-shrink-0">
                 <Image src={selectedItem.image} alt={selectedItem.name} fill className="object-cover" />
               </div>
             )}
 
             <div className="p-6 overflow-y-auto">
-              <div className="flex justify-between items-start mb-2">
-                <h2 className="text-2xl font-black">{selectedItem.name}</h2>
+              <div className="flex justify-between items-start mb-2 gap-3">
+                <h2 className="text-2xl font-black leading-tight">{selectedItem.name}</h2>
                 <button
-                  onClick={() => setSelectedItem(null)}
-                  className="p-2 bg-gray-100 hover:bg-gray-200 transition-colors rounded-full text-gray-500"
+                  onClick={() => {
+                    setSelectedItem(null);
+                    setSelectedVariant(null);
+                  }}
+                  className="p-2 bg-gray-100 hover:bg-gray-200 transition-colors rounded-full text-gray-500 flex-shrink-0"
+                  aria-label="Close details"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -383,57 +429,76 @@ export default function RestaurantPageClient({ params }: PageProps) {
                 </button>
               </div>
 
-              {selectedItem.desc && <p className="text-gray-500 mb-6 text-sm">{selectedItem.desc}</p>}
+              {/* Full description — no line-clamp, so long text is never hidden. */}
+              {selectedItem.desc && (
+                <p className="text-gray-500 mb-6 text-sm leading-relaxed whitespace-pre-line">
+                  {selectedItem.desc}
+                </p>
+              )}
 
-              <h3 className="font-bold text-lg mb-3">Select Size / Option</h3>
-              <div className="space-y-3 mb-2">
-                {selectedItem.variants?.map((variant) => {
-                  const variantDiscounted = hasValidDiscount(variant.price, variant.discountPrice);
-                  const variantEffective = getEffectivePrice(variant.price, variant.discountPrice);
+              {selectedHasVariants ? (
+                <>
+                  <h3 className="font-bold text-lg mb-3">Select Size / Option</h3>
+                  <div className="space-y-3 mb-2">
+                    {selectedItem.variants?.map((variant) => {
+                      const variantDiscounted = hasValidDiscount(variant.price, variant.discountPrice);
+                      const variantEffective = getEffectivePrice(variant.price, variant.discountPrice);
 
-                  return (
-                    <label
-                      key={variant.name}
-                      className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                        selectedVariant?.name === variant.name
-                          ? "border-purple-600 bg-purple-50"
-                          : "border-gray-100 hover:border-purple-200"
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="radio"
-                          name="variant"
-                          value={variant.name}
-                          checked={selectedVariant?.name === variant.name}
-                          onChange={() => setSelectedVariant(variant)}
-                          className="w-5 h-5 text-purple-600 border-gray-300 focus:ring-purple-600 focus:ring-2"
-                        />
-                        <span className="font-bold text-gray-800">{variant.name}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-black text-purple-600">Rs. {variantEffective}</span>
-                        {variantDiscounted && (
-                          <span className="text-gray-400 text-xs font-semibold line-through">
-                            Rs. {variant.price}
-                          </span>
-                        )}
-                      </div>
-                    </label>
-                  );
-                })}
-              </div>
+                      return (
+                        <label
+                          key={variant.name}
+                          className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                            selectedVariant?.name === variant.name
+                              ? "border-purple-600 bg-purple-50"
+                              : "border-gray-100 hover:border-purple-200"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="radio"
+                              name="variant"
+                              value={variant.name}
+                              checked={selectedVariant?.name === variant.name}
+                              onChange={() => setSelectedVariant(variant)}
+                              className="w-5 h-5 text-purple-600 border-gray-300 focus:ring-purple-600 focus:ring-2"
+                            />
+                            <span className="font-bold text-gray-800">{variant.name}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-black text-purple-600">Rs. {variantEffective}</span>
+                            {variantDiscounted && (
+                              <span className="text-gray-400 text-xs font-semibold line-through">
+                                Rs. {variant.price}
+                              </span>
+                            )}
+                          </div>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </>
+              ) : (
+                <div className="flex items-center gap-3 pt-1">
+                  <span className="font-black text-2xl text-purple-600">
+                    Rs. {getEffectivePrice(selectedItem.price, selectedItem.discountPrice)}
+                  </span>
+                  {hasValidDiscount(selectedItem.price, selectedItem.discountPrice) && (
+                    <span className="text-gray-400 text-sm font-semibold line-through">
+                      Rs. {selectedItem.price}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
 
-            <div className="p-4 bg-white border-t border-gray-100 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)]">
+            <div className="p-4 bg-white border-t border-gray-100 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] flex-shrink-0">
               <button
-                onClick={confirmVariantAdd}
-                className="w-full bg-purple-600 text-white py-4 rounded-xl font-black text-lg hover:bg-purple-700 active:scale-95 transition-all flex justify-between px-6"
+                onClick={confirmAdd}
+                disabled={selectedHasVariants && !selectedVariant}
+                className="w-full bg-purple-600 text-white py-4 rounded-xl font-black text-lg hover:bg-purple-700 active:scale-95 transition-all flex justify-between px-6 disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
                 <span>Add to Cart</span>
-                <span>
-                  Rs. {selectedVariant ? getEffectivePrice(selectedVariant.price, selectedVariant.discountPrice) : 0}
-                </span>
+                <span>Rs. {modalDisplayPrice}</span>
               </button>
             </div>
           </div>

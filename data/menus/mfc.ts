@@ -84,7 +84,7 @@ export const menu = {
           id: "mfc-plt-1",
           name: "MFC Special Platter",
           price: 5200,
-          desc: "Serves 4 | Prep time: 20 min. Includes: Chicken Malai Boti (3 Seekh), Chicken Tikka Boti (3 Seekh), Seekh Kabab (4), Roti (4), Masala Rice, Soft Drink (1.5L), Mint Sauce",
+          desc: "Serves 4 |Includes: Chicken Malai Boti (3 Seekh), Chicken Tikka Boti (3 Seekh), Seekh Kabab (4), Roti (4), Masala Rice, Soft Drink (1.5L), Mint Sauce",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784903766/ChatGPT_Image_Jul_24_2026_07_35_37_PM_n8r89k.jpg",
           variants: []
         },

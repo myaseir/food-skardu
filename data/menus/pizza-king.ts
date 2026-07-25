@@ -82,10 +82,10 @@ export const menu = {
           desc: "Pizza Sauce, Onion, Seekh Kabab, Capsicum, Black Olives, Mozzarella Cheese, Tomatoes",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsWsmGtOrlkdmwXXLtaTN9J2ltGVq24FDj1Do8ukEmNNDW60B_wLK1JPU&s=10",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         },
         {
@@ -94,10 +94,10 @@ export const menu = {
           desc: "Juicy Malai Boti, Fresh Green Chillies, Onions, Pizza Sauce & Mozzarella Cheese",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDBChvOq4FYScYWDukZLLeD1cFMErSQO7gL2IAX-WaXA&s=10",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         },
         {
@@ -106,10 +106,10 @@ export const menu = {
           desc: "Traditional Chicken Tikka, Onions, Pizza Sauce & Mozzarella Cheese",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWW_mUNV4D9XQGvTFPWDEVN2_ErAhl23KwKs43ZyB1JFPlQgKHDFasZoFE&s=10",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         },
         {
@@ -118,10 +118,10 @@ export const menu = {
           desc: "Creamy Sauce, Onion, Black Olives, Chicken Tikka, Mozzarella Cheese",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVv3neZUHx15wNIlwx9VsP0hqbWnVbEKfMQHjgDMeXFQ&s=10",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         },
         {
@@ -130,16 +130,16 @@ export const menu = {
           desc: "Creamy Sauce, Onion, Black Olives, Chicken Tikka, Mozzarella Cheese",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShEHvkrF9BhspeF7jFeH_M5nXdsgROYtIjkJhDMapsXw&s=10",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         }
       ]
     },
 
-    // ---------- PIZZA: ARABIC FLAVOUR (30% off) ----------
+    // ---------- PIZZA: ARABIC FLAVOUR (20% off) ----------
     {
       name: "Arabic Flavour",
       items: [
@@ -149,10 +149,10 @@ export const menu = {
           desc: "Beef Pepperoni, Pizza Sauce & Mozzarella Cheese",
           image: "https://tastesbetterfromscratch.com/wp-content/uploads/2023/06/Pepperoni-Pizza-1.jpg",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         },
         {
@@ -161,17 +161,17 @@ export const menu = {
           desc: "Mild Tikka Chicken, Onion & Mozzarella Cheese",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT03KZoPVpGPd3g0XBvEWClSEA5TI3JDW427EoExRShww&s=10",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         }
-       
+
       ]
     },
 
-    // ---------- PIZZA: WESTERN FLAVOUR (30% off) ----------
+    // ---------- PIZZA: WESTERN FLAVOUR (20% off) ----------
     {
       name: "Western Flavour",
       items: [
@@ -181,10 +181,10 @@ export const menu = {
           desc: "Marinated Chicken, Jalapeno, Capsicum, Black Olives, Mushrooms, Tomatoes, Pizza Sauce & Mozzarella Cheese",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQADcOKvYHR2bmZOhuWilXut-GLfXTf9lRKMPeeCfpIvQ&s=10",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         },
         {
@@ -193,10 +193,10 @@ export const menu = {
           desc: "Chicken Topping, Mushroom, Capsicum, Onions, Tomatoes, Pizza Sauce & Mozzarella Cheese",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbb_oT53I8xUgcR8Nl8cWn380PHroXGpTFxLvv4a06wPcX5lMCE1T8_Hs&s=10",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         },
         {
@@ -205,16 +205,16 @@ export const menu = {
           desc: "Fajita Chicken, Fresh Green Chillies, Capsicum, Onions, Pizza Sauce & Mozzarella Cheese",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1QDxntBAy0AjYShJnbR3Ey-7MelJudA5n1-6V0O-u0w&s=10",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         }
       ]
     },
 
-    // ---------- PIZZA: ROYALTY FLAVOUR (30% off) ----------
+    // ---------- PIZZA: ROYALTY FLAVOUR (20% off) ----------
     {
       name: "Royalty Flavour",
       items: [
@@ -224,10 +224,10 @@ export const menu = {
           desc: "Chicken Pepperoni, Fajita Chicken, Chicken Tikka, Mushrooms, Black Olives, Onion, Capsicum, Pizza Sauce & Mozzarella Cheese",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784914603/ChatGPT_Image_Jul_24_2026_10_36_09_PM_ynhk6c.jpg",
           variants: [
-            { name: "16\" Extra Large", price: 3890, discountPrice: 2723 },
-            { name: "12\" Large", price: 2990, discountPrice: 2093 },
-            { name: "9\" Regular", price: 1590, discountPrice: 1113 },
-            { name: "6\" Small", price: 1050, discountPrice: 735 }
+            { name: "16\" Extra Large", price: 3890, discountPrice: 3112 },
+            { name: "12\" Large", price: 2990, discountPrice: 2392 },
+            { name: "9\" Regular", price: 1590, discountPrice: 1272 },
+            { name: "6\" Small", price: 1050, discountPrice: 840 }
           ]
         },
         {
@@ -236,10 +236,10 @@ export const menu = {
           desc: "Fajita Chicken, Creamy Sauce, Onion, Capsicum, Mushroom, Chicken Sausages, Jalapeno Pepper, Black Olive & Mozzarella Cheese",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784914737/ChatGPT_Image_Jul_24_2026_10_38_37_PM_jlyuui.jpg",
           variants: [
-            { name: "16\" Extra Large", price: 3890, discountPrice: 2723 },
-            { name: "12\" Large", price: 2990, discountPrice: 2093 },
-            { name: "9\" Regular", price: 1590, discountPrice: 1113 },
-            { name: "6\" Small", price: 1050, discountPrice: 735 }
+            { name: "16\" Extra Large", price: 3890, discountPrice: 3112 },
+            { name: "12\" Large", price: 2990, discountPrice: 2392 },
+            { name: "9\" Regular", price: 1590, discountPrice: 1272 },
+            { name: "6\" Small", price: 1050, discountPrice: 840 }
           ]
         },
         {
@@ -248,16 +248,16 @@ export const menu = {
           desc: "Fajita Chicken, Mushrooms, Sweet Corn, Jalapeno, Peppers, Onion, Capsicum, Pizza Sauce, Creamy Sauce & Mozzarella Cheese",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784914856/ChatGPT_Image_Jul_24_2026_10_40_34_PM_ixhumf.jpg",
           variants: [
-            { name: "16\" Extra Large", price: 3890, discountPrice: 2723 },
-            { name: "12\" Large", price: 2990, discountPrice: 2093 },
-            { name: "9\" Regular", price: 1590, discountPrice: 1113 },
-            { name: "6\" Small", price: 1050, discountPrice: 735 }
+            { name: "16\" Extra Large", price: 3890, discountPrice: 3112 },
+            { name: "12\" Large", price: 2990, discountPrice: 2392 },
+            { name: "9\" Regular", price: 1590, discountPrice: 1272 },
+            { name: "6\" Small", price: 1050, discountPrice: 840 }
           ]
         }
       ]
     },
 
-    // ---------- PIZZA: VEGGIE & CHEESE (30% off) ----------
+    // ---------- PIZZA: VEGGIE & CHEESE (20% off) ----------
     {
       name: "Veggie & Cheese",
       items: [
@@ -267,10 +267,10 @@ export const menu = {
           desc: "Pizza Sauce, Mushrooms, Olives, Onions, Capsicum, Jalapeno, Tomatoes & Mozzarella Cheese",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784915020/ChatGPT_Image_Jul_24_2026_10_43_18_PM_uylvs2.jpg",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         },
         {
@@ -279,10 +279,10 @@ export const menu = {
           desc: "Pizza Sauce, Herbs & Lots of Mozzarella Cheese",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784921387/ChatGPT_Image_Jul_25_2026_12_29_07_AM_itbqn9.jpg",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         },
         {
@@ -291,10 +291,10 @@ export const menu = {
           desc: "Pizza Sauce, Mushrooms, Herbs & Mozzarella Cheese",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784922204/ChatGPT_Image_Jul_25_2026_12_42_10_AM_ycpikj.jpg",
           variants: [
-            { name: "16\" Extra Large", price: 3790, discountPrice: 2653 },
-            { name: "12\" Large", price: 2890, discountPrice: 2023 },
-            { name: "9\" Regular", price: 1550, discountPrice: 1085 },
-            { name: "6\" Small", price: 990, discountPrice: 693 }
+            { name: "16\" Extra Large", price: 3790, discountPrice: 3032 },
+            { name: "12\" Large", price: 2890, discountPrice: 2312 },
+            { name: "9\" Regular", price: 1550, discountPrice: 1240 },
+            { name: "6\" Small", price: 990, discountPrice: 792 }
           ]
         }
       ]
