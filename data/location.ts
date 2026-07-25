@@ -89,6 +89,7 @@ export const SKARDU_HOTELS: Record<string, { lat: number; lng: number }> = {
  
   "Byarsa Hotel Skardu": { lat: 35.420028, lng: 75.463517 },
   "Dream Nest Resort Hotels Skardu": { lat: 35.404635, lng: 75.443454 },
+  "Stream view guest house skardu": { lat: 35.291589, lng: 75.625017 },
   
   "Shangrila Resort Skardu": { lat: 35.425960, lng: 75.456421 },
   "Kachura Inn Skardu": { lat: 35.424978, lng: 75.433406 },
