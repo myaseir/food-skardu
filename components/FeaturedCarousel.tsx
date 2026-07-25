@@ -9,7 +9,7 @@ import { useAvailability } from "@/hooks/useAvailability";
 import { estimateDeliveryTime } from "@/utils/deliveryCalculator";
 
 // Add/remove shop ids here to control what shows in the carousel
-const FEATURED_SHOP_IDS = ["yak-and-bull", "the-kitchen-skardu", "pizza-king", "sungum-hotel-restaurant", "dominos-skardu", "yak-grill-skardu", "skyway-pizza"];
+const FEATURED_SHOP_IDS = ["yak-and-bull","balti-cuisine-skardu", "the-kitchen-skardu", "pizza-king", "sungum-hotel-restaurant", "dominos-skardu", "yak-grill-skardu", "skyway-pizza"];
 
 // Turns "11:00" into "11:00 AM" for display
 function formatOpenTime(time: string): string {

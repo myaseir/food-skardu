@@ -48,7 +48,19 @@ export const shops: Shop[] = [
     rating: 4.6,
     reviews: 185,
   },
-
+// {
+//     id: "balti-cuisine-skardu",
+//     name: "Balti Cuisine Skardu",
+//     type: "restaurant",
+//     openTime: "11:00", // TODO: confirm actual opening time
+//     closeTime: "23:00", // TODO: confirm actual closing time
+//     alwaysOpen: false,
+//     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4MHJr5IIt6j7rWP1jwfUl8C1isf5e5AciPwkmMyAe0Q&s", // TODO: no logo image available yet
+//     lat: 35.2900162, // TODO: replace with real coordinates (Marafie Colony, Skardu)
+//     lng: 75.6374406, // TODO: replace with real coordinates (Marafie Colony, Skardu)
+//     rating: 4.9, // TODO: confirm actual rating
+//     reviews: 467, // TODO: confirm actual review count
+//   },
   {
     id: "the-kitchen-skardu",
     name: "The Kitchen",
@@ -88,6 +100,7 @@ export const shops: Shop[] = [
     rating: 4.5,
     reviews: 15,
   },
+
   {
     id: "mfc",
     name: "MFC Skardu",
