@@ -23,6 +23,7 @@ import {
 import { SKARDU_HOTELS, SKARDU_AREAS } from "@/data/location";
 import { shops } from "@/data/config";
 import { calculateDeliveryFee } from "@/utils/deliveryCalculator";
+import { useUserLocation } from "@/contexts/LocationContext";
 
 export default function CheckoutPage() {
   const { items, clearCart } = useCart() as any;
@@ -44,6 +45,11 @@ export default function CheckoutPage() {
   const [addressDetail, setAddressDetail] = useState(""); // Acts as Room No OR Complete Address
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showMobileSummary, setShowMobileSummary] = useState(false);
+
+  // Captured silently in the background by LocationProvider (see app/layout.tsx) —
+  // never shown in the UI, just piggy-backed onto the order email so the rider
+  // can jump straight to a pin instead of relying on the hotel/area name alone.
+  const { location: userLocation, refresh: refreshLocation } = useUserLocation();
 
   // Dynamic Delivery Calculation
   const currentShop = shops.find((s) => s.id === items[0]?.shopId);
@@ -68,6 +74,15 @@ export default function CheckoutPage() {
 
     setIsSending(true);
 
+    // Grab the freshest fix we can get right before sending, in case the
+    // background capture on page load hasn't resolved yet or has gone stale.
+    refreshLocation();
+
+    const hasCoords = userLocation !== null;
+    const mapsLink = hasCoords
+      ? `https://www.google.com/maps?q=${userLocation!.latitude},${userLocation!.longitude}`
+      : "";
+
     // Format address for the email based on the delivery mode
     const finalAddress = deliveryMode === 'hotel'
       ? `HOTEL: ${locationName} | ROOM: ${addressDetail}`
@@ -89,6 +104,9 @@ export default function CheckoutPage() {
       subtotal: subtotal,
       delivery_fee: deliveryFee,
       total_price: total,
+      customer_lat: hasCoords ? userLocation!.latitude.toFixed(6) : "Not available",
+      customer_lng: hasCoords ? userLocation!.longitude.toFixed(6) : "Not available",
+      location_link: mapsLink || "Not available",
     };
 
     try {

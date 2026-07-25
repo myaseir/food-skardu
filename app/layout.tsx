@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import "./globals.css";
 import CartValidator from "@/components/CartValidator";
 import RouteProgress from "@/components/RouteLoader";
+import { LocationProvider } from "@/contexts/LocationContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -135,11 +136,13 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} antialiased`}>
-        <Suspense fallback={null}>
-          <RouteProgress />
-        </Suspense>
-        <CartValidator />
-        {children}
+        <LocationProvider>
+          <Suspense fallback={null}>
+            <RouteProgress />
+          </Suspense>
+          <CartValidator />
+          {children}
+        </LocationProvider>
       </body>
     </html>
   );

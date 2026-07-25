@@ -26,6 +26,7 @@ import {
   calculateParcelFare,
   calculateTripDistance,
 } from "@/utils/deliveryCalculator";
+import { useUserLocation } from "@/contexts/LocationContext";
 
 type SubmitStatus = "idle" | "sending" | "error";
 
@@ -225,6 +226,11 @@ export default function RideParcelForm() {
   const [errorDetail, setErrorDetail] = useState<string>("");
   const [confirmedBooking, setConfirmedBooking] = useState<BookingSummary | null>(null);
 
+  // Captured silently in the background by LocationProvider (see app/layout.tsx) —
+  // never shown in the UI, just piggy-backed onto the booking email so the
+  // rider can jump straight to a pin instead of relying on the area name alone.
+  const { location: userLocation, refresh: refreshLocation } = useUserLocation();
+
 
   // Round trip: office -> pickup -> dropoff -> office.
   // Same trip shape (and same fuel-cost pricing) as food delivery —
@@ -257,6 +263,15 @@ export default function RideParcelForm() {
 
     setStatus("sending");
 
+    // Grab the freshest fix we can get right before sending, in case the
+    // background capture on page load hasn't resolved yet or has gone stale.
+    refreshLocation();
+
+    const hasCoords = userLocation !== null;
+    const mapsLink = hasCoords
+      ? `https://www.google.com/maps?q=${userLocation!.latitude},${userLocation!.longitude}`
+      : "";
+
     const templateParams = {
       mode: mode === "ride" ? "Ride" : "Courier",
       pickup_area: pickupArea,
@@ -268,6 +283,9 @@ export default function RideParcelForm() {
       rider_phone: mode === "ride" ? riderPhone : "",
       sender_phone: mode === "parcel" ? senderPhone : "",
       receiver_phone: mode === "parcel" ? receiverPhone : "",
+      customer_lat: hasCoords ? userLocation!.latitude.toFixed(6) : "Not available",
+      customer_lng: hasCoords ? userLocation!.longitude.toFixed(6) : "Not available",
+      location_link: mapsLink || "Not available",
       time: new Date().toLocaleString(),
     };
 
