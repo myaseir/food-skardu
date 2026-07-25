@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     "Skardu food delivery",
     "order food online Skardu",
     "Meal Bear",
+    "food in skardu",
     "Meal Bear Skardu",
     "restaurant delivery Skardu",
     "hotel food delivery Skardu",
