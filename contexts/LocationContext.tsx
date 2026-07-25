@@ -69,15 +69,9 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   const watchIdRef = useRef<number | null>(null);
 
   function startWatching() {
-    if (typeof window === "undefined" || !("geolocation" in navigator)) {
-      setStatus("unsupported");
-      return;
-    }
-
     // Only one active watch at a time.
     if (watchIdRef.current !== null) return;
 
-    setStatus("loading");
     watchIdRef.current = navigator.geolocation.watchPosition(
       (pos) => {
         const loc = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
@@ -86,8 +80,6 @@ export function LocationProvider({ children }: { children: ReactNode }) {
         writeCache(loc);
       },
       () => {
-        // Denied, timed out, or GPS unavailable — fail silently.
-        // The rest of the app just falls back to manual area selection.
         setStatus("denied");
       },
       {
@@ -99,7 +91,38 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   }
 
   function requestLocation() {
-    startWatching();
+    if (typeof window === "undefined" || !("geolocation" in navigator)) {
+      setStatus("unsupported");
+      return;
+    }
+
+    setStatus("loading");
+
+    // iOS Safari quirk: calling watchPosition() as the very first
+    // geolocation call can silently fail to trigger the native
+    // permission dialog at all (no prompt, no error, no fix — it just
+    // sits there). A one-shot getCurrentPosition() reliably shows the
+    // native prompt on iOS; once that resolves (permission is now a
+    // settled "granted"), we hand off to watchPosition for live
+    // updates. Chrome/desktop Safari don't need this, but doing it
+    // everywhere is harmless and keeps one code path for all browsers.
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const loc = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
+        setLocation(loc);
+        setStatus("granted");
+        writeCache(loc);
+        startWatching();
+      },
+      () => {
+        setStatus("denied");
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000,
+      }
+    );
   }
 
   useEffect(() => {
@@ -117,7 +140,7 @@ export function LocationProvider({ children }: { children: ReactNode }) {
         .query({ name: "geolocation" as PermissionName })
         .then((result) => {
           if (result.state === "granted") {
-            startWatching();
+            requestLocation();
           } else if (result.state === "denied") {
             setStatus("denied");
           }
@@ -127,7 +150,7 @@ export function LocationProvider({ children }: { children: ReactNode }) {
           // browser/OS settings while the tab is open.
           result.onchange = () => {
             if (result.state === "granted") {
-              startWatching();
+              requestLocation();
             } else if (result.state === "denied") {
               if (watchIdRef.current !== null) {
                 navigator.geolocation.clearWatch(watchIdRef.current);
@@ -139,7 +162,8 @@ export function LocationProvider({ children }: { children: ReactNode }) {
         })
         .catch(() => {
           // Permissions API present but geolocation query unsupported
-          // (rare) — fall back to letting the gate ask normally.
+          // (this is common on iOS Safari) — fall back to letting the
+          // gate ask normally.
           setPermissionChecked(true);
         });
     } else {
