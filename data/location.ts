@@ -97,6 +97,7 @@ export const SKARDU_HOTELS: Record<string, { lat: number; lng: number }> = {
   "Hotel Mountain Lagoon Skardu": { lat: 35.425442, lng: 75.453232 },
   "Skardu River Resort": { lat: 35.426085, lng: 75.452293 },
   "Morning Resort": { lat: 35.4390467, lng: 75.4505393 },
+  "Hotel Desert Bloom Skardu": { lat: 35.3118028, lng: 75.6066532 },
   "TheQue Skardu": { lat: 35.443078, lng: 75.452045 },
 };
 
@@ -120,7 +121,7 @@ export const SKARDU_AREAS: Record<string, { lat: number; lng: number }> = {
   "Marfie Colony": { lat: 35.2780217, lng: 75.6393933 },
   "Chumik": { lat: 35.301296, lng: 75.640535 },
   "Gamba Skardu": { lat: 35.3194498, lng: 75.5352877 },
-  "United Line": { lat: 35.2845173, lng: 75.6295549 },
+  "United Line, Hassan Colony": { lat: 35.2845173, lng: 75.6295549 },
   "Muhib Road Khargrong": { lat: 35.293274, lng: 75.644867 },
   "GB Chief Court Skardu Registry Skardu": { lat: 35.290499, lng: 75.600953 },
   "Shaheen Public School Skardu": { lat: 35.283543, lng: 75.620709 },
