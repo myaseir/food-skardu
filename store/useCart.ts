@@ -28,16 +28,17 @@ export const useCart = create<CartState>()(
     (set) => ({
       items: [],
       
+      // Multi-restaurant carts are now allowed — items from different
+      // shopIds simply coexist in the same cart. The delivery calculator
+      // (calculateDeliveryFee) handles pricing the multi-stop trip; this
+      // store no longer needs to enforce a single-restaurant rule.
       addItem: (item) => set((state) => {
-        // 1. Check if trying to add from a different restaurant
-        const hasDifferentShop = state.items.length > 0 && state.items[0].shopId !== item.shopId;
-
-        if (hasDifferentShop) {
-          // Different restaurant: WIPE cart, add new item with quantity 1
-          return { items: [{ ...item, quantity: 1 }] };
-        }
-
-        // 2. Same restaurant: Check if item is already in the cart
+        // Check if this exact item (same id) already exists in the cart.
+        // NOTE: if two different restaurants happen to reuse the same
+        // item id (e.g. both use "1" for their first menu item), this
+        // would incorrectly match them as the same line. If that's
+        // possible in your data, match on `i.id === item.id && i.shopId === item.shopId`
+        // instead — see commented-out version below.
         const existingItem = state.items.find((i) => i.id === item.id);
         
         if (existingItem) {
@@ -51,9 +52,29 @@ export const useCart = create<CartState>()(
           };
         }
 
-        // 3. If it's a completely new item, add it with quantity 1
+        // New item — could be from a new restaurant or an existing one,
+        // doesn't matter now. Just add it.
         return { items: [...state.items, { ...item, quantity: 1 }] };
       }),
+
+      // ---- Safer alternative if item IDs aren't guaranteed unique across shops ----
+      // addItem: (item) => set((state) => {
+      //   const existingItem = state.items.find(
+      //     (i) => i.id === item.id && i.shopId === item.shopId
+      //   );
+      //
+      //   if (existingItem) {
+      //     return {
+      //       items: state.items.map((i) =>
+      //         i.id === item.id && i.shopId === item.shopId
+      //           ? { ...i, quantity: (i.quantity || 1) + 1 }
+      //           : i
+      //       ),
+      //     };
+      //   }
+      //
+      //   return { items: [...state.items, { ...item, quantity: 1 }] };
+      // }),
       
       // Completely removes the item row regardless of quantity
       removeItem: (id) => set((state) => ({ 

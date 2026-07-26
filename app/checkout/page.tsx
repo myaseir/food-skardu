@@ -21,9 +21,29 @@ import {
   MapPin
 } from "lucide-react";
 import { SKARDU_HOTELS, SKARDU_AREAS } from "@/data/location";
-import { shops } from "@/data/config";
+import { shops, Shop } from "@/data/config";
 import { calculateDeliveryFee } from "@/utils/deliveryCalculator";
 import { useUserLocation } from "@/contexts/LocationContext";
+
+// Builds the distinct list of shops represented in the cart, in the order
+// their first item was added — this is the stop order the rider follows:
+// Office -> shopsInCart[0] -> shopsInCart[1] -> ... -> Customer -> Office.
+function getShopsInCartOrder(items: any[]): Shop[] {
+  const seen = new Set<string>();
+  const result: Shop[] = [];
+
+  for (const item of items) {
+    if (!seen.has(item.shopId)) {
+      const shop = shops.find((s) => s.id === item.shopId);
+      if (shop) {
+        result.push(shop);
+        seen.add(item.shopId);
+      }
+    }
+  }
+
+  return result;
+}
 
 export default function CheckoutPage() {
   const { items, clearCart } = useCart() as any;
@@ -52,9 +72,15 @@ export default function CheckoutPage() {
   // relying on the hotel/area name alone.
   const { location: userLocation } = useUserLocation();
 
-  // Dynamic Delivery Calculation
-  const currentShop = shops.find((s) => s.id === items[0]?.shopId);
-  const deliveryFee = currentShop && locationName ? calculateDeliveryFee(currentShop, locationName) : 0;
+  // Dynamic Delivery Calculation — now multi-restaurant aware.
+  // shopsInCart is the ordered, deduplicated list of every restaurant/mart
+  // represented in the cart; the rider visits them in this order before
+  // heading to the customer.
+  const shopsInCart = getShopsInCartOrder(items);
+  const currentShop = shopsInCart[0]; // kept for any single-shop display fallback
+  const deliveryFee = shopsInCart.length > 0 && locationName
+    ? calculateDeliveryFee(shopsInCart, locationName)
+    : 0;
   const total = subtotal + deliveryFee;
 
   // SMART FILTER: Choose the right list based on delivery mode
@@ -85,17 +111,34 @@ export default function CheckoutPage() {
       ? `HOTEL: ${locationName} | ROOM: ${addressDetail}`
       : `HOME AREA: ${locationName} | ADDRESS: ${addressDetail}`;
 
-    const detailedItems = items
+ // Group items by restaurant so the email clearly shows which item
+// came from which shop — critical now that orders can span multiple
+// restaurants (rider needs to know what to pick up at each stop).
+const detailedItems = shopsInCart
+  .map((shop) => {
+    const shopItems = items.filter((i: any) => i.shopId === shop.id);
+    if (shopItems.length === 0) return "";
+
+    const itemLines = shopItems
       .map(
         (i: any) =>
-          (i.quantity || 1) + "x " + i.name + " (Rs. " + i.price * (i.quantity || 1) + ")"
+          "  " + (i.quantity || 1) + "x " + i.name + " (Rs. " + i.price * (i.quantity || 1) + ")"
       )
       .join("\n");
+
+    return `${shop.name}:\n${itemLines}`;
+  })
+  .filter(Boolean)
+  .join("\n\n");
+
+    // All restaurants/marts involved in this order, in visiting order —
+    // e.g. "Yak and Bull Cafe Skardu, Domino's Pizza Skardu"
+    const restaurantNames = shopsInCart.map((s) => s.name).join(", ") || "N/A";
 
     const templateParams = {
       user_name: name,
       user_phone: phone,
-      restaurant_name: currentShop?.name || "N/A",
+      restaurant_name: restaurantNames,
       address: finalAddress,
       order_items: detailedItems,
       subtotal: subtotal,
@@ -321,24 +364,39 @@ export default function CheckoutPage() {
               Order Summary
             </h2>
 
-            {currentShop && (
+            {/* Multi-restaurant label — shows every shop the rider will visit */}
+            {shopsInCart.length > 0 && (
               <p className="text-[11px] font-black uppercase tracking-widest text-purple-600 mb-4 -mt-1">
-                {currentShop.name}
+                {shopsInCart.map((s) => s.name).join(" · ")}
               </p>
             )}
 
-            <div className="space-y-2.5 mb-5 max-h-64 overflow-y-auto pr-1">
-              {items.map((item: any, idx: number) => (
-                <div
-                  key={idx}
-                  className="flex justify-between text-[13px] font-bold text-gray-700 gap-3"
-                >
-                  <span className="truncate">
-                    {item.quantity}x {item.name}
-                  </span>
-                  <span className="shrink-0">Rs. {item.price * item.quantity}</span>
-                </div>
-              ))}
+            {/* Items grouped by restaurant so it's clear what comes from where */}
+            <div className="space-y-4 mb-5 max-h-64 overflow-y-auto pr-1">
+              {shopsInCart.map((shop) => {
+                const shopItems = items.filter((i: any) => i.shopId === shop.id);
+                if (shopItems.length === 0) return null;
+                return (
+                  <div key={shop.id}>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5">
+                      {shop.name}
+                    </p>
+                    <div className="space-y-1.5">
+                      {shopItems.map((item: any, idx: number) => (
+                        <div
+                          key={idx}
+                          className="flex justify-between text-[13px] font-bold text-gray-700 gap-3"
+                        >
+                          <span className="truncate">
+                            {item.quantity}x {item.name}
+                          </span>
+                          <span className="shrink-0">Rs. {item.price * item.quantity}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
             <div className="border-t border-gray-100 pt-4 space-y-2">
@@ -386,7 +444,7 @@ export default function CheckoutPage() {
           <div className="flex items-center gap-2 min-w-0">
             <Receipt size={15} className="text-purple-600 shrink-0" />
             <span className="text-[11px] font-black uppercase tracking-widest text-gray-500 truncate">
-              {currentShop ? `${currentShop.name} · ` : ""}
+              {shopsInCart.length > 0 ? `${shopsInCart.map((s) => s.name).join(" · ")} · ` : ""}
               {items.reduce((s: number, i: any) => s + (i.quantity || 1), 0)} items
             </span>
           </div>
@@ -396,20 +454,31 @@ export default function CheckoutPage() {
           />
         </button>
 
-        {/* Expandable item list */}
+        {/* Expandable item list — grouped by restaurant */}
         {showMobileSummary && (
-          <div className="px-5 pb-2 space-y-2 max-h-40 overflow-y-auto border-t border-gray-100 pt-3">
-            {items.map((item: any, idx: number) => (
-              <div
-                key={idx}
-                className="flex justify-between text-[12px] font-bold text-gray-700 gap-3"
-              >
-                <span className="truncate">
-                  {item.quantity}x {item.name}
-                </span>
-                <span className="shrink-0">Rs. {item.price * item.quantity}</span>
-              </div>
-            ))}
+          <div className="px-5 pb-2 space-y-3 max-h-40 overflow-y-auto border-t border-gray-100 pt-3">
+            {shopsInCart.map((shop) => {
+              const shopItems = items.filter((i: any) => i.shopId === shop.id);
+              if (shopItems.length === 0) return null;
+              return (
+                <div key={shop.id}>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">
+                    {shop.name}
+                  </p>
+                  {shopItems.map((item: any, idx: number) => (
+                    <div
+                      key={idx}
+                      className="flex justify-between text-[12px] font-bold text-gray-700 gap-3"
+                    >
+                      <span className="truncate">
+                        {item.quantity}x {item.name}
+                      </span>
+                      <span className="shrink-0">Rs. {item.price * item.quantity}</span>
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
           </div>
         )}
 
