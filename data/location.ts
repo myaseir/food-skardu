@@ -99,6 +99,7 @@ export const SKARDU_HOTELS: Record<string, { lat: number; lng: number }> = {
   "Morning Resort": { lat: 35.4390467, lng: 75.4505393 },
   "Hotel Desert Bloom Skardu": { lat: 35.3118028, lng: 75.6066532 },
   "TheQue Skardu": { lat: 35.443078, lng: 75.452045 },
+  "Singay Homestay Skardu": { lat: 35.281861, lng: 75.644955 },
 };
 
 export const SKARDU_AREAS: Record<string, { lat: number; lng: number }> = {
