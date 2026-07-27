@@ -179,6 +179,7 @@ const detailedItems = shopsInCart
         </p>
         <Link
           href="/"
+          replace
           className="bg-purple-600 text-white px-6 py-3 rounded-xl font-black text-sm uppercase tracking-widest hover:bg-purple-700 active:scale-95 transition-all"
         >
           Browse Restaurants
@@ -207,7 +208,7 @@ const detailedItems = shopsInCart
             </p>
           </div>
 
-          <Link href="/" className="w-full bg-purple-600 text-white py-3.5 sm:py-4 rounded-xl font-black uppercase tracking-widest text-sm hover:bg-purple-700 transition-colors">
+          <Link href="/" replace className="w-full bg-purple-600 text-white py-3.5 sm:py-4 rounded-xl font-black uppercase tracking-widest text-sm hover:bg-purple-700 transition-colors">
             Back to Home
           </Link>
         </div>
@@ -222,6 +223,7 @@ const detailedItems = shopsInCart
       <div className="bg-white p-4 shadow-sm flex items-center gap-3 sticky top-0 z-40 border-b border-gray-100">
         <Link
           href="/"
+          replace
           className="p-2 hover:bg-gray-100 rounded-full transition-colors shrink-0"
         >
           <ChevronLeft size={20} />

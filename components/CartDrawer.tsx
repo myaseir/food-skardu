@@ -7,30 +7,49 @@ import { useCart } from "@/store/useCart";
 import { Trash2, Plus, Minus } from "lucide-react";
 import { getMenuByShopId } from "@/lib/dataService";
 import { useAvailability } from "@/hooks/useAvailability";
-import { shops } from "@/data/config";
+import { shops, Shop } from "@/data/config";
 
 export default function CartDrawer({ isOpen, onClose }: any) {
   const { items, removeItem, addItem, removeSingleItem, clearCart } = useCart() as any;
   const { checkShopStatus } = useAvailability();
 
-  // Live check: is the shop this cart belongs to currently open?
-  // Re-evaluates on every render the drawer is open, not just once on
-  // load — a shop can close while the user is browsing the cart.
-  const currentShop = useMemo(() => {
-    if (items.length === 0) return null;
-    return shops.find((s) => s.id === items[0].shopId) || null;
+  // Distinct list of every shop (restaurant or mart) represented in the
+  // cart — carts can now span multiple shops, so this replaces the old
+  // "just look at items[0].shopId" logic.
+  const shopsInCart = useMemo(() => {
+    if (items.length === 0) return [];
+    const seen = new Set<string>();
+    const result: Shop[] = [];
+    for (const item of items) {
+      if (!seen.has(item.shopId)) {
+        const shop = shops.find((s) => s.id === item.shopId);
+        if (shop) {
+          result.push(shop);
+          seen.add(item.shopId);
+        }
+      }
+    }
+    return result;
   }, [items]);
 
-  const shopIsOpen = currentShop ? checkShopStatus(currentShop) : true;
+  // Live check: is EVERY shop in the cart currently open? A multi-shop
+  // cart is only orderable if all of its shops are open — re-evaluates
+  // on every render the drawer is open, since a shop can close while the
+  // user is browsing the cart.
+  const closedShops = useMemo(
+    () => shopsInCart.filter((shop) => !checkShopStatus(shop)),
+    [shopsInCart, checkShopStatus]
+  );
+  const allShopsOpen = closedShops.length === 0;
 
-  // If the shop closed while the drawer was open (or on load, before
-  // CartValidator gets a chance to run), wipe the cart so nothing
+  // If any shop in the cart closed while the drawer was open (or on load,
+  // before CartValidator gets a chance to run), wipe the cart so nothing
   // stale can be ordered.
   useEffect(() => {
-    if (currentShop && !shopIsOpen) {
+    if (shopsInCart.length > 0 && !allShopsOpen) {
       clearCart();
     }
-  }, [currentShop, shopIsOpen, clearCart]);
+  }, [shopsInCart, allShopsOpen, clearCart]);
 
   // Updated Math: Price * Quantity
   const total = items.reduce((sum: number, item: any) => sum + (item.price * (item.quantity || 1)), 0);
@@ -44,6 +63,17 @@ export default function CartDrawer({ isOpen, onClose }: any) {
         return;
       }
       const currentShopId = items[0].shopId;
+
+      // "Popular with your order" suggestions only make sense for
+      // restaurant menus — mart items live in products.ts, not a
+      // menus/*.ts file, so getMenuByShopId() has nothing to fetch for
+      // a mart shopId and would throw the "menu file not found" error.
+      const shopForSuggestions = shops.find((s) => s.id === currentShopId);
+      if (!shopForSuggestions || shopForSuggestions.type !== "restaurant") {
+        setSuggestions([]);
+        return;
+      }
+
       try {
         const menu = await getMenuByShopId(currentShopId);
         if (!menu) return;
@@ -87,9 +117,9 @@ export default function CartDrawer({ isOpen, onClose }: any) {
           <button onClick={onClose} className="text-gray-500 hover:text-gray-900 transition-colors">✕</button>
         </div>
 
-        {currentShop && !shopIsOpen && (
+        {closedShops.length > 0 && (
           <div className="bg-red-50 text-red-700 text-xs font-bold uppercase tracking-wide px-6 py-3 text-center">
-            {currentShop.name} is currently closed. Your cart has been cleared.
+            {closedShops.map((s) => s.name).join(", ")} {closedShops.length > 1 ? "are" : "is"} currently closed. Your cart has been cleared.
           </div>
         )}
         
@@ -155,13 +185,13 @@ export default function CartDrawer({ isOpen, onClose }: any) {
               <span className="font-bold text-gray-500 uppercase tracking-widest text-xs">Subtotal</span>
               <span className="font-black text-lg text-gray-900">Rs. {total}</span>
             </div>
-            {shopIsOpen ? (
+            {allShopsOpen ? (
               <Link href="/checkout" onClick={onClose} className="w-full flex items-center justify-center bg-purple-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-purple-700">
                 Continue
               </Link>
             ) : (
               <button disabled className="w-full flex items-center justify-center bg-gray-300 text-gray-500 py-4 rounded-2xl font-black uppercase tracking-widest cursor-not-allowed">
-                Restaurant Closed
+                Shop Closed
               </button>
             )}
           </div>

@@ -7,6 +7,13 @@ import ShopStatusBadge from "./ShopStatusBadge";
 import { Star, Clock } from "lucide-react";
 import { estimateDeliveryTime } from "@/utils/deliveryCalculator";
 
+interface RestaurantListProps {
+  // Called instead of navigating when the mart tile is clicked — lets the
+  // parent (HomeClient) switch to the Mart view instead of routing to
+  // /restaurant/[id], which only exists for restaurants (menu-backed shops).
+  onMartClick?: () => void;
+}
+
 // ---- Open/close time helper text ----
 function parseTimeToMinutes(time: string): number {
   const [h, m] = time.split(":").map(Number);
@@ -71,64 +78,85 @@ function ShopLogo({ shop }: { shop: Shop }) {
   );
 }
 
-export default function RestaurantList() {
+// Shared inner content for both the <Link> (restaurant) and <button> (mart)
+// versions of the card, so the two stay visually identical.
+function ShopCardContent({ shop }: { shop: Shop }) {
+  const statusText = getOpenStatusText(shop);
+  const deliveryTime = estimateDeliveryTime(shop);
+
+  return (
+    <>
+      <ShopLogo shop={shop} />
+
+      <div className="flex-grow text-left">
+        <div className="flex justify-between items-start mb-1">
+          <h3 className="text-xl font-black uppercase tracking-tighter">
+            {shop.name}
+          </h3>
+        </div>
+
+        <div className="mb-2 flex items-center gap-2 flex-wrap">
+          <ShopStatusBadge shop={shop} />
+
+          <span className="flex items-center gap-1 text-xs font-bold text-gray-700 bg-gray-50 px-2 py-0.5 rounded-full">
+            <Star size={12} className="fill-yellow-400 text-yellow-400" />
+            {shop.rating.toFixed(1)}
+            <span className="text-gray-400 font-medium">
+              ({shop.reviews})
+            </span>
+          </span>
+
+          <span className="flex items-center gap-1 text-xs font-bold text-gray-700 bg-gray-50 px-2 py-0.5 rounded-full">
+            <Clock size={12} className="text-purple-600" />
+            {deliveryTime.label}
+          </span>
+        </div>
+
+        <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">
+          {shop.type === "restaurant" ? "Food & Beverages" : "General Store"}
+        </p>
+
+        {statusText && (
+          <p className="text-[11px] font-semibold text-gray-500">
+            {statusText}
+          </p>
+        )}
+      </div>
+    </>
+  );
+}
+
+export default function RestaurantList({ onMartClick }: RestaurantListProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-      {shops
-        .filter((shop) => shop.type === "restaurant")
-        .map((shop) => {
-          const statusText = getOpenStatusText(shop);
-          const deliveryTime = estimateDeliveryTime(shop);
-
+      {shops.map((shop) => {
+        // Mart isn't a menu-backed shop — /restaurant/[id] fetches its
+        // menu via getMenuByShopId, which only resolves for restaurants
+        // (data/menus/*.ts). So instead of routing there, clicking the
+        // mart tile switches the parent to the Mart view.
+        if (shop.type === "mart") {
           return (
-            <Link
+            <button
               key={shop.id}
-              href={`/restaurant/${shop.id}`}
-              className="p-6 border border-gray-100 rounded-3xl hover:border-purple-600 transition-all shadow-sm hover:shadow-lg flex items-center gap-5"
+              type="button"
+              onClick={() => onMartClick?.()}
+              className="p-6 border border-gray-100 rounded-3xl hover:border-purple-600 transition-all shadow-sm hover:shadow-lg flex items-center gap-5 text-left"
             >
-              {/* Logo Section */}
-              <ShopLogo shop={shop} />
-
-              {/* Info Section */}
-              <div className="flex-grow">
-                <div className="flex justify-between items-start mb-1">
-                  <h3 className="text-xl font-black uppercase tracking-tighter">
-                    {shop.name}
-                  </h3>
-                </div>
-
-                <div className="mb-2 flex items-center gap-2 flex-wrap">
-                  <ShopStatusBadge shop={shop} />
-
-                  {/* Manually set rating, Foodpanda-style */}
-                  <span className="flex items-center gap-1 text-xs font-bold text-gray-700 bg-gray-50 px-2 py-0.5 rounded-full">
-                    <Star size={12} className="fill-yellow-400 text-yellow-400" />
-                    {shop.rating.toFixed(1)}
-                    <span className="text-gray-400 font-medium">
-                      ({shop.reviews})
-                    </span>
-                  </span>
-
-                  {/* Estimated delivery time, Foodpanda-style */}
-                  <span className="flex items-center gap-1 text-xs font-bold text-gray-700 bg-gray-50 px-2 py-0.5 rounded-full">
-                    <Clock size={12} className="text-purple-600" />
-                    {deliveryTime.label}
-                  </span>
-                </div>
-
-                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">
-                  {shop.type === "restaurant" ? "Food & Beverages" : "General Store"}
-                </p>
-
-                {statusText && (
-                  <p className="text-[11px] font-semibold text-gray-500">
-                    {statusText}
-                  </p>
-                )}
-              </div>
-            </Link>
+              <ShopCardContent shop={shop} />
+            </button>
           );
-        })}
+        }
+
+        return (
+          <Link
+            key={shop.id}
+            href={`/restaurant/${shop.id}`}
+            className="p-6 border border-gray-100 rounded-3xl hover:border-purple-600 transition-all shadow-sm hover:shadow-lg flex items-center gap-5"
+          >
+            <ShopCardContent shop={shop} />
+          </Link>
+        );
+      })}
     </div>
   );
 }

@@ -60,11 +60,12 @@ export default function RestaurantPageClient({ params }: PageProps) {
   const { items, addItem } = useCart();
   const { checkShopStatus } = useAvailability();
 
-  // selectedItem now doubles as the "item details" modal state — it opens
-  // for EVERY item on tap (so long descriptions are always fully readable),
-  // and additionally shows a variant picker when the item has variants.
+  // selectedItem doubles as the "item details" modal state — it opens for
+  // every item on tap, and additionally shows a variant picker when the
+  // item has variants.
   const [selectedItem, setSelectedItem] = useState<(MenuItem & { category: string }) | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
 
   const cartTotal = items.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
 
@@ -102,8 +103,6 @@ export default function RestaurantPageClient({ params }: PageProps) {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Among sections currently intersecting the "active band" near the
-        // top of the viewport, pick the one closest to the top.
         const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
@@ -113,8 +112,6 @@ export default function RestaurantPageClient({ params }: PageProps) {
         }
       },
       {
-        // Treat a horizontal band near the top of the viewport (just below
-        // the sticky header + CategoryNav) as the "active" zone.
         rootMargin: "-140px 0px -70% 0px",
         threshold: 0,
       }
@@ -125,10 +122,21 @@ export default function RestaurantPageClient({ params }: PageProps) {
     return () => observer.disconnect();
   }, [data]);
 
+  // Close the modal with a small closing animation, then clear state.
+  // Used by both the "X" button and a backdrop click.
+  const closeModal = () => {
+    setIsClosing(true);
+    window.setTimeout(() => {
+      setSelectedItem(null);
+      setSelectedVariant(null);
+      setIsClosing(false);
+    }, 150);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500 font-bold animate-pulse uppercase tracking-widest">
+        <p className="text-gray-500 font-semibold animate-pulse uppercase tracking-widest text-sm">
           Loading Menu...
         </p>
       </div>
@@ -140,9 +148,8 @@ export default function RestaurantPageClient({ params }: PageProps) {
   const { shop, menu } = data;
   const isShopOpen = checkShopStatus(shop);
 
-  // Tapping anywhere on the card opens the full details view — this is
-  // where the untruncated description lives, so nothing important is ever
-  // hidden behind a line-clamp.
+  // Tapping anywhere on the card opens the full details view (with a subtle
+  // zoom-in animation) — this is where the untruncated description lives.
   const handleCardClick = (item: MenuItem, catName: string) => {
     if (!isShopOpen) return;
     setSelectedItem({ ...item, category: catName });
@@ -189,8 +196,7 @@ export default function RestaurantPageClient({ params }: PageProps) {
       addItem({ ...selectedItem, price: effectivePrice, shopId: id, category: selectedItem.category });
     }
 
-    setSelectedItem(null);
-    setSelectedVariant(null);
+    closeModal();
   };
 
   const selectedHasVariants = !!(selectedItem?.variants && selectedItem.variants.length > 0);
@@ -203,7 +209,7 @@ export default function RestaurantPageClient({ params }: PageProps) {
     : 0;
 
   return (
-    <main className="min-h-screen bg-gray-50 pb-24 relative">
+    <main className="min-h-screen bg-gray-50 pb-24 relative font-sans antialiased">
       {/* Header */}
       <div className="bg-white p-6 shadow-sm relative">
         <Link
@@ -225,12 +231,12 @@ export default function RestaurantPageClient({ params }: PageProps) {
               className={`rounded-2xl border object-cover ${!isShopOpen ? "grayscale opacity-60" : ""}`}
             />
           ) : (
-            <div className="w-20 h-20 rounded-2xl border bg-gray-100 flex items-center justify-center text-gray-300 text-[9px] font-black uppercase tracking-widest text-center px-1">
+            <div className="w-20 h-20 rounded-2xl border bg-gray-100 flex items-center justify-center text-gray-300 text-[9px] font-semibold uppercase tracking-widest text-center px-1">
               No Logo
             </div>
           )}
           <div>
-            <h1 className={`text-2xl font-black uppercase ${!isShopOpen ? "text-gray-500" : ""}`}>
+            <h1 className={`text-2xl font-extrabold tracking-tight ${!isShopOpen ? "text-gray-500" : "text-gray-900"}`}>
               {menu.name}
             </h1>
             <ShopStatusBadge shop={shop} />
@@ -241,7 +247,7 @@ export default function RestaurantPageClient({ params }: PageProps) {
       {/* Closed banner */}
       {!isShopOpen && (
         <div className="bg-gray-800 text-white text-center py-2.5 px-4">
-          <p className="text-xs font-black uppercase tracking-widest">
+          <p className="text-xs font-semibold uppercase tracking-widest">
             Currently Closed &middot; Opens 8:00 AM – 9:00 PM
           </p>
         </div>
@@ -253,7 +259,7 @@ export default function RestaurantPageClient({ params }: PageProps) {
       <div className="max-w-3xl mx-auto px-6 py-8">
         {menu.categories.map((cat: Category) => (
           <section key={cat.name} id={cat.name} className="scroll-mt-24 mb-12">
-            <h2 className={`text-xl font-black mb-6 uppercase tracking-tighter ${!isShopOpen ? "text-gray-500" : ""}`}>
+            <h2 className={`text-lg font-bold mb-6 tracking-tight ${!isShopOpen ? "text-gray-500" : "text-gray-900"}`}>
               {cat.name}
             </h2>
 
@@ -261,16 +267,11 @@ export default function RestaurantPageClient({ params }: PageProps) {
               {cat.items.map((item: MenuItem) => {
                 const isVariant = item.variants && item.variants.length > 0;
 
-                // Simple item: compare original vs discounted price directly.
                 const simpleHasDiscount = !isVariant && hasValidDiscount(item.price, item.discountPrice);
                 const simpleEffectivePrice = !isVariant
                   ? getEffectivePrice(item.price, item.discountPrice)
                   : item.price;
 
-                // Variant item: "From Rs. X" should use the lowest effective
-                // (post-discount) price across all variants, and the crossed
-                // out price should be that SAME variant's original price
-                // (not just any variant's), so the two numbers line up.
                 let variantEffectivePrices: number[] = [];
                 let variantAnyDiscount = false;
                 let variantCheapestOriginal = 0;
@@ -279,8 +280,6 @@ export default function RestaurantPageClient({ params }: PageProps) {
                   variantEffectivePrices = item.variants!.map((v) => getEffectivePrice(v.price, v.discountPrice));
                   variantAnyDiscount = item.variants!.some((v) => hasValidDiscount(v.price, v.discountPrice));
 
-                  // Find the variant that produced the lowest effective price,
-                  // so the strikethrough shows ITS original price.
                   let cheapestIndex = 0;
                   for (let i = 1; i < variantEffectivePrices.length; i++) {
                     if (variantEffectivePrices[i] < variantEffectivePrices[cheapestIndex]) cheapestIndex = i;
@@ -312,8 +311,6 @@ export default function RestaurantPageClient({ params }: PageProps) {
                         : "cursor-not-allowed"
                     }`}
                   >
-                    {/* Image block — this is the ONLY element with overflow-hidden.
-                        The + button lives outside it so it never gets clipped. */}
                     <div className="relative">
                       <div className="relative w-full aspect-square rounded-t-2xl overflow-hidden bg-gray-100">
                         {item.image ? (
@@ -324,30 +321,26 @@ export default function RestaurantPageClient({ params }: PageProps) {
                             className={`object-cover ${!isShopOpen ? "grayscale opacity-60" : ""}`}
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-gray-300 text-[10px] font-black uppercase tracking-widest">
+                          <div className="w-full h-full flex items-center justify-center text-gray-300 text-[10px] font-semibold uppercase tracking-widest">
                             No Image
                           </div>
                         )}
 
                         {showBadge && (
-                          <span className="absolute top-2 left-2 z-10 bg-red-500 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg">
+                          <span className="absolute top-2 left-2 z-10 bg-red-500 text-white text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-lg">
                             Sale
                           </span>
                         )}
 
                         {!isShopOpen && (
                           <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                            <span className="bg-white/90 text-gray-800 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
+                            <span className="bg-white/90 text-gray-800 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
                               Closed
                             </span>
                           </div>
                         )}
                       </div>
 
-                      {/* + button — positioned relative to the wrapper above,
-                          not the overflow-hidden image div, so it renders fully.
-                          Quick-adds simple items directly; opens the details
-                          view for items that require a variant pick. */}
                       <button
                         onClick={(e) => handleQuickAdd(e, item, cat.name)}
                         disabled={!isShopOpen}
@@ -358,7 +351,7 @@ export default function RestaurantPageClient({ params }: PageProps) {
                               : `Add ${item.name} to cart`
                             : `${item.name} unavailable, shop closed`
                         }
-                        className={`absolute -bottom-4 left-1/2 -translate-x-1/2 z-10 w-9 h-9 rounded-full text-white font-black text-lg flex items-center justify-center shadow-lg border-4 border-white transition-all ${
+                        className={`absolute -bottom-4 left-1/2 -translate-x-1/2 z-10 w-9 h-9 rounded-full text-white font-bold text-lg flex items-center justify-center shadow-lg border-4 border-white transition-all ${
                           isShopOpen
                             ? "bg-purple-600 hover:bg-purple-700 active:scale-90"
                             : "bg-gray-400 cursor-not-allowed"
@@ -368,25 +361,24 @@ export default function RestaurantPageClient({ params }: PageProps) {
                       </button>
                     </div>
 
-                    {/* Details */}
                     <div className="p-3 pt-5 flex flex-col flex-grow text-left">
-                      <h3 className={`font-bold text-sm leading-snug line-clamp-2 ${!isShopOpen ? "text-gray-500" : ""}`}>
+                      <h3 className={`font-semibold text-sm leading-snug tracking-tight line-clamp-2 ${!isShopOpen ? "text-gray-500" : "text-gray-900"}`}>
                         {item.name}
                       </h3>
                       {item.desc && (
-                        <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.desc}</p>
+                        <p className="text-xs text-gray-500 mt-1 leading-relaxed line-clamp-2">{item.desc}</p>
                       )}
                       <div className="flex items-center gap-2 mt-auto pt-3">
-                        <p className={`font-black text-sm ${isShopOpen ? "text-purple-600" : "text-gray-500"}`}>
+                        <p className={`font-bold text-sm ${isShopOpen ? "text-purple-600" : "text-gray-500"}`}>
                           {isShopOpen ? displayPrice : "Closed"}
                         </p>
                         {isShopOpen && simpleHasDiscount && (
-                          <p className="text-gray-400 text-xs font-semibold line-through">
+                          <p className="text-gray-400 text-xs font-medium line-through">
                             Rs. {item.price}
                           </p>
                         )}
                         {isShopOpen && isVariant && variantAnyDiscount && (
-                          <p className="text-gray-400 text-xs font-semibold line-through">
+                          <p className="text-gray-400 text-xs font-medium line-through">
                             Rs. {variantCheapestOriginal}
                           </p>
                         )}
@@ -400,12 +392,25 @@ export default function RestaurantPageClient({ params }: PageProps) {
         ))}
       </div>
 
-      {/* Item Details Modal — opens for every item on tap. Always shows the
-          full, untruncated description. Shows a variant picker only when
-          the item actually has variants. */}
+      {/* Item Details Modal — opens with a zoom-in animation on tap.
+          Clicking the dark backdrop (anywhere outside the white card)
+          closes it, same as the "X" button — the card itself stops the
+          click from reaching the backdrop so clicks inside stay open. */}
       {selectedItem && isShopOpen && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 sm:p-4 animate-in fade-in duration-200">
-          <div className="bg-white w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in slide-in-from-bottom-10 sm:slide-in-from-bottom-0 shadow-2xl">
+        <div
+          onClick={closeModal}
+          className={`fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 sm:p-4 transition-opacity duration-150 ${
+            isClosing ? "opacity-0" : "opacity-100 animate-in fade-in duration-200"
+          }`}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`bg-white w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl overflow-hidden flex flex-col max-h-[90vh] shadow-2xl transition-all duration-150 ${
+              isClosing
+                ? "opacity-0 scale-95"
+                : "opacity-100 scale-100 animate-in zoom-in-95 slide-in-from-bottom-6 sm:slide-in-from-bottom-0 duration-200"
+            }`}
+          >
             {selectedItem.image && (
               <div className="relative w-full h-48 bg-gray-100 flex-shrink-0">
                 <Image src={selectedItem.image} alt={selectedItem.name} fill className="object-cover" />
@@ -414,12 +419,11 @@ export default function RestaurantPageClient({ params }: PageProps) {
 
             <div className="p-6 overflow-y-auto">
               <div className="flex justify-between items-start mb-2 gap-3">
-                <h2 className="text-2xl font-black leading-tight">{selectedItem.name}</h2>
+                <h2 className="text-2xl font-extrabold tracking-tight leading-tight text-gray-900">
+                  {selectedItem.name}
+                </h2>
                 <button
-                  onClick={() => {
-                    setSelectedItem(null);
-                    setSelectedVariant(null);
-                  }}
+                  onClick={closeModal}
                   className="p-2 bg-gray-100 hover:bg-gray-200 transition-colors rounded-full text-gray-500 flex-shrink-0"
                   aria-label="Close details"
                 >
@@ -429,7 +433,6 @@ export default function RestaurantPageClient({ params }: PageProps) {
                 </button>
               </div>
 
-              {/* Full description — no line-clamp, so long text is never hidden. */}
               {selectedItem.desc && (
                 <p className="text-gray-500 mb-6 text-sm leading-relaxed whitespace-pre-line">
                   {selectedItem.desc}
@@ -438,7 +441,7 @@ export default function RestaurantPageClient({ params }: PageProps) {
 
               {selectedHasVariants ? (
                 <>
-                  <h3 className="font-bold text-lg mb-3">Select Size / Option</h3>
+                  <h3 className="font-bold text-base mb-3 text-gray-900">Select Size / Option</h3>
                   <div className="space-y-3 mb-2">
                     {selectedItem.variants?.map((variant) => {
                       const variantDiscounted = hasValidDiscount(variant.price, variant.discountPrice);
@@ -462,12 +465,12 @@ export default function RestaurantPageClient({ params }: PageProps) {
                               onChange={() => setSelectedVariant(variant)}
                               className="w-5 h-5 text-purple-600 border-gray-300 focus:ring-purple-600 focus:ring-2"
                             />
-                            <span className="font-bold text-gray-800">{variant.name}</span>
+                            <span className="font-semibold text-gray-800">{variant.name}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="font-black text-purple-600">Rs. {variantEffective}</span>
+                            <span className="font-bold text-purple-600">Rs. {variantEffective}</span>
                             {variantDiscounted && (
-                              <span className="text-gray-400 text-xs font-semibold line-through">
+                              <span className="text-gray-400 text-xs font-medium line-through">
                                 Rs. {variant.price}
                               </span>
                             )}
@@ -479,11 +482,11 @@ export default function RestaurantPageClient({ params }: PageProps) {
                 </>
               ) : (
                 <div className="flex items-center gap-3 pt-1">
-                  <span className="font-black text-2xl text-purple-600">
+                  <span className="font-extrabold text-2xl text-purple-600">
                     Rs. {getEffectivePrice(selectedItem.price, selectedItem.discountPrice)}
                   </span>
                   {hasValidDiscount(selectedItem.price, selectedItem.discountPrice) && (
-                    <span className="text-gray-400 text-sm font-semibold line-through">
+                    <span className="text-gray-400 text-sm font-medium line-through">
                       Rs. {selectedItem.price}
                     </span>
                   )}
@@ -495,7 +498,7 @@ export default function RestaurantPageClient({ params }: PageProps) {
               <button
                 onClick={confirmAdd}
                 disabled={selectedHasVariants && !selectedVariant}
-                className="w-full bg-purple-600 text-white py-4 rounded-xl font-black text-lg hover:bg-purple-700 active:scale-95 transition-all flex justify-between px-6 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="w-full bg-purple-600 text-white py-4 rounded-xl font-bold text-base hover:bg-purple-700 active:scale-95 transition-all flex justify-between px-6 disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
                 <span>Add to Cart</span>
                 <span>Rs. {modalDisplayPrice}</span>
@@ -512,11 +515,11 @@ export default function RestaurantPageClient({ params }: PageProps) {
             onClick={() => setIsCartOpen(true)}
             className="w-full bg-purple-600 text-white p-4 rounded-2xl shadow-2xl flex justify-between items-center active:scale-95 transition-transform"
           >
-            <div className="bg-white/20 px-3 py-1 rounded-lg font-black text-sm">
+            <div className="bg-white/20 px-3 py-1 rounded-lg font-bold text-sm">
               {items.reduce((sum, item) => sum + (item.quantity || 1), 0)} items
             </div>
-            <span className="font-black uppercase tracking-widest text-sm">View Cart</span>
-            <span className="font-black">Rs. {cartTotal}</span>
+            <span className="font-bold uppercase tracking-widest text-sm">View Cart</span>
+            <span className="font-bold">Rs. {cartTotal}</span>
           </button>
         </div>
       )}

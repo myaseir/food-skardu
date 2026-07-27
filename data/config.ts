@@ -74,6 +74,34 @@ export const shops: Shop[] = [
     rating: 4.8, // TODO: adjust once real reviews exist
     reviews: 61, // TODO: adjust once real reviews exist
   },
+   {
+    id: "skyway-pizza",
+    name: "Skyway Pizza Skardu",
+    type: "restaurant",
+    openTime: "12:00",
+    closeTime: "01:00",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
+    lat: 35.288921, // TODO: replace with real coordinates
+    lng: 75.629178, // TODO: replace with real coordinates
+    rating: 4.1,
+    reviews: 106,
+  },
+{
+    id: "mart-1", // MUST match shopId used in products.ts
+    name: "Meal Bear Mart", // TODO: real name
+    type: "mart",
+    openTime: "08:00",
+    closeTime: "18:00",
+    alwaysOpen: false,
+    logo: "", // TODO: paste real logo URL
+    lat: 35.309838, // TODO: replace with the mart's real coordinates
+    lng: 75.609356, // TODO: replace with the mart's real coordinates
+    isActive: true,
+    rating: 4.5,
+    reviews: 2,
+  },
+ 
   // {
   //   id: "aima-kitchen",
   //   name: "Aima's Kitchen Skardu",
@@ -153,17 +181,5 @@ export const shops: Shop[] = [
     rating: 4.5,          // adjust as needed
     reviews: 46,
   },
-  {
-    id: "skyway-pizza",
-    name: "Skyway Pizza Skardu",
-    type: "restaurant",
-    openTime: "12:00",
-    closeTime: "01:00",
-    alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
-    lat: 35.288921, // TODO: replace with real coordinates
-    lng: 75.629178, // TODO: replace with real coordinates
-    rating: 4.1,
-    reviews: 106,
-  },
+ 
 ];

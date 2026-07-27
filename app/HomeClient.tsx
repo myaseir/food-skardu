@@ -38,7 +38,13 @@ export default function HomeClient() {
           </h2>
         </div>
 
-        {view === 'restaurants' ? <RestaurantList /> : <ProductGrid />}
+       {view === 'restaurants' ? (
+           <RestaurantList onMartClick={() => setView('products')} />
+         ) : (
+          
+          <ProductGrid onCartClick={() => setIsCartOpen(true)} />
+         )}
+        
       </section>
 
       <div className="hidden md:block"><Footer /></div>

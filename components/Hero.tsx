@@ -8,6 +8,7 @@ import { getShops } from "@/lib/dataService";
 interface Shop {
   id: string;
   name: string;
+  type?: string; // present on the real Shop objects returned by getShops()
 }
 
 export default function Hero() {
@@ -23,7 +24,10 @@ export default function Hero() {
       try {
         const shops = await getShops();
         if (shops) {
-          setRestaurants(shops);
+          // Hero's search is restaurant-only (it links to /restaurant/[id]
+          // and getMenuByShopId, which mart items don't have) — filter out
+          // mart/other shop types so they never become a search result.
+          setRestaurants(shops.filter((s: Shop) => s.type === "restaurant"));
         }
       } catch (error) {
         console.error("Failed to load restaurants for search:", error);

@@ -1,8 +1,11 @@
 "use client";
 import { useState, useMemo, useEffect, useRef } from "react";
+import { X, Plus, Minus, ShoppingBag } from "lucide-react";
 import { products } from "../data/products";
 import { useAvailability } from "../hooks/useAvailability";
-import ProductCard from "./ProductCard";
+import { useCart } from "@/store/useCart";
+import { formatPrice } from "@/lib/utils";
+import ProductCard, { ProductCardProps } from "./ProductCard";
 
 // Official Panda Mart style categories
 export const MART_CATEGORIES = [
@@ -27,7 +30,7 @@ export const MART_CATEGORIES = [
 // ---- Mart-only timing config ----
 // Fully isolated from data/config.ts and the restaurant shops array.
 // Change these two values any time to adjust mart hours.
-const MART_OPEN_HOUR = 8;  // 8 AM
+const MART_OPEN_HOUR = 8; // 8 AM
 const MART_CLOSE_HOUR = 18; // 6 PM
 
 function getMartStatus() {
@@ -51,11 +54,60 @@ function getMartStatus() {
   };
 }
 
-export default function ProductGrid() {
+interface ProductGridProps {
+  // Opens the shared CartDrawer owned by HomeClient — mirrors the
+  // restaurant page's floating "View Cart" button, which needs the same
+  // parent-owned drawer state.
+  onCartClick?: () => void;
+}
+
+export default function ProductGrid({ onCartClick }: ProductGridProps) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [search, setSearch] = useState("");
   const { isCategoryAvailable } = useAvailability();
   const categoryScrollRef = useRef<HTMLDivElement>(null);
+  const { items, addItem } = useCart() as any;
+
+  // ---- Item details modal state ----
+  const [selectedProduct, setSelectedProduct] = useState<ProductCardProps | null>(null);
+  const [selectedQty, setSelectedQty] = useState(1);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const closeModal = () => {
+    setIsClosing(true);
+    window.setTimeout(() => {
+      setSelectedProduct(null);
+      setIsClosing(false);
+    }, 150);
+  };
+
+  const openModal = (product: ProductCardProps) => {
+    setSelectedProduct(product);
+    setSelectedQty(1);
+  };
+
+  const confirmAddFromModal = () => {
+    if (!selectedProduct) return;
+    const hasDiscount =
+      typeof selectedProduct.discountPrice === "number" &&
+      selectedProduct.discountPrice > 0 &&
+      selectedProduct.discountPrice < selectedProduct.price;
+    const finalPrice = hasDiscount ? selectedProduct.discountPrice! : selectedProduct.price;
+
+    const payload = {
+      id: selectedProduct.id,
+      name: selectedProduct.name,
+      price: finalPrice,
+      image: selectedProduct.image,
+      category: selectedProduct.category,
+      shopId: selectedProduct.shopId || "mart-1",
+    };
+
+    for (let i = 0; i < selectedQty; i++) {
+      addItem(payload);
+    }
+    closeModal();
+  };
 
   // Let a normal mouse wheel scroll the category bar horizontally.
   // Mice only send vertical wheel deltas, so without this, desktop
@@ -108,20 +160,44 @@ export default function ProductGrid() {
     });
   }, [selectedCategory, search, isCategoryAvailable, martStatus.isOpen]);
 
-  return (
-    <div className="max-w-7xl mx-auto px-0 md:px-6 py-8">
+  // Floating cart bar totals — mirrors the restaurant page's floating button.
+  const cartCount = items.reduce((sum: number, i: any) => sum + (i.quantity || 1), 0);
+  const cartTotal = items.reduce((sum: number, i: any) => sum + i.price * (i.quantity || 1), 0);
 
+  const modalHasDiscount =
+    !!selectedProduct &&
+    typeof selectedProduct.discountPrice === "number" &&
+    selectedProduct.discountPrice > 0 &&
+    selectedProduct.discountPrice < selectedProduct.price;
+  const modalUnitPrice = selectedProduct
+    ? modalHasDiscount
+      ? selectedProduct.discountPrice!
+      : selectedProduct.price
+    : 0;
+
+  return (
+    <div className="max-w-7xl mx-auto px-0 md:px-6 py-8 pb-28">
       {/* Search Bar - Professional rounded design */}
       <div className="px-6 md:px-0 mb-6">
         <div className="relative max-w-xl">
           <input
-            className="w-full p-4 pl-12 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-purple-600 focus:bg-white transition-all font-medium text-gray-900"
+            value={search}
+            className="w-full p-4 pl-12 pr-10 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-purple-600 focus:bg-white transition-all font-medium text-gray-900"
             placeholder="Search for reliable mart items..."
             onChange={(e) => setSearch(e.target.value)}
           />
           <svg className="absolute left-4 top-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
+          {search.length > 0 && (
+            <button
+              onClick={() => setSearch("")}
+              aria-label="Clear search"
+              className="absolute right-4 top-4 text-gray-400 hover:text-gray-700 transition-colors"
+            >
+              <X size={20} />
+            </button>
+          )}
         </div>
       </div>
 
@@ -190,7 +266,7 @@ export default function ProductGrid() {
         ) : filtered.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
             {filtered.map((p) => (
-              <ProductCard key={p.id} {...p} />
+              <ProductCard key={p.id} {...p} onSelect={openModal} />
             ))}
           </div>
         ) : (
@@ -205,6 +281,123 @@ export default function ProductGrid() {
           </div>
         )}
       </div>
+
+      {/* Item Details Modal — same zoom-in / backdrop-close pattern as the
+          restaurant menu item modal, minus the variant picker (mart
+          products don't have variants). */}
+      {selectedProduct && (
+        <div
+          onClick={closeModal}
+          className={`fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 sm:p-4 transition-opacity duration-150 ${
+            isClosing ? "opacity-0" : "opacity-100 animate-in fade-in duration-200"
+          }`}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`bg-white w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl overflow-hidden flex flex-col max-h-[90vh] shadow-2xl transition-all duration-150 ${
+              isClosing
+                ? "opacity-0 scale-95"
+                : "opacity-100 scale-100 animate-in zoom-in-95 slide-in-from-bottom-6 sm:slide-in-from-bottom-0 duration-200"
+            }`}
+          >
+            <div className="relative w-full h-56 bg-gray-100 flex-shrink-0 flex items-center justify-center">
+              {modalHasDiscount && (
+                <span className="absolute top-3 left-3 z-10 bg-red-500 text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg">
+                  Sale
+                </span>
+              )}
+              <button
+                onClick={closeModal}
+                className="absolute top-3 right-3 z-10 p-2 bg-white/90 hover:bg-white transition-colors rounded-full text-gray-600 shadow-sm"
+                aria-label="Close details"
+              >
+                <X size={18} />
+              </button>
+              {selectedProduct.image ? (
+                <img
+                  src={selectedProduct.image}
+                  alt={selectedProduct.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-gray-300 text-xs font-black uppercase tracking-widest">Preview</span>
+              )}
+            </div>
+
+            <div className="p-6 overflow-y-auto">
+              <p className="text-[10px] font-black uppercase tracking-widest text-purple-600 mb-2">
+                {selectedProduct.category}
+              </p>
+              <h2 className="text-2xl font-extrabold tracking-tight leading-tight text-gray-900 mb-3">
+                {selectedProduct.name}
+              </h2>
+
+              <div className="flex items-center gap-3">
+                <span className="font-extrabold text-2xl text-purple-600">
+                  {formatPrice(modalUnitPrice)}
+                </span>
+                {modalHasDiscount && (
+                  <span className="text-gray-400 text-sm font-medium line-through">
+                    {formatPrice(selectedProduct.price)}
+                  </span>
+                )}
+              </div>
+
+              {/* Quantity stepper */}
+              <div className="flex items-center justify-between mt-6">
+                <span className="font-bold text-sm text-gray-700">Quantity</span>
+                <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-1">
+                  <button
+                    onClick={() => setSelectedQty((q) => Math.max(1, q - 1))}
+                    aria-label="Decrease quantity"
+                    className="w-9 h-9 flex items-center justify-center rounded-lg bg-white shadow-sm text-purple-600 hover:bg-purple-50 active:scale-90 transition-all"
+                  >
+                    <Minus size={16} />
+                  </button>
+                  <span className="min-w-[1.5rem] text-center font-black text-base text-gray-900">
+                    {selectedQty}
+                  </span>
+                  <button
+                    onClick={() => setSelectedQty((q) => q + 1)}
+                    aria-label="Increase quantity"
+                    className="w-9 h-9 flex items-center justify-center rounded-lg bg-white shadow-sm text-purple-600 hover:bg-purple-50 active:scale-90 transition-all"
+                  >
+                    <Plus size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 bg-white border-t border-gray-100 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] flex-shrink-0">
+              <button
+                onClick={confirmAddFromModal}
+                className="w-full bg-purple-600 text-white py-4 rounded-xl font-bold text-base hover:bg-purple-700 active:scale-95 transition-all flex justify-between px-6"
+              >
+                <span>Add to Cart</span>
+                <span>{formatPrice(modalUnitPrice * selectedQty)}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Cart Bar — same pattern as the restaurant page's floating
+          "View Cart" button, opening the shared CartDrawer owned by HomeClient. */}
+      {cartCount > 0 && (
+        <div className="fixed bottom-20 md:bottom-6 left-0 w-full px-6 z-40 animate-in slide-in-from-bottom-10 fade-in duration-300">
+          <button
+            onClick={() => onCartClick?.()}
+            className="w-full max-w-7xl mx-auto bg-purple-600 text-white p-4 rounded-2xl shadow-2xl flex justify-between items-center active:scale-95 transition-transform"
+          >
+            <div className="bg-white/20 px-3 py-1 rounded-lg font-bold text-sm flex items-center gap-1.5">
+              <ShoppingBag size={14} />
+              {cartCount} items
+            </div>
+            <span className="font-bold uppercase tracking-widest text-sm">View Cart</span>
+            <span className="font-bold">{formatPrice(cartTotal)}</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

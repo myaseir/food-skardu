@@ -11,27 +11,31 @@ const FUEL_PRICE_PER_LITER = 327;
 const BIKE_AVERAGE_KM_PER_LITER = 45;
 const BASE_PROFIT = 100;
 
-// Extra flat fee per additional restaurant beyond the first, on top of the
-// distance-based fuel cost. This exists because visiting an extra restaurant
-// costs the rider real time (parking, walking in, waiting for food) even
-// when the restaurants happen to be geographically close together — pure
-// distance-based pricing alone doesn't capture that cost.
+// Extra flat fee per additional pickup stop beyond the first, on top of the
+// distance-based fuel cost. This exists because visiting an extra stop
+// (restaurant OR mart) costs the rider real time (parking, walking in,
+// waiting, picking/packing) even when stops happen to be geographically
+// close together — pure distance-based pricing alone doesn't capture that.
 const EXTRA_STOP_HANDLING_FEE = 20;
 
 // Used when a hotel/area name isn't found in SKARDU_LOCATIONS.
 const DEFAULT_HOTEL_DISTANCE_KM = 3.0;
 
+function safeCoordDistance(value: number, fallback: number): number {
+  return typeof value === "number" && !Number.isNaN(value) && value >= 0 ? value : fallback;
+}
+
 /**
- * Computes a shop's distance from the office using its lat/lng coordinates
- * (via getDistanceFromBaseCoords, which does the Haversine calculation),
- * with a safety net in case the coordinates are missing or malformed.
+ * Computes a shop's (or mart's — same shape) distance from the office using
+ * its lat/lng coordinates (via getDistanceFromBaseCoords, which does the
+ * Haversine calculation), with a safety net if coordinates are missing.
  */
-function getShopDistanceFromHub(shop: Shop): number {
-  const dist = getDistanceFromBaseCoords({ lat: shop.lat, lng: shop.lng });
+function getStopDistanceFromHub(stop: Shop): number {
+  const dist = getDistanceFromBaseCoords({ lat: stop.lat, lng: stop.lng });
 
   if (typeof dist !== "number" || Number.isNaN(dist) || dist < 0) {
     console.warn(
-      `calculateDeliveryFee: invalid computed distance for shop "${shop?.name ?? "unknown"}" (got ${dist}). Falling back to 0.`
+      `calculateDeliveryFee: invalid computed distance for stop "${stop?.name ?? "unknown"}" (got ${dist}). Falling back to 0.`
     );
     return 0;
   }
@@ -39,41 +43,56 @@ function getShopDistanceFromHub(shop: Shop): number {
   return dist;
 }
 
-function safeCoordDistance(value: number, fallback: number): number {
-  return typeof value === "number" && !Number.isNaN(value) && value >= 0 ? value : fallback;
+// ---- Route optimization -------------------------------------------------
+//
+// The rider's trip is: Office -> [pickup stops, in SOME order] -> Customer
+// -> Office. Which order the pickup stops should be visited in depends on
+// their real-world geography — a mart sitting right next to restaurant A
+// should be picked up on the same detour, not treated as a separate trip.
+// So instead of assuming shopsInCart's array order IS the visiting order,
+// we search for the shortest total distance across all valid orderings.
+//
+// For small stop counts (almost always 1-4, occasionally more) an exact
+// brute-force search over every permutation is both fast and guaranteed
+// optimal. Beyond MAX_EXACT_PERMUTATION_STOPS we fall back to a greedy
+// nearest-neighbor heuristic so the fee calculation never hangs, at the
+// cost of a (usually small) chance of a slightly non-optimal route.
+
+const MAX_EXACT_PERMUTATION_STOPS = 7; // 7! = 5,040 — comfortably fast
+
+function permutations<T>(arr: T[]): T[][] {
+  if (arr.length <= 1) return [arr];
+  const result: T[][] = [];
+  for (let i = 0; i < arr.length; i++) {
+    const rest = [...arr.slice(0, i), ...arr.slice(i + 1)];
+    for (const perm of permutations(rest)) {
+      result.push([arr[i], ...perm]);
+    }
+  }
+  return result;
 }
 
 /**
- * Calculates the delivery fee for a multi-restaurant order + one drop-off.
- *
- * Trip model: Office -> Restaurant[0] -> Restaurant[1] -> ... -> Restaurant[N-1]
- *             -> Customer -> Office (one rider, one loop, one fee).
- *
- * `shopsInCart` must be the DISTINCT shops represented in the cart, in the
- * order the customer added them (first item's shop = first stop). Pass a
- * single-item array for a normal one-restaurant order — the formula then
- * collapses to the original Office -> Restaurant -> Customer -> Office trip,
- * with zero extra-stop fee.
+ * Total km for Office -> stops[0] -> stops[1] -> ... -> Customer -> Office,
+ * for one specific ordering of `stops`.
  */
-export const calculateDeliveryFee = (shopsInCart: Shop[], hotelName: string): number => {
-  if (!shopsInCart || shopsInCart.length === 0) return 0;
+function routeDistanceForOrder(orderedStops: Shop[], hotelName: string): number {
+  let total = 0;
 
-  let totalTripDistance = 0;
+  // Office -> first stop
+  total += getStopDistanceFromHub(orderedStops[0]);
 
-  // Leg 1: Office -> first restaurant
-  totalTripDistance += getShopDistanceFromHub(shopsInCart[0]);
-
-  // Legs between consecutive restaurants: Restaurant[i] -> Restaurant[i+1]
-  for (let i = 0; i < shopsInCart.length - 1; i++) {
+  // stop[i] -> stop[i+1]
+  for (let i = 0; i < orderedStops.length - 1; i++) {
     const legDist = getDistanceBetweenCoords(
-      { lat: shopsInCart[i].lat, lng: shopsInCart[i].lng },
-      { lat: shopsInCart[i + 1].lat, lng: shopsInCart[i + 1].lng }
+      { lat: orderedStops[i].lat, lng: orderedStops[i].lng },
+      { lat: orderedStops[i + 1].lat, lng: orderedStops[i + 1].lng }
     );
-    totalTripDistance += safeCoordDistance(legDist, 0);
+    total += safeCoordDistance(legDist, 0);
   }
 
-  // Final legs: last restaurant -> customer -> office
-  const lastShop = shopsInCart[shopsInCart.length - 1];
+  // last stop -> customer -> office
+  const lastStop = orderedStops[orderedStops.length - 1];
   const customerCoords = SKARDU_LOCATIONS[hotelName];
 
   let lastToCustomer: number;
@@ -81,7 +100,7 @@ export const calculateDeliveryFee = (shopsInCart: Shop[], hotelName: string): nu
 
   if (customerCoords) {
     lastToCustomer = getDistanceBetweenCoords(
-      { lat: lastShop.lat, lng: lastShop.lng },
+      { lat: lastStop.lat, lng: lastStop.lng },
       customerCoords
     );
     customerToOffice = getDistanceFromBase(hotelName);
@@ -93,21 +112,97 @@ export const calculateDeliveryFee = (shopsInCart: Shop[], hotelName: string): nu
     customerToOffice = DEFAULT_HOTEL_DISTANCE_KM;
   }
 
-  totalTripDistance += safeCoordDistance(lastToCustomer, DEFAULT_HOTEL_DISTANCE_KM);
-  totalTripDistance += safeCoordDistance(customerToOffice, DEFAULT_HOTEL_DISTANCE_KM);
+  total += safeCoordDistance(lastToCustomer, DEFAULT_HOTEL_DISTANCE_KM);
+  total += safeCoordDistance(customerToOffice, DEFAULT_HOTEL_DISTANCE_KM);
+
+  return total;
+}
+
+/** Greedy nearest-neighbor fallback for large stop counts. */
+function nearestNeighborOrder(stops: Shop[]): Shop[] {
+  const remaining = [...stops];
+  const ordered: Shop[] = [];
+  let currentCoords: { lat: number; lng: number } | null = null;
+
+  while (remaining.length > 0) {
+    let bestIdx = 0;
+    let bestDist = Infinity;
+
+    for (let i = 0; i < remaining.length; i++) {
+      const d = currentCoords
+        ? safeCoordDistance(
+            getDistanceBetweenCoords(currentCoords, { lat: remaining[i].lat, lng: remaining[i].lng }),
+            0
+          )
+        : getStopDistanceFromHub(remaining[i]);
+
+      if (d < bestDist) {
+        bestDist = d;
+        bestIdx = i;
+      }
+    }
+
+    const next = remaining.splice(bestIdx, 1)[0];
+    ordered.push(next);
+    currentCoords = { lat: next.lat, lng: next.lng };
+  }
+
+  return ordered;
+}
+
+/**
+ * Finds the shortest total trip distance across every valid visiting order
+ * of `stops` (exact for small counts, greedy heuristic beyond that).
+ */
+function findOptimalRouteDistance(stops: Shop[], hotelName: string): number {
+  if (stops.length === 0) return 0;
+  if (stops.length === 1) return routeDistanceForOrder(stops, hotelName);
+
+  if (stops.length <= MAX_EXACT_PERMUTATION_STOPS) {
+    let minDist = Infinity;
+    for (const order of permutations(stops)) {
+      const d = routeDistanceForOrder(order, hotelName);
+      if (d < minDist) minDist = d;
+    }
+    return minDist;
+  }
+
+  // Too many stops to brute-force — greedy nearest-neighbor instead.
+  return routeDistanceForOrder(nearestNeighborOrder(stops), hotelName);
+}
+
+/**
+ * Calculates the delivery fee for an order spanning any mix of pickup
+ * stops — one restaurant, several restaurants, a mart, or restaurants
+ * plus a mart together. Mart is just another stop with coordinates, same
+ * as a restaurant; there's no separate "mart trip" or fixed leg order.
+ *
+ * Trip model: Office -> stops (cheapest order) -> Customer -> Office.
+ *
+ * `stopsInCart` must be the DISTINCT shops/mart represented in the cart
+ * (order doesn't matter — the function finds the cheapest order itself).
+ * Pass a single-item array for a normal one-stop order — the formula then
+ * collapses to the original Office -> Stop -> Customer -> Office trip,
+ * with zero extra-stop fee.
+ */
+export const calculateDeliveryFee = (stopsInCart: Shop[], hotelName: string): number => {
+  if (!stopsInCart || stopsInCart.length === 0) return 0;
+
+  const totalTripDistance = findOptimalRouteDistance(stopsInCart, hotelName);
 
   const litersNeeded = totalTripDistance / BIKE_AVERAGE_KM_PER_LITER;
   const fuelCost = litersNeeded * FUEL_PRICE_PER_LITER;
 
-  // Extra stops beyond the first restaurant each add a flat handling fee.
-  const extraStops = Math.max(shopsInCart.length - 1, 0);
+  // Extra stops beyond the first each add a flat handling fee — counts
+  // any stop type (restaurant or mart) the same way.
+  const extraStops = Math.max(stopsInCart.length - 1, 0);
   const handlingFee = extraStops * EXTRA_STOP_HANDLING_FEE;
 
   const totalFee = fuelCost + BASE_PROFIT + handlingFee;
 
   // TEMP DEBUG — remove once you've confirmed the numbers look right.
   console.log("[calculateDeliveryFee]", {
-    shops: shopsInCart.map((s) => s.name),
+    stops: stopsInCart.map((s) => s.name),
     totalTripDistance: totalTripDistance.toFixed(2) + " km",
     fuelCost: fuelCost.toFixed(2),
     extraStops,
@@ -191,14 +286,13 @@ export const calculateRideFare = (pickupName: string, dropoffName: string): numb
 export const calculateParcelFare = (pickupName: string, dropoffName: string): number =>
   calculateTripFare(pickupName, dropoffName, PARCEL_BASE_PROFIT);
 
-// ---- Estimated delivery time (for restaurant cards) ----
+// ---- Estimated delivery time (for restaurant/mart cards) ----
 //
 // This is a rough, honest estimate shown BEFORE the customer has picked
 // a delivery address — so unlike calculateDeliveryFee (which uses the
-// full Office -> Restaurant(s) -> Customer -> Office trip), this only
-// estimates the Office -> Restaurant leg for ONE shop, since neither the
-// drop-off location nor any other restaurants in the cart are known yet
-// at the point a restaurant card is being browsed.
+// full Office -> Stops -> Customer -> Office trip), this only estimates
+// the Office -> Stop leg for ONE shop, since neither the drop-off location
+// nor any other stops in the cart are known yet while browsing.
 
 const KITCHEN_PREP_MIN_MINUTES = 15; // fastest realistic prep time
 const KITCHEN_PREP_MAX_MINUTES = 18; // slower/busy kitchen prep time
@@ -218,17 +312,18 @@ function roundToNearestMinute(minutes: number): number {
 }
 
 /**
- * Estimates a delivery time range in minutes for a shop, based on its
- * distance from the office plus prep time and a human/traffic delay buffer.
+ * Estimates a delivery time range in minutes for a shop (or mart — same
+ * shape), based on its distance from the office plus prep time and a
+ * human/traffic delay buffer.
  *
  * Returns { min, max, label } where label is ready to render directly,
  * e.g. "30-45 min".
  */
 export const estimateDeliveryTime = (shop: Shop): { min: number; max: number; label: string } => {
-  const safeRestDist = getShopDistanceFromHub(shop);
+  const safeStopDist = getStopDistanceFromHub(shop);
 
-  const travelTimeFastMin = (safeRestDist / BIKE_SPEED_FAST_KMH) * 60;
-  const travelTimeSlowMin = (safeRestDist / BIKE_SPEED_SLOW_KMH) * 60;
+  const travelTimeFastMin = (safeStopDist / BIKE_SPEED_FAST_KMH) * 60;
+  const travelTimeSlowMin = (safeStopDist / BIKE_SPEED_SLOW_KMH) * 60;
 
   const rawMin = KITCHEN_PREP_MIN_MINUTES + DISPATCH_BUFFER_MIN_MINUTES + travelTimeFastMin;
   const rawMax = KITCHEN_PREP_MAX_MINUTES + DISPATCH_BUFFER_MAX_MINUTES + travelTimeSlowMin;

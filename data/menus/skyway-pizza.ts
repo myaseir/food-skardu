@@ -4,133 +4,154 @@ export const menu = {
   logo: "/images/skyway-pizza-logo.png",
   categories: [
     {
-      name: "Family Deals",
-      items: [
-        { id: "sw-fd-1", name: "Family Deal 1", price: 5549, desc: "Four Large Pizzas, Two 1.5 Liter Drink", image: "", variants: [] },
-        { id: "sw-fd-2", name: "Family Deal 2", price: 5549, desc: "Two Large Pizzas, Two Regular Pizzas, Two Zinger Burgers, One Pasta or Lasagna", image: "", variants: [] }
-      ]
-    },
-    {
-      name: "Midnight Deals",
-      items: [
-        { id: "sw-md-1", name: "Two Large Pizza", price: 2400, desc: "10:00 PM TILL 2:00 AM", image: "", variants: [] },
-        { id: "sw-md-2", name: "Two Regular Pizza", price: 1600, desc: "10:00 PM TILL 2:00 AM", image: "", variants: [] },
-        { id: "sw-md-3", name: "Two Small Pizza", price: 750, desc: "10:00 PM TILL 2:00 AM", image: "", variants: [] }
-      ]
-    },
+  name: "Hot Summer Deals",
+  items: [
+    { id: "sw-sd-1", name: "Deal 1", price: 1039, discountPrice: 499, desc: "1 Small Pizza + 1 Drink 300ml", image: "", variants: [] },
+    { id: "sw-sd-2", name: "Deal 2", price: 1600, discountPrice: 950, desc: "1 Regular Pizza + 300ml Drink", image: "", variants: [] },
+    { id: "sw-sd-3", name: "Deal 3", price: 2940, discountPrice: 1550, desc: "1 Large Pizza + 1 Liter Drink", image: "", variants: [] },
+    { id: "sw-sd-4", name: "Deal 4", price: 1840, discountPrice: 1250, desc: "1 Small Pizza + 1 Zinger Burger + 1 Pasta or Lasagne", image: "", variants: [] },
+    { id: "sw-sd-5", name: "Deal 5", price: 1500, discountPrice: 1350, desc: "3 Zinger Burgers", image: "", variants: [] },
+    { id: "sw-sd-6", name: "Deal 6", price: 5630, discountPrice: 2850, desc: "2 Large Pizzas + 1.5 Liter Drink", image: "", variants: [] },
+    { id: "sw-sd-7", name: "Deal 7", price: 3740, discountPrice: 2450, desc: "1 Jumbo Pizza + 1.5 Liter Drink", image: "", variants: [] }, // CONFIRM: "Jumbo" mapped to Extra Large — let me know if this should be Mighty Jumbo instead
+    { id: "sw-sd-8", name: "Deal 8", price: 3079, discountPrice: 1899, desc: "2 Small Pizzas + 2 Zinger Burgers + 4 Wings", image: "", variants: [] }
+  ]
+},
+{
+  name: "Family Deals",
+  items: [
+    { id: "sw-fd-1", name: "Family Deal 1", price: 11109, discountPrice: 5549, desc: "4 Large Pizzas, 2 Drinks 1.5 Liter", image: "", variants: [] },
+    { id: "sw-fd-2", name: "Family Deal 2", price: 9729, discountPrice: 5549, desc: "2 Large Pizzas, 2 Regular Pizzas, 2 Zinger Burgers, 1 Pasta or Lasagna", image: "", variants: [] }
+  ]
+},
+{
+  name: "Midnight Deals",
+  items: [
+    { id: "sw-md-1", name: "2 Large Pizza", price: 5279, discountPrice: 2499, desc: "10:00 PM till 2:00 AM", image: "", variants: [] },
+    { id: "sw-md-2", name: "2 Regular Pizza", price: 2999, discountPrice: 1699, desc: "10:00 PM till 2:00 AM", image: "", variants: [] },
+    { id: "sw-md-3", name: "2 Small Pizza", price: 1879, discountPrice: 799, desc: "10:00 PM till 2:00 AM", image: "", variants: [] }
+  ]
+},
     {
       name: "Premium Flavors",
       items: [
         {
           id: "sw-pf-1",
           name: "Seekh Kabab",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Extra charges applied for this flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-pf-2",
           name: "Crown Crust",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Extra charges applied for this flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-pf-3",
           name: "Chicken Supremo",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Premium flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-pf-4",
           name: "SkyWay Special",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Our signature special pizza",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-pf-5",
           name: "SkyWay Fiesta",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Premium flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-pf-6",
           name: "Malai Boti",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Premium flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-pf-7",
           name: "Arabian Ranch",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Premium flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-pf-8",
           name: "Margaritha",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Premium flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         }
       ]
@@ -141,163 +162,188 @@ export const menu = {
         {
           id: "sw-cf-1",
           name: "Afghani Chicken",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Classic flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-cf-2",
           name: "Chicken Tikka",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Classic flavor",
           image: "/images/tikka.jpg",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-cf-3",
           name: "Chicken Fajita",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Classic flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-cf-4",
-          name: "Veggi Lover",
-          price: 399,
+          name: "Veggie Lover",
+          price: 990,
+          discountPrice: 450,
           desc: "Classic flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-cf-5",
           name: "Sicilian Chicken",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Classic flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-cf-6",
           name: "SkyWay Creamy",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Classic flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         },
         {
           id: "sw-cf-7",
           name: "Creamy Tikka",
-          price: 399,
+          price: 990,
+          discountPrice: 450,
           desc: "Classic flavor",
           image: "",
           variants: [
-            { name: 'Small 6"', price: 399 },
-            { name: 'Regular 9"', price: 850 },
-            { name: 'Large 12"', price: 1450 },
-            { name: 'JUMBO 16"', price: 2450 },
-            { name: 'PARTY JUMBO', price: 3499 }
+            { name: "Small", price: 990, discountPrice: 450 },
+            { name: "Regular", price: 1550, discountPrice: 900 },
+            { name: "Large", price: 2890, discountPrice: 1500 },
+            { name: "Extra Large", price: 3790, discountPrice: 2500 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
           ]
         }
       ]
     },
     {
-      name: "Appetizers",
+      name: "Burgers",
       items: [
-        { id: "sw-ap-1", name: "Garlic Bread (4 Pcs)", price: 250, desc: "", image: "", variants: [] },
-        { id: "sw-ap-2", name: "Garlic Bread with Cheese", price: 400, desc: "", image: "", variants: [] },
-        { id: "sw-ap-3", name: "Cheese Sticks", price: 450, desc: "", image: "", variants: [] },
-        { id: "sw-ap-4", name: "Mozzarella Sticks (6 Pcs)", price: 600, desc: "", image: "", variants: [] },
-        { id: "sw-ap-5", name: "French Fries", price: 250, desc: "", image: "", variants: [
-            { name: "Small", price: 250 },
-            { name: "Large", price: 450 }
-        ]},
-        { id: "sw-ap-6", name: "Chicken Wings", price: 450, desc: "", image: "", variants: [
-            { name: "6 Pcs", price: 450 },
-            { name: "12 Pcs", price: 850 }
-        ]},
-        { id: "sw-ap-7", name: "Nuggets", price: 400, desc: "", image: "", variants: [
-            { name: "5 Pcs", price: 400 },
-            { name: "10 Pcs", price: 750 }
-        ]},
-        { id: "sw-ap-8", name: "Pizza Fries", price: 650, desc: "", image: "", variants: [] }
+        { id: "sw-bg-1", name: "Zinger Burger", price: 550, discountPrice: 500, desc: "", image: "", variants: [] },
+        { id: "sw-bg-2", name: "Zinger Burger with Cheese", price: 605, discountPrice: 550, desc: "", image: "", variants: [] },
+        { id: "sw-bg-3", name: "Chicken Burger", price: 440, discountPrice: 400, desc: "", image: "", variants: [] },
+        { id: "sw-bg-4", name: "Chicken Burger with Cheese", price: 495, discountPrice: 450, desc: "", image: "", variants: [] }
       ]
     },
     {
-      name: "Pasta",
+      name: "Appetizers",
       items: [
-        { id: "sw-ps-1", name: "Chicken Lasagne", price: 399, desc: "", image: "", variants: [
-            { name: "Small", price: 399 },
-            { name: "Large", price: 699 }
-        ]},
-        { id: "sw-ps-2", name: "Chicken Pasta", price: 350, desc: "", image: "", variants: [
-            { name: "Small", price: 350 },
-            { name: "Large", price: 650 }
-        ]}
+        { id: "sw-ap-1", name: "Garlic Bread 4 Pcs", price: 300, desc: "", image: "", variants: [] },
+        { id: "sw-ap-2", name: "Garlic Bread with Cheese", price: 500, desc: "", image: "", variants: [] },
+        { id: "sw-ap-3", name: "Cheese Sticks", price: 650, desc: "", image: "", variants: [] },
+        { id: "sw-ap-4", name: "Mozzarella Sticks (6 Pcs)", price: 900, desc: "", image: "", variants: [] }, // CONFIRM: hard to read clearly, could be 650
+        {
+          id: "sw-ap-5",
+          name: "French Fries",
+          price: 250,
+          desc: "",
+          image: "",
+          variants: [
+            { name: "Small", price: 250 },
+            { name: "Large", price: 450 }
+          ]
+        },
+        {
+          id: "sw-ap-6",
+          name: "Chicken Wings",
+          price: 450,
+          desc: "",
+          image: "",
+          variants: [
+            { name: "6 Pcs", price: 450 },
+            { name: "12 Pcs", price: 900 } // CONFIRM: could be 850
+          ]
+        },
+        { id: "sw-ap-7", name: "Nuggets (10 Pcs)", price: 800, desc: "", image: "", variants: [] }, // CONFIRM: partly obscured in photo
+        { id: "sw-ap-8", name: "Pizza Fries", price: 650, desc: "", image: "", variants: [] }
       ]
     },
     {
       name: "Sandwiches",
       items: [
         { id: "sw-sw-1", name: "Chicken Sandwich", price: 400, desc: "", image: "", variants: [] },
-        { id: "sw-sw-2", name: "Chicken Club Sandwich", price: 350, desc: "", image: "", variants: [] },
-        { id: "sw-sw-3", name: "Sticko-Chicken Sandwich", price: 500, desc: "", image: "", variants: [] }
+        { id: "sw-sw-2", name: "Chicken Club Sandwich", price: 400, desc: "", image: "", variants: [] }, // CONFIRM: could be 350
+        { id: "sw-sw-3", name: "Sticko Chicken Sandwich", price: 550, desc: "", image: "", variants: [] }
       ]
     },
     {
-      name: "Burgers - Zingers",
+      name: "Pasta",
       items: [
-        { id: "sw-bg-1", name: "Zinger Burger", price: 500, desc: "", image: "", variants: [] },
-        { id: "sw-bg-2", name: "Zinger Burger with cheese", price: 550, desc: "", image: "", variants: [] },
-        { id: "sw-bg-3", name: "Chicken Burger", price: 400, desc: "", image: "", variants: [] },
-        { id: "sw-bg-4", name: "Chicken Burger with cheese", price: 450, desc: "", image: "", variants: [] }
+        {
+          id: "sw-ps-1",
+          name: "Chicken Lasagne",
+          price: 450,
+          desc: "",
+          image: "",
+          variants: [
+            { name: "Small", price: 450 },
+            { name: "Large", price: 750 }
+          ]
+        },
+        {
+          id: "sw-ps-2",
+          name: "Chicken Pasta",
+          price: 400,
+          desc: "",
+          image: "",
+          variants: [
+            { name: "Small", price: 400 }, // CONFIRM: could be 350
+            { name: "Large", price: 700 }  // CONFIRM: could be 650
+          ]
+        }
       ]
     },
     {
-      name: "Add-ons",
-      items: [
-        { id: "dr-30", name: "Sting", price: 200, desc: "Energy drink", image: "/images/sting.jpg", variants: [] },
-        { id: "dr-31", name: "Lemon Soda", price: 180, desc: "Fresh lemon fizz", image: "/images/lemon.jpg", variants: [] }
-      ]
-    },
-     {
       name: "Drinks & Beverages",
       items: [
         {
