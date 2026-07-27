@@ -66,7 +66,7 @@ export const SKARDU_HOTELS: Record<string, { lat: number; lng: number }> = {
   "The Hill Town Resort": { lat: 35.276981, lng: 75.635154 },
   "AlJannah Guest House Skardu": { lat: 35.276633, lng: 75.636941 },
   "Deosai Gateway Inn Skardu": { lat: 35.276377, lng: 75.636659 },
-  "Singay Homestay": { lat: 35.281832, lng: 75.644928 },
+  
   "Skardu Arcadian Resort": { lat: 35.332459, lng: 75.563134 },
   "Areena Hotel Skardu": { lat: 35.284208, lng: 75.649936 },
   "Skardu Farmhouse for stay": { lat: 35.271210, lng: 75.637006 },
@@ -81,6 +81,7 @@ export const SKARDU_HOTELS: Record<string, { lat: number; lng: number }> = {
   "PC Legacy Skardu": { lat: 35.322734, lng: 75.532062 },
   "GB Lodges": { lat: 35.328043, lng: 75.529147 },
   "Bilafond Cottage": { lat: 35.315943, lng: 75.693780 },
+  "North Hills Skardu": { lat: 35.284178, lng: 75.646929 },
   "Pinnacle Executive Lodges": { lat: 35.333767, lng: 75.526399 },
   // "Broq Resort, HussainAbad Nala": { lat: 35.280634, lng: 75.705931 },
   "Safena Hotel Skardu": { lat: 35.353392, lng: 75.510445 },
