@@ -181,19 +181,7 @@ export const menu = {
         }
       ]
     },
-    {
-      name: "Main Course",
-      items: [
-        { 
-          id: "mc-1", 
-          name: "Bull Steak", 
-          price: 1200, 
-          desc: "Grilled to perfection", 
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbdVKAwseAdTDoo-dDjiL8b4mZqbCbajRbT9vYQ3HnSQ&s=10", 
-          variants: [] 
-        }
-      ]
-    },
+    
     // {
     //   name: "Chinese Main Course",
     //   items: [
