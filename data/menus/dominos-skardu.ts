@@ -1,7 +1,7 @@
 export const menu = {
   shopId: "dominos-skardu",
   name: "Domino's Pizza Skardu",
-  logo: "", // TODO: add real Domino's Skardu logo URL
+  logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: add real Domino's Skardu logo URL
   categories: [
     {
       name: "Pizza - Classic Flavours",

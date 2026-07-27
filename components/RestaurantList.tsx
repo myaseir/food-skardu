@@ -113,7 +113,7 @@ function ShopCardContent({ shop }: { shop: Shop }) {
         </div>
 
         <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">
-          {shop.type === "restaurant" ? "Food & Beverages" : "General Store"}
+          {shop.type === "restaurant" ? "Food & Beverages" : "Mart"}
         </p>
 
         {statusText && (

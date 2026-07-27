@@ -78,8 +78,8 @@ export const shops: Shop[] = [
     id: "skyway-pizza",
     name: "Skyway Pizza Skardu",
     type: "restaurant",
-    openTime: "12:00",
-    closeTime: "01:00",
+    openTime: "13:00",
+    closeTime: "01:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
     lat: 35.288921, // TODO: replace with real coordinates
@@ -89,12 +89,12 @@ export const shops: Shop[] = [
   },
 {
     id: "mart-1", // MUST match shopId used in products.ts
-    name: "Meal Bear Mart", // TODO: real name
+    name: "Meal Mart", // TODO: real name
     type: "mart",
     openTime: "08:00",
     closeTime: "18:00",
     alwaysOpen: false,
-    logo: "", // TODO: paste real logo URL
+    logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785169551/WhatsApp_Image_2026-07-27_at_9.23.27_PM_eap0bl.jpg", // TODO: paste real logo URL
     lat: 35.309838, // TODO: replace with the mart's real coordinates
     lng: 75.609356, // TODO: replace with the mart's real coordinates
     isActive: true,
@@ -142,12 +142,25 @@ export const shops: Shop[] = [
     rating: 4.3,
     reviews: 21,
   },
+    {
+    id: "dominos-skardu",
+    name: "Domino's Pizza Skardu",
+    type: "restaurant",
+    openTime: "13:00",
+    closeTime: "01:30",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
+    lat: 35.302132, // TODO: replace with real coordinates
+    lng: 75.625344, // TODO: replace with real coordinates
+    rating: 4.5,          // adjust as needed
+    reviews: 46,
+  },
   {
     id: "pizza-king",
     name: "Pizza King Skardu",
     type: "restaurant",
-    openTime: "11:00",
-    closeTime: "23:00",
+    openTime: "13:00",
+    closeTime: "01:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa8xtMwcGub4wGh9HgvVns3fAAIMH8V7a5rR3IzlQMijEyMbt9XXL4Rhrv&s=10",
     lat: 35.289174, // TODO: replace with real coordinates
@@ -168,18 +181,6 @@ export const shops: Shop[] = [
     rating: 4.2,
     reviews: 37,
   },
-    {
-    id: "dominos-skardu",
-    name: "Domino's Pizza Skardu",
-    type: "restaurant",
-    openTime: "11:00",
-    closeTime: "01:00",
-    alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
-    lat: 35.302132, // TODO: replace with real coordinates
-    lng: 75.625344, // TODO: replace with real coordinates
-    rating: 4.5,          // adjust as needed
-    reviews: 46,
-  },
+  
  
 ];
