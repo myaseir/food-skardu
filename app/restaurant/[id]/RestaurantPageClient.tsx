@@ -10,6 +10,7 @@ import CategoryNav from "@/components/CategoryNav";
 import { useCart } from "@/store/useCart";
 import CartDrawer from "@/components/CartDrawer";
 import { useAvailability } from "@/hooks/useAvailability";
+import { getOpenStatusText } from "@/utils/shopStatus";
 
 interface Variant {
   name: string;
@@ -147,6 +148,11 @@ export default function RestaurantPageClient({ params }: PageProps) {
 
   const { shop, menu } = data;
   const isShopOpen = checkShopStatus(shop);
+  // Same per-shop hours logic RestaurantList's card text uses — returns
+  // e.g. "Opens at 6:00 PM", or null if manually closed (shop.isActive
+  // === false) or always open. Keeps this page's closed banner honest
+  // instead of a hardcoded time range for every shop.
+  const statusText = getOpenStatusText(shop);
 
   // Tapping anywhere on the card opens the full details view (with a subtle
   // zoom-in animation) — this is where the untruncated description lives.
@@ -244,11 +250,15 @@ export default function RestaurantPageClient({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Closed banner */}
+      {/* Closed banner — uses this shop's actual configured hours instead
+          of a fixed time range, so it's accurate for every shop rather
+          than only the one that happens to open 8 AM–9 PM. Falls back to
+          a plain message when the shop has been manually closed (no
+          hours to show in that case). */}
       {!isShopOpen && (
         <div className="bg-gray-800 text-white text-center py-2.5 px-4">
           <p className="text-xs font-semibold uppercase tracking-widest">
-            Currently Closed &middot; Opens 8:00 AM – 9:00 PM
+            {statusText ? `Currently Closed \u00B7 ${statusText}` : "Currently Closed"}
           </p>
         </div>
       )}
@@ -368,16 +378,21 @@ export default function RestaurantPageClient({ params }: PageProps) {
                       {item.desc && (
                         <p className="text-xs text-gray-500 mt-1 leading-relaxed line-clamp-2">{item.desc}</p>
                       )}
+                      {/* Price always shows — even when the shop is closed —
+                          so people can still browse rates. Color drops to
+                          gray to keep the "unavailable" feel, and the card
+                          itself stays unclickable (handleCardClick/
+                          handleQuickAdd both bail out when !isShopOpen). */}
                       <div className="flex items-center gap-2 mt-auto pt-3">
                         <p className={`font-bold text-sm ${isShopOpen ? "text-purple-600" : "text-gray-500"}`}>
-                          {isShopOpen ? displayPrice : "Closed"}
+                          {displayPrice}
                         </p>
-                        {isShopOpen && simpleHasDiscount && (
+                        {simpleHasDiscount && (
                           <p className="text-gray-400 text-xs font-medium line-through">
                             Rs. {item.price}
                           </p>
                         )}
-                        {isShopOpen && isVariant && variantAnyDiscount && (
+                        {isVariant && variantAnyDiscount && (
                           <p className="text-gray-400 text-xs font-medium line-through">
                             Rs. {variantCheapestOriginal}
                           </p>
