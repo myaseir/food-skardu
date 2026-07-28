@@ -128,7 +128,7 @@ export const menu = {
           name: "Hungry Bite",
           price: 900,
           desc: "A hearty, fully loaded roll",
-          image: "",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrxvuFkRWzazBv_KaCDg4wcWptadS77ipYTKpzGZqqYQ&s=10",
           variants: []
         },
         {
@@ -300,30 +300,30 @@ export const menu = {
     //     }
     //   ]
     // },
-    {
-      name: "Smoothie",
-      items: [
-        { id: "sm-1", name: "Special Salajeet Shake", price: 600, desc: "Premium organic ingredients", image: "", variants: [] },
-        { id: "sm-2", name: "Special Zeerish + Salajeet Shake", price: 600, desc: "Zeerish and salajeet blended together", image: "", variants: [] },
-        { id: "sm-3", name: "Cocktail Shake", price: 550, desc: "Mixed fruit organic blend", image: "", variants: [] },
-        { id: "sm-4", name: "Zeerish Shake", price: 550, desc: "Healthy and refreshing", image: "", variants: [] },
-        { id: "sm-5", name: "Blueberry Shake", price: 550, desc: "Antioxidant rich blueberries", image: "", variants: [] }
-      ]
-    },
+    // {
+    //   name: "Smoothie",
+    //   items: [
+    //     { id: "sm-1", name: "Special Salajeet Shake", price: 600, desc: "Premium organic ingredients", image: "", variants: [] },
+    //     { id: "sm-2", name: "Special Zeerish + Salajeet Shake", price: 600, desc: "Zeerish and salajeet blended together", image: "", variants: [] },
+    //     { id: "sm-3", name: "Cocktail Shake", price: 550, desc: "Mixed fruit organic blend", image: "", variants: [] },
+    //     { id: "sm-4", name: "Zeerish Shake", price: 550, desc: "Healthy and refreshing", image: "", variants: [] },
+    //     { id: "sm-5", name: "Blueberry Shake", price: 550, desc: "Antioxidant rich blueberries", image: "", variants: [] }
+    //   ]
+    // },
     {
       name: "Fresh Shakes",
       items: [
-        { id: "fs-1", name: "Banana with Dates", price: 400, desc: "Banana mixed with sweet dates", image: "", variants: [] },
-        { id: "fs-2", name: "Banana Shake", price: 350, desc: "Made with fresh bananas", image: "", variants: [] },
-        { id: "fs-3", name: "Mango with Dates", price: 400, desc: "Mango mixed with sweet dates", image: "", variants: [] },
-        { id: "fs-4", name: "Mango Shake", price: 350, desc: "Made with fresh mangoes", image: "", variants: [] }
+        { id: "fs-1", name: "Banana with Dates", price: 400, desc: "Banana mixed with sweet dates", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlx1dPb8rSSTsIYBCXt4DyKekokqCgYn8mnYZRzuEAVQ&s=10", variants: [] },
+        { id: "fs-2", name: "Banana Shake", price: 350, desc: "Made with fresh bananas", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWpy_R18geC8OPFmiQ_US94_4xzmHWKxX0XFS8dXKMqLH9PyuLx-8KrJw&s=10", variants: [] },
+        { id: "fs-3", name: "Mango with Dates", price: 400, desc: "Mango mixed with sweet dates", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxwHJrxJjp6dkONHOVWACB1DLpimrcZoAyoJ8l-0BsroMyZ9r43_wl4Ns&s=10", variants: [] },
+        { id: "fs-4", name: "Mango Shake", price: 350, desc: "Made with fresh mangoes", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEqMwRLOA2XsRLeVL8pPp38FUvgbk1bteizN-mzJkFKX_Y6HM04zCTWF4&s=10", variants: [] }
       ]
     },
     {
       name: "Fresh Juice",
       items: [
-        { id: "fj-1", name: "Fresh Mango Juice", price: 250, desc: "Squeezed from fresh mangoes", image: "", variants: [] },
-        { id: "fj-2", name: "Apricot Juice", price: 300, desc: "Fresh apricot nectar", image: "", variants: [] },
+        { id: "fj-1", name: "Fresh Mango Juice", price: 250, desc: "Squeezed from fresh mangoes", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS38is1KX5Nl88dnlLxvw02KYQiUXl3Ruk0pnrVjJwz-N34wvWJbs1fQt5M&s=10", variants: [] },
+        { id: "fj-2", name: "Apricot Juice", price: 300, desc: "Fresh apricot nectar", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStCuEdbOgKYkpetcoexUVq1ESrVyJHQVaudWEtOixfAA&s=10", variants: [] },
         // { id: "fj-3", name: "Fresh Peach Juice", price: 300, desc: "Squeezed from fresh peaches", image: "", variants: [] },
         // { id: "fj-4", name: "Limened", price: 250, desc: "Freshly squeezed lemonade", image: "", variants: [] },
         // { id: "fj-5", name: "Mint Margarita", price: 300, desc: "Refreshing mint and lemon", image: "", variants: [] },
@@ -338,7 +338,7 @@ export const menu = {
           name: "Mango",
           price: 150,
           desc: "Fruity mango ice cream",
-          image: "",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuPUWVh-WrWFWb1x-X0mN5vwqIqGVeJv-7rT4nRnzqqg&s=10",
           variants: [
             { name: "Single", price: 150 },
             { name: "Double", price: 250 }
@@ -349,7 +349,7 @@ export const menu = {
           name: "Vanilla",
           price: 150,
           desc: "Classic vanilla bean",
-          image: "",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRidWPP2qDP-6wbacT9-niJvLopzmpcy58Sg0Hk8_N7eky7DfP3K8IXxjk&s=10",
           variants: [
             { name: "Single", price: 150 },
             { name: "Double", price: 250 }
@@ -360,7 +360,7 @@ export const menu = {
           name: "Strawberry",
           price: 150,
           desc: "Sweet strawberry ice cream",
-          image: "",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRptzg1V7tHcoFKmCsFfCoBt11k510J2nmKG6sKhTurkA&s=10",
           variants: [
             { name: "Single", price: 150 },
             { name: "Double", price: 250 }
@@ -371,52 +371,52 @@ export const menu = {
           name: "Chocolate",
           price: 150,
           desc: "Rich chocolate ice cream",
-          image: "",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHTuFUnrqoQ9eKJuLVbT5xkQ5R1_htvYU2Lvxe-nAKoQ&s=10",
           variants: [
             { name: "Single", price: 150 },
             { name: "Double", price: 250 }
           ]
         },
-        {
-          id: "sco-5",
-          name: "Kulfa",
-          price: 150,
-          desc: "Traditional kulfa flavor",
-          image: "",
-          variants: [
-            { name: "Single", price: 150 },
-            { name: "Double", price: 250 }
-          ]
-        },
-        {
-          id: "sco-6",
-          name: "Caramel",
-          price: 150,
-          desc: "Sweet caramel swirl",
-          image: "",
-          variants: [
-            { name: "Single", price: 150 },
-            { name: "Double", price: 250 }
-          ]
-        }
+        // {
+        //   id: "sco-5",
+        //   name: "Kulfa",
+        //   price: 150,
+        //   desc: "Traditional kulfa flavor",
+        //   image: "",
+        //   variants: [
+        //     { name: "Single", price: 150 },
+        //     { name: "Double", price: 250 }
+        //   ]
+        // },
+        // {
+        //   id: "sco-6",
+        //   name: "Caramel",
+        //   price: 150,
+        //   desc: "Sweet caramel swirl",
+        //   image: "",
+        //   variants: [
+        //     { name: "Single", price: 150 },
+        //     { name: "Double", price: 250 }
+        //   ]
+        // }
       ]
     },
     {
       name: "Tea",
       items: [
         // { id: "tea-1", name: "Salajeet Tea", price: 300, desc: "Yak & Bull special herbal infusion", image: "", variants: [] },
-        { id: "tea-2", name: "Special Tea", price: 200, desc: "House blend tea", image: "", variants: [] },
+        { id: "tea-2", name: "Special Tea", price: 200, desc: "House blend tea", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBunfcrqVPvt4ap0RXErpe4NDJlwBvKhW8oi4KOkiGkw&s=10", variants: [] },
         // { id: "tea-3", name: "Tumboro Tea", price: 100, desc: "Traditional brew", image: "", variants: [] }
       ]
     },
     {
       name: "Coffee",
       items: [
-        { id: "cof-1", name: "Special Salajeet Coffee", price: 500, desc: "Infused with organic salajeet", image: "", variants: [] },
-        { id: "cof-2", name: "Cappuccino", price: 450, desc: "Frothy classic cappuccino", image: "", variants: [] },
-        { id: "cof-3", name: "Mochaccino", price: 450, desc: "Espresso and milk blend", image: "", variants: [] },
-        { id: "cof-4", name: "Hot Chocolate", price: 500, desc: "Warm and rich hot chocolate", image: "", variants: [] },
-        { id: "cof-5", name: "Black Coffee", price: 300, desc: "Strong dark roast", image: "", variants: [] }
+        { id: "cof-1", name: "Special Salajeet Coffee", price: 500, desc: "Infused with organic salajeet", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8pZ-e8AcSr2vpsZSilzK-qBsIwgdxfJZybkL6tWvOuA&s=10", variants: [] },
+        { id: "cof-2", name: "Cappuccino", price: 450, desc: "Frothy classic cappuccino", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDZH3TuE06KNostLE_VvxMAPcgB_dIir5tfvLUEp0Uhg&s=10", variants: [] },
+        { id: "cof-3", name: "Mochaccino", price: 450, desc: "Espresso and milk blend", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSODPoeNC6hWV_6H7m31dZ5eYaog6xuxrMvFk1TmOvfXrfDNaEcKfUnkkg&s=10", variants: [] },
+        { id: "cof-4", name: "Hot Chocolate", price: 500, desc: "Warm and rich hot chocolate", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJYfSxN1TBsINwVgsT3Vvh_MbMN0CVPhxlwIfOIrwSnSCCPlkEQn0Px_0&s=10", variants: [] },
+        { id: "cof-5", name: "Black Coffee", price: 300, desc: "Strong dark roast", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUE_Zudr4-Ac1wMqUjbeWhLdbQ-jB5jE0NhhUwKc-9Gb1EOukTc2P0hn8&s=10", variants: [] }
       ]
     },
     // ---- Drinks & Beverages — left untouched, exactly as before ----
