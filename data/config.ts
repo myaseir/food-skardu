@@ -78,6 +78,20 @@ export const shops: Shop[] = [
     reviews: 61, // TODO: adjust once real reviews exist
   },
    {
+    id: "dominos-skardu",
+    name: "Domino's Pizza Skardu",
+    type: "restaurant",
+    openTime: "13:00",
+    closeTime: "01:30",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
+    lat: 35.302132, // TODO: replace with real coordinates
+    lng: 75.625344, // TODO: replace with real coordinates
+    whatsapp: "923441518777",
+    rating: 4.5,          // adjust as needed
+    reviews: 46,
+  },
+   {
     id: "skyway-pizza",
     name: "Skyway Pizza Skardu",
     type: "restaurant",
@@ -90,6 +104,20 @@ export const shops: Shop[] = [
     whatsapp: "923554524401",
     rating: 4.1,
     reviews: 106,
+  },
+   {
+    id: "thefoodcorridor-skardu",
+    name: "The Food Corridor Skardu",
+    type: "restaurant",
+    openTime: "12:00",
+    closeTime: "01:30",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhq9-b5Lbb5KFY0BOxoJrhwSbP4_aaqDECxxfbuzc8XA&s=10",
+    lat: 35.2897981, // TODO: replace with real coordinates
+    lng: 75.6406073, // TODO: replace with real coordinates
+    whatsapp: "03169030178",
+    rating: 4.1,
+    reviews: 360,
   },
 {
     id: "mart-1", // MUST match shopId used in products.ts
@@ -149,20 +177,7 @@ export const shops: Shop[] = [
     rating: 4.3,
     reviews: 21,
   },
-    {
-    id: "dominos-skardu",
-    name: "Domino's Pizza Skardu",
-    type: "restaurant",
-    openTime: "13:00",
-    closeTime: "01:30",
-    alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
-    lat: 35.302132, // TODO: replace with real coordinates
-    lng: 75.625344, // TODO: replace with real coordinates
-    whatsapp: "923441518777",
-    rating: 4.5,          // adjust as needed
-    reviews: 46,
-  },
+   
   {
     id: "pizza-king",
     name: "Pizza King Skardu",
