@@ -195,7 +195,7 @@ function InvoiceContent() {
     setDownloaded(true);
 
     const digitsOnly = data.phone.replace(/[^0-9]/g, "");
-    const message = `Hi ${data.name}, your order is confirmed! ✅ Total: Rs. ${data.total}. I've just downloaded your invoice (${filename}) — please tap the 📎 attach icon below and select it from your downloads to send it here.`;
+    const message = `Hi ${data.name}, this is Meal Bear Skardu. Your order total is Rs. ${data.total}. Reply YES to confirm.`;
 
     // Small delay so the download reliably starts before the tab loses
     // focus to WhatsApp — some browsers can cancel a download if the tab
