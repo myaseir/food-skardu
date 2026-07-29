@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import jsPDF from "jspdf";
 
@@ -167,7 +167,10 @@ function generateInvoicePdf(data: InvoiceData): string {
   return filename;
 }
 
-export default function InvoicePage() {
+// All the actual page logic lives here now. This component is the one
+// that calls useSearchParams(), so it's the one that needs to sit inside
+// a <Suspense> boundary — see InvoicePage below.
+function InvoiceContent() {
   const searchParams = useSearchParams();
   const [data, setData] = useState<InvoiceData | null>(null);
   const [downloaded, setDownloaded] = useState(false);
@@ -254,5 +257,18 @@ export default function InvoicePage() {
         </div>
       </div>
     </main>
+  );
+}
+
+// Next.js requires any component that calls useSearchParams() to be
+// wrapped in a <Suspense> boundary, or the production build's static
+// prerender step throws (this was the "Error occurred prerendering
+// page /invoice" build failure). InvoicePage itself no longer touches
+// useSearchParams — it just renders InvoiceContent inside Suspense.
+export default function InvoicePage() {
+  return (
+    <Suspense fallback={<main className="p-10 text-center text-gray-500">Loading invoice...</main>}>
+      <InvoiceContent />
+    </Suspense>
   );
 }
