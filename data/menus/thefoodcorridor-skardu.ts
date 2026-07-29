@@ -86,56 +86,98 @@ export const menu = {
           name: "Pizza Deal 1",
           price: 1450,
           desc: "2 Small Pizza + 1 Fries",
-          image: "",
-          variants: []
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785342141/WhatsApp_Image_2026-07-29_at_9.19.10_PM_1_qomvd5.jpg",
+          variants: [
+            { name: "Corridor Special Pizza", price: 1450 },
+            { name: "Chicken Supreme Pizza", price: 1450 },
+            { name: "Chicken Tikka Pizza", price: 1450 },
+            { name: "Chicken Fajita Pizza", price: 1450 },
+            { name: "Chicken Bar BQ Pizza", price: 1450 }
+          ]
         },
         {
           id: "pzd-2",
           name: "Pizza Deal 2",
           price: 2100,
           desc: "1 Medium Pizza + 1 Small Pizza + 1.5 Ltr Drink",
-          image: "",
-          variants: []
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785342142/WhatsApp_Image_2026-07-29_at_9.19.10_PM_bomobv.jpg",
+          variants: [
+            { name: "Corridor Special Pizza", price: 2100 },
+            { name: "Chicken Supreme Pizza", price: 2100 },
+            { name: "Chicken Tikka Pizza", price: 2100 },
+            { name: "Chicken Fajita Pizza", price: 2100 },
+            { name: "Chicken Bar BQ Pizza", price: 2100 }
+          ]
         },
         {
           id: "pzd-3",
           name: "Pizza Deal 3",
           price: 2900,
           desc: "1 Large Pizza + 1 Small Pizza + Fries + 1.5 Ltr Drink",
-          image: "",
-          variants: []
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785342228/WhatsApp_Image_2026-07-29_at_9.19.09_PM_2_q4fduq.jpg",
+          variants: [
+            { name: "Corridor Special Pizza", price: 2900 },
+            { name: "Chicken Supreme Pizza", price: 2900 },
+            { name: "Chicken Tikka Pizza", price: 2900 },
+            { name: "Chicken Fajita Pizza", price: 2900 },
+            { name: "Chicken Bar BQ Pizza", price: 2900 }
+          ]
         },
         {
           id: "pzd-4",
           name: "Pizza Deal 4",
           price: 4000,
           desc: "2 Large Pizza + 1 Fries + 1.5 Ltr Drink",
-          image: "",
-          variants: []
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785342143/WhatsApp_Image_2026-07-29_at_9.19.09_PM_1_h9lmvc.jpg",
+          variants: [
+            { name: "Corridor Special Pizza", price: 4000 },
+            { name: "Chicken Supreme Pizza", price: 4000 },
+            { name: "Chicken Tikka Pizza", price: 4000 },
+            { name: "Chicken Fajita Pizza", price: 4000 },
+            { name: "Chicken Bar BQ Pizza", price: 4000 }
+          ]
         },
         {
           id: "pzd-5",
           name: "Pizza Deal 5",
           price: 3000,
           desc: "1 Large Pizza + 3 Chicken Burgers + 1.5 Ltr Drink",
-          image: "",
-          variants: []
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785342145/WhatsApp_Image_2026-07-29_at_9.19.08_PM_gvklmq.jpg",
+          variants: [
+            { name: "Corridor Special Pizza", price: 3000 },
+            { name: "Chicken Supreme Pizza", price: 3000 },
+            { name: "Chicken Tikka Pizza", price: 3000 },
+            { name: "Chicken Fajita Pizza", price: 3000 },
+            { name: "Chicken Bar BQ Pizza", price: 3000 }
+          ]
         },
         {
           id: "pzd-6",
           name: "Pizza Deal 6",
           price: 3500,
           desc: "1 Large Pizza + 1 Medium Pizza + 1.5 Ltr Drink",
-          image: "",
-          variants: []
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785342144/WhatsApp_Image_2026-07-29_at_9.19.08_PM_1_dqrxwk.jpg",
+          variants: [
+            { name: "Corridor Special Pizza", price: 3500 },
+            { name: "Chicken Supreme Pizza", price: 3500 },
+            { name: "Chicken Tikka Pizza", price: 3500 },
+            { name: "Chicken Fajita Pizza", price: 3500 },
+            { name: "Chicken Bar BQ Pizza", price: 3500 }
+          ]
         },
         {
           id: "pzd-7",
           name: "Pizza Deal 7",
           price: 3600,
           desc: "1 Large Pizza + 3 Zinger Burgers + 1.5 Ltr Drink",
-          image: "",
-          variants: []
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785342145/WhatsApp_Image_2026-07-29_at_9.19.08_PM_gvklmq.jpg",
+          variants: [
+            { name: "Corridor Special Pizza", price: 3600 },
+            { name: "Chicken Supreme Pizza", price: 3600 },
+            { name: "Chicken Tikka Pizza", price: 3600 },
+            { name: "Chicken Fajita Pizza", price: 3600 },
+            { name: "Chicken Bar BQ Pizza", price: 3600 }
+          ]
         }
       ]
     },

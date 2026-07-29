@@ -269,6 +269,11 @@ export default function CheckoutPage() {
         templateParams,
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
+      // Fire-and-forget push notification — don't block success screen on this
+fetch("https://ntfy.sh/meal_bear_skardu", {
+  method: "POST",
+  body: `New order from ${name} (Rs. ${total}) — ${restaurantNames}`,
+});
       setStep("success");
       clearCart();
     } catch (error) {
