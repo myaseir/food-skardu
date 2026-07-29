@@ -53,114 +53,207 @@ function triggerPdfDownload(blob: Blob, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-// Generates a clean, simple text-based invoice PDF from the order data
-// and triggers a browser download. Returns the filename used, so the
-// caller can reference it in the WhatsApp instructions.
+// ---- Theme -----------------------------------------------------------
+const PURPLE = [147, 51, 234] as const; // brand purple
+const PURPLE_DARK = [88, 28, 135] as const; // deep purple for text on white
+const PURPLE_SOFT = [243, 232, 255] as const; // purple-50, light card backgrounds
+const PURPLE_LINE = [216, 180, 254] as const; // soft purple divider
+const GRAY_TEXT = [100, 116, 139] as const; // slate-500
+const GRAY_LINE = [235, 235, 245] as const;
+const INK = [17, 24, 39] as const; // near-black
+const WHITE = [255, 255, 255] as const;
+
+const PAGE_W = 595.28;
+const PAGE_H = 841.89;
+const MARGIN = 42;
+const CONTENT_W = PAGE_W - MARGIN * 2;
+const HEADER_H = 96;
+const CONTENT_BOTTOM_LIMIT = 780; // where we force a page break
+
+// Draws the purple header banner + "INVOICE" meta block. Called on every
+// page so a multi-page invoice stays consistent, not just page 1.
+function drawHeader(doc: jsPDF, data: InvoiceData, pageLabel: string) {
+  doc.setFillColor(...PURPLE);
+  doc.rect(0, 0, PAGE_W, HEADER_H, "F");
+
+  // subtle darker purple accent strip along the very top
+  doc.setFillColor(...PURPLE_DARK);
+  doc.rect(0, 0, PAGE_W, 4, "F");
+
+  doc.setTextColor(...WHITE);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(23);
+  doc.text("Meal Bear Skardu", MARGIN, 44);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9.5);
+  doc.text("Food Delivery, Skardu", MARGIN, 62);
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text("INVOICE", PAGE_W - MARGIN, 42, { align: "right" });
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.text(new Date(data.date).toLocaleString(), PAGE_W - MARGIN, 58, { align: "right" });
+  doc.text(pageLabel, PAGE_W - MARGIN, 71, { align: "right" });
+}
+
+// Thin purple rule + centered footer note, drawn near the bottom of every page.
+function drawFooter(doc: jsPDF, pageNum: number, pageCount: number) {
+  const y = 812;
+  doc.setDrawColor(...PURPLE_LINE);
+  doc.setLineWidth(1);
+  doc.line(MARGIN, y, PAGE_W - MARGIN, y);
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(9);
+  doc.setTextColor(...PURPLE_DARK);
+  doc.text("Thank you for ordering with Meal Bear Skardu!", MARGIN, y + 16);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8);
+  doc.setTextColor(...GRAY_TEXT);
+  doc.text(`Page ${pageNum} of ${pageCount}`, PAGE_W - MARGIN, y + 16, { align: "right" });
+}
+
+function roundedFill(doc: jsPDF, x: number, y: number, w: number, h: number, color: readonly number[]) {
+  doc.setFillColor(color[0], color[1], color[2]);
+  doc.roundedRect(x, y, w, h, 8, 8, "F");
+}
+
+// Generates a purple/white themed invoice PDF from the order data and
+// triggers a browser download. Returns the filename used, so the caller
+// can reference it in the WhatsApp instructions.
 function generateInvoicePdf(data: InvoiceData): string {
   const doc = new jsPDF({ unit: "pt", format: "a4" });
-  const marginX = 48;
-  let y = 60;
 
-  // Header
+  drawHeader(doc, data, "Page 1");
+  let y = HEADER_H + 34;
+
+  // --- Bill To card -----------------------------------------------------
+  const addressLines = doc.splitTextToSize(data.address, CONTENT_W - 24);
+  const billCardH = 46 + addressLines.length * 12;
+  roundedFill(doc, MARGIN, y, CONTENT_W, billCardH, PURPLE_SOFT);
+
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(20);
-  doc.setTextColor(147, 51, 234); // purple
-  doc.text("Meal Bear Skardu", marginX, y);
+  doc.setFontSize(8.5);
+  doc.setTextColor(...PURPLE_DARK);
+  doc.text("BILL TO", MARGIN + 16, y + 18);
 
-  doc.setFontSize(10);
-  doc.setTextColor(100, 100, 100);
-  doc.setFont("helvetica", "normal");
-  y += 18;
-  doc.text(`Invoice generated: ${new Date(data.date).toLocaleString()}`, marginX, y);
-
-  // Customer details
-  y += 30;
-  doc.setDrawColor(230, 230, 230);
-  doc.line(marginX, y, 545, y);
-  y += 22;
-
-  doc.setFontSize(12);
-  doc.setTextColor(20, 20, 20);
   doc.setFont("helvetica", "bold");
-  doc.text(data.name, marginX, y);
-  y += 16;
+  doc.setFontSize(12.5);
+  doc.setTextColor(...INK);
+  doc.text(data.name, MARGIN + 16, y + 34);
+
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
-  doc.text(data.phone, marginX, y);
-  y += 14;
-  const addressLines = doc.splitTextToSize(data.address, 497);
-  doc.text(addressLines, marginX, y);
-  y += addressLines.length * 12 + 18;
+  doc.setTextColor(...GRAY_TEXT);
+  doc.text(data.phone, PAGE_W - MARGIN - 16, y + 34, { align: "right" });
 
-  // Items, grouped by restaurant
-  doc.setDrawColor(230, 230, 230);
-  doc.line(marginX, y, 545, y);
-  y += 24;
+  doc.setFontSize(9.5);
+  doc.setTextColor(...INK);
+  doc.text(addressLines, MARGIN + 16, y + 50);
+
+  y += billCardH + 26;
+
+  // --- Items, grouped by restaurant --------------------------------------
+  let pageNum = 1;
+
+  const ensureRoom = (needed: number) => {
+    if (y + needed > CONTENT_BOTTOM_LIMIT) {
+      doc.addPage();
+      pageNum += 1;
+      drawHeader(doc, data, `Page ${pageNum}`);
+      y = HEADER_H + 34;
+    }
+  };
+
+  // Column header row
+  ensureRoom(26);
+  doc.setFillColor(...PURPLE);
+  doc.roundedRect(MARGIN, y, CONTENT_W, 22, 5, 5, "F");
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(8.5);
+  doc.setTextColor(...WHITE);
+  doc.text("ITEM", MARGIN + 12, y + 14.5);
+  doc.text("QTY", PAGE_W - MARGIN - 130, y + 14.5, { align: "right" });
+  doc.text("PRICE", PAGE_W - MARGIN - 12, y + 14.5, { align: "right" });
+  y += 22 + 8;
 
   data.shops.forEach((shop) => {
+    ensureRoom(24);
+    doc.setFillColor(...GRAY_LINE);
+    doc.rect(MARGIN, y, CONTENT_W, 18, "F");
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(10);
-    doc.setTextColor(120, 120, 120);
-    doc.text(shop.name.toUpperCase(), marginX, y);
-    y += 16;
+    doc.setFontSize(8.5);
+    doc.setTextColor(...PURPLE_DARK);
+    doc.text(shop.name.toUpperCase(), MARGIN + 12, y + 12.5);
+    y += 18 + 6;
 
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(11);
-    doc.setTextColor(30, 30, 30);
+    shop.items.forEach((item, idx) => {
+      ensureRoom(20);
 
-    shop.items.forEach((item) => {
-      const label = `${item.qty}x ${item.name}`;
-      const price = `Rs. ${item.price * item.qty}`;
-      doc.text(label, marginX, y);
-      doc.text(price, 545, y, { align: "right" });
-      y += 16;
-
-      // Start a new page if we're running out of room
-      if (y > 760) {
-        doc.addPage();
-        y = 60;
+      // faint alternating row tint for readability
+      if (idx % 2 === 1) {
+        doc.setFillColor(250, 248, 255);
+        doc.rect(MARGIN, y - 4, CONTENT_W, 18, "F");
       }
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10.5);
+      doc.setTextColor(...INK);
+      doc.text(item.name, MARGIN + 12, y + 9);
+      doc.text(String(item.qty), PAGE_W - MARGIN - 130, y + 9, { align: "right" });
+      doc.setFont("helvetica", "bold");
+      doc.text(`Rs. ${item.price * item.qty}`, PAGE_W - MARGIN - 12, y + 9, { align: "right" });
+      y += 18;
     });
 
-    y += 10;
+    y += 12;
   });
 
-  // Price breakdown
-  // Everything above this point (items list) checks for page overflow
-  // per-line, but this block never did — on a long multi-item order, y
-  // could already be near the bottom of the page here, and this block
-  // needs ~100pt more. Without this check, the Total line can render
-  // past the bottom of the page and simply not appear in the PDF.
-  const priceBreakdownHeight = 100;
-  if (y + priceBreakdownHeight > 800) {
-    doc.addPage();
-    y = 60;
-  }
+  // --- Totals card --------------------------------------------------------
+  const totalsW = 230;
+  const totalsX = PAGE_W - MARGIN - totalsW;
+  const totalsH = 96;
+  ensureRoom(totalsH + 10);
+  y += 6;
 
-  doc.setDrawColor(230, 230, 230);
-  doc.line(marginX, y, 545, y);
-  y += 22;
+  roundedFill(doc, totalsX, y, totalsW, totalsH, PURPLE_SOFT);
 
+  doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
-  doc.setTextColor(100, 100, 100);
-  doc.text("Subtotal", marginX, y);
-  doc.text(`Rs. ${data.subtotal}`, 545, y, { align: "right" });
-  y += 16;
+  doc.setTextColor(...GRAY_TEXT);
+  doc.text("Subtotal", totalsX + 16, y + 22);
+  doc.setTextColor(...INK);
+  doc.setFont("helvetica", "bold");
+  doc.text(`Rs. ${data.subtotal}`, totalsX + totalsW - 16, y + 22, { align: "right" });
 
-  doc.text("Delivery Fee", marginX, y);
-  doc.text(`Rs. ${data.deliveryFee}`, 545, y, { align: "right" });
-  y += 20;
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(...GRAY_TEXT);
+  doc.text("Delivery Fee", totalsX + 16, y + 40);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(...INK);
+  doc.text(`Rs. ${data.deliveryFee}`, totalsX + totalsW - 16, y + 40, { align: "right" });
 
-  doc.setDrawColor(147, 51, 234);
-  doc.setLineWidth(1.2);
-  doc.line(marginX, y, 545, y);
-  y += 22;
+  doc.setDrawColor(...PURPLE_LINE);
+  doc.setLineWidth(1);
+  doc.line(totalsX + 16, y + 52, totalsX + totalsW - 16, y + 52);
 
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(15);
-  doc.setTextColor(147, 51, 234);
-  doc.text("Total", marginX, y);
-  doc.text(`Rs. ${data.total}`, 545, y, { align: "right" });
+  doc.setFontSize(11.5);
+  doc.setTextColor(...PURPLE_DARK);
+  doc.text("TOTAL", totalsX + 16, y + 78);
+  doc.setFontSize(18);
+  doc.text(`Rs. ${data.total}`, totalsX + totalsW - 16, y + 80, { align: "right" });
+
+  // --- Footers on every page ----------------------------------------------
+  const pageCount = doc.getNumberOfPages();
+  for (let p = 1; p <= pageCount; p++) {
+    doc.setPage(p);
+    drawFooter(doc, p, pageCount);
+  }
 
   const filename = `MealBearSkardu-Invoice-${data.name.replace(/\s+/g, "")}-${Date.now()}.pdf`;
   triggerPdfDownload(doc.output("blob"), filename);
