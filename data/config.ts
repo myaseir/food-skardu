@@ -66,7 +66,7 @@ export const shops: Shop[] = [
     name: "The Kitchen",
     type: "restaurant",
     openTime: "12:00", // TODO: confirm actual opening time
-    closeTime: "12:30", // TODO: confirm actual closing time
+    closeTime: "9:00", // TODO: confirm actual closing time
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpO1EPdDa0L41JIdnK45cWhQVFiulx09fx2p5amMNXFXwBXUiOyj8itdI&s=10", // TODO: paste real logo URL
     lat: 35.28872, // TODO: replace with real coordinates
