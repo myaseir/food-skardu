@@ -25,6 +25,16 @@ import { shops, Shop } from "@/data/config";
 import { calculateDeliveryFee } from "@/utils/deliveryCalculator";
 import { useUserLocation } from "@/contexts/LocationContext";
 
+// Covers virtually every realistic multi-restaurant order. EmailJS
+// auto-escapes HTML special characters when substituting a variable (a
+// security measure against injection), so injecting full <a> tags as a
+// single template variable doesn't render — it shows up as visible
+// escaped text. Fixed slots sidestep this entirely: only plain
+// text/URL values (name, link, a "display" value) get substituted into
+// attributes that already exist in the email template, so nothing ever
+// needs escaping.
+const MAX_RESTAURANT_BUTTONS = 4;
+
 // Builds the distinct list of shops represented in the cart, in the order
 // their first item was added — this is the stop order the rider follows:
 // Office -> shopsInCart[0] -> shopsInCart[1] -> ... -> Customer -> Office.
@@ -43,6 +53,102 @@ function getShopsInCartOrder(items: any[]): Shop[] {
   }
 
   return result;
+}
+
+// Builds a wa.me link with a pre-filled, URL-encoded message.
+function buildWhatsAppLink(phoneDigitsOnly: string, message: string): string {
+  return `https://wa.me/${phoneDigitsOnly}?text=${encodeURIComponent(message)}`;
+}
+
+// Opens a chat with the CUSTOMER's number, prefilled to ask them to confirm.
+function buildCustomerConfirmLink(customerPhone: string, customerName: string, total: number): string {
+  const digitsOnly = customerPhone.replace(/[^0-9]/g, "");
+ const message = `Hi ${customerName}, this is Meal Bear Skardu. Your order total is Rs. ${total}. Reply YES to confirm.`;
+  return buildWhatsAppLink(digitsOnly, message);
+}
+
+// Builds plain-value params for up to MAX_RESTAURANT_BUTTONS fixed button
+// slots in the email template — name, wa.me link, and a "display" value
+// used to hide any slots beyond how many restaurants are actually in this
+// order. All values here are plain strings/URLs (no raw HTML), so
+// EmailJS's auto-escaping never kicks in.
+function buildRestaurantButtonParams(
+  shopsInCart: Shop[],
+  items: any[],
+  customerName: string,
+  customerPhone: string,
+  finalAddress: string
+): Record<string, string> {
+  const params: Record<string, string> = {};
+
+  for (let i = 0; i < MAX_RESTAURANT_BUTTONS; i++) {
+    const shop = shopsInCart[i];
+    const slot = i + 1;
+
+    if (!shop) {
+      params[`restaurant_${slot}_name`] = "";
+      params[`restaurant_${slot}_link`] = "#";
+      params[`restaurant_${slot}_display`] = "none";
+      continue;
+    }
+
+    const shopItems = items.filter((it: any) => it.shopId === shop.id);
+    const itemLines = shopItems
+      .map((it: any) => `${it.quantity || 1}x ${it.name}`)
+      .join("\n");
+
+    const message =
+      `${shop.name}\n\n${itemLines}\n\n` +
+      `~ Meal Bear Skardu`;
+
+    params[`restaurant_${slot}_name`] = shop.name;
+    params[`restaurant_${slot}_link`] = shop.whatsapp
+      ? buildWhatsAppLink(shop.whatsapp, message)
+      : "#"; // Falls back to a dead link if a shop's whatsapp number isn't filled in yet
+    params[`restaurant_${slot}_display`] = "block";
+  }
+
+  return params;
+}
+
+// Safely base64-encodes a JSON payload for use in a URL, including
+// unicode-safe handling (plain btoa breaks on non-Latin1 characters).
+function encodeInvoiceData(data: object): string {
+  const json = JSON.stringify(data);
+  const utf8Safe = btoa(unescape(encodeURIComponent(json)));
+  return encodeURIComponent(utf8Safe);
+}
+
+// Builds the link to the printable invoice page.
+function buildInvoiceLink(
+  shopsInCart: Shop[],
+  items: any[],
+  name: string,
+  phone: string,
+  finalAddress: string,
+  subtotal: number,
+  deliveryFee: number,
+  total: number
+): string {
+  const invoiceData = {
+    date: new Date().toISOString(),
+    name,
+    phone,
+    address: finalAddress,
+    subtotal,
+    deliveryFee,
+    total,
+    shops: shopsInCart.map((shop) => ({
+      name: shop.name,
+      items: items
+        .filter((i: any) => i.shopId === shop.id)
+        .map((i: any) => ({ name: i.name, qty: i.quantity || 1, price: i.price })),
+    })),
+  };
+
+  const encoded = encodeInvoiceData(invoiceData);
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  return `${origin}/invoice?data=${encoded}`;
 }
 
 export default function CheckoutPage() {
@@ -66,24 +172,15 @@ export default function CheckoutPage() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showMobileSummary, setShowMobileSummary] = useState(false);
 
-  // Captured silently in the background by LocationProvider (see app/layout.tsx)
-  // and kept live via watchPosition — never shown in the UI, just piggy-backed
-  // onto the order email so the rider can jump straight to a pin instead of
-  // relying on the hotel/area name alone.
   const { location: userLocation } = useUserLocation();
 
-  // Dynamic Delivery Calculation — now multi-restaurant aware.
-  // shopsInCart is the ordered, deduplicated list of every restaurant/mart
-  // represented in the cart; the rider visits them in this order before
-  // heading to the customer.
   const shopsInCart = getShopsInCartOrder(items);
-  const currentShop = shopsInCart[0]; // kept for any single-shop display fallback
+  const currentShop = shopsInCart[0];
   const deliveryFee = shopsInCart.length > 0 && locationName
     ? calculateDeliveryFee(shopsInCart, locationName)
     : 0;
   const total = subtotal + deliveryFee;
 
-  // SMART FILTER: Choose the right list based on delivery mode
   const currentList = deliveryMode === "hotel" ? SKARDU_HOTELS : SKARDU_AREAS;
   const filteredLocations = Object.keys(currentList).filter((loc) =>
     loc.toLowerCase().includes(locationName.toLowerCase())
@@ -106,34 +203,47 @@ export default function CheckoutPage() {
       ? `https://www.google.com/maps?q=${userLocation!.latitude},${userLocation!.longitude}`
       : "";
 
-    // Format address for the email based on the delivery mode
     const finalAddress = deliveryMode === 'hotel'
       ? `HOTEL: ${locationName} | ROOM: ${addressDetail}`
       : `HOME AREA: ${locationName} | ADDRESS: ${addressDetail}`;
 
- // Group items by restaurant so the email clearly shows which item
-// came from which shop — critical now that orders can span multiple
-// restaurants (rider needs to know what to pick up at each stop).
-const detailedItems = shopsInCart
-  .map((shop) => {
-    const shopItems = items.filter((i: any) => i.shopId === shop.id);
-    if (shopItems.length === 0) return "";
+    const detailedItems = shopsInCart
+      .map((shop) => {
+        const shopItems = items.filter((i: any) => i.shopId === shop.id);
+        if (shopItems.length === 0) return "";
 
-    const itemLines = shopItems
-      .map(
-        (i: any) =>
-          "  " + (i.quantity || 1) + "x " + i.name + " (Rs. " + i.price * (i.quantity || 1) + ")"
-      )
-      .join("\n");
+        const itemLines = shopItems
+          .map(
+            (i: any) =>
+              "  " + (i.quantity || 1) + "x " + i.name + " (Rs. " + i.price * (i.quantity || 1) + ")"
+          )
+          .join("\n");
 
-    return `${shop.name}:\n${itemLines}`;
-  })
-  .filter(Boolean)
-  .join("\n\n");
+        return `${shop.name}:\n${itemLines}`;
+      })
+      .filter(Boolean)
+      .join("\n\n");
 
-    // All restaurants/marts involved in this order, in visiting order —
-    // e.g. "Yak and Bull Cafe Skardu, Domino's Pizza Skardu"
     const restaurantNames = shopsInCart.map((s) => s.name).join(", ") || "N/A";
+
+    const confirmWhatsAppLink = buildCustomerConfirmLink(phone, name, total);
+    const restaurantButtonParams = buildRestaurantButtonParams(
+      shopsInCart,
+      items,
+      name,
+      phone,
+      finalAddress
+    );
+    const invoiceLink = buildInvoiceLink(
+      shopsInCart,
+      items,
+      name,
+      phone,
+      finalAddress,
+      subtotal,
+      deliveryFee,
+      total
+    );
 
     const templateParams = {
       user_name: name,
@@ -147,6 +257,9 @@ const detailedItems = shopsInCart
       customer_lat: hasCoords ? userLocation!.latitude.toFixed(6) : "Not available",
       customer_lng: hasCoords ? userLocation!.longitude.toFixed(6) : "Not available",
       location_link: mapsLink || "Not available",
+      confirm_whatsapp_link: confirmWhatsAppLink,
+      invoice_link: invoiceLink,
+      ...restaurantButtonParams, // restaurant_1_name, restaurant_1_link, restaurant_1_display, restaurant_2_..., etc.
     };
 
     try {

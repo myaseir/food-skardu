@@ -94,7 +94,7 @@ export const SKARDU_HOTELS: Record<string, { lat: number; lng: number }> = {
   
   "Shangrila Resort Skardu": { lat: 35.425960, lng: 75.456421 },
   "Kachura Inn Skardu": { lat: 35.424978, lng: 75.433406 },
-  "Tibet Hotel Kachura Skardu": { lat: 35.425473, lng: 75.453743 },
+  "Tibet Hotel Kachura Skardu": { lat: 35.434870, lng: 75.4501409 },
   "Hotel Mountain Lagoon Skardu": { lat: 35.425442, lng: 75.453232 },
   "Skardu River Resort": { lat: 35.426085, lng: 75.452293 },
   "Morning Resort": { lat: 35.4390467, lng: 75.4505393 },
