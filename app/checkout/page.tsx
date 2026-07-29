@@ -99,7 +99,7 @@ function buildRestaurantButtonParams(
 
     const message =
       `${shop.name}\n\n${itemLines}\n\n` +
-      `~ Meal Bear Skardu`;
+      `~ Meal Bear Skardu\nmealbear.pk`;
 
     params[`restaurant_${slot}_name`] = shop.name;
     params[`restaurant_${slot}_link`] = shop.whatsapp
