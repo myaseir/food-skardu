@@ -30,6 +30,29 @@ function buildWhatsAppLink(phoneDigitsOnly: string, message: string): string {
   return `https://wa.me/${phoneDigitsOnly}?text=${encodeURIComponent(message)}`;
 }
 
+// Manually triggers a file download from a Blob, instead of relying on
+// jsPDF's built-in doc.save(). jsPDF's .save() creates a temporary
+// <a download> element and clicks it WITHOUT always appending it to the
+// DOM first — some Chrome versions only honor the `download` attribute
+// when the element is actually attached to the page at click time.
+// Otherwise Chrome just navigates to the blob URL like a normal link,
+// which opens the PDF in a new tab (showing as a "blob:http://localhost:
+// ..." address) instead of saving it to disk. Appending the link to the
+// DOM before clicking — and removing it right after — makes the download
+// attribute reliably honored.
+function triggerPdfDownload(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  // Revoke slightly after the click rather than immediately — revoking
+  // too early can cancel the download in some browsers.
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 // Generates a clean, simple text-based invoice PDF from the order data
 // and triggers a browser download. Returns the filename used, so the
 // caller can reference it in the WhatsApp instructions.
@@ -140,7 +163,7 @@ function generateInvoicePdf(data: InvoiceData): string {
   doc.text(`Rs. ${data.total}`, 545, y, { align: "right" });
 
   const filename = `MealBearSkardu-Invoice-${data.name.replace(/\s+/g, "")}-${Date.now()}.pdf`;
-  doc.save(filename);
+  triggerPdfDownload(doc.output("blob"), filename);
   return filename;
 }
 
