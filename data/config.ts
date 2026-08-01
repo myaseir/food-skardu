@@ -119,21 +119,7 @@ export const shops: Shop[] = [
     rating: 4.1,
     reviews: 360,
   },
-{
-    id: "mart-1", // MUST match shopId used in products.ts
-    name: "Meal Mart", // TODO: real name
-    type: "mart",
-    openTime: "08:00",
-    closeTime: "18:00",
-    alwaysOpen: false,
-    logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785169551/WhatsApp_Image_2026-07-27_at_9.23.27_PM_eap0bl.jpg", // TODO: paste real logo URL
-    lat: 35.309838, // TODO: replace with the mart's real coordinates
-    lng: 75.609356, // TODO: replace with the mart's real coordinates
-    whatsapp: "923169030178",
-    isActive: true,
-    rating: 4.5,
-    reviews: 2,
-  },
+
  
   // {
   //   id: "aima-kitchen",
@@ -177,6 +163,20 @@ export const shops: Shop[] = [
     rating: 4.3,
     reviews: 21,
   },
+  {
+    id: "baltistan-tea-grill-house",
+    name: "Baltistan Tea and Grill House",
+    type: "restaurant",
+    openTime: "11:00",
+    closeTime: "23:00",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
+    lat: 35.289893, // TODO: replace with real coordinates
+    lng: 75.637079, // TODO: replace with real coordinates
+    whatsapp: "923554220114",
+    rating: 5.0,
+    reviews: 24,
+  },
    
   {
     id: "pizza-king",
@@ -205,6 +205,21 @@ export const shops: Shop[] = [
     whatsapp: "923408922555",
     rating: 4.2,
     reviews: 37,
+  },
+  {
+    id: "mart-1", // MUST match shopId used in products.ts
+    name: "Meal Mart", // TODO: real name
+    type: "mart",
+    openTime: "24:00",
+    closeTime: "8:00",
+    alwaysOpen: false,
+    logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785169551/WhatsApp_Image_2026-07-27_at_9.23.27_PM_eap0bl.jpg", // TODO: paste real logo URL
+    lat: 35.309838, // TODO: replace with the mart's real coordinates
+    lng: 75.609356, // TODO: replace with the mart's real coordinates
+    whatsapp: "923169030178",
+    isActive: true,
+    rating: 0,
+    reviews: 0,
   },
   
  

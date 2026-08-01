@@ -31,7 +31,7 @@ export const MART_CATEGORIES = [
 // Fully isolated from data/config.ts and the restaurant shops array.
 // Change these two values any time to adjust mart hours.
 const MART_OPEN_HOUR = 8; // 8 AM
-const MART_CLOSE_HOUR = 18; // 6 PM
+const MART_CLOSE_HOUR = 4; // 4 AM (next day)
 
 function getMartStatus() {
   const now = new Date();
@@ -39,7 +39,13 @@ function getMartStatus() {
   const openMinutes = MART_OPEN_HOUR * 60;
   const closeMinutes = MART_CLOSE_HOUR * 60;
 
-  const isOpen = currentMinutes >= openMinutes && currentMinutes < closeMinutes;
+  // Overnight window: closing time is numerically earlier than opening
+  // time (8 AM -> 4 AM), so "open" means past opening time OR still
+  // before closing time (the part of the window after midnight).
+  const isOvernight = closeMinutes <= openMinutes;
+  const isOpen = isOvernight
+    ? currentMinutes >= openMinutes || currentMinutes < closeMinutes
+    : currentMinutes >= openMinutes && currentMinutes < closeMinutes;
 
   const formatHour = (h: number) => {
     const period = h >= 12 ? "PM" : "AM";
