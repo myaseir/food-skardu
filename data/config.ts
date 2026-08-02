@@ -91,6 +91,20 @@ export const shops: Shop[] = [
     rating: 4.5,          // adjust as needed
     reviews: 46,
   },
+    {
+    id: "the-balti-table",
+    name: "The Balti Table",
+    type: "restaurant",
+    openTime: "12:00",
+    closeTime: "23:30",
+    alwaysOpen: false,
+    logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785659359/WhatsApp_Image_2026-08-02_at_1.26.33_PM_webhxh.jpg",
+    lat: 35.2899888, // TODO: replace with real coordinates
+    lng: 75.6415605, // TODO: replace with real coordinates
+    whatsapp: "923554395551",
+    rating: 4.7,
+    reviews: 89,
+  },
    {
     id: "skyway-pizza",
     name: "Skyway Pizza Skardu",
@@ -171,11 +185,25 @@ export const shops: Shop[] = [
     closeTime: "23:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
-    lat: 35.289893, // TODO: replace with real coordinates
-    lng: 75.637079, // TODO: replace with real coordinates
+    lat: 35.298864, // TODO: replace with real coordinates
+    lng: 75.637217, // TODO: replace with real coordinates
     whatsapp: "923554220114",
     rating: 5.0,
     reviews: 24,
+  },
+  {
+    id: "hassan-hussain-host",
+    name: "Hassan Hussain Host",
+    type: "restaurant",
+    openTime: "11:00",
+    closeTime: "22:30",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
+     lat: 35.2899888, // TODO: replace with real coordinates
+    lng: 75.6415605, // TODO: replace with real coordinates
+    whatsapp: "923554395551",
+    rating: 0.0,
+    reviews: 0,
   },
    
   {
@@ -206,6 +234,7 @@ export const shops: Shop[] = [
     rating: 4.2,
     reviews: 37,
   },
+
   {
     id: "mart-1", // MUST match shopId used in products.ts
     name: "Meal Mart", // TODO: real name

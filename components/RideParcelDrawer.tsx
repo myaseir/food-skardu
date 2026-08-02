@@ -10,12 +10,14 @@ import {
   Phone,
   ArrowRight,
   CircleDot,
-  ChevronDown,
   Check,
   Loader2,
   CheckCircle2,
   Clock,
   Plus,
+  Search,
+  X,
+  Sparkles,
 } from "lucide-react";
 import {
   SKARDU_AREAS,
@@ -33,11 +35,24 @@ type SubmitStatus = "idle" | "sending" | "error";
 type Mode = "ride" | "parcel";
 type Field = "pickup" | "dropoff";
 type LocationCategory = "area" | "hotel";
-// A valid location name is any key in either SKARDU_AREAS or SKARDU_HOTELS.
+// A valid location name is any key in either SKARDU_AREAS or SKARDU_HOTELS,
+// OR any free-text location the person typed in themselves.
 // (Deliberately plain `string`, not `keyof typeof SKARDU_AREAS` — that
 // widens to include `symbol` for index-signature types, which then breaks
 // rendering the value directly as JSX text.)
 type Area = string;
+
+type LocationOption = { name: string; category: LocationCategory };
+
+// Combined, searchable directory of every known area + hotel, built once at
+// module scope. The picker searches across both lists together instead of
+// forcing the person to pick a tab first.
+const ALL_LOCATIONS: LocationOption[] = [
+  ...Object.keys(SKARDU_AREAS).map((name) => ({ name, category: "area" as const })),
+  ...Object.keys(SKARDU_HOTELS).map((name) => ({ name, category: "hotel" as const })),
+].sort((a, b) => a.name.localeCompare(b.name));
+
+const KNOWN_LOCATION_NAMES = new Set(ALL_LOCATIONS.map((l) => l.name));
 
 type BookingSummary = {
   mode: Mode;
@@ -53,51 +68,95 @@ type BookingSummary = {
 };
 
 /**
- * Custom area picker.
- * Replaces the native <select> so we control the dropdown's max-height
- * and get a real scrollbar instead of the list overflowing the viewport
- * on small phone screens (and looking oversized on laptop).
+ * Searchable location picker.
+ *
+ * Typing filters the combined area + hotel directory live. If nothing in
+ * the directory matches what was typed, an extra row lets the person use
+ * their own text as a custom location (e.g. a village or street the
+ * directory doesn't have yet) — pricing simply falls back to "On request"
+ * for anything outside the known list.
  */
-function AreaSelect({
+function AreaCombobox({
   label,
   value,
   onChange,
-  category,
-  onCategoryChange,
   isOpen,
   onOpen,
   onClose,
+  placeholder,
 }: {
   label: string;
   value: Area;
   onChange: (a: Area) => void;
-  category: LocationCategory;
-  onCategoryChange: (c: LocationCategory) => void;
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+  placeholder: string;
 }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [query, setQuery] = useState(value);
 
-  // Only the selected category's names are shown — switching category
-  // clears whatever was picked from the other list (handled by the parent).
-  const options = useMemo(
-    () =>
-      Object.keys(category === "area" ? SKARDU_AREAS : SKARDU_HOTELS).sort((a, b) =>
-        a.localeCompare(b)
-      ),
-    [category]
-  );
+  // Keep the input's text in sync with the committed value whenever the
+  // field isn't actively being edited (e.g. after "Book Another" resets it).
+  useEffect(() => {
+    if (!isOpen) setQuery(value);
+  }, [value, isOpen]);
+
+  const trimmed = query.trim();
+  const trimmedLower = trimmed.toLowerCase();
+
+  const filtered = useMemo(() => {
+    if (!trimmedLower) return ALL_LOCATIONS;
+    return ALL_LOCATIONS.filter((o) => o.name.toLowerCase().includes(trimmedLower)).sort(
+      (a, b) => {
+        const aStarts = a.name.toLowerCase().startsWith(trimmedLower) ? 0 : 1;
+        const bStarts = b.name.toLowerCase().startsWith(trimmedLower) ? 0 : 1;
+        if (aStarts !== bStarts) return aStarts - bStarts;
+        return a.name.localeCompare(b.name);
+      }
+    );
+  }, [trimmedLower]);
+
+  const exactMatch = trimmedLower
+    ? ALL_LOCATIONS.find((o) => o.name.toLowerCase() === trimmedLower)
+    : undefined;
+  const showCustomOption = trimmed.length > 0 && !exactMatch;
+  const isCustomSelected = value !== "" && !KNOWN_LOCATION_NAMES.has(value);
+
+  function selectOption(name: string) {
+    setQuery(name);
+    onChange(name);
+    onClose();
+  }
+
+  function useCustomLocation() {
+    if (!trimmed) return;
+    setQuery(trimmed);
+    onChange(trimmed);
+    onClose();
+  }
+
+  // Commits whatever was typed (as a custom location) when the field loses
+  // focus without an explicit selection, instead of silently discarding it.
+  function commitAndClose() {
+    if (trimmed) {
+      if (trimmed !== value) onChange(trimmed);
+    } else if (value) {
+      onChange("");
+    }
+    onClose();
+  }
 
   useEffect(() => {
     if (!isOpen) return;
     function handleClickOutside(e: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-        onClose();
+        commitAndClose();
       }
     }
     function handleEscape(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") commitAndClose();
     }
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleEscape);
@@ -105,7 +164,17 @@ function AreaSelect({
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [isOpen, onClose]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, trimmed, value]);
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (!trimmed) return;
+      if (exactMatch) selectOption(exactMatch.name);
+      else useCustomLocation();
+    }
+  }
 
   return (
     <div ref={wrapperRef} className="relative min-w-0">
@@ -113,78 +182,101 @@ function AreaSelect({
         <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
           {label}
         </label>
-        <div className="flex shrink-0 gap-0.5 rounded-full bg-gray-100 p-0.5">
-          {(["area", "hotel"] as LocationCategory[]).map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => {
-                if (c !== category) onCategoryChange(c);
-              }}
-              className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide transition-colors ${
-                category === c
-                  ? "bg-white text-purple-700 shadow-sm"
-                  : "text-gray-400 hover:text-gray-600"
-              }`}
-            >
-              {c === "area" ? "Area" : "Hotel"}
-            </button>
-          ))}
-        </div>
+        {isCustomSelected && (
+          <span className="flex shrink-0 items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-600">
+            Custom
+          </span>
+        )}
       </div>
 
-      <button
-        type="button"
-        onClick={() => (isOpen ? onClose() : onOpen())}
-        className="flex w-full min-w-0 items-center justify-between gap-2 mt-1 bg-transparent text-left focus:outline-none"
-      >
-        <span
-          className={`truncate text-sm font-semibold ${
-            value ? "text-gray-900" : "text-gray-400 font-normal"
-          }`}
-        >
-          {value || (category === "area" ? "Select area" : "Select hotel")}
-        </span>
-        <ChevronDown
-          size={15}
-          strokeWidth={2.5}
-          className={`shrink-0 text-gray-400 transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
-          }`}
+      <div className="relative mt-1 flex items-center">
+        <Search size={13} strokeWidth={2.5} className="pointer-events-none absolute left-0 text-gray-300" />
+        <input
+          ref={inputRef}
+          type="text"
+          value={isOpen ? query : value}
+          onFocus={() => {
+            onOpen();
+            requestAnimationFrame(() => inputRef.current?.select());
+          }}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            if (!isOpen) onOpen();
+          }}
+          onKeyDown={handleKeyDown}
+          placeholder={placeholder}
+          autoComplete="off"
+          className="w-full min-w-0 bg-transparent py-0.5 pl-5 pr-5 text-sm font-semibold text-gray-900 placeholder:text-gray-400 placeholder:font-normal focus:outline-none"
         />
-      </button>
+        {(isOpen ? query : value) && (
+          <button
+            type="button"
+            tabIndex={-1}
+            onClick={() => {
+              setQuery("");
+              onChange("");
+              inputRef.current?.focus();
+            }}
+            className="absolute right-0 text-gray-300 transition-colors hover:text-gray-500"
+          >
+            <X size={14} strokeWidth={2.5} />
+          </button>
+        )}
+      </div>
 
       {isOpen && (
         <div
           className="absolute left-0 right-0 top-full z-30 mt-1.5 max-h-56 sm:max-h-64 overflow-y-auto overscroll-contain rounded-xl border border-gray-100 bg-white py-1 shadow-lg shadow-gray-300/40"
           role="listbox"
         >
-          {options.length === 0 ? (
-            <p className="px-3.5 py-2.5 text-sm text-gray-400">No {category}s found.</p>
+          {filtered.length === 0 && !showCustomOption ? (
+            <p className="px-3.5 py-2.5 text-sm text-gray-400">No matches yet — keep typing.</p>
           ) : (
-            options.map((name) => {
-              const selected = name === value;
-              return (
+            <>
+              {filtered.slice(0, 50).map((opt) => {
+                const selected = opt.name === value;
+                return (
+                  <button
+                    key={opt.name}
+                    type="button"
+                    role="option"
+                    aria-selected={selected}
+                    onClick={() => selectOption(opt.name)}
+                    className={`flex w-full items-center justify-between gap-2 px-3.5 py-2.5 text-left text-sm transition-colors ${
+                      selected
+                        ? "bg-purple-50 font-semibold text-purple-700"
+                        : "text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    <span className="flex min-w-0 items-center gap-2">
+                      <span className="truncate">{opt.name}</span>
+                      <span
+                        className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${
+                          opt.category === "hotel"
+                            ? "bg-blue-50 text-blue-500"
+                            : "bg-gray-100 text-gray-400"
+                        }`}
+                      >
+                        {opt.category === "hotel" ? "Hotel" : "Area"}
+                      </span>
+                    </span>
+                    {selected && <Check size={14} className="shrink-0 text-purple-600" />}
+                  </button>
+                );
+              })}
+              {showCustomOption && (
                 <button
-                  key={name}
                   type="button"
-                  role="option"
-                  aria-selected={selected}
-                  onClick={() => {
-                    onChange(name);
-                    onClose();
-                  }}
-                  className={`flex w-full items-center justify-between gap-2 px-3.5 py-2.5 text-left text-sm transition-colors ${
-                    selected
-                      ? "bg-purple-50 font-semibold text-purple-700"
-                      : "text-gray-700 hover:bg-gray-50"
-                  }`}
+                  onClick={useCustomLocation}
+                  className="flex w-full items-center gap-2 border-t border-dashed border-gray-100 px-3.5 py-2.5 text-left text-sm font-semibold text-purple-700 transition-colors hover:bg-purple-50"
                 >
-                  <span className="truncate">{name}</span>
-                  {selected && <Check size={14} className="shrink-0 text-purple-600" />}
+                  <Plus size={14} strokeWidth={2.5} className="shrink-0" />
+                  <span className="truncate">
+                    Use &ldquo;{trimmed}&rdquo; as a custom location
+                  </span>
                 </button>
-              );
-            })
+              )}
+            </>
           )}
         </div>
       )}
@@ -197,29 +289,16 @@ export default function RideParcelForm() {
 
   const [pickupArea, setPickupArea] = useState<Area>("");
   const [pickupAddress, setPickupAddress] = useState("");
-  const [pickupCategory, setPickupCategory] = useState<LocationCategory>("area");
 
   const [dropoffArea, setDropoffArea] = useState<Area>("");
   const [dropoffAddress, setDropoffAddress] = useState("");
-  const [dropoffCategory, setDropoffCategory] = useState<LocationCategory>("area");
-
-  // Switching category (Area <-> Hotel) clears whatever name was picked,
-  // since it belonged to the other list and is no longer valid here.
-  function handlePickupCategoryChange(c: LocationCategory) {
-    setPickupCategory(c);
-    setPickupArea("");
-  }
-  function handleDropoffCategoryChange(c: LocationCategory) {
-    setDropoffCategory(c);
-    setDropoffArea("");
-  }
 
   // Ride mode needs a single contact number; courier keeps sender + receiver.
   const [riderPhone, setRiderPhone] = useState("");
   const [senderPhone, setSenderPhone] = useState("");
   const [receiverPhone, setReceiverPhone] = useState("");
 
-  // Only one area dropdown open at a time.
+  // Only one location dropdown open at a time.
   const [openField, setOpenField] = useState<Field | null>(null);
 
   const [status, setStatus] = useState<SubmitStatus>("idle");
@@ -232,21 +311,36 @@ export default function RideParcelForm() {
   // relying on the area name alone.
   const { location: userLocation } = useUserLocation();
 
+  // Fixed pricing only applies when both ends are in our known directory.
+  // A custom, freely-typed location falls back to "On request" instead of
+  // guessing a fare for a place we have no coordinates for.
+  const pickupKnown = pickupArea !== "" && KNOWN_LOCATION_NAMES.has(pickupArea);
+  const dropoffKnown = dropoffArea !== "" && KNOWN_LOCATION_NAMES.has(dropoffArea);
+  const bothAreasSelected = Boolean(pickupArea && dropoffArea);
+  const bothKnown = pickupKnown && dropoffKnown;
 
   // Round trip: office -> pickup -> dropoff -> office.
   // Same trip shape (and same fuel-cost pricing) as food delivery —
   // see @/utils/delivery-calculator.
   const distanceKm = useMemo(() => {
-    if (!pickupArea || !dropoffArea) return null;
-    return calculateTripDistance(pickupArea, dropoffArea);
-  }, [pickupArea, dropoffArea]);
+    if (!bothKnown) return null;
+    try {
+      return calculateTripDistance(pickupArea, dropoffArea);
+    } catch {
+      return null;
+    }
+  }, [bothKnown, pickupArea, dropoffArea]);
 
   const price = useMemo(() => {
-    if (!pickupArea || !dropoffArea) return null;
-    return mode === "ride"
-      ? calculateRideFare(pickupArea, dropoffArea)
-      : calculateParcelFare(pickupArea, dropoffArea);
-  }, [mode, pickupArea, dropoffArea]);
+    if (!bothKnown) return null;
+    try {
+      return mode === "ride"
+        ? calculateRideFare(pickupArea, dropoffArea)
+        : calculateParcelFare(pickupArea, dropoffArea);
+    } catch {
+      return null;
+    }
+  }, [bothKnown, mode, pickupArea, dropoffArea]);
 
   // The exact house/street address is a nice-to-have, not a requirement —
   // the rider can always call to pin down the exact spot. Only the area
@@ -345,7 +439,6 @@ export default function RideParcelForm() {
       dropoffArea: bookedDropoffArea,
       dropoffAddress: bookedDropoffAddress,
       price: bookedPrice,
-      distanceKm: bookedDistanceKm,
       riderPhone: bookedRiderPhone,
       senderPhone: bookedSenderPhone,
       receiverPhone: bookedReceiverPhone,
@@ -442,16 +535,9 @@ export default function RideParcelForm() {
             )}
 
             <div className="mt-4 flex items-center justify-between rounded-xl bg-purple-50 px-4 py-3">
-              <div>
-                <span className="block text-xs font-bold uppercase tracking-wider text-purple-700">
-                  Fixed Price
-                </span>
-                {/* {bookedDistanceKm !== null && (
-                  <span className="block text-[11px] text-purple-500">
-                    ~{bookedDistanceKm.toFixed(1)} km round trip
-                  </span>
-                )} */}
-              </div>
+              <span className="text-xs font-bold uppercase tracking-wider text-purple-700">
+                Fixed Price
+              </span>
               <span className="text-lg font-black text-purple-700">
                 {bookedPrice !== null && bookedPrice > 0 ? `Rs. ${bookedPrice}` : "On request"}
               </span>
@@ -460,7 +546,7 @@ export default function RideParcelForm() {
         </div>
 
         <p className="mt-4 text-center text-sm text-gray-500">
-          We'll contact you shortly to confirm your {bookedMode === "ride" ? "ride" : "courier"}.
+          We&rsquo;ll contact you shortly to confirm your {bookedMode === "ride" ? "ride" : "courier"}.
         </p>
 
         <button
@@ -477,6 +563,21 @@ export default function RideParcelForm() {
 
   return (
     <div className="w-full max-w-md mx-auto">
+      {/* Brand mark */}
+      <div className="mb-6 flex items-center justify-center gap-2.5">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-600 to-purple-700 text-white shadow-md shadow-purple-600/30">
+          <Sparkles size={16} strokeWidth={2.5} />
+        </div>
+        <div className="text-center leading-none">
+          <p className="text-sm font-black uppercase tracking-widest text-purple-700">
+            Meal Bear
+          </p>
+          <p className="mt-1 text-[11px] font-semibold text-gray-400">
+            Rides &amp; Courier · Skardu
+          </p>
+        </div>
+      </div>
+
       {/* Mode toggle */}
       <div className="relative grid grid-cols-2 gap-1 mb-7 bg-purple-50 p-1 rounded-2xl">
         <div
@@ -515,15 +616,14 @@ export default function RideParcelForm() {
             <CircleDot size={18} className="text-purple-600" strokeWidth={2.5} />
           </div>
           <div className="flex-1 min-w-0">
-            <AreaSelect
+            <AreaCombobox
               label="Pickup"
               value={pickupArea}
               onChange={setPickupArea}
-              category={pickupCategory}
-              onCategoryChange={handlePickupCategoryChange}
               isOpen={openField === "pickup"}
               onOpen={() => setOpenField("pickup")}
               onClose={() => setOpenField((f) => (f === "pickup" ? null : f))}
+              placeholder="Search area or hotel..."
             />
             <textarea
               value={pickupAddress}
@@ -543,15 +643,14 @@ export default function RideParcelForm() {
             <MapPin size={18} className="text-purple-600 fill-purple-100" strokeWidth={2} />
           </div>
           <div className="flex-1 min-w-0">
-            <AreaSelect
+            <AreaCombobox
               label="Drop-off"
               value={dropoffArea}
               onChange={setDropoffArea}
-              category={dropoffCategory}
-              onCategoryChange={handleDropoffCategoryChange}
               isOpen={openField === "dropoff"}
               onOpen={() => setOpenField("dropoff")}
               onClose={() => setOpenField((f) => (f === "dropoff" ? null : f))}
+              placeholder="Search area or hotel..."
             />
             <textarea
               value={dropoffAddress}
@@ -611,7 +710,7 @@ export default function RideParcelForm() {
       )}
 
       {/* Price summary */}
-      {price !== null && (
+      {bothAreasSelected && (
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 to-purple-700 p-4 mb-4 flex items-center justify-between shadow-md shadow-purple-600/25">
           <div className="absolute -right-4 -top-4 opacity-10">
             {mode === "ride" ? <Bike size={90} /> : <Package size={90} />}
@@ -620,14 +719,14 @@ export default function RideParcelForm() {
             <span className="block text-xs font-bold uppercase tracking-wider text-purple-100">
               Fixed Price
             </span>
-            {/* {distanceKm !== null && (
+            {!bothKnown && (
               <span className="block text-[11px] text-purple-200">
-                ~{distanceKm.toFixed(1)} km round trip
+                Custom location · we&rsquo;ll confirm by phone
               </span>
-            )} */}
+            )}
           </div>
           <span className="relative text-xl font-black text-white">
-            {price > 0 ? `Rs. ${price}` : "On request"}
+            {price !== null && price > 0 ? `Rs. ${price}` : "On request"}
           </span>
         </div>
       )}
