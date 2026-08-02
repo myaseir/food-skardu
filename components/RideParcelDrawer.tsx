@@ -18,11 +18,14 @@ import {
   Search,
   X,
   Sparkles,
+  Building2,
+  LandPlot,
 } from "lucide-react";
 import {
   SKARDU_AREAS,
   SKARDU_HOTELS,
 } from "@/data/location";
+
 import {
   calculateRideFare,
   calculateParcelFare,
@@ -44,15 +47,19 @@ type Area = string;
 
 type LocationOption = { name: string; category: LocationCategory };
 
-// Combined, searchable directory of every known area + hotel, built once at
-// module scope. The picker searches across both lists together instead of
-// forcing the person to pick a tab first.
-const ALL_LOCATIONS: LocationOption[] = [
-  ...Object.keys(SKARDU_AREAS).map((name) => ({ name, category: "area" as const })),
-  ...Object.keys(SKARDU_HOTELS).map((name) => ({ name, category: "hotel" as const })),
-].sort((a, b) => a.name.localeCompare(b.name));
+// Combined directory of every known area + hotel, built once at module
+// scope. The picker searches across both groups together instead of
+// forcing the person to pick a tab first, then displays results grouped
+// by category so a long, unfiltered list still stays easy to scan.
+const ALL_AREAS: LocationOption[] = Object.keys(SKARDU_AREAS)
+  .map((name) => ({ name, category: "area" as const }))
+  .sort((a, b) => a.name.localeCompare(b.name));
 
-const KNOWN_LOCATION_NAMES = new Set(ALL_LOCATIONS.map((l) => l.name));
+const ALL_HOTELS: LocationOption[] = Object.keys(SKARDU_HOTELS)
+  .map((name) => ({ name, category: "hotel" as const }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const KNOWN_LOCATION_NAMES = new Set([...ALL_AREAS, ...ALL_HOTELS].map((l) => l.name));
 
 type BookingSummary = {
   mode: Mode;
@@ -67,14 +74,28 @@ type BookingSummary = {
   receiverPhone: string;
 };
 
+function matchAndSort(list: LocationOption[], needle: string): LocationOption[] {
+  if (!needle) return list;
+  return list
+    .filter((o) => o.name.toLowerCase().includes(needle))
+    .sort((a, b) => {
+      const aStarts = a.name.toLowerCase().startsWith(needle) ? 0 : 1;
+      const bStarts = b.name.toLowerCase().startsWith(needle) ? 0 : 1;
+      if (aStarts !== bStarts) return aStarts - bStarts;
+      return a.name.localeCompare(b.name);
+    });
+}
+
 /**
  * Searchable location picker.
  *
- * Typing filters the combined area + hotel directory live. If nothing in
- * the directory matches what was typed, an extra row lets the person use
- * their own text as a custom location (e.g. a village or street the
- * directory doesn't have yet) — pricing simply falls back to "On request"
- * for anything outside the known list.
+ * Typing filters the combined area + hotel directory live. Results are
+ * grouped under sticky "Areas" / "Hotels" headers so the full, unlimited
+ * list stays navigable instead of turning into one long undifferentiated
+ * scroll. If nothing in the directory matches what was typed, an extra
+ * row lets the person use their own text as a custom location (e.g. a
+ * village or street the directory doesn't have yet) — pricing simply
+ * falls back to "On request" for anything outside the known list.
  */
 function AreaCombobox({
   label,
@@ -106,20 +127,12 @@ function AreaCombobox({
   const trimmed = query.trim();
   const trimmedLower = trimmed.toLowerCase();
 
-  const filtered = useMemo(() => {
-    if (!trimmedLower) return ALL_LOCATIONS;
-    return ALL_LOCATIONS.filter((o) => o.name.toLowerCase().includes(trimmedLower)).sort(
-      (a, b) => {
-        const aStarts = a.name.toLowerCase().startsWith(trimmedLower) ? 0 : 1;
-        const bStarts = b.name.toLowerCase().startsWith(trimmedLower) ? 0 : 1;
-        if (aStarts !== bStarts) return aStarts - bStarts;
-        return a.name.localeCompare(b.name);
-      }
-    );
-  }, [trimmedLower]);
+  const matchedAreas = useMemo(() => matchAndSort(ALL_AREAS, trimmedLower), [trimmedLower]);
+  const matchedHotels = useMemo(() => matchAndSort(ALL_HOTELS, trimmedLower), [trimmedLower]);
+  const totalMatches = matchedAreas.length + matchedHotels.length;
 
   const exactMatch = trimmedLower
-    ? ALL_LOCATIONS.find((o) => o.name.toLowerCase() === trimmedLower)
+    ? [...ALL_AREAS, ...ALL_HOTELS].find((o) => o.name.toLowerCase() === trimmedLower)
     : undefined;
   const showCustomOption = trimmed.length > 0 && !exactMatch;
   const isCustomSelected = value !== "" && !KNOWN_LOCATION_NAMES.has(value);
@@ -176,6 +189,41 @@ function AreaCombobox({
     }
   }
 
+  function renderGroup(items: LocationOption[], icon: React.ReactNode, groupLabel: string) {
+    if (items.length === 0) return null;
+    return (
+      <div>
+        <div className="sticky top-0 z-10 flex items-center gap-1.5 bg-white/95 px-3.5 py-1.5 backdrop-blur-sm">
+          {icon}
+          <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
+            {groupLabel}
+          </span>
+          <span className="text-[10px] font-semibold text-gray-300">· {items.length}</span>
+        </div>
+        {items.map((opt) => {
+          const selected = opt.name === value;
+          return (
+            <button
+              key={opt.name}
+              type="button"
+              role="option"
+              aria-selected={selected}
+              onClick={() => selectOption(opt.name)}
+              className={`flex w-full items-center justify-between gap-2 px-3.5 py-2.5 text-left text-sm transition-colors ${
+                selected
+                  ? "bg-purple-50 font-semibold text-purple-700"
+                  : "text-gray-700 hover:bg-gray-50"
+              }`}
+            >
+              <span className="truncate">{opt.name}</span>
+              {selected && <Check size={14} className="shrink-0 text-purple-600" />}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <div ref={wrapperRef} className="relative min-w-0">
       <div className="flex items-center justify-between gap-2">
@@ -189,7 +237,7 @@ function AreaCombobox({
         )}
       </div>
 
-      <div className="relative mt-1 flex items-center">
+      <div className="relative mt-1.5 flex items-center">
         <Search size={13} strokeWidth={2.5} className="pointer-events-none absolute left-0 text-gray-300" />
         <input
           ref={inputRef}
@@ -206,12 +254,14 @@ function AreaCombobox({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           autoComplete="off"
-          className="w-full min-w-0 bg-transparent py-0.5 pl-5 pr-5 text-sm font-semibold text-gray-900 placeholder:text-gray-400 placeholder:font-normal focus:outline-none"
+          aria-label={label}
+          className="w-full min-w-0 bg-transparent py-1 pl-5 pr-5 text-sm font-semibold text-gray-900 placeholder:text-gray-400 placeholder:font-normal focus:outline-none"
         />
         {(isOpen ? query : value) && (
           <button
             type="button"
             tabIndex={-1}
+            aria-label={`Clear ${label.toLowerCase()}`}
             onClick={() => {
               setQuery("");
               onChange("");
@@ -226,55 +276,39 @@ function AreaCombobox({
 
       {isOpen && (
         <div
-          className="absolute left-0 right-0 top-full z-30 mt-1.5 max-h-56 sm:max-h-64 overflow-y-auto overscroll-contain rounded-xl border border-gray-100 bg-white py-1 shadow-lg shadow-gray-300/40"
+          className="absolute left-0 right-0 top-full z-30 mt-2 max-h-72 sm:max-h-80 overflow-y-auto overscroll-contain rounded-2xl border border-gray-100 bg-white py-1 shadow-xl shadow-gray-300/40"
           role="listbox"
         >
-          {filtered.length === 0 && !showCustomOption ? (
-            <p className="px-3.5 py-2.5 text-sm text-gray-400">No matches yet — keep typing.</p>
+          {totalMatches === 0 && !showCustomOption ? (
+            <div className="px-4 py-6 text-center">
+              <p className="text-sm font-semibold text-gray-500">No matches yet</p>
+              <p className="mt-0.5 text-xs text-gray-400">Keep typing to search areas &amp; hotels.</p>
+            </div>
           ) : (
             <>
-              {filtered.slice(0, 50).map((opt) => {
-                const selected = opt.name === value;
-                return (
-                  <button
-                    key={opt.name}
-                    type="button"
-                    role="option"
-                    aria-selected={selected}
-                    onClick={() => selectOption(opt.name)}
-                    className={`flex w-full items-center justify-between gap-2 px-3.5 py-2.5 text-left text-sm transition-colors ${
-                      selected
-                        ? "bg-purple-50 font-semibold text-purple-700"
-                        : "text-gray-700 hover:bg-gray-50"
-                    }`}
-                  >
-                    <span className="flex min-w-0 items-center gap-2">
-                      <span className="truncate">{opt.name}</span>
-                      <span
-                        className={`shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${
-                          opt.category === "hotel"
-                            ? "bg-blue-50 text-blue-500"
-                            : "bg-gray-100 text-gray-400"
-                        }`}
-                      >
-                        {opt.category === "hotel" ? "Hotel" : "Area"}
-                      </span>
-                    </span>
-                    {selected && <Check size={14} className="shrink-0 text-purple-600" />}
-                  </button>
-                );
-              })}
+              {renderGroup(
+                matchedAreas,
+                <LandPlot size={11} strokeWidth={2.5} className="text-gray-300" />,
+                "Areas"
+              )}
+              {renderGroup(
+                matchedHotels,
+                <Building2 size={11} strokeWidth={2.5} className="text-blue-300" />,
+                "Hotels"
+              )}
               {showCustomOption && (
-                <button
-                  type="button"
-                  onClick={useCustomLocation}
-                  className="flex w-full items-center gap-2 border-t border-dashed border-gray-100 px-3.5 py-2.5 text-left text-sm font-semibold text-purple-700 transition-colors hover:bg-purple-50"
-                >
-                  <Plus size={14} strokeWidth={2.5} className="shrink-0" />
-                  <span className="truncate">
-                    Use &ldquo;{trimmed}&rdquo; as a custom location
-                  </span>
-                </button>
+                <div className="sticky bottom-0 border-t border-dashed border-gray-100 bg-white">
+                  <button
+                    type="button"
+                    onClick={useCustomLocation}
+                    className="flex w-full items-center gap-2 px-3.5 py-3 text-left text-sm font-semibold text-purple-700 transition-colors hover:bg-purple-50"
+                  >
+                    <Plus size={14} strokeWidth={2.5} className="shrink-0" />
+                    <span className="truncate">
+                      Use &ldquo;{trimmed}&rdquo; as a custom location
+                    </span>
+                  </button>
+                </div>
               )}
             </>
           )}
@@ -446,9 +480,9 @@ export default function RideParcelForm() {
 
     return (
       <div className="w-full max-w-md mx-auto">
-        <div className="rounded-2xl border border-gray-100 bg-white shadow-sm shadow-gray-200/60 overflow-hidden">
+        <div className="rounded-3xl border border-gray-100 bg-white shadow-sm shadow-gray-200/60 overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-br from-purple-600 to-purple-700 px-5 pt-7 pb-6 text-center">
+          <div className="bg-gradient-to-br from-purple-600 to-purple-700 px-6 pt-8 pb-7 text-center">
             <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-white/15">
               <CheckCircle2 size={30} className="text-white" strokeWidth={2} />
             </div>
@@ -469,14 +503,14 @@ export default function RideParcelForm() {
           </div>
 
           {/* Summary */}
-          <div className="px-5 py-4">
+          <div className="px-6 py-5">
             <div className="flex gap-3">
               <div className="flex flex-col items-center pt-1 shrink-0 w-4">
                 <CircleDot size={14} className="text-purple-600" strokeWidth={2.5} />
                 <div className="w-px flex-1 my-1 border-l-2 border-dashed border-purple-200" />
                 <MapPin size={14} className="text-purple-600 fill-purple-100" strokeWidth={2} />
               </div>
-              <div className="flex-1 min-w-0 space-y-3">
+              <div className="flex-1 min-w-0 space-y-4">
                 <div className="min-w-0">
                   <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
                     Pickup
@@ -503,7 +537,7 @@ export default function RideParcelForm() {
             </div>
 
             {bookedMode === "ride" && (
-              <div className="mt-4 rounded-xl bg-gray-50 p-3 min-w-0">
+              <div className="mt-5 rounded-xl bg-gray-50 p-3.5 min-w-0">
                 <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
                   Your Phone
                 </div>
@@ -514,8 +548,8 @@ export default function RideParcelForm() {
             )}
 
             {bookedMode === "parcel" && (
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="rounded-xl bg-gray-50 p-3 min-w-0">
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <div className="rounded-xl bg-gray-50 p-3.5 min-w-0">
                   <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
                     Sender
                   </div>
@@ -523,7 +557,7 @@ export default function RideParcelForm() {
                     {bookedSenderPhone}
                   </div>
                 </div>
-                <div className="rounded-xl bg-gray-50 p-3 min-w-0">
+                <div className="rounded-xl bg-gray-50 p-3.5 min-w-0">
                   <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
                     Receiver
                   </div>
@@ -534,7 +568,7 @@ export default function RideParcelForm() {
               </div>
             )}
 
-            <div className="mt-4 flex items-center justify-between rounded-xl bg-purple-50 px-4 py-3">
+            <div className="mt-5 flex items-center justify-between rounded-xl bg-purple-50 px-4 py-3.5">
               <span className="text-xs font-bold uppercase tracking-wider text-purple-700">
                 Fixed Price
               </span>
@@ -545,7 +579,7 @@ export default function RideParcelForm() {
           </div>
         </div>
 
-        <p className="mt-4 text-center text-sm text-gray-500">
+        <p className="mt-5 text-center text-sm text-gray-500">
           We&rsquo;ll contact you shortly to confirm your {bookedMode === "ride" ? "ride" : "courier"}.
         </p>
 
@@ -564,7 +598,7 @@ export default function RideParcelForm() {
   return (
     <div className="w-full max-w-md mx-auto">
       {/* Brand mark */}
-      <div className="mb-6 flex items-center justify-center gap-2.5">
+      <div className="mb-7 flex items-center justify-center gap-2.5">
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-600 to-purple-700 text-white shadow-md shadow-purple-600/30">
           <Sparkles size={16} strokeWidth={2.5} />
         </div>
@@ -579,7 +613,7 @@ export default function RideParcelForm() {
       </div>
 
       {/* Mode toggle */}
-      <div className="relative grid grid-cols-2 gap-1 mb-7 bg-purple-50 p-1 rounded-2xl">
+      <div className="relative grid grid-cols-2 gap-1 mb-6 bg-purple-50 p-1 rounded-2xl">
         <div
           className={`absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-xl bg-purple-600 shadow-md shadow-purple-600/30 transition-transform duration-300 ease-out ${
             mode === "parcel" ? "translate-x-[calc(100%+8px)]" : "translate-x-0"
@@ -606,12 +640,12 @@ export default function RideParcelForm() {
       </div>
 
       {/* Route card: pickup + dropoff joined by a connector line */}
-      <div className="relative rounded-2xl border border-gray-100 bg-white shadow-sm shadow-gray-200/60 mb-4 overflow-visible">
+      <div className="relative rounded-2xl border border-gray-100 bg-white shadow-sm shadow-gray-200/60 mb-5 overflow-visible">
         {/* Connector line between the two dots */}
-        <div className="absolute left-[27px] top-[38px] bottom-[38px] w-px border-l-2 border-dashed border-purple-200" />
+        <div className="absolute left-[31px] top-[42px] bottom-[42px] w-px border-l-2 border-dashed border-purple-200" />
 
         {/* Pickup */}
-        <div className="relative flex gap-3 p-4 pb-3">
+        <div className="relative flex gap-3.5 p-5 pb-4">
           <div className="flex flex-col items-center pt-2 shrink-0 w-5">
             <CircleDot size={18} className="text-purple-600" strokeWidth={2.5} />
           </div>
@@ -629,16 +663,16 @@ export default function RideParcelForm() {
               value={pickupAddress}
               onChange={(e) => setPickupAddress(e.target.value)}
               placeholder="House #, landmark, street... (optional)"
-              className="w-full mt-1.5 text-sm text-gray-600 placeholder:text-gray-400 bg-gray-50 rounded-lg p-2.5 resize-none border border-transparent focus:border-purple-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 transition"
+              className="w-full mt-2 text-sm text-gray-600 placeholder:text-gray-400 bg-gray-50 rounded-lg p-2.5 resize-none border border-transparent focus:border-purple-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 transition"
               rows={1}
             />
           </div>
         </div>
 
-        <div className="mx-4 border-t border-dashed border-gray-100" />
+        <div className="mx-5 border-t border-dashed border-gray-100" />
 
         {/* Dropoff */}
-        <div className="relative flex gap-3 p-4 pt-3">
+        <div className="relative flex gap-3.5 p-5 pt-4">
           <div className="flex flex-col items-center pt-2 shrink-0 w-5">
             <MapPin size={18} className="text-purple-600 fill-purple-100" strokeWidth={2} />
           </div>
@@ -656,7 +690,7 @@ export default function RideParcelForm() {
               value={dropoffAddress}
               onChange={(e) => setDropoffAddress(e.target.value)}
               placeholder="House #, landmark, street... (optional)"
-              className="w-full mt-1.5 text-sm text-gray-600 placeholder:text-gray-400 bg-gray-50 rounded-lg p-2.5 resize-none border border-transparent focus:border-purple-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 transition"
+              className="w-full mt-2 text-sm text-gray-600 placeholder:text-gray-400 bg-gray-50 rounded-lg p-2.5 resize-none border border-transparent focus:border-purple-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 transition"
               rows={1}
             />
           </div>
@@ -665,7 +699,7 @@ export default function RideParcelForm() {
 
       {/* Ride contact detail */}
       {mode === "ride" && (
-        <div className="rounded-xl border border-gray-100 bg-white p-3 shadow-sm shadow-gray-200/60 mb-4 min-w-0">
+        <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 mb-5 min-w-0">
           <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
             <Phone size={11} /> Your Phone
           </label>
@@ -674,15 +708,15 @@ export default function RideParcelForm() {
             value={riderPhone}
             onChange={(e) => setRiderPhone(e.target.value)}
             placeholder="03xx-xxxxxxx"
-            className="w-full min-w-0 mt-1 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
+            className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
           />
         </div>
       )}
 
       {/* Parcel contact details */}
       {mode === "parcel" && (
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="rounded-xl border border-gray-100 bg-white p-3 shadow-sm shadow-gray-200/60 min-w-0">
+        <div className="grid grid-cols-2 gap-3 mb-5">
+          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
             <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
               <Phone size={11} /> Sender
             </label>
@@ -691,10 +725,10 @@ export default function RideParcelForm() {
               value={senderPhone}
               onChange={(e) => setSenderPhone(e.target.value)}
               placeholder="03xx-xxxxxxx"
-              className="w-full min-w-0 mt-1 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
+              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
             />
           </div>
-          <div className="rounded-xl border border-gray-100 bg-white p-3 shadow-sm shadow-gray-200/60 min-w-0">
+          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
             <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
               <Phone size={11} /> Receiver
             </label>
@@ -703,7 +737,7 @@ export default function RideParcelForm() {
               value={receiverPhone}
               onChange={(e) => setReceiverPhone(e.target.value)}
               placeholder="03xx-xxxxxxx"
-              className="w-full min-w-0 mt-1 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
+              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
             />
           </div>
         </div>
@@ -711,7 +745,7 @@ export default function RideParcelForm() {
 
       {/* Price summary */}
       {bothAreasSelected && (
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 to-purple-700 p-4 mb-4 flex items-center justify-between shadow-md shadow-purple-600/25">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 to-purple-700 p-4.5 mb-5 flex items-center justify-between shadow-md shadow-purple-600/25">
           <div className="absolute -right-4 -top-4 opacity-10">
             {mode === "ride" ? <Bike size={90} /> : <Package size={90} />}
           </div>
