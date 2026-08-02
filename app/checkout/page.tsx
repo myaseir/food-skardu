@@ -35,6 +35,52 @@ import { useUserLocation } from "@/contexts/LocationContext";
 // needs escaping.
 const MAX_RESTAURANT_BUTTONS = 4;
 
+// ---------------------------------------------------------------------
+// Phone normalization
+// ---------------------------------------------------------------------
+// wa.me links only resolve when the number is in full international
+// format: country code + subscriber number, digits only, no leading
+// zero, no "+", no spaces/dashes. Customers type their WhatsApp number
+// in every format imaginable — "0301-2345678", "+92 301 2345678",
+// "00923012345678", or even just "3012345678" — so we normalize
+// whatever comes in down to one canonical shape before it ever touches
+// a wa.me link. Everything here assumes a Pakistani mobile number
+// (10-digit subscriber number starting with 3, country code 92) since
+// that's the market this app serves; adjust here if that ever changes.
+function normalizePakPhoneForWhatsApp(raw: string): string {
+  let digits = raw.replace(/[^0-9]/g, "");
+
+  // "00" international dialing prefix, e.g. 00923012345678
+  if (digits.startsWith("00")) {
+    digits = digits.slice(2);
+  }
+
+  // Already has the country code, e.g. 923012345678 or +923012345678 (after strip)
+  if (digits.startsWith("92")) {
+    return digits;
+  }
+
+  // Local format with leading 0, e.g. 03012345678
+  if (digits.startsWith("0")) {
+    return "92" + digits.slice(1);
+  }
+
+  // Country code and leading 0 both missing, e.g. 3012345678
+  if (digits.startsWith("3") && digits.length === 10) {
+    return "92" + digits;
+  }
+
+  // Doesn't match any known shape — return the raw digits so the caller's
+  // validation step can catch it rather than silently mangling it further.
+  return digits;
+}
+
+// A normalized Pakistani mobile number is exactly "92" + 10 digits
+// starting with "3" (923XXXXXXXXX — 12 digits total).
+function isValidPakMobile(normalized: string): boolean {
+  return /^923\d{9}$/.test(normalized);
+}
+
 // Builds the distinct list of shops represented in the cart, in the order
 // their first item was added — this is the stop order the rider follows:
 // Office -> shopsInCart[0] -> shopsInCart[1] -> ... -> Customer -> Office.
@@ -56,15 +102,16 @@ function getShopsInCartOrder(items: any[]): Shop[] {
 }
 
 // Builds a wa.me link with a pre-filled, URL-encoded message.
+// `phoneDigitsOnly` must already be normalized (country code, no leading 0).
 function buildWhatsAppLink(phoneDigitsOnly: string, message: string): string {
   return `https://wa.me/${phoneDigitsOnly}?text=${encodeURIComponent(message)}`;
 }
 
 // Opens a chat with the CUSTOMER's number, prefilled to ask them to confirm.
-function buildCustomerConfirmLink(customerPhone: string, customerName: string, total: number): string {
-  const digitsOnly = customerPhone.replace(/[^0-9]/g, "");
- const message = `Hi ${customerName}, this is Meal Bear Skardu. Your order total is Rs. ${total}. Reply YES to confirm.`;
-  return buildWhatsAppLink(digitsOnly, message);
+// Expects an already-normalized phone number (see normalizePakPhoneForWhatsApp).
+function buildCustomerConfirmLink(normalizedCustomerPhone: string, customerName: string, total: number): string {
+  const message = `Hi ${customerName}, this is Meal Bear Skardu. Your order total is Rs. ${total}. Reply YES to confirm.`;
+  return buildWhatsAppLink(normalizedCustomerPhone, message);
 }
 
 // Builds plain-value params for up to MAX_RESTAURANT_BUTTONS fixed button
@@ -103,7 +150,7 @@ function buildRestaurantButtonParams(
 
     params[`restaurant_${slot}_name`] = shop.name;
     params[`restaurant_${slot}_link`] = shop.whatsapp
-      ? buildWhatsAppLink(shop.whatsapp, message)
+      ? buildWhatsAppLink(normalizePakPhoneForWhatsApp(shop.whatsapp), message)
       : "#"; // Falls back to a dead link if a shop's whatsapp number isn't filled in yet
     params[`restaurant_${slot}_display`] = "block";
   }
@@ -188,7 +235,18 @@ export default function CheckoutPage() {
 
   const handlePlaceOrder = async () => {
     if (!name || !phone) return alert("Please enter your name and whatsapp number.");
-    
+
+    // Normalize + validate the WhatsApp number up front. Catching a bad
+    // format here — instead of only discovering it later when the
+    // "confirm on WhatsApp" button fails to open a chat — means the order
+    // never goes out with a number that can't be reached.
+    const normalizedPhone = normalizePakPhoneForWhatsApp(phone);
+    if (!isValidPakMobile(normalizedPhone)) {
+      return alert(
+        "That WhatsApp number doesn't look right. Please enter it as 03XXXXXXXXX (11 digits, starting with 03)."
+      );
+    }
+
     if (!locationName || !addressDetail) {
       const errorMsg = deliveryMode === 'hotel' 
         ? "Please select your hotel and enter your room number." 
@@ -226,7 +284,7 @@ export default function CheckoutPage() {
 
     const restaurantNames = shopsInCart.map((s) => s.name).join(", ") || "N/A";
 
-    const confirmWhatsAppLink = buildCustomerConfirmLink(phone, name, total);
+    const confirmWhatsAppLink = buildCustomerConfirmLink(normalizedPhone, name, total);
     const restaurantButtonParams = buildRestaurantButtonParams(
       shopsInCart,
       items,
@@ -373,18 +431,23 @@ fetch("https://ntfy.sh/meal_bear_skardu", {
                   className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
                 />
               </div>
-              <div className="relative">
-                <Phone
-                  size={17}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-                />
-                <input
-                  type="tel"
-                  placeholder="Whatsapp Number"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
-                />
+              <div>
+                <div className="relative">
+                  <Phone
+                    size={17}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Whatsapp Number (03XXXXXXXXX)"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
+                  />
+                </div>
+                <p className="mt-1.5 ml-1 text-[11px] font-medium text-gray-400">
+                  We&rsquo;ll confirm your order on this number e.g. 03012345678
+                </p>
               </div>
             </div>
           </section>
