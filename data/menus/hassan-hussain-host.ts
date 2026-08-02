@@ -16,14 +16,19 @@ export const menu = {
         },
         {
           id: "mmt-2",
-          name: "Mamtu",
+          name: "Mamtu (6 Piece)",
           price: 180,
-          desc: "Steamed mamtu dumplings",
+          desc: "Steamed mamtu dumplings, 6 piece",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSIT_z6GpA_OkQv1NRWwovQ8gknq9roYBYOK2XZLAmeBSIldz32-7IU-N-&s=10",
-          variants: [
-            { name: "6 Piece", price: 180 },
-            { name: "12 Piece", price: 360 }
-          ]
+          variants: []
+        },
+        {
+          id: "mmt-2b",
+          name: "Mamtu (12 Piece)",
+          price: 360,
+          desc: "Steamed mamtu dumplings, 12 piece",
+          image: "https://aladysguide.wordpress.com/wp-content/uploads/2011/01/img_2007.jpg?w=640",
+          variants: []
         },
         // {
         //   id: "mmt-3",
