@@ -187,7 +187,7 @@ export const shops: Shop[] = [
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
     lat: 35.298864, // TODO: replace with real coordinates
     lng: 75.637217, // TODO: replace with real coordinates
-    whatsapp: "923554220114",
+    whatsapp: "923554718865",
     rating: 5.0,
     reviews: 24,
   },
