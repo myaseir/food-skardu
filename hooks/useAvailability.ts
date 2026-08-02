@@ -1,22 +1,45 @@
 import { shops, categoryConfig, Shop } from "@/data/config";
 
+// All shops operate on Pakistan Standard Time regardless of where the
+// Next.js server or the visitor's browser happen to be. Hardcoding this
+// avoids a server-vs-client timezone mismatch: without it, the server's
+// first render (often UTC on most hosts) can compute a different "current
+// time" than the browser does on hydration, briefly flashing every shop as
+// closed until the client recalculates with its own local clock.
+const SHOP_TIMEZONE = "Asia/Karachi";
+
+function getMinutesInShopTimezone(date: Date): number {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: SHOP_TIMEZONE,
+    hour: "numeric",
+    minute: "numeric",
+    hourCycle: "h23",
+  }).formatToParts(date);
+
+  const hour = Number(parts.find((p) => p.type === "hour")?.value ?? 0);
+  const minute = Number(parts.find((p) => p.type === "minute")?.value ?? 0);
+
+  return hour * 60 + minute;
+}
+
 /**
  * Custom hook to determine if a shop or category is currently active.
  * Uses the config.ts file as the single source of truth.
  */
 export const useAvailability = () => {
-  
+
   const checkShopStatus = (shop: Shop & { isActive?: boolean }): boolean => {
-    // NEW: Master Override Switch. 
+    // NEW: Master Override Switch.
     // If you add `isActive: false` to the mart in config.ts, it closes immediately.
     if (shop.isActive === false) return false;
 
     // 1. If always open, skip calculations (Protects your restaurant logic)
     if (shop.alwaysOpen) return true;
 
-    // 2. Get current time in minutes from midnight
-    const now = new Date();
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    // 2. Get current time in minutes from midnight, in the shop's timezone —
+    //    not the server's or the visitor's, so SSR and client hydration
+    //    always agree.
+    const currentMinutes = getMinutesInShopTimezone(new Date());
 
     // 3. Parse times
     const [openH, openM] = shop.openTime.split(':').map(Number);
@@ -39,14 +62,14 @@ export const useAvailability = () => {
     if (categoryConfig && categoryConfig[catName] !== undefined) {
       return !!categoryConfig[catName].isAvailable;
     }
-    
+
     // MART LOGIC: If the category is NOT in config (like "Fresh Food & Dairy"),
-    // default to true so it doesn't get hidden. 
+    // default to true so it doesn't get hidden.
     return true;
   };
 
-  return { 
-    checkShopStatus, 
-    isCategoryAvailable 
+  return {
+    checkShopStatus,
+    isCategoryAvailable
   };
 };
