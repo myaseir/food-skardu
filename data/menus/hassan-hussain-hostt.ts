@@ -1,7 +1,7 @@
 export const menu = {
   shopId: "hassan-hussain-host",
   name: "Hassan Hussain Host",
-  logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
+  logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Vba66LQaBXtJejMOezwhFNWkX4NVN0yXn0RV03oYNw&s",
   categories: [
     {
       name: "Mamtu",
@@ -11,7 +11,7 @@ export const menu = {
           name: "Mamtu Pulao",
           price: 400,
           desc: "Traditional mamtu served with pulao",
-          image: "",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpZGs_shvyMZfHuSPwwF9R_ln732uUNjAvxy4vyAOaCw&s=10",
           variants: []
         },
         {
@@ -19,7 +19,7 @@ export const menu = {
           name: "Mamtu",
           price: 180,
           desc: "Steamed mamtu dumplings",
-          image: "",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSIT_z6GpA_OkQv1NRWwovQ8gknq9roYBYOK2XZLAmeBSIldz32-7IU-N-&s=10",
           variants: [
             { name: "6 Piece", price: 180 },
             { name: "12 Piece", price: 360 }

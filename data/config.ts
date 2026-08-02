@@ -198,7 +198,7 @@ export const shops: Shop[] = [
     openTime: "11:00",
     closeTime: "22:30",
     alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Vba66LQaBXtJejMOezwhFNWkX4NVN0yXn0RV03oYNw&s",
      lat: 35.2899888, // TODO: replace with real coordinates
     lng: 75.6415605, // TODO: replace with real coordinates
     whatsapp: "923554395551",
