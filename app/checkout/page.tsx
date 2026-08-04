@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/store/useCart";
-import emailjs from "@emailjs/browser";
 import {
   ChevronLeft,
   CheckCircle2,
@@ -24,16 +23,6 @@ import { SKARDU_HOTELS, SKARDU_AREAS } from "@/data/location";
 import { shops, Shop } from "@/data/config";
 import { calculateDeliveryFee } from "@/utils/deliveryCalculator";
 import { useUserLocation } from "@/contexts/LocationContext";
-
-// Covers virtually every realistic multi-restaurant order. EmailJS
-// auto-escapes HTML special characters when substituting a variable (a
-// security measure against injection), so injecting full <a> tags as a
-// single template variable doesn't render — it shows up as visible
-// escaped text. Fixed slots sidestep this entirely: only plain
-// text/URL values (name, link, a "display" value) get substituted into
-// attributes that already exist in the email template, so nothing ever
-// needs escaping.
-const MAX_RESTAURANT_BUTTONS = 4;
 
 // ---------------------------------------------------------------------
 // Phone normalization
@@ -112,50 +101,6 @@ function buildWhatsAppLink(phoneDigitsOnly: string, message: string): string {
 function buildCustomerConfirmLink(normalizedCustomerPhone: string, customerName: string, total: number): string {
   const message = `Hi ${customerName}, this is Meal Bear Skardu. Your order total is Rs. ${total}. Reply YES to confirm.`;
   return buildWhatsAppLink(normalizedCustomerPhone, message);
-}
-
-// Builds plain-value params for up to MAX_RESTAURANT_BUTTONS fixed button
-// slots in the email template — name, wa.me link, and a "display" value
-// used to hide any slots beyond how many restaurants are actually in this
-// order. All values here are plain strings/URLs (no raw HTML), so
-// EmailJS's auto-escaping never kicks in.
-function buildRestaurantButtonParams(
-  shopsInCart: Shop[],
-  items: any[],
-  customerName: string,
-  customerPhone: string,
-  finalAddress: string
-): Record<string, string> {
-  const params: Record<string, string> = {};
-
-  for (let i = 0; i < MAX_RESTAURANT_BUTTONS; i++) {
-    const shop = shopsInCart[i];
-    const slot = i + 1;
-
-    if (!shop) {
-      params[`restaurant_${slot}_name`] = "";
-      params[`restaurant_${slot}_link`] = "#";
-      params[`restaurant_${slot}_display`] = "none";
-      continue;
-    }
-
-    const shopItems = items.filter((it: any) => it.shopId === shop.id);
-    const itemLines = shopItems
-      .map((it: any) => `${it.quantity || 1}x ${it.name}`)
-      .join("\n");
-
-    const message =
-      `${shop.name}\n\n${itemLines}\n\n` +
-      `~ Meal Bear Skardu`;
-
-    params[`restaurant_${slot}_name`] = shop.name;
-    params[`restaurant_${slot}_link`] = shop.whatsapp
-      ? buildWhatsAppLink(normalizePakPhoneForWhatsApp(shop.whatsapp), message)
-      : "#"; // Falls back to a dead link if a shop's whatsapp number isn't filled in yet
-    params[`restaurant_${slot}_display`] = "block";
-  }
-
-  return params;
 }
 
 // Safely base64-encodes a JSON payload for use in a URL, including
@@ -285,13 +230,23 @@ export default function CheckoutPage() {
     const restaurantNames = shopsInCart.map((s) => s.name).join(", ") || "N/A";
 
     const confirmWhatsAppLink = buildCustomerConfirmLink(normalizedPhone, name, total);
-    const restaurantButtonParams = buildRestaurantButtonParams(
-      shopsInCart,
-      items,
-      name,
-      phone,
-      finalAddress
-    );
+
+    // One button per shop actually in the cart — no fixed slots needed
+    // now that the HTML is built server-side with a real loop.
+    const restaurantButtons = shopsInCart.map((shop) => {
+      const shopItems = items.filter((it: any) => it.shopId === shop.id);
+      const itemLines = shopItems
+        .map((it: any) => `${it.quantity || 1}x ${it.name}`)
+        .join("\n");
+      const message = `${shop.name}\n\n${itemLines}\n\n~ Meal Bear Skardu`;
+      return {
+        name: shop.name,
+        link: shop.whatsapp
+          ? buildWhatsAppLink(normalizePakPhoneForWhatsApp(shop.whatsapp), message)
+          : "#", // Falls back to a dead link if a shop's whatsapp number isn't filled in yet
+      };
+    });
+
     const invoiceLink = buildInvoiceLink(
       shopsInCart,
       items,
@@ -303,39 +258,36 @@ export default function CheckoutPage() {
       total
     );
 
-    const templateParams = {
-      user_name: name,
-      user_phone: phone,
-      restaurant_name: restaurantNames,
+    const orderPayload = {
+      userName: name,
+      userPhone: phone,
+      restaurantNames,
       address: finalAddress,
-      order_items: detailedItems,
-      subtotal: subtotal,
-      delivery_fee: deliveryFee,
-      total_price: total,
-      customer_lat: hasCoords ? userLocation!.latitude.toFixed(6) : "Not available",
-      customer_lng: hasCoords ? userLocation!.longitude.toFixed(6) : "Not available",
-      location_link: mapsLink || "Not available",
-      confirm_whatsapp_link: confirmWhatsAppLink,
-      invoice_link: invoiceLink,
-      ...restaurantButtonParams, // restaurant_1_name, restaurant_1_link, restaurant_1_display, restaurant_2_..., etc.
+      orderItems: detailedItems,
+      subtotal,
+      deliveryFee,
+      total,
+      customerLat: hasCoords ? userLocation!.latitude.toFixed(6) : "Not available",
+      customerLng: hasCoords ? userLocation!.longitude.toFixed(6) : "Not available",
+      locationLink: mapsLink || "Not available",
+      confirmWhatsAppLink,
+      invoiceLink,
+      restaurantButtons,
     };
 
     try {
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      );
-      // Fire-and-forget push notification — don't block success screen on this
-fetch("https://ntfy.sh/meal_bear_skardu", {
-  method: "POST",
-  body: `New order from ${name} (Rs. ${total}) — ${restaurantNames}`,
-});
+      const res = await fetch("/api/place-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (!res.ok) throw new Error("Order request failed");
+
       setStep("success");
       clearCart();
     } catch (error) {
-      console.error("EmailJS Error:", error);
+      console.error("Order error:", error);
       alert("Failed to place order. Please try again.");
     } finally {
       setIsSending(false);

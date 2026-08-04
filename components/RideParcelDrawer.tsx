@@ -2,12 +2,13 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
+
 import {
   Bike,
   Package,
   MapPin,
   Phone,
+  User,
   ArrowRight,
   CircleDot,
   Check,
@@ -69,8 +70,11 @@ type BookingSummary = {
   dropoffAddress: string;
   price: number | null;
   distanceKm: number | null;
+  riderName: string;
   riderPhone: string;
+  senderName: string;
   senderPhone: string;
+  receiverName: string;
   receiverPhone: string;
 };
 
@@ -327,9 +331,13 @@ export default function RideParcelForm() {
   const [dropoffArea, setDropoffArea] = useState<Area>("");
   const [dropoffAddress, setDropoffAddress] = useState("");
 
-  // Ride mode needs a single contact number; courier keeps sender + receiver.
+  // Ride mode needs a single contact name + number; courier keeps
+  // sender + receiver, each with their own name + number.
+  const [riderName, setRiderName] = useState("");
   const [riderPhone, setRiderPhone] = useState("");
+  const [senderName, setSenderName] = useState("");
   const [senderPhone, setSenderPhone] = useState("");
+  const [receiverName, setReceiverName] = useState("");
   const [receiverPhone, setReceiverPhone] = useState("");
 
   // Only one location dropdown open at a time.
@@ -378,13 +386,16 @@ export default function RideParcelForm() {
 
   // The exact house/street address is a nice-to-have, not a requirement —
   // the rider can always call to pin down the exact spot. Only the area
-  // (which drives pricing) and a phone number are mandatory.
+  // (which drives pricing), a name, and a phone number are mandatory.
   const canSubmit = Boolean(
     pickupArea &&
       dropoffArea &&
       (mode === "ride"
-        ? riderPhone.trim()
-        : senderPhone.trim() && receiverPhone.trim())
+        ? riderName.trim() && riderPhone.trim()
+        : senderName.trim() &&
+          senderPhone.trim() &&
+          receiverName.trim() &&
+          receiverPhone.trim())
   );
 
   async function handleSubmit() {
@@ -405,8 +416,11 @@ export default function RideParcelForm() {
       dropoff_address: dropoffAddress.trim() || "Not provided",
       distance_km: distanceKm !== null ? distanceKm.toFixed(1) : "",
       price: price !== null && price > 0 ? `Rs. ${price}` : "On request",
+      rider_name: mode === "ride" ? riderName : "",
       rider_phone: mode === "ride" ? riderPhone : "",
+      sender_name: mode === "parcel" ? senderName : "",
       sender_phone: mode === "parcel" ? senderPhone : "",
+      receiver_name: mode === "parcel" ? receiverName : "",
       receiver_phone: mode === "parcel" ? receiverPhone : "",
       customer_lat: hasCoords ? userLocation!.latitude.toFixed(6) : "Not available",
       customer_lng: hasCoords ? userLocation!.longitude.toFixed(6) : "Not available",
@@ -415,12 +429,13 @@ export default function RideParcelForm() {
     };
 
     try {
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_RIDE_TEMPLATE_ID!,
-        templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      );
+      const res = await fetch("/api/book-ride", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(templateParams),
+      });
+
+      if (!res.ok) throw new Error("Booking request failed");
 
       // Save what was booked so the confirmation screen can show it,
       // then clear the form and switch views.
@@ -432,8 +447,11 @@ export default function RideParcelForm() {
         dropoffAddress,
         price,
         distanceKm,
+        riderName,
         riderPhone,
+        senderName,
         senderPhone,
+        receiverName,
         receiverPhone,
       });
       setStatus("idle");
@@ -441,18 +459,15 @@ export default function RideParcelForm() {
       setPickupAddress("");
       setDropoffArea("");
       setDropoffAddress("");
+      setRiderName("");
       setRiderPhone("");
+      setSenderName("");
       setSenderPhone("");
+      setReceiverName("");
       setReceiverPhone("");
     } catch (err) {
-      console.error("EmailJS send failed:", err);
-      const detail =
-        err && typeof err === "object" && "text" in err
-          ? String((err as { text?: unknown }).text)
-          : err instanceof Error
-          ? err.message
-          : "Unknown error";
-      setErrorDetail(detail);
+      console.error("Booking request failed:", err);
+      setErrorDetail(err instanceof Error ? err.message : "Unknown error");
       setStatus("error");
     }
   }
@@ -473,8 +488,11 @@ export default function RideParcelForm() {
       dropoffArea: bookedDropoffArea,
       dropoffAddress: bookedDropoffAddress,
       price: bookedPrice,
+      riderName: bookedRiderName,
       riderPhone: bookedRiderPhone,
+      senderName: bookedSenderName,
       senderPhone: bookedSenderPhone,
+      receiverName: bookedReceiverName,
       receiverPhone: bookedReceiverPhone,
     } = confirmedBooking;
 
@@ -539,6 +557,12 @@ export default function RideParcelForm() {
             {bookedMode === "ride" && (
               <div className="mt-5 rounded-xl bg-gray-50 p-3.5 min-w-0">
                 <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                  Your Name
+                </div>
+                <div className="text-sm font-semibold text-gray-900 truncate">
+                  {bookedRiderName}
+                </div>
+                <div className="mt-2 text-[11px] font-bold uppercase tracking-wider text-gray-400">
                   Your Phone
                 </div>
                 <div className="text-sm font-semibold text-gray-900 truncate">
@@ -554,16 +578,18 @@ export default function RideParcelForm() {
                     Sender
                   </div>
                   <div className="text-sm font-semibold text-gray-900 truncate">
-                    {bookedSenderPhone}
+                    {bookedSenderName}
                   </div>
+                  <div className="text-xs text-gray-500 truncate">{bookedSenderPhone}</div>
                 </div>
                 <div className="rounded-xl bg-gray-50 p-3.5 min-w-0">
                   <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
                     Receiver
                   </div>
                   <div className="text-sm font-semibold text-gray-900 truncate">
-                    {bookedReceiverPhone}
+                    {bookedReceiverName}
                   </div>
+                  <div className="text-xs text-gray-500 truncate">{bookedReceiverPhone}</div>
                 </div>
               </div>
             )}
@@ -697,19 +723,33 @@ export default function RideParcelForm() {
         </div>
       </div>
 
-      {/* Ride contact detail */}
+      {/* Ride contact details */}
       {mode === "ride" && (
-        <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 mb-5 min-w-0">
-          <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
-            <Phone size={11} /> Your Phone
-          </label>
-          <input
-            type="tel"
-            value={riderPhone}
-            onChange={(e) => setRiderPhone(e.target.value)}
-            placeholder="03xx-xxxxxxx"
-            className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
-          />
+        <div className="grid grid-cols-2 gap-3 mb-5">
+          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
+            <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
+              <User size={11} /> Your Name
+            </label>
+            <input
+              type="text"
+              value={riderName}
+              onChange={(e) => setRiderName(e.target.value)}
+              placeholder="Full name"
+              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
+            />
+          </div>
+          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
+            <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
+              <Phone size={11} /> Your Phone
+            </label>
+            <input
+              type="tel"
+              value={riderPhone}
+              onChange={(e) => setRiderPhone(e.target.value)}
+              placeholder="03xx-xxxxxxx"
+              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
+            />
+          </div>
         </div>
       )}
 
@@ -718,7 +758,19 @@ export default function RideParcelForm() {
         <div className="grid grid-cols-2 gap-3 mb-5">
           <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
             <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
-              <Phone size={11} /> Sender
+              <User size={11} /> Sender Name
+            </label>
+            <input
+              type="text"
+              value={senderName}
+              onChange={(e) => setSenderName(e.target.value)}
+              placeholder="Full name"
+              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
+            />
+          </div>
+          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
+            <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
+              <Phone size={11} /> Sender Phone
             </label>
             <input
               type="tel"
@@ -730,7 +782,19 @@ export default function RideParcelForm() {
           </div>
           <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
             <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
-              <Phone size={11} /> Receiver
+              <User size={11} /> Receiver Name
+            </label>
+            <input
+              type="text"
+              value={receiverName}
+              onChange={(e) => setReceiverName(e.target.value)}
+              placeholder="Full name"
+              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
+            />
+          </div>
+          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
+            <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
+              <Phone size={11} /> Receiver Phone
             </label>
             <input
               type="tel"
