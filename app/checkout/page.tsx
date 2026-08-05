@@ -25,6 +25,27 @@ import { calculateDeliveryFee } from "@/utils/deliveryCalculator";
 import { useUserLocation } from "@/contexts/LocationContext";
 
 // ---------------------------------------------------------------------
+// ntfy push notification
+// ---------------------------------------------------------------------
+// Fires a push notification to the ntfy.sh topic the shop owner has
+// subscribed to (phone app, browser tab, or CLI) so a new order is seen
+// instantly, without waiting on email or polling a dashboard. Kept to a
+// single summary line on purpose — no address, phone, or item breakdown
+// — since the notification is just a heads-up ping, not the source of
+// order details. This is a best-effort side channel: if ntfy.sh is
+// briefly down or the request fails, the order itself must still go
+// through, so every caller wraps this in try/catch and never lets it
+// block or fail the checkout flow.
+const NTFY_TOPIC = "meal_bear_skardu";
+
+async function notifyNtfy(customerName: string, orderTotal: number, restaurantNames: string): Promise<void> {
+  await fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+    method: "POST",
+    body: `New order from ${customerName} (Rs. ${orderTotal}) — ${restaurantNames}`,
+  });
+}
+
+// ---------------------------------------------------------------------
 // Phone normalization
 // ---------------------------------------------------------------------
 // wa.me links only resolve when the number is in full international
@@ -283,6 +304,15 @@ export default function CheckoutPage() {
       });
 
       if (!res.ok) throw new Error("Order request failed");
+
+      // Push a ntfy notification so the shop sees the order instantly.
+      // Deliberately NOT awaited-with-try-that-blocks-success: a failed
+      // notification should never make a successfully placed order look
+      // like it failed to the customer, so this is fire-and-forget with
+      // its own catch.
+      notifyNtfy(name, total, restaurantNames).catch((err) => {
+        console.error("ntfy notify failed:", err);
+      });
 
       setStep("success");
       clearCart();
