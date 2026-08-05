@@ -41,8 +41,8 @@ export const shops: Shop[] = [
     id: "yak-and-bull",
     name: "Yak and Bull Cafe Skardu",
     type: "restaurant",
-    openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "12:00",
+    closeTime: "01:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
     lat: 35.289211, lng: 75.631235, // TODO: replace with real coordinates
@@ -67,8 +67,8 @@ export const shops: Shop[] = [
     id: "the-kitchen-skardu",
     name: "The Kitchen",
     type: "restaurant",
-    openTime: "06:00",
-    closeTime: "07:00",// TODO: confirm actual closing time
+    openTime: "12:00", // TODO: confirm actual opening time
+    closeTime: "21:00", // TODO: confirm actual closing time
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpO1EPdDa0L41JIdnK45cWhQVFiulx09fx2p5amMNXFXwBXUiOyj8itdI&s=10", // TODO: paste real logo URL
     lat: 35.28872, // TODO: replace with real coordinates
@@ -81,8 +81,8 @@ export const shops: Shop[] = [
     id: "dominos-skardu",
     name: "Domino's Pizza Skardu",
     type: "restaurant",
-     openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "13:00",
+    closeTime: "01:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
     lat: 35.302132, // TODO: replace with real coordinates
@@ -95,8 +95,8 @@ export const shops: Shop[] = [
     id: "the-balti-table",
     name: "The Balti Table",
     type: "restaurant",
-     openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "12:00",
+    closeTime: "23:30",
     alwaysOpen: false,
     logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785659359/WhatsApp_Image_2026-08-02_at_1.26.33_PM_webhxh.jpg",
     lat: 35.2899888, // TODO: replace with real coordinates
@@ -109,8 +109,8 @@ export const shops: Shop[] = [
     id: "skyway-pizza",
     name: "Skyway Pizza Skardu",
     type: "restaurant",
-     openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "13:00",
+    closeTime: "01:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
     lat: 35.288921, // TODO: replace with real coordinates
@@ -123,8 +123,8 @@ export const shops: Shop[] = [
     id: "thefoodcorridor-skardu",
     name: "The Food Corridor Skardu",
     type: "restaurant",
-     openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "12:00",
+    closeTime: "01:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhq9-b5Lbb5KFY0BOxoJrhwSbP4_aaqDECxxfbuzc8XA&s=10",
     lat: 35.2897981, // TODO: replace with real coordinates
@@ -152,8 +152,8 @@ export const shops: Shop[] = [
     id: "sungum-hotel-restaurant",
     name: "Sungum Hotel Restaurant Skardu ",
     type: "restaurant",
-     openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "11:00",
+    closeTime: "22:00",
     alwaysOpen: false,
     logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784291847/ChatGPT_Image_Jul_17_2026_05_37_05_PM_t6yq3u.jpg",
     lat: 35.2900162, // TODO: replace with real coordinates
@@ -167,8 +167,8 @@ export const shops: Shop[] = [
     id: "mfc",
     name: "MFC Skardu",
     type: "restaurant",
-     openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "11:00",
+    closeTime: "23:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMQ6dmqgrHiuXYkuCAjoK9uflq4-G8JiXB6Fglzqfsw9AAN9KhQRlQ6vs&s=10",
     lat: 35.289893, // TODO: replace with real coordinates
@@ -181,8 +181,8 @@ export const shops: Shop[] = [
     id: "baltistan-tea-grill-house",
     name: "Baltistan Tea and Grill House",
     type: "restaurant",
-   openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "11:00",
+    closeTime: "23:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
     lat: 35.298864, // TODO: replace with real coordinates
@@ -195,8 +195,8 @@ export const shops: Shop[] = [
     id: "hassan-hussain-host",
     name: "Hassan Hussain Host",
     type: "restaurant",
-   openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "11:00",
+    closeTime: "22:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Vba66LQaBXtJejMOezwhFNWkX4NVN0yXn0RV03oYNw&s",
      lat: 35.2899888, // TODO: replace with real coordinates
@@ -210,8 +210,8 @@ export const shops: Shop[] = [
     id: "pizza-king",
     name: "Pizza King Skardu",
     type: "restaurant",
-   openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "13:00",
+    closeTime: "01:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa8xtMwcGub4wGh9HgvVns3fAAIMH8V7a5rR3IzlQMijEyMbt9XXL4Rhrv&s=10",
     lat: 35.289174, // TODO: replace with real coordinates
@@ -224,8 +224,8 @@ export const shops: Shop[] = [
     id: "yak-grill-skardu",
     name: "Yak Grill Skardu",
     type: "restaurant",
-     openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "12:00",
+    closeTime: "23:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCK1MjSAqQF5vWaFQeoB26t69zQdIJEkEBA8pGEZYAs8QhCwkmFSRmwcG&s=10",
     lat: 35.296598, // TODO: replace with real coordinates
@@ -239,8 +239,8 @@ export const shops: Shop[] = [
     id: "mart-1", // MUST match shopId used in products.ts
     name: "Meal Mart", // TODO: real name
     type: "mart",
-    openTime: "06:00",
-    closeTime: "07:00",
+    openTime: "24:00",
+    closeTime: "8:00",
     alwaysOpen: false,
     logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785169551/WhatsApp_Image_2026-07-27_at_9.23.27_PM_eap0bl.jpg", // TODO: paste real logo URL
     lat: 35.309838, // TODO: replace with the mart's real coordinates
