@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/store/useCart";
-import { Trash2, Plus, Minus } from "lucide-react";
+import { Trash2, Plus, Minus, Loader2 } from "lucide-react";
 import { getMenuByShopId } from "@/lib/dataService";
 import { useAvailability } from "@/hooks/useAvailability";
 import { shops, Shop } from "@/data/config";
@@ -12,6 +12,14 @@ import { shops, Shop } from "@/data/config";
 export default function CartDrawer({ isOpen, onClose }: any) {
   const { items, removeItem, addItem, removeSingleItem, clearCart } = useCart() as any;
   const { checkShopStatus } = useAvailability();
+  const router = useRouter();
+
+  // Tracks the checkout navigation so the drawer can stay open (with a
+  // loading state on the button) until the /checkout route has actually
+  // finished rendering. Without this, closing the drawer on click and
+  // letting <Link> navigate async meant slow connections would show a
+  // flash of the home page underneath while /checkout was still loading.
+  const [isNavigatingToCheckout, startCheckoutTransition] = useTransition();
 
   // Distinct list of every shop (restaurant or mart) represented in the
   // cart — carts can now span multiple shops, so this replaces the old
@@ -50,6 +58,30 @@ export default function CartDrawer({ isOpen, onClose }: any) {
       clearCart();
     }
   }, [shopsInCart, allShopsOpen, clearCart]);
+
+  // Tracks whether we've actually kicked off a checkout navigation, so
+  // the effect below doesn't fire onClose() on initial mount (a plain
+  // ref, not state, since changing it should never trigger a re-render).
+  const navigationStartedRef = useRef(false);
+
+  // Once the /checkout transition finishes (isNavigatingToCheckout flips
+  // back to false), the new route is ready to be shown, so only THEN do
+  // we close the drawer. This is what keeps the cart visible the whole
+  // time instead of dropping back to the home page while checkout loads.
+  useEffect(() => {
+    if (!isNavigatingToCheckout && navigationStartedRef.current) {
+      navigationStartedRef.current = false;
+      onClose();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isNavigatingToCheckout]);
+
+  const handleContinue = () => {
+    navigationStartedRef.current = true;
+    startCheckoutTransition(() => {
+      router.push("/checkout");
+    });
+  };
 
   // Updated Math: Price * Quantity
   const total = items.reduce((sum: number, item: any) => sum + (item.price * (item.quantity || 1)), 0);
@@ -186,9 +218,20 @@ export default function CartDrawer({ isOpen, onClose }: any) {
               <span className="font-black text-lg text-gray-900">Rs. {total}</span>
             </div>
             {allShopsOpen ? (
-              <Link href="/checkout" onClick={onClose} className="w-full flex items-center justify-center bg-purple-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-purple-700">
-                Continue
-              </Link>
+              <button
+                onClick={handleContinue}
+                disabled={isNavigatingToCheckout}
+                className="w-full flex items-center justify-center gap-2 bg-purple-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-purple-700 disabled:opacity-70 transition-colors"
+              >
+                {isNavigatingToCheckout ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    Loading...
+                  </>
+                ) : (
+                  "Continue"
+                )}
+              </button>
             ) : (
               <button disabled className="w-full flex items-center justify-center bg-gray-300 text-gray-500 py-4 rounded-2xl font-black uppercase tracking-widest cursor-not-allowed">
                 Shop Closed
