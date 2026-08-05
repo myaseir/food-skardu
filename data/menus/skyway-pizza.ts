@@ -296,11 +296,11 @@ export const menu = {
         {
           id: "sw-ap-6",
           name: "Chicken Wings",
-          price: 450,
+          price: 500,
           desc: "",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTakYc2vh81Rw6TrmNzYnYDnq-8D82Caj1S34LjlkpdFzH6wRRaggSD51Bf&s=10",
           variants: [
-            { name: "6 Pcs", price: 450 },
+            { name: "6 Pcs", price: 500 },
             { name: "12 Pcs", price: 900 } // CONFIRM: could be 850
           ]
         },
