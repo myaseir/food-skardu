@@ -3,22 +3,22 @@ export const menu = {
   name: "MFC Skardu",
   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMQ6dmqgrHiuXYkuCAjoK9uflq4-G8JiXB6Fglzqfsw9AAN9KhQRlQ6vs&s=10",
   categories: [
-    {
-      name: "Soup",
-      items: [
-        {
-          id: "mfc-sp-1",
-          name: "Hot & Sour Soup",
-          price: 280,
-          desc: "Classic hot and sour soup",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgJWU8_wfxC7pmaMpGgrrbfGFuLnpoI6Vhb6CJBk1RC0-h_p6dx61WU2n5&s=10",
-          variants: [
-            { name: "Single", price: 280 },
-            { name: "Family Bowl", price: 1400 }
-          ]
-        }
-      ]
-    },
+    // {
+    //   name: "Soup",
+    //   items: [
+    //     {
+    //       id: "mfc-sp-1",
+    //       name: "Hot & Sour Soup",
+    //       price: 280,
+    //       desc: "Classic hot and sour soup",
+    //       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgJWU8_wfxC7pmaMpGgrrbfGFuLnpoI6Vhb6CJBk1RC0-h_p6dx61WU2n5&s=10",
+    //       variants: [
+    //         { name: "Single", price: 280 },
+    //         { name: "Family Bowl", price: 1400 }
+    //       ]
+    //     }
+    //   ]
+    // },
     {
       name: "Pakistani",
       items: [
@@ -74,7 +74,7 @@ export const menu = {
         { id: "mfc-bbq-1", name: "Chicken Tikka Boti", price: 380, desc: "4 Pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpzZDabXMm3qOd_HTt49pGXI_etpiC3ZdPpnJlj_3M2O1WnYncj7gVAn8&s=10", variants: [] },
         { id: "mfc-bbq-2", name: "Chicken Malai Boti", price: 400, desc: "4 Pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2T2Ua_BKA9Azbnc5PrO83xNhV6DlKYSy77VrXvCIPbwRScBvHjgkOC4c&s=10", variants: [] },
         { id: "mfc-bbq-3", name: "Chicken Seekh Kabab", price: 250, desc: "1 Seekh", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyRTS1vZ3Bdm1G0WOtWGIL3kyu61GTvcD4WQjy9_8t5GO4nh3fvxZzXElJ&s=10", variants: [] },
-        { id: "mfc-bbq-4", name: "Local Trout Fish", price: 1200, desc: "3 Pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNW0rweGyE1aX1Q0XVwaQJ8qzCwOGtrf4C-Rs0O6aGaPfD2gxw2SM-4R4p&s=10", variants: [] }
+        // { id: "mfc-bbq-4", name: "Local Trout Fish", price: 1200, desc: "3 Pieces", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNW0rweGyE1aX1Q0XVwaQJ8qzCwOGtrf4C-Rs0O6aGaPfD2gxw2SM-4R4p&s=10", variants: [] }
       ]
     },
     {
