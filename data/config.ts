@@ -64,6 +64,20 @@ export const shops: Shop[] = [
 //     reviews: 467, // TODO: confirm actual review count
 //   },
   {
+    id: "baltistan-tea-grill-house",
+    name: "Baltistan Tea and Grill House",
+    type: "restaurant",
+    openTime: "11:00",
+    closeTime: "23:00",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
+    lat: 35.298864, // TODO: replace with real coordinates
+    lng: 75.637217, // TODO: replace with real coordinates
+    whatsapp: "923554718865",
+    rating: 5.0,
+    reviews: 24,
+  }, 
+{
     id: "the-kitchen-skardu",
     name: "The Kitchen",
     type: "restaurant",
@@ -177,20 +191,7 @@ export const shops: Shop[] = [
     rating: 4.3,
     reviews: 21,
   },
-  {
-    id: "baltistan-tea-grill-house",
-    name: "Baltistan Tea and Grill House",
-    type: "restaurant",
-    openTime: "11:00",
-    closeTime: "23:00",
-    alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
-    lat: 35.298864, // TODO: replace with real coordinates
-    lng: 75.637217, // TODO: replace with real coordinates
-    whatsapp: "923554718865",
-    rating: 5.0,
-    reviews: 24,
-  },
+
   {
     id: "hassan-hussain-host",
     name: "Hassan Hussain Host",
@@ -239,8 +240,8 @@ export const shops: Shop[] = [
     id: "mart-1", // MUST match shopId used in products.ts
     name: "Meal Mart", // TODO: real name
     type: "mart",
-    openTime: "24:00",
-    closeTime: "8:00",
+    openTime: "10:00",
+    closeTime: "20:00",
     alwaysOpen: false,
     logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785169551/WhatsApp_Image_2026-07-27_at_9.23.27_PM_eap0bl.jpg", // TODO: paste real logo URL
     lat: 35.309838, // TODO: replace with the mart's real coordinates

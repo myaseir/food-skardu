@@ -30,8 +30,8 @@ export const MART_CATEGORIES = [
 // ---- Mart-only timing config ----
 // Fully isolated from data/config.ts and the restaurant shops array.
 // Change these two values any time to adjust mart hours.
-const MART_OPEN_HOUR = 8; // 8 AM
-const MART_CLOSE_HOUR = 9; // 4 AM (next day)
+const MART_OPEN_HOUR = 10; // 8 AM
+const MART_CLOSE_HOUR = 20; // 4 AM (next day)
 
 function getMartStatus() {
   const now = new Date();
@@ -290,17 +290,24 @@ export default function ProductGrid({ onCartClick }: ProductGridProps) {
 
       {/* Item Details Modal — same zoom-in / backdrop-close pattern as the
           restaurant menu item modal, minus the variant picker (mart
-          products don't have variants). */}
+          products don't have variants).
+
+          NOTE: z-50 stays below MobileNav's z-[100] on purpose — instead
+          of layering above the nav, "pb-24 sm:pb-0" on the overlay pushes
+          the card itself up off the bottom of the screen on mobile, so it
+          physically clears the nav bar and the "Add to Cart" button never
+          sits underneath it. On sm+ the modal is centered, so no offset
+          is needed there. */}
       {selectedProduct && (
         <div
           onClick={closeModal}
-          className={`fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 sm:p-4 transition-opacity duration-150 ${
+          className={`fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 pb-24 sm:pb-0 sm:p-4 transition-opacity duration-150 ${
             isClosing ? "opacity-0" : "opacity-100 animate-in fade-in duration-200"
           }`}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`bg-white w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl overflow-hidden flex flex-col max-h-[90vh] shadow-2xl transition-all duration-150 ${
+            className={`bg-white w-full sm:max-w-md sm:rounded-2xl rounded-2xl overflow-hidden flex flex-col max-h-[90vh] shadow-2xl transition-all duration-150 ${
               isClosing
                 ? "opacity-0 scale-95"
                 : "opacity-100 scale-100 animate-in zoom-in-95 slide-in-from-bottom-6 sm:slide-in-from-bottom-0 duration-200"
@@ -374,7 +381,10 @@ export default function ProductGrid({ onCartClick }: ProductGridProps) {
               </div>
             </div>
 
-            <div className="p-4 bg-white border-t border-gray-100 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] flex-shrink-0">
+            {/* pb-[max(1rem,env(safe-area-inset-bottom))] keeps the button
+                clear of the home-indicator area on notched phones now that
+                the modal renders above the bottom nav. */}
+            <div className="p-4 pb-[max(1rem,env(safe-area-inset-bottom))] bg-white border-t border-gray-100 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] flex-shrink-0">
               <button
                 onClick={confirmAddFromModal}
                 className="w-full bg-purple-600 text-white py-4 rounded-xl font-bold text-base hover:bg-purple-700 active:scale-95 transition-all flex justify-between px-6"
@@ -388,9 +398,13 @@ export default function ProductGrid({ onCartClick }: ProductGridProps) {
       )}
 
       {/* Floating Cart Bar — same pattern as the restaurant page's floating
-          "View Cart" button, opening the shared CartDrawer owned by HomeClient. */}
+          "View Cart" button, opening the shared CartDrawer owned by HomeClient.
+
+          bottom-28 (instead of bottom-20) sits it above MobileNav, which is
+          ~92px tall on mobile (py-4 buttons + pb-6). z-40 is unchanged —
+          position alone keeps it clear of the nav. */}
       {cartCount > 0 && (
-        <div className="fixed bottom-20 md:bottom-6 left-0 w-full px-6 z-40 animate-in slide-in-from-bottom-10 fade-in duration-300">
+        <div className="fixed bottom-28 md:bottom-6 left-0 w-full px-6 z-40 animate-in slide-in-from-bottom-10 fade-in duration-300">
           <button
             onClick={() => onCartClick?.()}
             className="w-full max-w-7xl mx-auto bg-purple-600 text-white p-4 rounded-2xl shadow-2xl flex justify-between items-center active:scale-95 transition-transform"
