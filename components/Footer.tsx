@@ -20,6 +20,10 @@ export default function Footer() {
         {/* Links + Contact */}
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-gray-500">
+            <Link href="/blog" className="hover:text-purple-600 transition-colors">
+              Blog
+            </Link>
+            <span className="text-gray-300">|</span>
             <Link href="/terms" className="hover:text-purple-600 transition-colors">
               Terms
             </Link>
@@ -39,7 +43,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-gray-200 text-center text-[9px] font-bold uppercase tracking-widest text-gray-400">
+      <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-gray-200 text-center text-[9px] font-bold uppercase tracking-widest text-gray-500">
         © 2026 Meal Bear. ALL RIGHTS RESERVED.
       </div>
     </footer>

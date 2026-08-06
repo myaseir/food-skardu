@@ -325,6 +325,7 @@ export const SKARDU_AREAS: Record<string, { lat: number; lng: number }> = {
   "Maqponsar skardu": { lat: 35.3014144, lng: 75.6115469 },
   "New ranga road": { lat: 35.2963196, lng: 75.6192572 },
   "Quaidabad": { lat: 35.290757, lng: 75.616208 },
+  "Kharpocho Road": { lat: 35.3019687, lng: 75.6364251 },
   
   // Gayool: { lat: 35.2737, lng: 75.5669 },
   Patwal: { lat: 35.288269, lng: 75.647929 },
