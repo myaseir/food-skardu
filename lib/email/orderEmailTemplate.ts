@@ -29,6 +29,20 @@ function esc(str: string): string {
     .replace(/"/g, "&quot;");
 }
 
+// Escapes text, converts newlines to <br>, and shrinks/mutes item descriptions
+// that were wrapped in [[DESC]]...[[/DESC]] markers by the caller (checkout
+// page). Using an explicit marker — rather than styling anything in
+// (round braces) — keeps the "(Rs. 1600)" price segment at full size, since
+// it's also parenthesized but is not a description.
+function formatOrderItems(str: string): string {
+  const escaped = esc(str);
+  const withDescStyled = escaped.replace(
+    /\[\[DESC\]\]([\s\S]*?)\[\[\/DESC\]\]/g,
+    '<span style="font-size:11px; font-weight:500; color:#64748b;">$1</span>'
+  );
+  return withDescStyled.replace(/\n/g, "<br/>");
+}
+
 function buildRestaurantRows(buttons: RestaurantButton[]): string {
   return buttons
     .map(
@@ -113,7 +127,7 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
 
         <div style="background-color:#f8fafc; padding:16px; border-radius:12px; margin-bottom:18px; border:1px solid #e2e8f0;">
           <h3 style="margin:0 0 12px 0; font-size:11px; text-transform:uppercase; color:#64748b; letter-spacing:1px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">Items to Prepare</h3>
-          <p style="margin:0; font-size:13px; line-height:1.8; color:#111; font-weight:600; white-space:pre-line;">${esc(data.orderItems)}</p>
+          <p style="margin:0; font-size:13px; line-height:1.8; color:#111; font-weight:600;">${formatOrderItems(data.orderItems)}</p>
         </div>
 
         <div style="border-radius:12px; overflow:hidden; border:1px solid #e2e8f0; margin-bottom:18px;">

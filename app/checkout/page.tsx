@@ -36,14 +36,7 @@ import { useUserLocation } from "@/contexts/LocationContext";
 // briefly down or the request fails, the order itself must still go
 // through, so every caller wraps this in try/catch and never lets it
 // block or fail the checkout flow.
-const NTFY_TOPIC = "meal_bear_skardu";
 
-async function notifyNtfy(customerName: string, orderTotal: number, restaurantNames: string): Promise<void> {
-  await fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
-    method: "POST",
-    body: `New order from ${customerName} (Rs. ${orderTotal}) — ${restaurantNames}`,
-  });
-}
 
 // ---------------------------------------------------------------------
 // Phone normalization
@@ -237,13 +230,12 @@ export default function CheckoutPage() {
         if (shopItems.length === 0) return "";
 
         const itemLines = shopItems
-        .map(
+  .map(
     (i: any) =>
       "  " + (i.quantity || 1) + "x " + i.name + " (Rs. " + i.price * (i.quantity || 1) + ")" +
-      (i.desc ? "\n     " + i.desc : "")
+     (i.desc ? "\n     [[DESC]]" + i.desc + "[[/DESC]]" : "")
   )
-          .join("\n");
-
+  .join("\n");
         return `${shop.name}:\n${itemLines}`;
       })
       .filter(Boolean)
@@ -311,9 +303,7 @@ export default function CheckoutPage() {
       // notification should never make a successfully placed order look
       // like it failed to the customer, so this is fire-and-forget with
       // its own catch.
-      notifyNtfy(name, total, restaurantNames).catch((err) => {
-        console.error("ntfy notify failed:", err);
-      });
+   
 
       setStep("success");
       clearCart();

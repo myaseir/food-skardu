@@ -98,6 +98,24 @@ function buildCustomerWhatsAppLink(data: Omit<RideBookingEmailData, "riderWhatsA
   return `https://wa.me/${normalized}?text=${encodeURIComponent(message)}`;
 }
 
+// Pushes the "new booking" heads-up ping to ntfy.sh. Awaited by the caller
+// (not fire-and-forget) — on serverless runtimes, an un-awaited fetch can
+// get silently dropped the moment the function's response is sent and the
+// execution environment is frozen/torn down, which caused notifications to
+// go missing intermittently. Never throws: a failed ntfy push is logged
+// but must not fail the booking, since the email has already been sent by
+// the time this runs.
+async function notifyNtfy(mode: string, pickupArea: string, dropoffArea: string, price: string): Promise<void> {
+  try {
+    await fetch("https://ntfy.sh/meal_bear_skardu", {
+      method: "POST",
+      body: `New ${mode} booking — ${pickupArea} → ${dropoffArea} (${price})`,
+    });
+  } catch (err) {
+    console.error("ntfy notify failed:", err);
+  }
+}
+
 export async function POST(req: Request) {
   let rawPayload: RideBookingPayload;
   try {
@@ -137,10 +155,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Email send failed" }, { status: 502 });
   }
 
-  fetch("https://ntfy.sh/meal_bear_skardu", {
-    method: "POST",
-    body: `New ${emailData.mode} booking — ${emailData.pickupArea} → ${emailData.dropoffArea} (${emailData.price})`,
-  }).catch(() => {});
+  await notifyNtfy(emailData.mode, emailData.pickupArea, emailData.dropoffArea, emailData.price);
 
   return NextResponse.json({ ok: true });
 }

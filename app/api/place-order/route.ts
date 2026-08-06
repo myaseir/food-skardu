@@ -6,7 +6,7 @@ import { buildOrderEmailHtml, OrderEmailData } from "@/lib/email/orderEmailTempl
 // with this number; whoever holds it forwards to the riders group.
 // Move to an env var later if this number changes often or you rotate
 // on-duty coordinators.
-const RIDER_WHATSAPP_NUMBER = "03169030178";
+const RIDER_WHATSAPP_NUMBER = "03408999474";
 
 // Same normalization used on the client (checkout page) — duplicated here
 // since this file runs server-side and can't import client-only code.
@@ -52,6 +52,25 @@ function buildRiderWhatsAppLink(payload: OrderEmailData): string {
   return `https://wa.me/${normalized}?text=${encodeURIComponent(message)}`;
 }
 
+// Pushes the "new order" heads-up ping to ntfy.sh. Awaited by the caller
+// (not fire-and-forget) — on serverless runtimes, an un-awaited fetch can
+// get silently dropped the moment the function's response is sent and the
+// execution environment is frozen/torn down, which is what was causing
+// notifications to go missing intermittently. This never throws: a failed
+// ntfy push is logged but must not fail the order, since the email (the
+// actual source of truth for the order) has already been sent by the time
+// this runs.
+async function notifyNtfy(userName: string, total: number, restaurantNames: string): Promise<void> {
+  try {
+    await fetch("https://ntfy.sh/meal_bear_skardu", {
+      method: "POST",
+      body: `New order from ${userName} (Rs. ${total}) — ${restaurantNames}`,
+    });
+  } catch (err) {
+    console.error("ntfy notify failed:", err);
+  }
+}
+
 export async function POST(req: Request) {
   let payload: OrderEmailData;
   try {
@@ -89,10 +108,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Email send failed" }, { status: 502 });
   }
 
-  fetch("https://ntfy.sh/meal_bear_skardu", {
-    method: "POST",
-    body: `New order from ${payload.userName} (Rs. ${payload.total}) — ${payload.restaurantNames}`,
-  }).catch(() => {});
+  await notifyNtfy(payload.userName, payload.total, payload.restaurantNames);
 
   return NextResponse.json({ ok: true });
 }
