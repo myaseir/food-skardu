@@ -28,6 +28,9 @@
 //   (e.g. the food guide and the local-dishes post) from competing with
 //   each other for the same query — each post now points to the other
 //   for depth instead of duplicating it.
+// - All restaurant links use https://www.mealbear.pk/... to match the
+//   confirmed canonical domain (www.mealbear.pk), consistent with
+//   app/sitemap.ts and the SITE_URL constant in both blog page templates.
 
 export interface FAQItem {
   question: string;
@@ -64,9 +67,6 @@ export const blogPosts: BlogPost[] = [
     updatedAt: "2026-08-06",
     readTimeMinutes: 9,
     author: "Meal Bear Skardu Team",
-    // TODO: replace with a real hosted photo (1200x630+) before publishing.
-    // The previous value was a Google Images cache thumbnail requested at
-    // 10px wide — not a real asset, and not safe to hotlink long-term.
     image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1786014631/ChatGPT_Image_Aug_6_2026_04_07_49_PM_ugcr3y.jpg",
     keywords: [
       "best food in Skardu",
@@ -105,15 +105,15 @@ export const blogPosts: BlogPost[] = [
       "## Best Fast Food in Skardu",
       "If you want something quick and familiar, Skardu's fast food scene has grown fast, and a handful of dishes consistently top every local favorite list. You will find all of them listed with live menus and prices on [MealBear.pk](/).",
       "## Yak Burger",
-      "The Yak Burger is the single most talked about dish in Skardu right now, and it deserves the hype. Made from real yak meat sourced from the high pastures around Baltistan, it has a richer, slightly gamey flavor that regular beef burgers simply do not have. [Baltistan Tea and Grill House](https://mealbear.pk/restaurant/baltistan-tea-grill-house) has an entire lineup built around it, including a Yak Double Patty and a Yak Mushroom Burger, and [Yak and Bull Cafe](https://mealbear.pk/restaurant/yak-and-bull) built its whole name around its own signature yak burger. If you try one thing from this list, make it the Yak Burger, and order it through either restaurant on [MealBear.pk](/).",
+      "The Yak Burger is the single most talked about dish in Skardu right now, and it deserves the hype. Made from real yak meat sourced from the high pastures around Baltistan, it has a richer, slightly gamey flavor that regular beef burgers simply do not have. [Baltistan Tea and Grill House](https://www.mealbear.pk/restaurant/baltistan-tea-grill-house) has an entire lineup built around it, including a Yak Double Patty and a Yak Mushroom Burger, and [Yak and Bull Cafe](https://www.mealbear.pk/restaurant/yak-and-bull) built its whole name around its own signature yak burger. If you try one thing from this list, make it the Yak Burger, and order it through either restaurant on [MealBear.pk](/).",
       "## Pizza",
-      "Skardu's pizza scene has come a long way, with several restaurants now offering proper wood fired and stone baked pizza. [Domino's Skardu](https://mealbear.pk/restaurant/dominos-skardu) brings the familiar international menu, [Yak and Bull Cafe](https://mealbear.pk/restaurant/yak-and-bull) has its own house special pizza, and [The Food Corridor Skardu](https://mealbear.pk/restaurant/thefoodcorridor-skardu) runs some of the best value pizza deals in the city. Pizza is one of the most ordered items on [MealBear.pk](/), especially for groups and families.",
+      "Skardu's pizza scene has come a long way, with several restaurants now offering proper wood fired and stone baked pizza. [Domino's Skardu](https://www.mealbear.pk/restaurant/dominos-skardu) brings the familiar international menu, [Yak and Bull Cafe](https://www.mealbear.pk/restaurant/yak-and-bull) has its own house special pizza, and [The Food Corridor Skardu](https://www.mealbear.pk/restaurant/thefoodcorridor-skardu) runs some of the best value pizza deals in the city. Pizza is one of the most ordered items on [MealBear.pk](/), especially for groups and families.",
       "## Burgers",
-      "Beyond the Yak Burger, classic chicken and beef burgers remain a Skardu favorite, especially among younger diners and visiting tourists looking for something quick between sightseeing stops. [Baltistan Tea and Grill House](https://mealbear.pk/restaurant/baltistan-tea-grill-house), [Yak and Bull Cafe](https://mealbear.pk/restaurant/yak-and-bull), [Domino's Skardu](https://mealbear.pk/restaurant/dominos-skardu), and [The Food Corridor Skardu](https://mealbear.pk/restaurant/thefoodcorridor-skardu) all carry a strong burger lineup on [MealBear.pk](/).",
+      "Beyond the Yak Burger, classic chicken and beef burgers remain a Skardu favorite, especially among younger diners and visiting tourists looking for something quick between sightseeing stops. [Baltistan Tea and Grill House](https://www.mealbear.pk/restaurant/baltistan-tea-grill-house), [Yak and Bull Cafe](https://www.mealbear.pk/restaurant/yak-and-bull), [Domino's Skardu](https://www.mealbear.pk/restaurant/dominos-skardu), and [The Food Corridor Skardu](https://www.mealbear.pk/restaurant/thefoodcorridor-skardu) all carry a strong burger lineup on [MealBear.pk](/).",
       "## Fried Chicken",
-      "Crispy fried chicken is a staple across almost every fast food menu in Skardu, and it is consistently one of the highest rated categories on [MealBear.pk](/). [MFC Skardu](https://mealbear.pk/restaurant/mfc) and [Domino's Skardu](https://mealbear.pk/restaurant/dominos-skardu) are two of the most reliable places to order it from.",
+      "Crispy fried chicken is a staple across almost every fast food menu in Skardu, and it is consistently one of the highest rated categories on [MealBear.pk](/). [MFC Skardu](https://www.mealbear.pk/restaurant/mfc) and [Domino's Skardu](https://www.mealbear.pk/restaurant/dominos-skardu) are two of the most reliable places to order it from.",
       "## Best Biryani and Pulao in Skardu",
-      "If rice dishes are more your thing, [The Kitchen Skardu](https://mealbear.pk/restaurant/the-kitchen-skardu) is the name most people mention first, with a full Biryani and Pulao menu covering Chicken Biryani, Double Chicken Biryani, Sada Biryani, and Beef Pulao, all orderable directly through [MealBear.pk](/).",
+      "If rice dishes are more your thing, [The Kitchen Skardu](https://www.mealbear.pk/restaurant/the-kitchen-skardu) is the name most people mention first, with a full Biryani and Pulao menu covering Chicken Biryani, Double Chicken Biryani, Sada Biryani, and Beef Pulao, all orderable directly through [MealBear.pk](/).",
       "## Best Traditional Balti Dishes",
       "For a real taste of the region, skip the fast food menu and order traditional Balti food. These dishes are unique to Baltistan and are the reason food lovers make a point of eating locally when they visit Skardu. For a closer look at the wider local food culture beyond just Prapu and Mamtu — including khambir bread, fresh trout, and apricot desserts — see our [guide to local Skardu dishes](/blog/best-local-dishes-to-try-in-skardu).",
       "## Prapu",
@@ -131,7 +131,7 @@ export const blogPosts: BlogPost[] = [
       "## Why MealBear.pk Is the Easiest Way to Order Food",
       "[Meal Bear Skardu](/) was built to solve exactly that problem. Instead of calling restaurants individually, you can browse every restaurant in Skardu in one place and order directly from [MealBear.pk](/) in just a few clicks. Meal Bear Skardu riders are professional, trained on the fastest routes around the city, and consistently deliver most orders within 30 to 45 minutes. No more guessing whether your call went through. You place the order on [MealBear.pk](/), you can track it, and it arrives. This is why more people in Skardu are switching to [MealBear.pk](/) instead of contacting restaurants directly.",
       "## Restaurants You Can Order From on MealBear.pk",
-      "Every restaurant mentioned in this guide, and more, is already listed and ready to order from on [MealBear.pk](/). A few to start with: [Baltistan Tea and Grill House](https://mealbear.pk/restaurant/baltistan-tea-grill-house) for Yak Burgers, grilled steaks, and Chinese platters. [Domino's Skardu](https://mealbear.pk/restaurant/dominos-skardu) for pizza, burger deals, and fried chicken. [MFC Skardu](https://mealbear.pk/restaurant/mfc) for Pakistani karahi, BBQ, and fried chicken. [Yak and Bull Cafe](https://mealbear.pk/restaurant/yak-and-bull) for yak burgers, pizza, and fresh shakes. [The Kitchen Skardu](https://mealbear.pk/restaurant/the-kitchen-skardu) for biryani and pulao. [The Food Corridor Skardu](https://mealbear.pk/restaurant/thefoodcorridor-skardu) for pizza deals and Chinese combos.",
+      "Every restaurant mentioned in this guide, and more, is already listed and ready to order from on [MealBear.pk](/). A few to start with: [Baltistan Tea and Grill House](https://www.mealbear.pk/restaurant/baltistan-tea-grill-house) for Yak Burgers, grilled steaks, and Chinese platters. [Domino's Skardu](https://www.mealbear.pk/restaurant/dominos-skardu) for pizza, burger deals, and fried chicken. [MFC Skardu](https://www.mealbear.pk/restaurant/mfc) for Pakistani karahi, BBQ, and fried chicken. [Yak and Bull Cafe](https://www.mealbear.pk/restaurant/yak-and-bull) for yak burgers, pizza, and fresh shakes. [The Kitchen Skardu](https://www.mealbear.pk/restaurant/the-kitchen-skardu) for biryani and pulao. [The Food Corridor Skardu](https://www.mealbear.pk/restaurant/thefoodcorridor-skardu) for pizza deals and Chinese combos.",
       "## MealBear Mart for Groceries and Daily Essentials",
       "[MealBear.pk](/) is not just for restaurant meals. The Meal Bear Mart section lets you order groceries and everyday household items for same day delivery, so you do not have to make a trip to the bazaar for a few small things. Dairy, snacks, tea, household cleaning supplies, personal care, and baby items are all available through the mart at reasonable delivery prices, right alongside your food order on [MealBear.pk](/).",
       "## MealBear Delivery Areas",
@@ -141,7 +141,7 @@ export const blogPosts: BlogPost[] = [
       "## Best Time to Order Food in Skardu",
       "You can order through [MealBear.pk](/) any time from 12 PM until 2 AM. If you want the fastest possible delivery, avoid the busiest lunch and dinner rush windows when kitchens are handling the most orders at once — see our [guide to the best delivery windows](/blog/best-time-to-order-food-skardu) for the exact hours to avoid. Make sure to enter your full address in as much detail as possible when checking out so your rider can find you without delay.",
       "## Final Thoughts",
-      "Skardu's food scene, from the Yak Burger at [Baltistan Tea and Grill House](https://mealbear.pk/restaurant/baltistan-tea-grill-house) and [Yak and Bull Cafe](https://mealbear.pk/restaurant/yak-and-bull), to Prapu, Mamtu, Chicken Fasanjon, and the dry apricot infusion drink, has genuinely earned its reputation. The easiest way to try all of it, whether you are a resident, a tourist, or staying at one of Skardu's hotels, is to skip calling restaurants directly and order everything, food and groceries alike, through [MealBear.pk](/).",
+      "Skardu's food scene, from the Yak Burger at [Baltistan Tea and Grill House](https://www.mealbear.pk/restaurant/baltistan-tea-grill-house) and [Yak and Bull Cafe](https://www.mealbear.pk/restaurant/yak-and-bull), to Prapu, Mamtu, Chicken Fasanjon, and the dry apricot infusion drink, has genuinely earned its reputation. The easiest way to try all of it, whether you are a resident, a tourist, or staying at one of Skardu's hotels, is to skip calling restaurants directly and order everything, food and groceries alike, through [MealBear.pk](/).",
     ],
     faqs: [
       {

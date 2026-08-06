@@ -20,7 +20,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { blogPosts, getAllCategories } from "@/data/blog-posts";
 
-const SITE_URL = "https://mealbear.pk";
+const SITE_URL = "https://www.mealbear.pk";
 const SITE_NAME = "Meal Bear Skardu";
 
 export const metadata: Metadata = {

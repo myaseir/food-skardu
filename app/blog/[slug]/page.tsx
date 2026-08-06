@@ -23,7 +23,7 @@ import { notFound } from "next/navigation";
 import { blogPosts, getPostBySlug } from "@/data/blog-posts";
 import { renderLinkedText } from "@/lib/render-linked-text";
 
-const SITE_URL = "https://mealbear.pk";
+const SITE_URL = "https://www.mealbear.pk";
 const SITE_NAME = "Meal Bear Skardu";
 
 type Props = {
