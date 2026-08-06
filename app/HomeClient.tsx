@@ -47,7 +47,7 @@ export default function HomeClient() {
         
       </section>
 
-      <div className="hidden md:block"><Footer /></div>
+      <div><Footer /></div>
 
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 

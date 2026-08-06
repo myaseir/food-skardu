@@ -237,10 +237,11 @@ export default function CheckoutPage() {
         if (shopItems.length === 0) return "";
 
         const itemLines = shopItems
-          .map(
-            (i: any) =>
-              "  " + (i.quantity || 1) + "x " + i.name + " (Rs. " + i.price * (i.quantity || 1) + ")"
-          )
+        .map(
+    (i: any) =>
+      "  " + (i.quantity || 1) + "x " + i.name + " (Rs. " + i.price * (i.quantity || 1) + ")" +
+      (i.desc ? "\n     " + i.desc : "")
+  )
           .join("\n");
 
         return `${shop.name}:\n${itemLines}`;

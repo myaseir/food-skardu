@@ -39,7 +39,7 @@ type RideBookingPayload = {
 // Maps the client's snake_case payload onto the camelCase shape the
 // template/WhatsApp-link builders expect, with safe fallbacks so a
 // missing field renders as an empty string instead of crashing esc().
-function toEmailData(payload: RideBookingPayload): Omit<RideBookingEmailData, "riderWhatsAppLink"> {
+function toEmailData(payload: RideBookingPayload): Omit<RideBookingEmailData, "riderWhatsAppLink" | "customerWhatsAppLink"> {
   return {
     mode: payload.mode,
     pickupArea: payload.pickup_area ?? "",
@@ -61,7 +61,7 @@ function toEmailData(payload: RideBookingPayload): Omit<RideBookingEmailData, "r
   };
 }
 
-function buildRiderWhatsAppLink(data: Omit<RideBookingEmailData, "riderWhatsAppLink">): string {
+function buildRiderWhatsAppLink(data: Omit<RideBookingEmailData, "riderWhatsAppLink" | "customerWhatsAppLink">): string {
   const isRide = data.mode === "Ride";
 
   const contactLines = isRide
@@ -84,6 +84,20 @@ function buildRiderWhatsAppLink(data: Omit<RideBookingEmailData, "riderWhatsAppL
   return `https://wa.me/${normalized}?text=${encodeURIComponent(message)}`;
 }
 
+// Confirmation goes to whoever placed the booking: the rider themself in
+// Ride mode, or the sender in Courier mode (the receiver never filled out
+// the form, so they wouldn't be expecting a confirmation message).
+function buildCustomerWhatsAppLink(data: Omit<RideBookingEmailData, "riderWhatsAppLink" | "customerWhatsAppLink">): string {
+  const isRide = data.mode === "Ride";
+  const customerName = isRide ? data.riderName : data.senderName;
+  const customerPhone = isRide ? data.riderPhone : data.senderPhone;
+
+  const message = `Hi ${customerName}, this is Meal Bear Skardu. Your ${isRide ? "ride" : "courier"} booking (${data.pickupArea} → ${data.dropoffArea}) is confirmed at ${data.price}. Reply YES to confirm.`;
+
+  const normalized = normalizePakPhoneForWhatsApp(customerPhone);
+  return `https://wa.me/${normalized}?text=${encodeURIComponent(message)}`;
+}
+
 export async function POST(req: Request) {
   let rawPayload: RideBookingPayload;
   try {
@@ -94,7 +108,8 @@ export async function POST(req: Request) {
 
   const emailData = toEmailData(rawPayload);
   const riderWhatsAppLink = buildRiderWhatsAppLink(emailData);
-  const html = buildRideBookingEmailHtml({ ...emailData, riderWhatsAppLink });
+  const customerWhatsAppLink = buildCustomerWhatsAppLink(emailData);
+  const html = buildRideBookingEmailHtml({ ...emailData, riderWhatsAppLink, customerWhatsAppLink });
 
   try {
     const brevoRes = await fetch("https://api.brevo.com/v3/smtp/email", {

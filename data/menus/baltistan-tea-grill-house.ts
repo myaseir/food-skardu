@@ -349,16 +349,16 @@ export const menu = {
         { id: "tea-4", name: "Karak Chaye", price: 200, desc: "", image: "https://images.immediate.co.uk/production/volatile/sites/2/2022/11/Karak-Chai-4c79786.jpg", variants: [] },
         { id: "tea-5", name: "Gurr Chaye", price: 250, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIEbgXLpnnPcGdEgFYsLbaB9ZIuxhaq6aqd-IeuoyNCGvKG8tQKdE0I0w&s=10", variants: [] },
         { id: "tea-6", name: "Tumburuk Mountain Tea", price: 150, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKdA82kWF6g1naaUTs3XYUvEc5a5tEiWMLSvcpCpWBbrwY2SNck05YZ7dy&s=10", variants: [] },
-        // { id: "tea-7", name: "Green Tea", price: 100, desc: "", image: "", variants: [] },
-        // { id: "cc-1", name: "Iced Latte", price: 800, desc: "", image: "", variants: [] },
-        // { id: "cc-2", name: "Iced Spanish Latte", price: 800, desc: "", image: "", variants: [] },
-        // { id: "cc-3", name: "Iced Vanilla Latte", price: 800, desc: "", image: "", variants: [] },
-        // { id: "cc-4", name: "Iced Americano", price: 800, desc: "", image: "", variants: [] },
-        // { id: "cc-5", name: "Mango Coffee Latte", price: 800, desc: "", image: "", variants: [] },
-        // { id: "it-1", name: "Peach Iced Tea", price: 700, desc: "", image: "", variants: [] },
-        // { id: "it-2", name: "Strawberry Iced Tea", price: 700, desc: "", image: "", variants: [] },
-        // { id: "it-3", name: "Mango Iced Tea", price: 700, desc: "", image: "", variants: [] },
-        // { id: "it-4", name: "Peach & Lemon Tea", price: 700, desc: "", image: "", variants: [] }
+        { id: "tea-7", name: "Green Tea", price: 100, desc: "", image: "", variants: [] },
+        { id: "cc-1", name: "Iced Latte", price: 800, desc: "", image: "", variants: [] },
+        { id: "cc-2", name: "Iced Spanish Latte", price: 800, desc: "", image: "", variants: [] },
+        { id: "cc-3", name: "Iced Vanilla Latte", price: 800, desc: "", image: "", variants: [] },
+        { id: "cc-4", name: "Iced Americano", price: 800, desc: "", image: "", variants: [] },
+        { id: "cc-5", name: "Mango Coffee Latte", price: 800, desc: "", image: "", variants: [] },
+        { id: "it-1", name: "Peach Iced Tea", price: 700, desc: "", image: "", variants: [] },
+        { id: "it-2", name: "Strawberry Iced Tea", price: 700, desc: "", image: "", variants: [] },
+        { id: "it-3", name: "Mango Iced Tea", price: 700, desc: "", image: "", variants: [] },
+        { id: "it-4", name: "Peach & Lemon Tea", price: 700, desc: "", image: "", variants: [] }
       ]
     },
     {
@@ -367,26 +367,26 @@ export const menu = {
         { id: "sh-1", name: "Banana Shake", price: 350, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWyD7_4W0cOt60Bm0pckY12JujOXwknlXp1XghuAjdeBbmnlZZ1P8_Gg5v&s=10", variants: [] },
         { id: "sh-2", name: "Banana Dates Shake", price: 450, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_oD1CICPIbSsoPTAvMl5S6xUDz9PgiLKmBva7Ek3kVA6IwZMYX5XbB58&s=10", variants: [] },
         { id: "sh-3", name: "Mango Shake", price: 550, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRywVYPwEkWAlOtILf3TYlALwh1hasX9SdCyQ-oRN081Q&s=10", variants: [] },
-        // { id: "sh-4", name: "Peach Shake", price: 550, desc: "", image: "", variants: [] },
+        { id: "sh-4", name: "Peach Shake", price: 550, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrDqnQhMCsBOwkvBOweJKh-bUO_r0ImU4NXzvEuq2Jqg&s=10", variants: [] },
         // { id: "sh-5", name: "Strawberry Shake", price: 550, desc: "", image: "", variants: [] },
-        // { id: "sh-6", name: "Oreo Shake", price: 750, desc: "", image: "", variants: [] },
-        // { id: "sh-7", name: "Kit Kat Shake", price: 750, desc: "", image: "", variants: [] },
-        // { id: "sh-8", name: "Chocolate Brownie Shake", price: 750, desc: "", image: "", variants: [] },
-        // { id: "sh-9", name: "Lassi Sweet", price: 250, desc: "", image: "", variants: [] },
-        // { id: "sh-10", name: "Lassi Namkeen", price: 250, desc: "", image: "", variants: [] }
+        { id: "sh-6", name: "Oreo Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDUGBuvC7SIglcdjiHhG4kzn3SxalJIGK01fyXl4QPGA&s=10", variants: [] },
+        { id: "sh-7", name: "Kit Kat Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlQyZkJWqZQiC5H3NAea4h5FodRNLvK1LdVSMq3Vz_7IGIhdt_i9147bUU&s=10", variants: [] },
+        { id: "sh-8", name: "Chocolate Brownie Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zuuFnPyVpMC7X0NOQi99ZNzGZfPx9s78ga-o2T6lYrZ3CaCMXbxzZUwU&s=10", variants: [] },
+        { id: "sh-9", name: "Lassi Sweet", price: 250, desc: "", image: "https://www.cubesnjuliennes.com/wp-content/uploads/2025/07/Punjabi-Sweet-Lassi-Drink-Recipe.jpg", variants: [] },
+        { id: "sh-10", name: "Lassi Namkeen", price: 250, desc: "", image: "https://ikneadtoeat.com/wp-content/uploads/2022/11/salty-lassi-7.jpg", variants: [] }
       ]
     },
-    // {
-    //   name: "Cocktails",
-    //   items: [
-    //     { id: "ck-1", name: "Lemonade", price: 250, desc: "", image: "", variants: [] },
-    //     { id: "ck-2", name: "Fresh Lemon", price: 250, desc: "", image: "", variants: [] },
-    //     { id: "ck-3", name: "Mint Margarita", price: 350, desc: "", image: "", variants: [] },
-    //     { id: "ck-4", name: "Blue Berry", price: 350, desc: "", image: "", variants: [] },
-    //     { id: "ck-5", name: "Lemon Fizz", price: 350, desc: "", image: "", variants: [] },
-    //     { id: "ck-6", name: "Pina Colada", price: 750, desc: "", image: "", variants: [] }
-    //   ]
-    // },
+    {
+      name: "Cocktails",
+      items: [
+        { id: "ck-1", name: "Lemonade", price: 250, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl2w1HAMwEwDzZQ7QLdO38FmdshpCSN4V4QtH32CtatA&s=10", variants: [] },
+        { id: "ck-2", name: "Fresh Lemon", price: 250, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1orz2nU2eYO9C1VQZF7nxLNDF8V26Z0CHgrlR2ZFSqA&s=10", variants: [] },
+        { id: "ck-3", name: "Mint Margarita", price: 350, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2qtrnrrnf6UZp4kAcK1ZGXUoeO75T6dHS7W-FJGcjwg1VOjcoAFhjDoF-&s=10", variants: [] },
+        { id: "ck-4", name: "Blue Berry", price: 350, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkgiSca-yd9X1HQiCjO2c3adawr-sWWTA4Lek7nkHymDEHv1WRzTGk8qs&s=10", variants: [] },
+        { id: "ck-5", name: "Lemon Fizz", price: 350, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyjMt7E_1EFnE9RelIMHMvKZy5fFxvdGVl6zIbvm-2bg&s=10", variants: [] },
+        { id: "ck-6", name: "Pina Colada", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEsXhhY5z7JodRwkEuB-3l2O29ZwFjGNI3fQ0v1YlkRa_VHX7s7X8s_Cw&s=10", variants: [] }
+      ]
+    },
     // ---- Drinks & Beverages — left untouched, exactly as before ----
     {
       name: "Drinks & Beverages",

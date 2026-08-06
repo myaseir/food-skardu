@@ -4,36 +4,46 @@ export const menu = {
   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCK1MjSAqQF5vWaFQeoB26t69zQdIJEkEBA8pGEZYAs8QhCwkmFSRmwcG&s=10",
   categories: [
     {
-      name: "Mains",
+      name: "Signature Dishes",
       items: [
-        { id: "main-1", name: "Yak Steak", price: 4000, desc: "250 grams of yak meat, served with the sideline of fried potatoes, vegetables and sauce.", image: "", variants: [] },
-        { id: "main-2", name: "Yak Burger", price: 1200, desc: "120 grams of yak meat mince with cheese, tomato and onion. Served with potato wedges and sauce. (Note: burgers won't be cut into half.)", image: "", variants: [] },
-        { id: "main-3", name: "Burger of the House", price: 1500, desc: "Double patty of yak meat mince with cheese, tomato, onion and fried egg on top. Served with the sideline of potato wedges and sauce. (Note: burgers won't be cut into half.)", image: "", variants: [] },
-        { id: "main-4", name: "Yak Chilli Dry", price: 1500, desc: "Sliced stir-fried yak meat with mushrooms, carrot, capsicum and sweet corn. Served with egg fried rice.", image: "", variants: [] },
-        { id: "main-5", name: "Yak Karahi", price: 4200, desc: "1 kg of yak meat with gravy of tomato and local spices.", image: "", variants: [] },
-        { id: "main-6", name: "Pasta", price: 1100, desc: "Fettuccine pasta with mushroom, prepared in creamy white sauce.", image: "", variants: [] },
-        { id: "main-7", name: "Passu Potato", price: 450, desc: "A portion of local fried potato with skin, served with sauce.", image: "", variants: [] }
+        { id: "main-1", name: "Yak Steak", price: 5200, desc: "250 grams of yak meat, served with a side of fried potatoes, vegetables and sauce.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCyEA4zqEQcTaJ8HiB2KbCqysuNhqUXCDI0kTrr8Ek2Qcdu6Huui8u-P4&s=10", variants: [] },
+        { id: "main-2", name: "Yak Burger", price: 1300, desc: "120 grams of yak minced meat with cheese, tomato and onion. Served with potato wedges and sauce. (Note: burgers won't be cut in half.)", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGTfC64uTW4kPBjqH9D06TvYbgHWYuHJ8BuhK7MDsh-1q0WHzLjQLLJAE&s=10", variants: [] },
+        { id: "main-3", name: "Burger of the House", price: 1700, desc: "Double patty of yak minced meat with cheese, tomato, onion and a fried egg on top. Served with a side of potato wedges and sauce. (Note: burgers won't be cut in half.)", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7SFB_M250yF0j4F05G_LLlTIYtJaZAIt6UTzZrYgcKg&s=10", variants: [] },
+        { id: "main-4", name: "Yak Chilli Dry", price: 1500, desc: "Sliced stir-fried yak meat with mushrooms, carrot, capsicum and sweet corn. Served with egg fried rice.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2q-6yrvHNO6u_oz4fB9JF9Hw5iahD5Okea1kqcJSaR3o0Z78UvUScXFyc&s=10", variants: [] },
+        { id: "main-5", name: "Yak Karahi", price: 4500, desc: "1 kg of yak meat cooked in tomato gravy with local spices.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnqs6odyJGQnQDU0qbRE3EM3OAtW8AUXvT2v-NxXS7_A&s=10", variants: [] }
       ]
     },
     {
-      name: "Coffee",
+      name: "Pasta",
       items: [
-        { id: "cof-1", name: "Cappuccino", price: 400, desc: "", image: "", variants: [] },
-        { id: "cof-2", name: "Americano", price: 300, desc: "", image: "", variants: [] }
+        { id: "pasta-1", name: "Pasta (White Sauce)", price: 1100, desc: "Penne pasta with mushrooms, prepared in a creamy white sauce.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxcH5B46xhdz3oNOhtluitjRSBwgcED9SeqgOJBrLAG3yC2dke-k04_msS&s=10", variants: [] },
+        { id: "pasta-2", name: "Penne Arrabbiata", price: 1400, desc: "Penne pasta in a spicy red sauce, served with grilled chicken.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXQtqDUZs3QT5urNvqB0fzWc7R3Y6bl1jyNZX48kqvJLhYB55x6K7S_Fk&s=10", variants: [] }
       ]
     },
     {
-      name: "Sides & Extras",
+      name: "Sandwiches & Noodles",
       items: [
-        { id: "side-1", name: "Herbal Tea", price: 150, desc: "", image: "", variants: [] },
-        { id: "side-2", name: "Cold Drink", price: 150, desc: "", image: "", variants: [] },
-        { id: "side-3", name: "Water", price: 100, desc: "", image: "", variants: [] },
-        { id: "side-4", name: "Extra Sauce", price: 50, desc: "", image: "", variants: [] },
-        { id: "side-5", name: "Chapati", price: 50, desc: "", image: "", variants: [] }
+        { id: "sand-1", name: "Grilled Chicken Sandwich", price: 1350, desc: "Grilled chicken in a freshly toasted French baguette with mayo, house sauce and smoky salsa.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt-0kbrjOmrUYHOsefdN-8jB56Ol_N6K3CY2PXULwCyA&s=10", variants: [] },
+        { id: "noodle-1", name: "Stir-Fried Yak Noodles", price: 1500, desc: "Stir-fried yak meat with sweet corn, mushrooms, capsicum and carrot, served with rice noodles.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHeMJPC_XJuYFzf2SQZT9ngs8bFMj89zm4r5gDC07vRW7pz5kHKdAoD_kn&s=10", variants: [] }
       ]
     },
-     {
-      name: "Drinks & Beverages",
+    {
+      name: "Sides",
+      items: [
+        { id: "side-1", name: "Skardu Potatoes", price: 500, desc: "A portion of local fried potatoes with skin, served with sauce.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGHxFCNr0tODYaFrGr-VW0u0_6uR56ix_ApdY2ygWSrw&s=10", variants: [] }
+      ]
+    },
+    {
+      name: "Beverages",
+      items: [
+        { id: "bev-1", name: "Cappuccino", price: 450, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrv1XXJ9phzaFEBJPrvOy1tQEgHXxNb1XhIc9I9wJhDaYbvKxqFwSFKTw&s=10", variants: [] },
+        { id: "bev-2", name: "Americano", price: 300, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8g8l3svXedPqf_khN9t0FhqqX3ChgNNi0GUr7Yf800Q&s=10", variants: [] },
+        { id: "bev-3", name: "Herbal Tea", price: 150, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfbgN3FymqjY4HCiVU9Y5ZwRArnWepl9fisbk55U4kPQ&s=10", variants: [] },
+        { id: "bev-6", name: "Extra Sauce", price: 50, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUkAKY02BzM7XtQkMb8th8LI77eQMlG8Ho4YFXgkkyzA&s=10", variants: [] }
+      ]
+    },
+    {
+      name: "Cold Drinks",
       items: [
         {
           id: "dr-1",

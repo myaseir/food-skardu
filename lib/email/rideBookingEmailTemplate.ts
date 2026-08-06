@@ -1,24 +1,24 @@
 // lib/email/rideBookingEmailTemplate.ts
-
 export type RideBookingEmailData = {
   mode: "Ride" | "Courier";
   pickupArea: string;
   pickupAddress: string;
   dropoffArea: string;
   dropoffAddress: string;
-  distanceKm: string; // already formatted, e.g. "4.2" or ""
-  price: string; // "Rs. 350" or "On request"
-  riderName: string; // ride mode only
-  riderPhone: string; // ride mode only
-  senderName: string; // courier mode only
-  senderPhone: string; // courier mode only
-  receiverName: string; // courier mode only
-  receiverPhone: string; // courier mode only
+  distanceKm: string;
+  price: string;
+  riderName: string;
+  riderPhone: string;
+  senderName: string;
+  senderPhone: string;
+  receiverName: string;
+  receiverPhone: string;
   customerLat: string;
   customerLng: string;
   locationLink: string;
   time: string;
   riderWhatsAppLink: string;
+  customerWhatsAppLink: string; // NEW
 };
 
 function esc(str: string): string {
@@ -137,6 +137,11 @@ export function buildRideBookingEmailHtml(data: RideBookingEmailData): string {
           <p style="margin:0; font-size:11px; color:#9ca3af; text-transform:uppercase; font-weight:800; letter-spacing:1.5px;">Fixed Price</p>
           <p class="price-amount" style="margin:6px 0 0 0; font-size:30px; font-weight:900; color:#ffffff; letter-spacing:-1px;">${esc(data.price)}</p>
         </div>
+
+       <!-- Confirm with Customer -->
+        <a href="${data.customerWhatsAppLink}" style="display:block; background-color:#9333ea; color:#ffffff; font-weight:800; font-size:13px; text-decoration:none; padding:13px 16px; border-radius:10px; text-align:center; margin-bottom:12px;">
+          ✅ Confirm Booking with Customer
+        </a>
 
         <!-- Notify Rider -->
         <a href="${data.riderWhatsAppLink}" style="display:block; background-color:#f97316; color:#ffffff; font-weight:800; font-size:13px; text-decoration:none; padding:13px 16px; border-radius:10px; text-align:center;">
