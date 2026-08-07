@@ -110,7 +110,7 @@ export const shops: Shop[] = [
     name: "The Balti Table",
     type: "restaurant",
     openTime: "12:00",
-    closeTime: "23:30",
+    closeTime: "20:30",
     alwaysOpen: false,
     logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785659359/WhatsApp_Image_2026-08-02_at_1.26.33_PM_webhxh.jpg",
     lat: 35.2899888, // TODO: replace with real coordinates
@@ -197,7 +197,7 @@ export const shops: Shop[] = [
     name: "Hassan Hussain Host",
     type: "restaurant",
     openTime: "11:00",
-    closeTime: "22:30",
+    closeTime: "20:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Vba66LQaBXtJejMOezwhFNWkX4NVN0yXn0RV03oYNw&s",
      lat: 35.2899888, // TODO: replace with real coordinates

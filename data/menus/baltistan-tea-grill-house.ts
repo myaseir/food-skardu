@@ -91,14 +91,14 @@ export const menu = {
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5HAjIkTT_JvqikUj63MaxkS8gTwVf6PLe2ToDS9h0JHqxICWhO5CY_ZaB&s=10",
           variants: []
         },
-        {
-          id: "brg-7",
-          name: "Yak Burger",
-          price: 1000,
-          desc: "Grilled yak, cheese slice, mayo, tomatoes and cucumber",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZi7IUejuIvn8hAUgkb3xzVvJSgG-Q6ASrO0dgVv7GovczlKkOLZVpShXA&s=10",
-          variants: []
-        },
+        // {
+        //   id: "brg-7",
+        //   name: "Yak Burger",
+        //   price: 1000,
+        //   desc: "Grilled yak, cheese slice, mayo, tomatoes and cucumber",
+        //   image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZi7IUejuIvn8hAUgkb3xzVvJSgG-Q6ASrO0dgVv7GovczlKkOLZVpShXA&s=10",
+        //   variants: []
+        // },
         {
           id: "brg-8",
           name: "Yak Double Patty",
@@ -115,14 +115,14 @@ export const menu = {
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKn7Lcd-P4yp6rKGjrVDoeKpuI-jYtiayZ2lLesnJHtAo46VR54YGGe88R&s=10",
           variants: []
         },
-        {
-          id: "brg-10",
-          name: "Yak Mushroom Burger",
-          price: 1100,
-          desc: "",
-          image: "https://preview.redd.it/homemade-ground-yak-burger-with-mushrooms-bacon-jam-and-v0-b46ccf8fw2de1.jpeg?auto=webp&s=b616b453ca04c53b55c2133f2df06236ee4c9beb",
-          variants: []
-        }
+        // {
+        //   id: "brg-10",
+        //   name: "Yak Mushroom Burger",
+        //   price: 1100,
+        //   desc: "",
+        //   image: "https://preview.redd.it/homemade-ground-yak-burger-with-mushrooms-bacon-jam-and-v0-b46ccf8fw2de1.jpeg?auto=webp&s=b616b453ca04c53b55c2133f2df06236ee4c9beb",
+        //   variants: []
+        // }
       ]
     },
     {
