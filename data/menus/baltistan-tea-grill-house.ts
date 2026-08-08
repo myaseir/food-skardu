@@ -4,6 +4,36 @@ export const menu = {
   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s", // TODO: add logo image URL
   categories: [
     {
+      name: "Azadi Offer",
+      items: [
+        {
+          id: "deal-1",
+          name: "Azadi Deal 1",
+          price: 3000,
+          desc: "4 Zinger Burger, 4 Fries, 1 Litre Drink",
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1786187233/ChatGPT_Image_Aug_8_2026_04_00_53_PM_fpqi2t.jpg",
+          variants: []
+        },
+        {
+          id: "deal-2",
+          name: "Azadi Deal 2",
+          price: 2000,
+          desc: "2 Shawarma,2 Paratha Roll,4 Fries,1 Litre Drink",
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1786187231/ChatGPT_Image_Aug_8_2026_04_03_45_PM_fbshvy.jpg",
+          variants: []
+        },
+        {
+          id: "deal-3",
+          name: "Azadi Deal 3",
+          price: 2500,
+          desc: "1 Club Sandwich,1 Alferado Pasta,1 Chicken Chowmein",
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1786187229/ChatGPT_Image_Aug_8_2026_04_06_00_PM_xreum3.jpg",
+          variants: []
+        },
+       
+      ]
+    },
+    {
       name: "Deals",
       items: [
         {
