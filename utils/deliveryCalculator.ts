@@ -8,7 +8,7 @@ import {
 } from "@/data/location";
 
 const FUEL_PRICE_PER_LITER = 327;
-const BIKE_AVERAGE_KM_PER_LITER = 45;
+const BIKE_AVERAGE_KM_PER_LITER = 40
 const BASE_PROFIT = 100;
 
 // Extra flat fee per additional pickup stop beyond the first, on top of the
