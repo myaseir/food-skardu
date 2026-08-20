@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 // ---- CONFIG ----------------------------------------------------------
 // Set to true to show the maintenance screen on every page.
 // Set to false to show your site normally.
-const MAINTENANCE_MODE = true;
+const MAINTENANCE_MODE = false;
 // -----------------------------------------------------------------------
 
 export default function MaintenanceGate({ children }: { children: ReactNode }) {
