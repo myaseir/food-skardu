@@ -42,11 +42,11 @@ export const menu = {
           desc: "Extra charges applied for this flavor",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp57C7SFxkcpr3j74Vnc6agWMXcphF-uW_PSQeInKQyQ&s=10",
           variants: [
-            { name: "Small", price: 990, discountPrice: 650 },
-            { name: "Regular", price: 1550, discountPrice: 1100 },
-            { name: "Large", price: 2890, discountPrice: 1700 },
-            { name: "Extra Large", price: 3790, discountPrice: 2500 },
-            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3600 }
+            { name: "Small", price: 990, discountPrice: 700 },
+            { name: "Regular", price: 1550, discountPrice: 1300 },
+            { name: "Large", price: 2890, discountPrice: 1900 },
+            { name: "Extra Large", price: 3790, discountPrice: 2900 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 4100 }
           ]
         },
         {
@@ -58,10 +58,10 @@ export const menu = {
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjBN3QUWQeL_YHdXxyGW_KjYvGesQR9eaoJzCEd2ZjoMVNu_DScr1xR8U&s=10",
           variants: [
             { name: "Small", price: 990, discountPrice: 650 },
-            { name: "Regular", price: 1550, discountPrice: 1100 },
-            { name: "Large", price: 2890, discountPrice: 1800 },
-            { name: "Extra Large", price: 3790, discountPrice: 2900 },
-            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 3960 }
+            { name: "Regular", price: 1550, discountPrice: 1200 },
+            { name: "Large", price: 2890, discountPrice: 1900 },
+            { name: "Extra Large", price: 3790, discountPrice: 3100 },
+            { name: 'Mighty Jumbo 21"', price: 4650, discountPrice: 4160 }
           ]
         },
         {

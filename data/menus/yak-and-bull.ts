@@ -155,7 +155,7 @@ export const menu = {
         {
           id: "brg-1",
           name: "Yak & Bull Special Burger + Fries",
-          price: 1200,
+          price: 1250,
           desc: "Premium yak meat, served with fries",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX-UVLgBNHt2W-hgExgqk2uOn51EIqDVFD0sOo01XshtoAwgXUdMLi86NU&s=10",
           variants: []
