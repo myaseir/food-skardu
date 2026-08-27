@@ -11,6 +11,8 @@ export type OrderEmailData = {
   subtotal: number;
   deliveryFee: number;
   total: number;
+  estimatedDistanceKm: number | string; // "N/A" when route isn't manually measured yet
+  estimatedDeliveryTime: string;        // "N/A" when route isn't manually measured yet
   customerLat: string;
   customerLng: string;
   locationLink: string;
@@ -18,6 +20,14 @@ export type OrderEmailData = {
   invoiceLink: string;
   riderWhatsAppLink: string;
   restaurantButtons: RestaurantButton[]; // one entry per shop, any length
+  // Order timestamp + rider accounting (internal — not shown to the customer)
+  orderDate: string;
+  orderTime: string;
+  totalRoundTripKm: number | string;   // "N/A" when route isn't manually measured yet
+  estimatedFuelCost: number | string;  // "N/A" when route isn't manually measured yet
+  riderCommission: number | string;    // "N/A" when route isn't manually measured yet
+  platformShare: number | string;      // "N/A" when route isn't manually measured yet
+  totalRiderPayment: number | string;  // "N/A" when route isn't manually measured yet
 };
 
 // Basic escaping so raw user input (name, address) can't break the HTML layout
@@ -56,6 +66,50 @@ function buildRestaurantRows(buttons: RestaurantButton[]): string {
         </tr>`
     )
     .join("");
+}
+
+// Renders the "Est. Delivery" row only when a real manual estimate exists —
+// omitted entirely (not shown as "N/A km · N/A") when the order fell back
+// to the Haversine calculator, since there's no meaningful ETA to show yet.
+function buildEstimatedDeliveryRow(data: OrderEmailData): string {
+  if (data.estimatedDeliveryTime === "N/A") return "";
+  return `
+          <div class="detail-row" style="display:table; width:100%; padding:6px 0;">
+            <div class="detail-label" style="display:table-cell; width:90px; font-weight:700; font-size:12px; color:#64748b; vertical-align:top;">Est. Delivery</div>
+            <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#111;">${esc(String(data.estimatedDistanceKm))} km · ${esc(data.estimatedDeliveryTime)}</div>
+          </div>`;
+}
+
+// Internal rider-payout card — omitted entirely when the route fell back to
+// the Haversine calculator (no manual fuel/commission numbers exist yet),
+// so it never shows misleading "N/A" money figures to whoever's dispatching.
+function buildRiderPayoutSection(data: OrderEmailData): string {
+  if (data.estimatedFuelCost === "N/A") return "";
+  return `
+        <div style="background-color:#fff7ed; padding:16px; border-radius:12px; margin-bottom:18px; border:1px solid #fed7aa;">
+          <h3 style="margin:0 0 12px 0; font-size:11px; text-transform:uppercase; color:#c2410c; letter-spacing:1px; border-bottom:1px solid #fed7aa; padding-bottom:8px;">🛵 Rider Payout (Internal)</h3>
+
+          <div class="detail-row" style="display:table; width:100%; padding:6px 0;">
+            <div class="detail-label" style="display:table-cell; width:120px; font-weight:700; font-size:12px; color:#9a3412; vertical-align:top;">Round-trip Dist.</div>
+            <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#111;">${esc(String(data.totalRoundTripKm))} km</div>
+          </div>
+          <div class="detail-row" style="display:table; width:100%; padding:6px 0;">
+            <div class="detail-label" style="display:table-cell; width:120px; font-weight:700; font-size:12px; color:#9a3412; vertical-align:top;">Est. Fuel Cost</div>
+            <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#111;">Rs. ${esc(String(data.estimatedFuelCost))}</div>
+          </div>
+          <div class="detail-row" style="display:table; width:100%; padding:6px 0;">
+            <div class="detail-label" style="display:table-cell; width:120px; font-weight:700; font-size:12px; color:#9a3412; vertical-align:top;">Rider Commission</div>
+            <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#111;">Rs. ${esc(String(data.riderCommission))}</div>
+          </div>
+          <div class="detail-row" style="display:table; width:100%; padding:6px 0;">
+            <div class="detail-label" style="display:table-cell; width:120px; font-weight:700; font-size:12px; color:#9a3412; vertical-align:top;">Platform Earning</div>
+            <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#111;">Rs. ${esc(String(data.platformShare))}</div>
+          </div>
+          <div class="detail-row" style="display:table; width:100%; padding:8px 0 0 0; border-top:1px dashed #fed7aa; margin-top:4px;">
+            <div class="detail-label" style="display:table-cell; width:120px; font-weight:800; font-size:12px; color:#c2410c; vertical-align:top;">Total to Rider</div>
+            <div class="detail-value" style="display:table-cell; font-weight:900; font-size:15px; color:#c2410c;">Rs. ${esc(String(data.totalRiderPayment))}</div>
+          </div>
+        </div>`;
 }
 
 export function buildOrderEmailHtml(data: OrderEmailData): string {
@@ -106,6 +160,10 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
             <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#111;">${esc(data.userName)}</div>
           </div>
           <div class="detail-row" style="display:table; width:100%; padding:6px 0;">
+            <div class="detail-label" style="display:table-cell; width:90px; font-weight:700; font-size:12px; color:#64748b; vertical-align:top;">Placed</div>
+            <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#111;">${esc(data.orderDate)} · ${esc(data.orderTime)}</div>
+          </div>
+          <div class="detail-row" style="display:table; width:100%; padding:6px 0;">
             <div class="detail-label" style="display:table-cell; width:90px; font-weight:700; font-size:12px; color:#64748b; vertical-align:top;">Phone</div>
             <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px;">
               <a href="tel:${esc(data.userPhone)}" style="color:#9333ea; text-decoration:none;">📞 ${esc(data.userPhone)}</a>
@@ -115,6 +173,7 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
             <div class="detail-label" style="display:table-cell; width:90px; font-weight:700; font-size:12px; color:#64748b; vertical-align:top;">Address</div>
             <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#111; line-height:1.5;">${esc(data.address)}</div>
           </div>
+          ${buildEstimatedDeliveryRow(data)}
           <div class="detail-row" style="display:table; width:100%; padding:6px 0;">
             <div class="detail-label" style="display:table-cell; width:90px; font-weight:700; font-size:12px; color:#64748b; vertical-align:top;">GPS Pin</div>
             <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#111;">${esc(data.customerLat)}, ${esc(data.customerLng)}</div>
@@ -144,9 +203,12 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
         </div>
 
         <a href="${data.confirmWhatsAppLink}" style="display:block; background-color:#9333ea; color:#ffffff; font-weight:800; font-size:13px; text-decoration:none; padding:13px 16px; border-radius:10px; text-align:center; margin-bottom:16px;">✅ Confirm Order with Customer</a>
-<a href="${data.riderWhatsAppLink}" style="display:block; background-color:#f97316; color:#ffffff; font-weight:800; font-size:13px; text-decoration:none; padding:13px 16px; border-radius:10px; text-align:center; margin-bottom:16px;">
-  🛵 Send to Riders Group
-</a>
+        <a href="${data.riderWhatsAppLink}" style="display:block; background-color:#f97316; color:#ffffff; font-weight:800; font-size:13px; text-decoration:none; padding:13px 16px; border-radius:10px; text-align:center; margin-bottom:16px;">
+          🛵 Send to Riders Group
+        </a>
+
+        ${buildRiderPayoutSection(data)}
+
         <div>
           <p style="margin:0 0 8px 0; font-size:11px; text-transform:uppercase; color:#64748b; letter-spacing:1px; font-weight:700;">Send Order to Restaurant(s)</p>
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; width:100%;">

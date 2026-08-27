@@ -17,11 +17,13 @@ import {
   PhoneCall,
   Home,
   Building,
-  MapPin
+  MapPin,
+  Clock,
 } from "lucide-react";
-import { SKARDU_HOTELS, SKARDU_AREAS } from "@/data/location";
+import { AREAS, HOTELS } from "@/data/deliveryRawDistances";
 import { shops, Shop } from "@/data/config";
 import { calculateDeliveryFee } from "@/utils/deliveryCalculator";
+import { calculateManualDeliveryEstimate } from "@/utils/deliveryDistanceTime";
 import { useUserLocation } from "@/contexts/LocationContext";
 
 // ---------------------------------------------------------------------
@@ -182,13 +184,36 @@ export default function CheckoutPage() {
 
   const shopsInCart = getShopsInCartOrder(items);
   const currentShop = shopsInCart[0];
-  const deliveryFee = shopsInCart.length > 0 && locationName
+
+  // ---------------------------------------------------------------------
+  // Distance / time / fee — manual data first, coordinate calc as fallback
+  // ---------------------------------------------------------------------
+  // deliveryDistanceTime.ts now supports multi-restaurant carts too (via
+  // the Restaurant->Restaurant table), so every shop in the cart is
+  // passed in — it internally finds the cheapest visiting order. It
+  // returns null if any leg for every possible order hasn't been
+  // manually measured yet. In that case we fall back to the existing
+  // coordinate-based calculateDeliveryFee so checkout never breaks or
+  // shows a missing fee — it just uses the less-precise number until
+  // those routes get measured on Google Maps and added to the file.
+  const manualEstimate =
+    shopsInCart.length > 0 && locationName
+      ? calculateManualDeliveryEstimate(
+          shopsInCart.map((s) => s.name),
+          locationName
+        )
+      : null;
+
+  const deliveryFee = manualEstimate
+    ? manualEstimate.fee
+    : shopsInCart.length > 0 && locationName
     ? calculateDeliveryFee(shopsInCart, locationName)
     : 0;
+
   const total = subtotal + deliveryFee;
 
-  const currentList = deliveryMode === "hotel" ? SKARDU_HOTELS : SKARDU_AREAS;
-  const filteredLocations = Object.keys(currentList).filter((loc) =>
+  const currentList = deliveryMode === "hotel" ? HOTELS : AREAS;
+  const filteredLocations = currentList.filter((loc) =>
     loc.toLowerCase().includes(locationName.toLowerCase())
   );
 
@@ -205,12 +230,22 @@ export default function CheckoutPage() {
         "That WhatsApp number doesn't look right. Please enter it as 03XXXXXXXXX (11 digits, starting with 03)."
       );
     }
-
+// 1. Check for empty fields
     if (!locationName || !addressDetail) {
       const errorMsg = deliveryMode === 'hotel' 
         ? "Please select your hotel and enter your room number." 
         : "Please select your area and enter your complete house address.";
       return alert(errorMsg);
+    }
+
+    // 2. NEW: Restrict to exact matches from the predefined lists only
+    const validLocations = deliveryMode === 'hotel' ? HOTELS : AREAS;
+    if (!validLocations.includes(locationName)) {
+      return alert(
+        deliveryMode === 'hotel'
+          ? "Please select a valid hotel from the suggested dropdown list."
+          : "Please select a valid area from the suggested dropdown list."
+      );
     }
 
     setIsSending(true);
@@ -230,12 +265,12 @@ export default function CheckoutPage() {
         if (shopItems.length === 0) return "";
 
         const itemLines = shopItems
-  .map(
-    (i: any) =>
-      "  " + (i.quantity || 1) + "x " + i.name + " (Rs. " + i.price * (i.quantity || 1) + ")" +
-     (i.desc ? "\n     [[DESC]]" + i.desc + "[[/DESC]]" : "")
-  )
-  .join("\n");
+          .map(
+            (i: any) =>
+              "  " + (i.quantity || 1) + "x " + i.name + " (Rs. " + i.price * (i.quantity || 1) + ")" +
+              (i.desc ? "\n    [[DESC]]" + i.desc + "[[/DESC]]" : "")
+          )
+          .join("\n");
         return `${shop.name}:\n${itemLines}`;
       })
       .filter(Boolean)
@@ -271,6 +306,7 @@ export default function CheckoutPage() {
       deliveryFee,
       total
     );
+    const now = new Date();
 
     const orderPayload = {
       userName: name,
@@ -281,6 +317,16 @@ export default function CheckoutPage() {
       subtotal,
       deliveryFee,
       total,
+      estimatedDistanceKm: manualEstimate ? manualEstimate.distanceKm : "N/A",
+      estimatedDeliveryTime: manualEstimate ? manualEstimate.timeLabel : "N/A",
+      // NEW — rider accounting + order date/time, for the email
+      totalRoundTripKm: manualEstimate ? manualEstimate.totalRoundTripKm : "N/A",
+      estimatedFuelCost: manualEstimate ? manualEstimate.estimatedFuelCost : "N/A",
+      riderCommission: manualEstimate ? manualEstimate.riderCommission : "N/A",
+      platformShare: manualEstimate ? manualEstimate.platformShare : "N/A", // NEW
+      totalRiderPayment: manualEstimate ? manualEstimate.totalRiderPayment : "N/A",
+      orderDate: now.toLocaleDateString("en-GB"),   // e.g. 26/08/2026
+      orderTime: now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
       customerLat: hasCoords ? userLocation!.latitude.toFixed(6) : "Not available",
       customerLng: hasCoords ? userLocation!.longitude.toFixed(6) : "Not available",
       locationLink: mapsLink || "Not available",
@@ -288,7 +334,6 @@ export default function CheckoutPage() {
       invoiceLink,
       restaurantButtons,
     };
-
     try {
       const res = await fetch("/api/place-order", {
         method: "POST",
@@ -303,7 +348,6 @@ export default function CheckoutPage() {
       // notification should never make a successfully placed order look
       // like it failed to the customer, so this is fire-and-forget with
       // its own catch.
-   
 
       setStep("success");
       clearCart();
@@ -426,89 +470,158 @@ export default function CheckoutPage() {
           </section>
 
           {/* Delivery Location */}
-          <section className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100">
+        <section className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100">
             <h2 className="font-black uppercase text-[13px] tracking-widest mb-4 text-gray-900">
               Delivery Location
             </h2>
 
             {/* Delivery Toggle (Hotel vs Home) */}
-            <div className="flex bg-gray-100 p-1 rounded-xl mb-5">
+            <div className="flex bg-gray-100 p-1 rounded-xl mb-6">
               <button 
                 onClick={() => { setDeliveryMode('hotel'); setLocationName(''); setAddressDetail(''); }}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold uppercase tracking-widest text-[11px] transition-all ${deliveryMode === 'hotel' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-500 hover:text-gray-900'}`}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold uppercase tracking-widest text-[11px] transition-all ${deliveryMode === 'hotel' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-500 hover:text-gray-900'}`}
               >
-                <Building size={14} /> Hotel
+                <Building size={16} /> Hotel
               </button>
               <button 
                 onClick={() => { setDeliveryMode('home'); setLocationName(''); setAddressDetail(''); }}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold uppercase tracking-widest text-[11px] transition-all ${deliveryMode === 'home' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-500 hover:text-gray-900'}`}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold uppercase tracking-widest text-[11px] transition-all ${deliveryMode === 'home' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-500 hover:text-gray-900'}`}
               >
-                <Home size={14} /> Home/Office
+                <Home size={16} /> Home / Office
               </button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {/* Dropdown Input for Location/Area */}
-              <div className="relative">
-                <MapPin
-                  size={17}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"
-                />
-                <input
-                  type="text"
-                  placeholder={deliveryMode === 'hotel' ? "Search for your hotel..." : "Select Area (e.g., Sundus, Olding)..."}
-                  value={locationName}
-                  onChange={(e) => {
-                    setLocationName(e.target.value);
-                    setShowSuggestions(true);
-                  }}
-                  onFocus={() => setShowSuggestions(true)}
-                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                  className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
-                />
+              <div>
+                <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 ml-1">
+                  {deliveryMode === 'hotel' ? "1. Select your Hotel" : "1. Select your Area"}
+                </label>
+                <div className="relative">
+                  <MapPin
+                    size={18}
+                    className={`absolute left-4 top-1/2 -translate-y-1/2 z-10 transition-colors ${
+                      locationName.length > 0 && currentList.includes(locationName)
+                        ? "text-green-500"
+                        : locationName.length > 0 && !currentList.includes(locationName) && !showSuggestions
+                        ? "text-red-400"
+                        : "text-gray-400"
+                    }`}
+                  />
+                  <input
+                    type="text"
+                    placeholder={deliveryMode === 'hotel' ? "Type or select hotel..." : "Type or select area (e.g., Sundus)..."}
+                    value={locationName}
+                    onChange={(e) => {
+                      setLocationName(e.target.value);
+                      setShowSuggestions(true);
+                    }}
+                    onFocus={(e) => {
+                      setShowSuggestions(true);
+                      // UX FIX: Wait for the mobile keyboard to open (~300ms), then smoothly scroll the input to the center of the screen
+                      setTimeout(() => {
+                        e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+                      }, 300);
+                    }}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                    className={`w-full pl-11 pr-10 py-3.5 bg-gray-50 border rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all ${
+                      locationName.length > 0 && currentList.includes(locationName)
+                        ? "border-green-300 focus:ring-green-500 bg-green-50/30" // Success styling
+                        : locationName.length > 0 && !currentList.includes(locationName) && !showSuggestions
+                        ? "border-red-300 focus:ring-red-500 bg-red-50/50" // Error styling
+                        : "border-gray-200 focus:ring-purple-600" // Normal styling
+                    }`}
+                  />
 
-                {showSuggestions && filteredLocations.length > 0 && (
-                  <div className="absolute w-full bg-white border border-gray-100 shadow-xl rounded-xl z-50 max-h-52 overflow-y-auto mt-2">
-                    {filteredLocations.map((loc) => (
-                      <div
-                        key={loc}
-                        onClick={() => {
-                          setLocationName(loc);
-                          setShowSuggestions(false);
-                        }}
-                        className="px-4 py-3 text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-700 cursor-pointer transition-colors first:rounded-t-xl last:rounded-b-xl"
-                      >
-                        {loc}
-                      </div>
-                    ))}
+                  {/* Success Checkmark Indicator */}
+                  {locationName.length > 0 && currentList.includes(locationName) && (
+                    <CheckCircle2 size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500 animate-in zoom-in duration-200" />
+                  )}
+
+                  {/* Dropdown Suggestions */}
+                  {showSuggestions && (
+                    <div 
+                      // UX FIX: max-h-[35vh] ensures the dropdown shrinks to fit the remaining space above the keyboard on phones
+                      className="absolute w-full bg-white border border-gray-100 shadow-xl rounded-xl z-50 max-h-[35vh] sm:max-h-56 overflow-y-auto mt-2 py-1"
+                      onMouseDown={(e) => e.preventDefault()} // Prevents the dropdown from closing if they drag the scrollbar
+                    >
+                      {filteredLocations.length > 0 ? (
+                        filteredLocations.map((loc) => (
+                          <div
+                            key={loc}
+                            onClick={() => {
+                              setLocationName(loc);
+                              setShowSuggestions(false);
+                            }}
+                            className="px-4 py-3.5 text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-700 active:bg-purple-100 cursor-pointer border-b border-gray-50 last:border-0 transition-colors"
+                          >
+                            {loc}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="px-4 py-6 text-center text-sm font-medium text-gray-500">
+                          <span className="block text-xl mb-2">🤔</span>
+                          No matching locations found.<br/>Check your spelling!
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Simple Validation Warning */}
+                {locationName.length > 0 && !currentList.includes(locationName) && !showSuggestions && (
+                  <div className="flex items-start gap-1.5 mt-2.5 px-1 animate-in slide-in-from-top-1 fade-in duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-500 shrink-0 mt-[2px]">
+                      <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <p className="text-[12px] font-semibold text-red-500 leading-snug">
+                      Please tap your exact location from the list so our rider can find you.
+                    </p>
                   </div>
                 )}
               </div>
 
               {/* Room Number OR Full Address Input */}
-              <div className="relative">
-                <DoorOpen
-                  size={17}
-                  className={`absolute left-4 ${deliveryMode === 'home' ? 'top-4' : 'top-1/2 -translate-y-1/2'} text-gray-400`}
-                />
-                {deliveryMode === 'hotel' ? (
-                  <input
-                    type="text"
-                    placeholder="Room Number"
-                    value={addressDetail}
-                    onChange={(e) => setAddressDetail(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
+              <div>
+                <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 ml-1 mt-2">
+                  {deliveryMode === 'hotel' ? "2. Room Details" : "2. Exact Address"}
+                </label>
+                <div className="relative">
+                  <DoorOpen
+                    size={18}
+                    className={`absolute left-4 ${deliveryMode === 'home' ? 'top-4' : 'top-1/2 -translate-y-1/2'} text-gray-400`}
                   />
-                ) : (
-                  <textarea
-                    placeholder="Complete House Address (Street, nearest landmark...)"
-                    value={addressDetail}
-                    onChange={(e) => setAddressDetail(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all h-24 resize-none"
-                  />
-                )}
+                  {deliveryMode === 'hotel' ? (
+                    <input
+                      type="text"
+                      placeholder="Room Number (e.g., Room 101)"
+                      value={addressDetail}
+                      onChange={(e) => setAddressDetail(e.target.value)}
+                      className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
+                    />
+                  ) : (
+                    <textarea
+                      placeholder="Street, nearest landmark, or house number..."
+                      value={addressDetail}
+                      onChange={(e) => setAddressDetail(e.target.value)}
+                      className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all h-24 resize-none leading-relaxed"
+                    />
+                  )}
+                </div>
               </div>
             </div>
+
+            {/* Estimated distance/time */}
+            {manualEstimate && deliveryMode === 'home' && (
+              <div className="mt-5 flex items-center gap-3 bg-purple-50 border border-purple-100 rounded-xl px-4 py-3.5">
+                <div className="bg-purple-100 p-1.5 rounded-full shrink-0">
+                  <Clock size={16} className="text-purple-600" />
+                </div>
+                <p className="text-[13px] font-bold text-purple-800">
+                  Estimated delivery time: <span className="text-purple-600">{manualEstimate.timeLabel}</span>
+                </p>
+              </div>
+            )}
           </section>
         </div>
 
@@ -554,6 +667,14 @@ export default function CheckoutPage() {
                 );
               })}
             </div>
+
+            {/* Estimated delivery time - Only for Home Delivery */}
+            {manualEstimate && deliveryMode === 'home' && (
+              <div className="flex items-center gap-1.5 text-[12px] font-bold text-purple-600 mb-3">
+                <Clock size={13} />
+                <span>Est. delivery in {manualEstimate.timeLabel}</span>
+              </div>
+            )}
 
             <div className="border-t border-gray-100 pt-4 space-y-2">
               <div className="flex justify-between text-[13px] font-bold text-gray-500">
@@ -640,6 +761,12 @@ export default function CheckoutPage() {
 
         {/* Always-visible price breakdown */}
         <div className="px-5 pt-1 pb-2 border-t border-gray-100 space-y-1">
+          {manualEstimate && deliveryMode === 'home' && (
+            <div className="flex items-center gap-1.5 text-[11px] font-bold text-purple-600 pb-1">
+              <Clock size={12} />
+              <span>Est. delivery in {manualEstimate.timeLabel}</span>
+            </div>
+          )}
           <div className="flex justify-between text-[12px] font-bold text-gray-500">
             <span>Subtotal</span>
             <span>Rs. {subtotal}</span>

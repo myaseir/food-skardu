@@ -7,9 +7,9 @@ import {
   SKARDU_LOCATIONS,
 } from "@/data/location";
 
-const FUEL_PRICE_PER_LITER = 327;
-const BIKE_AVERAGE_KM_PER_LITER = 40
-const BASE_PROFIT = 100;
+const FUEL_PRICE_PER_LITER = 360;
+const BIKE_AVERAGE_KM_PER_LITER = 35
+const BASE_PROFIT = 150;
 
 // Extra flat fee per additional pickup stop beyond the first, on top of the
 // distance-based fuel cost. This exists because visiting an extra stop
@@ -19,7 +19,7 @@ const BASE_PROFIT = 100;
 const EXTRA_STOP_HANDLING_FEE = 20;
 
 // Used when a hotel/area name isn't found in SKARDU_LOCATIONS.
-const DEFAULT_HOTEL_DISTANCE_KM = 3.0;
+const DEFAULT_HOTEL_DISTANCE_KM = 4.0;
 
 function safeCoordDistance(value: number, fallback: number): number {
   return typeof value === "number" && !Number.isNaN(value) && value >= 0 ? value : fallback;

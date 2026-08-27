@@ -6,6 +6,7 @@ import CartValidator from "@/components/CartValidator";
 import RouteProgress from "@/components/RouteLoader";
 import { LocationProvider } from "@/contexts/LocationContext";
 import LocationGate from "@/components/Locationgate"; // fixed: was "Locationgate" — case mismatch breaks the build on case-sensitive hosts (Vercel/Linux) even though it works locally on Windows/macOS
+import MaintenanceGate from "@/components/MaintenanceGate";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -164,6 +165,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} antialiased`}>
+        <MaintenanceGate>
         <LocationProvider>
           <LocationGate>
             <Suspense fallback={null}>
@@ -173,6 +175,7 @@ export default function RootLayout({
             {children}
           </LocationGate>
         </LocationProvider>
+        </MaintenanceGate>
       </body>
     </html>
   );

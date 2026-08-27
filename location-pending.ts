@@ -10,8 +10,8 @@ export function getDistanceBetweenCoords(
 }
 // ---- Base location — DUMMY for testing, replace with your real hub coordinates ----
 export const BASE_LOCATION = {
-  lat: 35.288336,
-  lng: 75.638634,
+  lat: 35.311407,
+  lng: 75.608147,
 };
 
 export const SKARDU_HOTELS: Record<string, { lat: number; lng: number }> = {
@@ -265,29 +265,7 @@ export const SKARDU_HOTELS: Record<string, { lat: number; lng: number }> = {
 };
 
 export const SKARDU_AREAS: Record<string, { lat: number; lng: number }> = {
-  "Sundus Skilgrong": { lat: 35.311407, lng: 75.608147},
-  "Sundus Gond": { lat: 35.318751, lng: 75.606104},
-  Newranga: { lat: 35.2742, lng: 75.6234 },
-  Katpana: { lat: 35.321459, lng: 75.581781 },
-  Khargrong: { lat: 35.291730, lng: 75.646852 },
-  "Hasnain Nagar": { lat: 35.288269, lng: 75.633791 },
-  "Alamdar Chowk": { lat: 35.289529, lng: 75.635020 },
-  "Hassan Colony": { lat: 35.284283, lng: 75.627185 },
-  "Hassan Colony Pine": { lat: 35.284393, lng: 75.627201 },
-  "Shinkhani Gond": { lat: 35.286916, lng: 75.6298288 },
-  "Oldiing Nansoq": { lat: 35.278299, lng: 75.653328 },
-  "RHQ Road Harriot Hotel": { lat: 35.292805, lng: 75.655943 },
-  "Newranga Near Agha Ali House": { lat: 35.289412, lng: 75.617607 },
-  "Newranga ": { lat: 35.2975638, lng: 75.6178595 },
-  "Kushmarah": { lat: 35.2824495, lng: 75.6136015 },
-  "Sherthang Girls High School": { lat: 35.2769881, lng: 75.6310918 },
-  "Marfie Colony": { lat: 35.2780217, lng: 75.6393933 },
-  "Chumik": { lat: 35.301296, lng: 75.640535 },
-  "Gamba Skardu": { lat: 35.3194498, lng: 75.5352877 },
-  "United Line, Hassan Colony": { lat: 35.2845173, lng: 75.6295549 },
-  "Muhib Road Khargrong": { lat: 35.293274, lng: 75.644867 },
-  "GB Chief Court Skardu Registry Skardu": { lat: 35.290499, lng: 75.600953 },
-  "Shaheen Public School Skardu": { lat: 35.283543, lng: 75.620709 },
+ 
   "Mehdi Colony Skardu": { lat: 35.280880, lng: 75.622837 },
   "Agha Hadi Chowk": { lat: 35.289714, lng: 75.645761 },
   "Hussainabad": { lat: 35.301109, lng: 75.745200 },
