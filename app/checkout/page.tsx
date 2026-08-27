@@ -497,7 +497,8 @@ export default function CheckoutPage() {
                 <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 ml-1">
                   {deliveryMode === 'hotel' ? "1. Select your Hotel" : "1. Select your Area"}
                 </label>
-                <div className="relative">
+                {/* FIX: Added z-[100] here to ensure the entire input block floats above the mobile cart */}
+                <div className="relative z-[100]">
                   <MapPin
                     size={18}
                     className={`absolute left-4 top-1/2 -translate-y-1/2 z-10 transition-colors ${
@@ -518,7 +519,6 @@ export default function CheckoutPage() {
                     }}
                     onFocus={(e) => {
                       setShowSuggestions(true);
-                      // UX FIX: Wait for the mobile keyboard to open (~300ms), then smoothly scroll the input to the center of the screen
                       setTimeout(() => {
                         e.target.scrollIntoView({ behavior: "smooth", block: "center" });
                       }, 300);
@@ -541,9 +541,9 @@ export default function CheckoutPage() {
                   {/* Dropdown Suggestions */}
                   {showSuggestions && (
                     <div 
-                      // UX FIX: max-h-[35vh] ensures the dropdown shrinks to fit the remaining space above the keyboard on phones
-                      className="absolute w-full bg-white border border-gray-100 shadow-xl rounded-xl z-50 max-h-[35vh] sm:max-h-56 overflow-y-auto mt-2 py-1"
-                      onMouseDown={(e) => e.preventDefault()} // Prevents the dropdown from closing if they drag the scrollbar
+                      // FIX: Changed z-50 to z-[100] so it completely covers the bottom mobile cart block
+                      className="absolute w-full bg-white border border-gray-100 shadow-xl rounded-xl z-[100] max-h-[35vh] sm:max-h-56 overflow-y-auto mt-2 py-1"
+                      onMouseDown={(e) => e.preventDefault()} 
                     >
                       {filteredLocations.length > 0 ? (
                         filteredLocations.map((loc) => (
