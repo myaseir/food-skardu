@@ -605,7 +605,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 10
     },
     "Avari Xpress Skardu Hotel": {
-      distance_km: 8.1,
+      distance_km: 4.1,
       estimated_minutes: 29
     },
     "Hotel Mashabrum Skardu": {
@@ -1642,7 +1642,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 6
     },
     "Avari Xpress Skardu Hotel": {
-      distance_km: 1.5,
+      distance_km: 2.5,
       estimated_minutes: 3
     },
     "Hotel Mashabrum Skardu": {
@@ -2678,7 +2678,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 7
   },
   "Avari Xpress Skardu Hotel": {
-    distance_km: 2.8,
+    distance_km: 3.8,
     estimated_minutes: 4
   },
   "Hotel Mashabrum Skardu": {
@@ -3644,7 +3644,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 7
   },
   "Avari Xpress Skardu Hotel": {
-    distance_km: 2.8,
+    distance_km: 3.8,
     estimated_minutes: 4
   },
   "Hotel Mashabrum Skardu": {
@@ -4681,7 +4681,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 18
     },
     "Avari Xpress Skardu Hotel": {
-      distance_km: 6.9,
+      distance_km: 1.9,
       estimated_minutes: 25
     },
     "Hotel Mashabrum Skardu": {
@@ -5699,7 +5699,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "LOKAL Rooms x Skardu (Katpana Retreat)": { distance_km: 7.1, estimated_minutes: 26 },
     "Green Orchard Skardu": { distance_km: 7.7, estimated_minutes: 29 },
     "Oasis Resort Katpana Skardu": { distance_km: 6.4, estimated_minutes: 24 },
-    "Avari Xpress Skardu Hotel": { distance_km: 8.0, estimated_minutes: 30 },
+    "Avari Xpress Skardu Hotel": { distance_km: 4.0, estimated_minutes: 30 },
     "Hotel Mashabrum Skardu": { distance_km: 6.1, estimated_minutes: 21 },
     "Skardu Luxus Hotel": { distance_km: 3.1, estimated_minutes: 11 },
     "The Mountain Cottage Skardu": { distance_km: 1.4, estimated_minutes: 5 },
@@ -6028,7 +6028,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 7
   },
   "Avari Xpress Skardu Hotel": {
-    distance_km: 2.8,
+    distance_km: 3.8,
     estimated_minutes: 4
   },
   "Hotel Mashabrum Skardu": {
@@ -7068,7 +7068,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 7
   },
   "Avari Xpress Skardu Hotel": {
-    distance_km: 2.8,
+    distance_km: 3.8,
     estimated_minutes: 4
   },
   "Hotel Mashabrum Skardu": {
@@ -8106,7 +8106,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 7
     },
     "Avari Xpress Skardu Hotel": {
-      distance_km: 2.5,
+      distance_km: 3.5,
       estimated_minutes: 4
     },
     "Hotel Mashabrum Skardu": {
@@ -9143,7 +9143,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 7
     },
     "Avari Xpress Skardu Hotel": {
-      distance_km: 2.5,
+      distance_km: 3.5,
       estimated_minutes: 4
     },
     "Hotel Mashabrum Skardu": {
@@ -10180,7 +10180,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 7
     },
     "Avari Xpress Skardu Hotel": {
-      distance_km: 2.9,
+      distance_km: 3.9,
       estimated_minutes: 4
     },
     "Hotel Mashabrum Skardu": {
@@ -11220,7 +11220,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 7
     },
     "Avari Xpress Skardu Hotel": {
-      distance_km: 2.6,
+      distance_km: 3.6,
       estimated_minutes: 4
     },
     "Hotel Mashabrum Skardu": {
@@ -12251,7 +12251,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 6
     },
     "Avari Xpress Skardu Hotel": {
-      distance_km: 2.2,
+      distance_km: 4.2,
       estimated_minutes: 3
     },
     "Hotel Mashabrum Skardu": {
@@ -13217,7 +13217,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 2
     },
     "Avari Xpress Skardu Hotel": {
-      distance_km: 1.5,
+      distance_km: 4.5,
       estimated_minutes: 2
     },
     "Hotel Mashabrum Skardu": {
@@ -14275,7 +14275,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "LOKAL Rooms x Skardu (Katpana Retreat)": { destinationType: "Hotel", distance_km: 2.5, estimated_minutes: 10 },
   "Green Orchard Skardu": { destinationType: "Hotel", distance_km: 4.1, estimated_minutes: 14 },
   "Oasis Resort Katpana Skardu": { destinationType: "Hotel", distance_km: 7.2, estimated_minutes: 25 },
-  "Avari Xpress Skardu Hotel": { destinationType: "Hotel", distance_km: 7.0, estimated_minutes: 26 },
+  "Avari Xpress Skardu Hotel": { destinationType: "Hotel", distance_km: 3.0, estimated_minutes: 26 },
   "Hotel Mashabrum Skardu": { destinationType: "Hotel", distance_km: 6.2, estimated_minutes: 24 },
   "Skardu Luxus Hotel": { destinationType: "Hotel", distance_km: 2.3, estimated_minutes: 10 },
   "The Mountain Cottage Skardu": { destinationType: "Hotel", distance_km: 7.7, estimated_minutes: 29 },

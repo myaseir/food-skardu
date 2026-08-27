@@ -7,9 +7,9 @@ import {
   SKARDU_LOCATIONS,
 } from "@/data/location";
 
-const FUEL_PRICE_PER_LITER = 360;
+const FUEL_PRICE_PER_LITER = 343.10;
 const BIKE_AVERAGE_KM_PER_LITER = 35
-const BASE_PROFIT = 150;
+const BASE_PROFIT = 170;
 
 // Extra flat fee per additional pickup stop beyond the first, on top of the
 // distance-based fuel cost. This exists because visiting an extra stop
@@ -195,10 +195,21 @@ export const calculateDeliveryFee = (stopsInCart: Shop[], hotelName: string): nu
 
   // Extra stops beyond the first each add a flat handling fee — counts
   // any stop type (restaurant or mart) the same way.
-  const extraStops = Math.max(stopsInCart.length - 1, 0);
+ const extraStops = Math.max(stopsInCart.length - 1, 0);
   const handlingFee = extraStops * EXTRA_STOP_HANDLING_FEE;
 
-  const totalFee = fuelCost + BASE_PROFIT + handlingFee;
+  // --- NEW: Distance Surcharge Logic ---
+  // Increase the fare based on how far the total trip is, without touching the fuel cost.
+  let distanceSurcharge = 0;
+  
+  if (totalTripDistance >= 25) {
+    distanceSurcharge = 200; // E.g., Kachura, Shangrila (Very far)
+  } else if (totalTripDistance >= 15) {
+    distanceSurcharge = 100; // E.g., Airport, Hussainabad (Medium-far)
+  } 
+  // Anything under 8km gets 0 surcharge (keeps local delivery cheap)
+
+  const totalFee = fuelCost + BASE_PROFIT + handlingFee + distanceSurcharge;
 
   // TEMP DEBUG — remove once you've confirmed the numbers look right.
   console.log("[calculateDeliveryFee]", {

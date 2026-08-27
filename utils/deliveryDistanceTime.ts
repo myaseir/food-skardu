@@ -310,12 +310,20 @@ export function calculateManualDeliveryEstimate(
     minMinutes + 5
   );
 
-  const litersNeeded = trip.totalDistanceKm / MANUAL_BIKE_AVERAGE_KM_PER_LITER;
+const litersNeeded = trip.totalDistanceKm / MANUAL_BIKE_AVERAGE_KM_PER_LITER;
   const fuelCost = litersNeeded * MANUAL_FUEL_PRICE_PER_LITER;
   const extraStops = Math.max(names.length - 1, 0);
   const handlingFee = extraStops * MANUAL_EXTRA_STOP_HANDLING_FEE;
-  const fee = Math.ceil((fuelCost + MANUAL_BASE_PROFIT + handlingFee) / 10) * 10;
 
+  // --- NEW: Distance Surcharge Logic ---
+  let distanceSurcharge = 0;
+  if (trip.totalDistanceKm >= 35) {
+    distanceSurcharge = 200; // Adjust as needed
+  } else if (trip.totalDistanceKm >= 15) {
+    distanceSurcharge = 50;
+  } 
+
+  const fee = Math.ceil((fuelCost + MANUAL_BASE_PROFIT + handlingFee + distanceSurcharge) / 10) * 10;
 const estimatedFuelCost = Math.round(fuelCost);
   const remainingAfterFuel = fee - estimatedFuelCost;
   const riderCommission = Math.round(remainingAfterFuel / 2);
