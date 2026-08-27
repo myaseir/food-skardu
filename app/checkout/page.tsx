@@ -470,97 +470,155 @@ export default function CheckoutPage() {
           </section>
 
           {/* Delivery Location */}
-          <section className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100">
+        <section className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100">
             <h2 className="font-black uppercase text-[13px] tracking-widest mb-4 text-gray-900">
               Delivery Location
             </h2>
 
             {/* Delivery Toggle (Hotel vs Home) */}
-            <div className="flex bg-gray-100 p-1 rounded-xl mb-5">
+            <div className="flex bg-gray-100 p-1 rounded-xl mb-6">
               <button 
                 onClick={() => { setDeliveryMode('hotel'); setLocationName(''); setAddressDetail(''); }}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold uppercase tracking-widest text-[11px] transition-all ${deliveryMode === 'hotel' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-500 hover:text-gray-900'}`}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold uppercase tracking-widest text-[11px] transition-all ${deliveryMode === 'hotel' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-500 hover:text-gray-900'}`}
               >
-                <Building size={14} /> Hotel
+                <Building size={16} /> Hotel
               </button>
               <button 
                 onClick={() => { setDeliveryMode('home'); setLocationName(''); setAddressDetail(''); }}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold uppercase tracking-widest text-[11px] transition-all ${deliveryMode === 'home' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-500 hover:text-gray-900'}`}
+                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold uppercase tracking-widest text-[11px] transition-all ${deliveryMode === 'home' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-500 hover:text-gray-900'}`}
               >
-                <Home size={14} /> Home/Office
+                <Home size={16} /> Home / Office
               </button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {/* Dropdown Input for Location/Area */}
-              <div className="relative">
-                <MapPin
-                  size={17}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"
-                />
-                <input
-                  type="text"
-                  placeholder={deliveryMode === 'hotel' ? "Search for your hotel..." : "Select Area (e.g., Sundus, Olding)..."}
-                  value={locationName}
-                  onChange={(e) => {
-                    setLocationName(e.target.value);
-                    setShowSuggestions(true);
-                  }}
-                  onFocus={() => setShowSuggestions(true)}
-                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                  className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
-                />
+              <div>
+                <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 ml-1">
+                  {deliveryMode === 'hotel' ? "1. Select your Hotel" : "1. Select your Area"}
+                </label>
+                {/* FIX: Added z-[100] here to ensure the entire input block floats above the mobile cart */}
+                <div className="relative ">
+                  <MapPin
+                    size={18}
+                    className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${
+                      locationName.length > 0 && currentList.includes(locationName)
+                        ? "text-green-500"
+                        : locationName.length > 0 && !currentList.includes(locationName) && !showSuggestions
+                        ? "text-red-400"
+                        : "text-gray-400"
+                    }`}
+                  />
+                  <input
+                    type="text"
+                    placeholder={deliveryMode === 'hotel' ? "Type or select hotel..." : "Type or select area (e.g., Sundus)..."}
+                    value={locationName}
+                    onChange={(e) => {
+                      setLocationName(e.target.value);
+                      setShowSuggestions(true);
+                    }}
+                    onFocus={(e) => {
+                      setShowSuggestions(true);
+                      setTimeout(() => {
+                        e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+                      }, 300);
+                    }}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                    className={`w-full pl-11 pr-10 py-3.5 bg-gray-50 border rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all ${
+                      locationName.length > 0 && currentList.includes(locationName)
+                        ? "border-green-300 focus:ring-green-500 bg-green-50/30" // Success styling
+                        : locationName.length > 0 && !currentList.includes(locationName) && !showSuggestions
+                        ? "border-red-300 focus:ring-red-500 bg-red-50/50" // Error styling
+                        : "border-gray-200 focus:ring-purple-600" // Normal styling
+                    }`}
+                  />
 
-                {showSuggestions && filteredLocations.length > 0 && (
-                  <div className="absolute w-full bg-white border border-gray-100 shadow-xl rounded-xl z-50 max-h-52 overflow-y-auto mt-2">
-                    {filteredLocations.map((loc) => (
-                      <div
-                        key={loc}
-                        onClick={() => {
-                          setLocationName(loc);
-                          setShowSuggestions(false);
-                        }}
-                        className="px-4 py-3 text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-700 cursor-pointer transition-colors first:rounded-t-xl last:rounded-b-xl"
-                      >
-                        {loc}
-                      </div>
-                    ))}
+                  {/* Success Checkmark Indicator */}
+                  {locationName.length > 0 && currentList.includes(locationName) && (
+                    <CheckCircle2 size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500 animate-in zoom-in duration-200" />
+                  )}
+
+                  {/* Dropdown Suggestions */}
+                  {showSuggestions && (
+                    <div 
+                      // FIX: Changed z-50 to z-[100] so it completely covers the bottom mobile cart block
+                      className="absolute w-full bg-white border border-gray-100 shadow-xl rounded-xl z-[2] max-h-[35vh] sm:max-h-56 overflow-y-auto mt-2 py-1"
+                      onMouseDown={(e) => e.preventDefault()} 
+                    >
+                      {filteredLocations.length > 0 ? (
+                        filteredLocations.map((loc) => (
+                          <div
+                            key={loc}
+                            onClick={() => {
+                              setLocationName(loc);
+                              setShowSuggestions(false);
+                            }}
+                            className="px-4 py-3.5 text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-700 active:bg-purple-100 cursor-pointer border-b border-gray-50 last:border-0 transition-colors"
+                          >
+                            {loc}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="px-4 py-6 text-center text-sm font-medium text-gray-500">
+                          <span className="block text-xl mb-2">🤔</span>
+                          No matching locations found.<br/>Check your spelling!
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Simple Validation Warning */}
+                {locationName.length > 0 && !currentList.includes(locationName) && !showSuggestions && (
+                  <div className="flex items-start gap-1.5 mt-2.5 px-1 animate-in slide-in-from-top-1 fade-in duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-500 shrink-0 mt-[2px]">
+                      <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <p className="text-[12px] font-semibold text-red-500 leading-snug">
+                      Please tap your exact location from the list so our rider can find you.
+                    </p>
                   </div>
                 )}
               </div>
 
               {/* Room Number OR Full Address Input */}
-              <div className="relative">
-                <DoorOpen
-                  size={17}
-                  className={`absolute left-4 ${deliveryMode === 'home' ? 'top-4' : 'top-1/2 -translate-y-1/2'} text-gray-400`}
-                />
-                {deliveryMode === 'hotel' ? (
-                  <input
-                    type="text"
-                    placeholder="Room Number"
-                    value={addressDetail}
-                    onChange={(e) => setAddressDetail(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
+              <div>
+                <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 ml-1 mt-2">
+                  {deliveryMode === 'hotel' ? "2. Room Details" : "2. Exact Address"}
+                </label>
+                <div className="relative">
+                  <DoorOpen
+                    size={18}
+                    className={`absolute left-4 ${deliveryMode === 'home' ? 'top-4' : 'top-1/2 -translate-y-1/2'} text-gray-400`}
                   />
-                ) : (
-                  <textarea
-                    placeholder="Complete House Address (Street, nearest landmark...)"
-                    value={addressDetail}
-                    onChange={(e) => setAddressDetail(e.target.value)}
-                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all h-24 resize-none"
-                  />
-                )}
+                  {deliveryMode === 'hotel' ? (
+                    <input
+                      type="text"
+                      placeholder="Room Number (e.g., Room 101)"
+                      value={addressDetail}
+                      onChange={(e) => setAddressDetail(e.target.value)}
+                      className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
+                    />
+                  ) : (
+                    <textarea
+                      placeholder="Street, nearest landmark, or house number..."
+                      value={addressDetail}
+                      onChange={(e) => setAddressDetail(e.target.value)}
+                      className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all h-24 resize-none leading-relaxed"
+                    />
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* Estimated distance/time — only shown when we have a manually
-                measured route for this exact restaurant + destination AND only for HOME delivery */}
+            {/* Estimated distance/time */}
             {manualEstimate && deliveryMode === 'home' && (
-              <div className="mt-4 flex items-center gap-2 bg-purple-50 border border-purple-100 rounded-xl px-4 py-3">
-                <Clock size={15} className="text-purple-600 shrink-0" />
-                <p className="text-[12px] font-bold text-purple-700">
-                  Est. delivery in {manualEstimate.timeLabel}
+              <div className="mt-5 flex items-center gap-3 bg-purple-50 border border-purple-100 rounded-xl px-4 py-3.5">
+                <div className="bg-purple-100 p-1.5 rounded-full shrink-0">
+                  <Clock size={16} className="text-purple-600" />
+                </div>
+                <p className="text-[13px] font-bold text-purple-800">
+                  Estimated delivery time: <span className="text-purple-600">{manualEstimate.timeLabel}</span>
                 </p>
               </div>
             )}
