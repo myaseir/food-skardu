@@ -389,6 +389,7 @@ export const HOTELS: string[] = [
   "H A K S RESSORT",
   "Shaheen Guest House Skardu",
   "Nirvana Resort Skardu",
+  "Himalaya Hotel Hussainabad, Skardu",
 ];
 
 // ---------------------------------------------------------------------
@@ -536,6 +537,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 1.2, estimated_minutes: 4 },
     "Agha Hadi Chowk": { distance_km: 1.3, estimated_minutes: 4 },
     "Hussainabad": { distance_km: 6.9, estimated_minutes: 18 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.9, estimated_minutes: 18 },
     "Hameed Garh": { distance_km: 2.2, estimated_minutes: 7 },
     "Shaheed colony": { distance_km: 3.8, estimated_minutes: 11 },
     "Tufail colony": { distance_km: 3.1, estimated_minutes: 10 },
@@ -1547,7 +1549,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Nirvana Resort Skardu": {
       distance_km: 9.3,
       estimated_minutes: 34
-    }
+    },
+
   },
    "Baltistan Tea and Grill House": {
     "Sundus Skilgrong": { distance_km: 3.3, estimated_minutes: 12 },
@@ -1576,6 +1579,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 3.7, estimated_minutes: 16 },
     "Agha Hadi Chowk": { distance_km: 1.7, estimated_minutes: 6 },
     "Hussainabad": { distance_km: 7, estimated_minutes: 18 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 7, estimated_minutes: 18 },
     "Hameed Garh": { distance_km: 1.7, estimated_minutes: 6 },
     "Shaheed colony": { distance_km: 2.6, estimated_minutes: 10 },
     "Tufail colony": { distance_km: 1.9, estimated_minutes: 8 },
@@ -2584,7 +2588,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Nirvana Resort Skardu": {
       distance_km: 6,
       estimated_minutes: 7
-    }
+    },
+  
   },
    "The Kitchen": {
     "Sundus Skilgrong": { distance_km: 3.9, estimated_minutes: 12 },
@@ -2612,6 +2617,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 1.6, estimated_minutes: 7 },
     "Agha Hadi Chowk": { distance_km: 1.5, estimated_minutes: 7 },
     "Hussainabad": { distance_km: 7, estimated_minutes: 18 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 7, estimated_minutes: 18 },
     "Hameed Garh": { distance_km: 2.3, estimated_minutes: 9 },
     "Shaheed colony": { distance_km: 3.4, estimated_minutes: 9 },
     "Tufail colony": { distance_km: 2.6, estimated_minutes: 8 },
@@ -4615,6 +4621,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 3.6, estimated_minutes: 15 },
     "Agha Hadi Chowk": { distance_km: 2.7, estimated_minutes: 11 },
     "Hussainabad": { distance_km: 8, estimated_minutes: 23 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 8, estimated_minutes: 23 },
     "Hameed Garh": { distance_km: 2.6, estimated_minutes: 11 },
     "Shaheed colony": { distance_km: 1.4, estimated_minutes: 4 },
     "Tufail colony": { distance_km: 0.65, estimated_minutes: 2 },
@@ -5649,6 +5656,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 2.7, estimated_minutes: 11 },
     "Agha Hadi Chowk": { distance_km: 0.5, estimated_minutes: 2 },
     "Hussainabad": { distance_km: 6, estimated_minutes: 14 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6, estimated_minutes: 14 },
     "Hameed Garh": { distance_km: 1.2, estimated_minutes: 4 },
     "Shaheed colony": { distance_km: 3.9, estimated_minutes: 14 },
     "Tufail colony": { distance_km: 3.2, estimated_minutes: 12 },
@@ -5962,6 +5970,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 1.6, estimated_minutes: 7 },
     "Agha Hadi Chowk": { distance_km: 1.5, estimated_minutes: 7 },
     "Hussainabad": { distance_km: 7.1, estimated_minutes: 19 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 7.1, estimated_minutes: 19 },
     "Hameed Garh": { distance_km: 2.3, estimated_minutes: 9 },
     "Shaheed colony": { distance_km: 3.4, estimated_minutes: 9 },
     "Tufail colony": { distance_km: 2.6, estimated_minutes: 8 },
@@ -7001,6 +7010,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 2.7, estimated_minutes: 11 },
     "Agha Hadi Chowk": { distance_km: 0.5, estimated_minutes: 2 },
     "Hussainabad": { distance_km: 6.1, estimated_minutes: 14 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.1, estimated_minutes: 14 },
     "Hameed Garh": { distance_km: 1.2, estimated_minutes: 4 },
     "Shaheed colony": { distance_km: 3.9, estimated_minutes: 14 },
     "Tufail colony": { distance_km: 3.2, estimated_minutes: 12 },
@@ -8040,6 +8050,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 2.5, estimated_minutes: 10 },
     "Agha Hadi Chowk": { distance_km: 0.75, estimated_minutes: 3 },
     "Hussainabad": { distance_km: 6.4, estimated_minutes: 15 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.4, estimated_minutes: 15 },
     "Hameed Garh": { distance_km: 1.5, estimated_minutes: 5 },
     "Shaheed colony": { distance_km: 3.6, estimated_minutes: 13 },
     "Tufail colony": { distance_km: 2.9, estimated_minutes: 11 },
@@ -9077,6 +9088,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 2.5, estimated_minutes: 10 },
     "Agha Hadi Chowk": { distance_km: 0.75, estimated_minutes: 3 },
     "Hussainabad": { distance_km: 6.4, estimated_minutes: 15 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.4, estimated_minutes: 15 },
     "Hameed Garh": { distance_km: 1.5, estimated_minutes: 5 },
     "Shaheed colony": { distance_km: 3.6, estimated_minutes: 13 },
     "Tufail colony": { distance_km: 2.9, estimated_minutes: 11 },
@@ -10114,6 +10126,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 2.7, estimated_minutes: 11 },
     "Agha Hadi Chowk": { distance_km: 0.5, estimated_minutes: 2 },
     "Hussainabad": { distance_km: 6, estimated_minutes: 14 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6, estimated_minutes: 14 },
     "Hameed Garh": { distance_km: 1.2, estimated_minutes: 4 },
     "Shaheed colony": { distance_km: 3.9, estimated_minutes: 14 },
     "Tufail colony": { distance_km: 3.2, estimated_minutes: 12 },
@@ -11152,6 +11165,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 2.3, estimated_minutes: 9 },
     "Agha Hadi Chowk": { distance_km: 0.85, estimated_minutes: 3 },
     "Hussainabad": { distance_km: 6.7, estimated_minutes: 17 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.7, estimated_minutes: 17 },
     "Hameed Garh": { distance_km: 1.7, estimated_minutes: 5 },
     "Shaheed colony": { distance_km: 3.4, estimated_minutes: 10 },
     "Tufail colony": { distance_km: 2.8, estimated_minutes: 8 },
@@ -12191,6 +12205,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Mehdi Colony Skardu": { distance_km: 5.8, estimated_minutes: 20 },
     "Agha Hadi Chowk": { distance_km: 9.5, estimated_minutes: 36 },
     "Hussainabad": { distance_km: 7.5, estimated_minutes: 27 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 7.5, estimated_minutes: 27 },
     "Hameed Garh": { distance_km: 4.9, estimated_minutes: 19 },
     "Shaheed colony": { distance_km: 3.8, estimated_minutes: 14 },
     "Tufail colony": { distance_km: 7.2, estimated_minutes: 25 },
@@ -14221,6 +14236,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Mehdi Colony Skardu": { destinationType: "Area", distance_km: 2.5, estimated_minutes: 10 },
   "Agha Hadi Chowk": { destinationType: "Area", distance_km: 0.9, estimated_minutes: 3 },
   "Hussainabad": { destinationType: "Area", distance_km: 17.5, estimated_minutes: 17 },
+  "Himalaya Hotel Hussainabad, Skardu": { destinationType: "Area", distance_km: 17.5, estimated_minutes: 17 },
   "Hameed Garh": { destinationType: "Area", distance_km: 1.7, estimated_minutes: 6 },
   "Shaheed colony": { destinationType: "Area", distance_km: 3.8, estimated_minutes: 13 },
   "Tufail colony": { destinationType: "Area", distance_km: 3.1, estimated_minutes: 10 },
