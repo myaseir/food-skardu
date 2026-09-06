@@ -203,8 +203,8 @@ export const shops: Shop[] = [
      lat: 35.2899888, // TODO: replace with real coordinates
     lng: 75.6415605, // TODO: replace with real coordinates
     whatsapp: "923554395551",
-    rating: 0.0,
-    reviews: 0,
+    rating: 4.0,
+    reviews: 1,
   },
    
   {
