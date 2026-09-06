@@ -369,18 +369,19 @@ export const menu = {
 {
       name: "Drinks & Beverages",
       items: [
-        {
+       {
           id: "dr-1",
           name: "Soft Drink 345ml",
-          price: 150,
+          price: 120,
           discountPrice: 120,
           desc: "Chilled soft drink, 345ml",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3srEYmAd48bCUjjnNHPvz5iHdIlpqILtLDtfZ9wOGa8kGH9MaAAnrNowp&s=10",
           variants: [
-            { name: "Pepsi", price: 150, discountPrice: 120 },
-            { name: "7Up", price: 150, discountPrice: 120 },
-            { name: "Mountain Dew", price: 150, discountPrice: 120 },
-            { name: "Coke", price: 150, discountPrice: 120 }
+            { name: "Pepsi", price: 120, discountPrice: 120 },
+            { name: "7Up", price: 120, discountPrice: 120 },
+            { name: "Mountain Dew", price: 120, discountPrice: 120 },
+            { name: "Coke", price: 150, discountPrice: 150 },
+            { name: "Mirinda", price: 120, discountPrice: 120 }
           ]
         },
         {

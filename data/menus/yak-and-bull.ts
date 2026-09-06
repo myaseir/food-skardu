@@ -13,10 +13,10 @@ export const menu = {
           desc: "Our signature house special pizza",
           image: "https://static.vecteezy.com/system/resources/previews/059/656/822/non_2x/delicious-pizza-on-white-background-on-transparent-background-png.png",
           variants: [
-            { name: "Small", price: 800 },
+            { name: "Small", price: 850 },
             { name: "Medium", price: 1600 },
             { name: "Large", price: 2400 },
-            { name: "XL", price: 2800 }
+            { name: "XL", price: 2850 }
           ]
         },
         {
@@ -26,7 +26,7 @@ export const menu = {
           desc: "Creamy garlic mayo delight",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4e4if9z3dQC7HaPU8yBnoD3_y075JDywTAvSF_26SIg&s=10",
           variants: [
-            { name: "Small", price: 800 },
+            { name: "Small", price: 850 },
             { name: "Medium", price: 1600 },
             { name: "Large", price: 2400 },
             { name: "XL", price: 2850 }
@@ -426,15 +426,16 @@ export const menu = {
         {
           id: "dr-1",
           name: "Soft Drink 345ml",
-          price: 150,
-          discountPrice: 150,
+          price: 120,
+          discountPrice: 120,
           desc: "Chilled soft drink, 345ml",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3srEYmAd48bCUjjnNHPvz5iHdIlpqILtLDtfZ9wOGa8kGH9MaAAnrNowp&s=10",
           variants: [
-            { name: "Pepsi", price: 100, discountPrice: 100 },
-            { name: "7Up", price: 100, discountPrice: 100 },
-            { name: "Mountain Dew", price: 100, discountPrice: 100 },
-            { name: "Coke", price: 100, discountPrice: 100 }
+            { name: "Pepsi", price: 120, discountPrice: 120 },
+            { name: "7Up", price: 120, discountPrice: 120 },
+            { name: "Mountain Dew", price: 120, discountPrice: 120 },
+            { name: "Coke", price: 150, discountPrice: 150 },
+            { name: "Mirinda", price: 120, discountPrice: 120 }
           ]
         },
         {
