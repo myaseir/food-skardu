@@ -7,11 +7,24 @@ export const menu = {
       name: "Pizza",
       items: [
         {
+          id: "ypz-1",
+          name: "Yak Pizza",
+          price: 1250,
+          desc: "Not your ordinary pizza. Loaded with tender yak meat, molten cheese, fresh vegetables and bold mountain flavors. Rich, smoky and irresistibly delicious, a must try in Skardu.",
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1788719352/ChatGPT_Image_Sep_6_2026_11_28_33_PM_ykvzyo.jpg",
+          variants: [
+            { name: "Small", price: 1250 },
+            { name: "Medium", price: 2200 },
+            { name: "Large", price: 3300 },
+            { name: "XL", price: 4200 }
+          ]
+        },
+        {
           id: "pz-1",
           name: "Special Pizza",
           price: 800,
           desc: "Our signature house special pizza",
-          image: "https://static.vecteezy.com/system/resources/previews/059/656/822/non_2x/delicious-pizza-on-white-background-on-transparent-background-png.png",
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1788719618/special_pizza_resized_1536x1536_1_ctinyv.jpg",
           variants: [
             { name: "Small", price: 850 },
             { name: "Medium", price: 1600 },
