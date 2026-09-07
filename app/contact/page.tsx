@@ -3,9 +3,14 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import Link from "next/link";
-import { ArrowLeft, Mail, MapPin, Phone, Send } from "lucide-react";
+import { ArrowLeft, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
 
 const CONTACT_EMAIL = "info.mealbear@gmail.com";
+const WHATSAPP_NUMBER_LOCAL = "03715982735";
+// wa.me links require international format with no leading 0 — Pakistan's
+// country code is 92, so 03715982735 becomes 923715982735.
+const WHATSAPP_NUMBER_INTL = "92" + WHATSAPP_NUMBER_LOCAL.slice(1);
+const WHATSAPP_LINK = "https://wa.me/" + WHATSAPP_NUMBER_INTL;
 
 export default function ContactPage() {
   const [name, setName] = useState("");
@@ -53,6 +58,25 @@ export default function ContactPage() {
                 </p>
                 <a href={"mailto:" + CONTACT_EMAIL} className="text-[13px] font-bold text-gray-800 hover:text-purple-600 transition-colors break-all">
                   {CONTACT_EMAIL}
+                </a>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-start gap-3">
+              <div className="bg-purple-50 text-purple-600 p-2 rounded-full shrink-0">
+                <MessageCircle size={16} />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">
+                  WhatsApp
+                </p>
+                <a
+                  href={WHATSAPP_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[13px] font-bold text-gray-800 hover:text-purple-600 transition-colors"
+                >
+                  {WHATSAPP_NUMBER_LOCAL}
                 </a>
               </div>
             </div>

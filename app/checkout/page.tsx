@@ -20,6 +20,12 @@ import {
   MapPin,
   Clock,
 } from "lucide-react";
+import {
+  getCountries,
+  getCountryCallingCode,
+  parsePhoneNumberFromString,
+  type CountryCode,
+} from "libphonenumber-js";
 import { AREAS, HOTELS } from "@/data/deliveryRawDistances";
 import { shops, Shop } from "@/data/config";
 import { calculateDeliveryFee } from "@/utils/deliveryCalculator";
@@ -41,49 +47,40 @@ import { useUserLocation } from "@/contexts/LocationContext";
 
 
 // ---------------------------------------------------------------------
-// Phone normalization
+// Country selector (dropdown) — drives WhatsApp number format below it
+// ---------------------------------------------------------------------
+// Built once at module scope since the list of countries/calling codes
+// never changes at runtime. Intl.DisplayNames gives us real country
+// names ("Pakistan", "United Kingdom") from the ISO codes
+// libphonenumber-js works with — no separate country-name dataset needed.
+const countryDisplayNames =
+  typeof Intl !== "undefined" && "DisplayNames" in Intl
+    ? new Intl.DisplayNames(["en"], { type: "region" })
+    : null;
+
+function getCountryLabel(code: CountryCode): string {
+  const name = countryDisplayNames?.of(code) ?? code;
+  return `${name} (+${getCountryCallingCode(code)})`;
+}
+
+const COUNTRY_OPTIONS: { code: CountryCode; label: string }[] = getCountries()
+  .map((code) => ({ code, label: getCountryLabel(code) }))
+  .sort((a, b) => a.label.localeCompare(b.label));
+
+// ---------------------------------------------------------------------
+// Phone normalization — country-aware, works for any country worldwide
 // ---------------------------------------------------------------------
 // wa.me links only resolve when the number is in full international
 // format: country code + subscriber number, digits only, no leading
-// zero, no "+", no spaces/dashes. Customers type their WhatsApp number
-// in every format imaginable — "0301-2345678", "+92 301 2345678",
-// "00923012345678", or even just "3012345678" — so we normalize
-// whatever comes in down to one canonical shape before it ever touches
-// a wa.me link. Everything here assumes a Pakistani mobile number
-// (10-digit subscriber number starting with 3, country code 92) since
-// that's the market this app serves; adjust here if that ever changes.
-function normalizePakPhoneForWhatsApp(raw: string): string {
-  let digits = raw.replace(/[^0-9]/g, "");
-
-  // "00" international dialing prefix, e.g. 00923012345678
-  if (digits.startsWith("00")) {
-    digits = digits.slice(2);
-  }
-
-  // Already has the country code, e.g. 923012345678 or +923012345678 (after strip)
-  if (digits.startsWith("92")) {
-    return digits;
-  }
-
-  // Local format with leading 0, e.g. 03012345678
-  if (digits.startsWith("0")) {
-    return "92" + digits.slice(1);
-  }
-
-  // Country code and leading 0 both missing, e.g. 3012345678
-  if (digits.startsWith("3") && digits.length === 10) {
-    return "92" + digits;
-  }
-
-  // Doesn't match any known shape — return the raw digits so the caller's
-  // validation step can catch it rather than silently mangling it further.
-  return digits;
-}
-
-// A normalized Pakistani mobile number is exactly "92" + 10 digits
-// starting with "3" (923XXXXXXXXX — 12 digits total).
-function isValidPakMobile(normalized: string): boolean {
-  return /^923\d{9}$/.test(normalized);
+// zero, no "+", no spaces/dashes. Rather than guessing a shape from the
+// digits alone (which only ever worked for Pakistan), this parses the
+// raw input against the country the person actually selected in the
+// dropdown, using the same numbering-plan data WhatsApp itself is built
+// on — so anything this accepts as valid really does open a real chat.
+function normalizePhoneForWhatsApp(raw: string, country: CountryCode): string | null {
+  const parsed = parsePhoneNumberFromString(raw, country);
+  if (!parsed || !parsed.isValid()) return null;
+  return parsed.number.replace(/\D/g, ""); // E.164 digits only, no leading "+"
 }
 
 // Builds the distinct list of shops represented in the cart, in the order
@@ -113,7 +110,7 @@ function buildWhatsAppLink(phoneDigitsOnly: string, message: string): string {
 }
 
 // Opens a chat with the CUSTOMER's number, prefilled to ask them to confirm.
-// Expects an already-normalized phone number (see normalizePakPhoneForWhatsApp).
+// Expects an already-normalized phone number (see normalizePhoneForWhatsApp).
 function buildCustomerConfirmLink(normalizedCustomerPhone: string, customerName: string, total: number): string {
   const message = `Hi ${customerName}, this is Meal Bear Skardu. Your order total is Rs. ${total}. Reply YES to confirm.`;
   return buildWhatsAppLink(normalizedCustomerPhone, message);
@@ -172,6 +169,7 @@ export default function CheckoutPage() {
   // Contact State
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState<CountryCode>("PK"); // default — most customers today
 
   // Delivery State
   const [deliveryMode, setDeliveryMode] = useState<"hotel" | "home">("hotel");
@@ -220,14 +218,15 @@ export default function CheckoutPage() {
   const handlePlaceOrder = async () => {
     if (!name || !phone) return alert("Please enter your name and whatsapp number.");
 
-    // Normalize + validate the WhatsApp number up front. Catching a bad
-    // format here — instead of only discovering it later when the
-    // "confirm on WhatsApp" button fails to open a chat — means the order
-    // never goes out with a number that can't be reached.
-    const normalizedPhone = normalizePakPhoneForWhatsApp(phone);
-    if (!isValidPakMobile(normalizedPhone)) {
+    // Normalize + validate the WhatsApp number up front, against whichever
+    // country the person selected. Catching a bad format here — instead
+    // of only discovering it later when the "confirm on WhatsApp" button
+    // fails to open a chat — means the order never goes out with a
+    // number that can't be reached.
+    const normalizedPhone = normalizePhoneForWhatsApp(phone, countryCode);
+    if (!normalizedPhone) {
       return alert(
-        "That WhatsApp number doesn't look right. Please enter it as 03XXXXXXXXX (11 digits, starting with 03)."
+        "That WhatsApp number doesn't look right for the selected country. Please double-check it."
       );
     }
 // 1. Check for empty fields
@@ -281,18 +280,24 @@ export default function CheckoutPage() {
     const confirmWhatsAppLink = buildCustomerConfirmLink(normalizedPhone, name, total);
 
     // One button per shop actually in the cart — no fixed slots needed
-    // now that the HTML is built server-side with a real loop.
+    // now that the HTML is built server-side with a real loop. Shop
+    // WhatsApp numbers are local Skardu business numbers, so these are
+    // always normalized against Pakistan regardless of which country
+    // the customer selected above.
     const restaurantButtons = shopsInCart.map((shop) => {
       const shopItems = items.filter((it: any) => it.shopId === shop.id);
       const itemLines = shopItems
         .map((it: any) => `${it.quantity || 1}x ${it.name}`)
         .join("\n");
       const message = `${shop.name}\n\n${itemLines}\n\n~ Meal Bear Skardu`;
+      const normalizedShopPhone = shop.whatsapp
+        ? normalizePhoneForWhatsApp(shop.whatsapp, "PK")
+        : null;
       return {
         name: shop.name,
-        link: shop.whatsapp
-          ? buildWhatsAppLink(normalizePakPhoneForWhatsApp(shop.whatsapp), message)
-          : "#", // Falls back to a dead link if a shop's whatsapp number isn't filled in yet
+        link: normalizedShopPhone
+          ? buildWhatsAppLink(normalizedShopPhone, message)
+          : "#", // Falls back to a dead link if a shop's whatsapp number isn't filled in yet (or is invalid)
       };
     });
 
@@ -311,6 +316,7 @@ export default function CheckoutPage() {
     const orderPayload = {
       userName: name,
       userPhone: phone,
+      userPhoneCountry: countryCode,
       restaurantNames,
       address: finalAddress,
       orderItems: detailedItems,
@@ -448,6 +454,25 @@ export default function CheckoutPage() {
                   className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
                 />
               </div>
+
+              {/* Country — determines the WhatsApp number format expected below */}
+              <div>
+                <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 ml-1">
+                  Country
+                </label>
+                <select
+                  value={countryCode}
+                  onChange={(e) => setCountryCode(e.target.value as CountryCode)}
+                  className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
+                >
+                  {COUNTRY_OPTIONS.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div>
                 <div className="relative">
                   <Phone
@@ -456,14 +481,14 @@ export default function CheckoutPage() {
                   />
                   <input
                     type="tel"
-                    placeholder="Whatsapp Number (03XXXXXXXXX)"
+                    placeholder="WhatsApp Number"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
                   />
                 </div>
                 <p className="mt-1.5 ml-1 text-[11px] font-medium text-gray-400">
-                  We&rsquo;ll confirm your order on this number e.g. 03012345678
+                  Enter it in local format for {countryDisplayNames?.of(countryCode) ?? countryCode} — we&rsquo;ll confirm your order on WhatsApp.
                 </p>
               </div>
             </div>
