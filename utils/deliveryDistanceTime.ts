@@ -16,6 +16,7 @@ import {
   RESTAURANT_TO_AREA,
   OFFICE_TO_RESTAURANT,
   AREA_TO_OFFICE,
+  DESTINATION_EXTRA_CHARGE,
 } from "@/data/deliveryRawDistances";
 
 export type { DistanceTimeEntry, DestinationType, DestinationToOfficeEntry };
@@ -69,6 +70,20 @@ export function getRestaurantToDestinationDistanceTime(
   destinationName: string
 ): DistanceTimeEntry | null {
   return getRestaurantToAreaDistanceTime(restaurantName, destinationName);
+}
+
+/**
+ * Manual one-off extra surcharge for a destination (area or hotel),
+ * e.g. a hotel that's hard to access, needs extra coordination with
+ * security/reception, sits up a bad road, etc.
+ *
+ * This is NEVER part of the fuel-cost math — it's looked up and added
+ * on separately in calculateManualDeliveryEstimate, after the fuel/fee
+ * math is done, and split 50/50 between rider and platform. Returns 0
+ * if no charge has been set for this destination.
+ */
+export function getDestinationExtraCharge(destinationName: string): number {
+  return DESTINATION_EXTRA_CHARGE[destinationName] ?? 0;
 }
 
 // ---------------------------------------------------------------------
@@ -233,6 +248,17 @@ export function getManualMultiStopTripDistanceTime(
 // cost) + base profit, rounded up to the nearest 10. Just fed from
 // manually-measured km instead of Haversine km.
 //
+// On top of that base fee, a destination MAY carry a manual extra
+// charge (Table 5, DESTINATION_EXTRA_CHARGE) — e.g. a hard-to-reach
+// hotel. That extra charge is:
+//   - looked up AFTER the fuel cost is computed, so it never affects
+//     the fuel math itself
+//   - added AFTER the base fee is rounded to the nearest 10, so it's a
+//     clean, separate line item rather than getting folded into that
+//     rounding step
+//   - split 50/50 between the rider and the platform (not treated as
+//     rider fuel cost — it's pure margin/coordination money)
+//
 // TIME MODEL — the customer only waits through prep + dispatch + all
 // rider travel UP TO the destination (Office->Restaurant(s), plus any
 // Restaurant<->Restaurant legs, plus Restaurant->Destination). The final
@@ -258,14 +284,24 @@ export interface ManualDeliveryEstimate {
   minMinutes: number;
   maxMinutes: number;
   timeLabel: string; // e.g. "28-38 min"
+  /** Final total fee charged to the customer, INCLUDING the destination extra charge (if any). */
   fee: number;
   /** Cheapest visiting order found for multi-restaurant carts (same as input for single-restaurant). */
   orderedRestaurants: string[];
 
-   estimatedFuelCost: number;
+  estimatedFuelCost: number;
   riderCommission: number;
   platformShare: number;
   totalRiderPayment: number;
+
+  /**
+   * Manual per-destination surcharge (Table 5) included in `fee`, but
+   * broken out separately here so the UI can show it as its own line
+   * item (e.g. "Access surcharge: Rs 300") if desired. 0 if none set.
+   * This amount is NOT part of fuel cost — it's split 50/50 between
+   * riderCommission and platformShare above.
+   */
+  extraCharge: number;
 }
 
 /**
@@ -310,24 +346,38 @@ export function calculateManualDeliveryEstimate(
     minMinutes + 5
   );
 
-const litersNeeded = trip.totalDistanceKm / MANUAL_BIKE_AVERAGE_KM_PER_LITER;
+  // --- Fuel cost (pure distance-based, never touched by the extra charge) ---
+  const litersNeeded = trip.totalDistanceKm / MANUAL_BIKE_AVERAGE_KM_PER_LITER;
   const fuelCost = litersNeeded * MANUAL_FUEL_PRICE_PER_LITER;
   const extraStops = Math.max(names.length - 1, 0);
   const handlingFee = extraStops * MANUAL_EXTRA_STOP_HANDLING_FEE;
 
-  // --- NEW: Distance Surcharge Logic ---
+  // --- Distance Surcharge Logic ---
   let distanceSurcharge = 0;
   if (trip.totalDistanceKm >= 35) {
     distanceSurcharge = 200; // Adjust as needed
   } else if (trip.totalDistanceKm >= 15) {
     distanceSurcharge = 50;
-  } 
+  }
 
-  const fee = Math.ceil((fuelCost + MANUAL_BASE_PROFIT + handlingFee + distanceSurcharge) / 10) * 10;
-const estimatedFuelCost = Math.round(fuelCost);
-  const remainingAfterFuel = fee - estimatedFuelCost;
-  const riderCommission = Math.round(remainingAfterFuel / 2);
-  const platformShare = remainingAfterFuel - riderCommission; // avoids a rounding gap between the two halves
+  // Base fee = fuel + profit + handling + distance surcharge, rounded up to nearest 10.
+  // The manual destination extra charge is added AFTER this rounding step,
+  // so it never gets folded into it.
+  const baseFee = Math.ceil((fuelCost + MANUAL_BASE_PROFIT + handlingFee + distanceSurcharge) / 10) * 10;
+
+  const estimatedFuelCost = Math.round(fuelCost);
+  const remainingAfterFuel = baseFee - estimatedFuelCost;
+  const baseRiderCommission = Math.round(remainingAfterFuel / 2);
+  const basePlatformShare = remainingAfterFuel - baseRiderCommission; // avoids a rounding gap between the two halves
+
+  // --- Manual per-destination extra charge (Table 5) — NOT fuel, split 50/50 ---
+  const extraCharge = getDestinationExtraCharge(destinationName);
+  const riderExtraShare = Math.round(extraCharge / 2);
+  const platformExtraShare = extraCharge - riderExtraShare; // avoids a rounding gap, same trick as above
+
+  const fee = baseFee + extraCharge;
+  const riderCommission = baseRiderCommission + riderExtraShare;
+  const platformShare = basePlatformShare + platformExtraShare;
   const totalRiderPayment = estimatedFuelCost + riderCommission;
 
   return {
@@ -342,5 +392,6 @@ const estimatedFuelCost = Math.round(fuelCost);
     riderCommission,
     platformShare,
     totalRiderPayment,
+    extraCharge,
   };
 }

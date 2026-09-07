@@ -14530,6 +14530,28 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
 };
 
 // ---------------------------------------------------------------------
+// TABLE 5 — Destination Extra Charges (manual, one-off surcharges)
+// ---------------------------------------------------------------------
+// A manual surcharge for specific destinations (areas OR hotels) that
+// is NOT part of the fuel-cost math — e.g. a hotel that's hard to
+// access, needs extra coordination with security/reception, is up a
+// bad road, etc.
+//
+// This amount is added on top of the fuel-based fee in
+// calculateManualDeliveryEstimate, and is split 50/50 between the
+// rider and the platform (same spirit as the existing profit split).
+//
+// Shape: DESTINATION_EXTRA_CHARGE[destinationName] = amount in Rs.
+// Only add an entry for a destination that actually needs one — every
+// other destination defaults to 0. Name must match exactly what's used
+// in AREA_TO_OFFICE / RESTAURANT_TO_AREA (areas or hotels).
+export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
+  "Shangrila Resort Skardu": 300,
+  "Kachura Inn Skardu": 300,
+  "LOKAL Rooms x Skardu (Katpana Retreat)":160,
+  "Qayam Skardu":150,
+};
+// ---------------------------------------------------------------------
 // Scaffolding helpers — keep the structure easy to expand
 // ---------------------------------------------------------------------
 // Call these when you add a new restaurant/area/hotel so you get null
