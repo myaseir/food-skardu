@@ -7,7 +7,7 @@ import {
   SKARDU_LOCATIONS,
 } from "@/data/location";
 
-const FUEL_PRICE_PER_LITER = 343.10;
+const FUEL_PRICE_PER_LITER = 358.77;
 const BIKE_AVERAGE_KM_PER_LITER = 35
 const BASE_PROFIT = 170;
 
