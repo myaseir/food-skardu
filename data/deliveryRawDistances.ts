@@ -14546,10 +14546,13 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
 // other destination defaults to 0. Name must match exactly what's used
 // in AREA_TO_OFFICE / RESTAURANT_TO_AREA (areas or hotels).
 export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
-  "Shangrila Resort Skardu": 300,
-  "Kachura Inn Skardu": 300,
+  "Shangrila Resort Skardu": 700,
+  "Kachura Inn Skardu": 700,
   "LOKAL Rooms x Skardu (Katpana Retreat)":160,
+  "Oasis Resort Katpana Skardu":160,
   "Qayam Skardu":150,
+  "Dynasty Skardu":150,
+  "Tibet Hotel Kachura Skardu":700,
 };
 // ---------------------------------------------------------------------
 // Scaffolding helpers — keep the structure easy to expand
