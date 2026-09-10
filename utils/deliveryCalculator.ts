@@ -7,7 +7,7 @@ import {
   SKARDU_LOCATIONS,
 } from "@/data/location";
 
-const FUEL_PRICE_PER_LITER = 358.77;
+const FUEL_PRICE_PER_LITER = 367.75;
 const BIKE_AVERAGE_KM_PER_LITER = 35
 const BASE_PROFIT = 170;
 
@@ -16,7 +16,7 @@ const BASE_PROFIT = 170;
 // (restaurant OR mart) costs the rider real time (parking, walking in,
 // waiting, picking/packing) even when stops happen to be geographically
 // close together — pure distance-based pricing alone doesn't capture that.
-const EXTRA_STOP_HANDLING_FEE = 20;
+const EXTRA_STOP_HANDLING_FEE = 30;
 
 // Used when a hotel/area name isn't found in SKARDU_LOCATIONS.
 const DEFAULT_HOTEL_DISTANCE_KM = 4.0;
