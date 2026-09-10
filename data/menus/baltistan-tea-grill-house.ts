@@ -190,16 +190,16 @@ export const menu = {
         { id: "sp-5", name: "Almond with Rice", price: 1400, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYIlJpYFpXJf68dTUMydPDk0xCsah5tBfufq9wzJex1AShEQmAiN8cpBSf&s=10", variants: [] }
       ]
     },
-    {
-      name: "BBQ",
-      items: [
-        { id: "bbq-1", name: "Malai Boti (8 Pcs)", price: 1000, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM94hYrfrtmtGqYpB0f3vLBfRBkJT8ECrKawvBr2CLmYnv843T7uyfNw0R&s=10", variants: [] },
-        { id: "bbq-2", name: "Chicken Tikka Boti (8 Pcs)", price: 800, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlDDV2Iw1ii_D4Ur8sgvGJaiG7G8_Gi39fJYnRQGAHug&s=10", variants: [] },
-        { id: "bbq-3", name: "Tikka Leg/Chest", price: 650, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo9cMvCiLuehLqvxdNkanVk47AyQRVQbPBP9_0Xfni3wkGaYp9Sibv_HI&s=10", variants: [] },
-        { id: "bbq-4", name: "Tikka Leg/Chest with Rice", price: 1000, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGK-Wa0Hb8YW9Hd1EDlRfOOIQ-RdkEh-MhgnfoapC7bQ&s=10", variants: [] },
-        { id: "bbq-5", name: "Turkish Kabab (4 Pcs)", price: 1400, desc: "", image: "Turkish Kabab (4 Pcs)", variants: [] }
-      ]
-    },
+    // {
+    //   name: "BBQ",
+    //   items: [
+    //     { id: "bbq-1", name: "Malai Boti (8 Pcs)", price: 1000, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM94hYrfrtmtGqYpB0f3vLBfRBkJT8ECrKawvBr2CLmYnv843T7uyfNw0R&s=10", variants: [] },
+    //     { id: "bbq-2", name: "Chicken Tikka Boti (8 Pcs)", price: 800, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlDDV2Iw1ii_D4Ur8sgvGJaiG7G8_Gi39fJYnRQGAHug&s=10", variants: [] },
+    //     { id: "bbq-3", name: "Tikka Leg/Chest", price: 650, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo9cMvCiLuehLqvxdNkanVk47AyQRVQbPBP9_0Xfni3wkGaYp9Sibv_HI&s=10", variants: [] },
+    //     { id: "bbq-4", name: "Tikka Leg/Chest with Rice", price: 1000, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGK-Wa0Hb8YW9Hd1EDlRfOOIQ-RdkEh-MhgnfoapC7bQ&s=10", variants: [] },
+    //     { id: "bbq-5", name: "Turkish Kabab (4 Pcs)", price: 1400, desc: "", image: "Turkish Kabab (4 Pcs)", variants: [] }
+    //   ]
+    // },
     {
       name: "Appetizers",
       items: [

@@ -343,77 +343,77 @@ export const menu = {
         // { id: "fj-6", name: "Strawberry Juice", price: 300, desc: "Fresh pressed strawberries", image: "", variants: [] }
       ]
     },
-    {
-      name: "Ice Cream Scoop",
-      items: [
-        {
-          id: "sco-1",
-          name: "Mango",
-          price: 150,
-          desc: "Fruity mango ice cream",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuPUWVh-WrWFWb1x-X0mN5vwqIqGVeJv-7rT4nRnzqqg&s=10",
-          variants: [
-            { name: "Single", price: 150 },
-            { name: "Double", price: 250 }
-          ]
-        },
-        {
-          id: "sco-2",
-          name: "Vanilla",
-          price: 150,
-          desc: "Classic vanilla bean",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRidWPP2qDP-6wbacT9-niJvLopzmpcy58Sg0Hk8_N7eky7DfP3K8IXxjk&s=10",
-          variants: [
-            { name: "Single", price: 150 },
-            { name: "Double", price: 250 }
-          ]
-        },
-        {
-          id: "sco-3",
-          name: "Strawberry",
-          price: 150,
-          desc: "Sweet strawberry ice cream",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRptzg1V7tHcoFKmCsFfCoBt11k510J2nmKG6sKhTurkA&s=10",
-          variants: [
-            { name: "Single", price: 150 },
-            { name: "Double", price: 250 }
-          ]
-        },
-        {
-          id: "sco-4",
-          name: "Chocolate",
-          price: 150,
-          desc: "Rich chocolate ice cream",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHTuFUnrqoQ9eKJuLVbT5xkQ5R1_htvYU2Lvxe-nAKoQ&s=10",
-          variants: [
-            { name: "Single", price: 150 },
-            { name: "Double", price: 250 }
-          ]
-        },
-        // {
-        //   id: "sco-5",
-        //   name: "Kulfa",
-        //   price: 150,
-        //   desc: "Traditional kulfa flavor",
-        //   image: "",
-        //   variants: [
-        //     { name: "Single", price: 150 },
-        //     { name: "Double", price: 250 }
-        //   ]
-        // },
-        // {
-        //   id: "sco-6",
-        //   name: "Caramel",
-        //   price: 150,
-        //   desc: "Sweet caramel swirl",
-        //   image: "",
-        //   variants: [
-        //     { name: "Single", price: 150 },
-        //     { name: "Double", price: 250 }
-        //   ]
-        // }
-      ]
-    },
+    // {
+    //   name: "Ice Cream Scoop",
+    //   items: [
+    //     {
+    //       id: "sco-1",
+    //       name: "Mango",
+    //       price: 150,
+    //       desc: "Fruity mango ice cream",
+    //       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuPUWVh-WrWFWb1x-X0mN5vwqIqGVeJv-7rT4nRnzqqg&s=10",
+    //       variants: [
+    //         { name: "Single", price: 150 },
+    //         { name: "Double", price: 250 }
+    //       ]
+    //     },
+    //     {
+    //       id: "sco-2",
+    //       name: "Vanilla",
+    //       price: 150,
+    //       desc: "Classic vanilla bean",
+    //       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRidWPP2qDP-6wbacT9-niJvLopzmpcy58Sg0Hk8_N7eky7DfP3K8IXxjk&s=10",
+    //       variants: [
+    //         { name: "Single", price: 150 },
+    //         { name: "Double", price: 250 }
+    //       ]
+    //     },
+    //     {
+    //       id: "sco-3",
+    //       name: "Strawberry",
+    //       price: 150,
+    //       desc: "Sweet strawberry ice cream",
+    //       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRptzg1V7tHcoFKmCsFfCoBt11k510J2nmKG6sKhTurkA&s=10",
+    //       variants: [
+    //         { name: "Single", price: 150 },
+    //         { name: "Double", price: 250 }
+    //       ]
+    //     },
+    //     {
+    //       id: "sco-4",
+    //       name: "Chocolate",
+    //       price: 150,
+    //       desc: "Rich chocolate ice cream",
+    //       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHTuFUnrqoQ9eKJuLVbT5xkQ5R1_htvYU2Lvxe-nAKoQ&s=10",
+    //       variants: [
+    //         { name: "Single", price: 150 },
+    //         { name: "Double", price: 250 }
+    //       ]
+    //     },
+    //     // {
+    //     //   id: "sco-5",
+    //     //   name: "Kulfa",
+    //     //   price: 150,
+    //     //   desc: "Traditional kulfa flavor",
+    //     //   image: "",
+    //     //   variants: [
+    //     //     { name: "Single", price: 150 },
+    //     //     { name: "Double", price: 250 }
+    //     //   ]
+    //     // },
+    //     // {
+    //     //   id: "sco-6",
+    //     //   name: "Caramel",
+    //     //   price: 150,
+    //     //   desc: "Sweet caramel swirl",
+    //     //   image: "",
+    //     //   variants: [
+    //     //     { name: "Single", price: 150 },
+    //     //     { name: "Double", price: 250 }
+    //     //   ]
+    //     // }
+    //   ]
+    // },
     {
       name: "Tea",
       items: [
