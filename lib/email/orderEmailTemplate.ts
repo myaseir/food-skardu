@@ -8,6 +8,7 @@ export type OrderEmailData = {
   userPhone: string;
   address: string;
   orderItems: string; // pre-formatted multiline string, same as your current detailedItems
+  customerNote: string; // free-text customization request from checkout; "N/A" when left blank
   subtotal: number;
   deliveryFee: number;
   total: number;
@@ -78,6 +79,20 @@ function buildEstimatedDeliveryRow(data: OrderEmailData): string {
             <div class="detail-label" style="display:table-cell; width:90px; font-weight:700; font-size:12px; color:#64748b; vertical-align:top;">Est. Delivery</div>
             <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#111;">${esc(String(data.estimatedDistanceKm))} km · ${esc(data.estimatedDeliveryTime)}</div>
           </div>`;
+}
+
+// Customer's free-text note (e.g. "no tomatoes", "no sauce"). Rendered as its
+// own bright, high-contrast card — deliberately placed right before "Items
+// to Prepare" so kitchen staff see it at the exact moment they're reading
+// what to make, not buried among delivery logistics. Omitted entirely when
+// there's nothing to show, so an empty/"N/A" note never adds visual noise.
+function buildCustomerNoteSection(data: OrderEmailData): string {
+  if (!data.customerNote || data.customerNote === "N/A") return "";
+  return `
+        <div style="background-color:#fefce8; padding:16px; border-radius:12px; margin-bottom:18px; border:1.5px solid #fde047;">
+          <h3 style="margin:0 0 8px 0; font-size:11px; text-transform:uppercase; color:#a16207; letter-spacing:1px; font-weight:800;">📝 Note from Customer</h3>
+          <p style="margin:0; font-size:14px; line-height:1.6; color:#713f12; font-weight:700;">${formatOrderItems(data.customerNote)}</p>
+        </div>`;
 }
 
 // Internal rider-payout card — omitted entirely when the route fell back to
@@ -183,6 +198,8 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
             <a href="${data.locationLink}" style="display:inline-block; width:100%; box-sizing:border-box; background-color:#9333ea; color:#fff; font-weight:800; font-size:13px; text-decoration:none; padding:11px 16px; border-radius:10px; text-align:center;">📍 Open Location in Google Maps</a>
           </div>
         </div>
+
+        ${buildCustomerNoteSection(data)}
 
         <div style="background-color:#f8fafc; padding:16px; border-radius:12px; margin-bottom:18px; border:1px solid #e2e8f0;">
           <h3 style="margin:0 0 12px 0; font-size:11px; text-transform:uppercase; color:#64748b; letter-spacing:1px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">Items to Prepare</h3>

@@ -102,7 +102,7 @@ export const shops: Shop[] = [
     logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785659359/WhatsApp_Image_2026-08-02_at_1.26.33_PM_webhxh.jpg",
     lat: 35.2899888, // TODO: replace with real coordinates
     lng: 75.6415605, // TODO: replace with real coordinates
-    whatsapp: "923554395551",
+    whatsapp: "03169030178",
     rating: 4.7,
     reviews: 89,
   },
@@ -130,7 +130,7 @@ export const shops: Shop[] = [
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhq9-b5Lbb5KFY0BOxoJrhwSbP4_aaqDECxxfbuzc8XA&s=10",
     lat: 35.2897981, // TODO: replace with real coordinates
     lng: 75.6406073, // TODO: replace with real coordinates
-    whatsapp: "03169030178",
+    whatsapp: "03407620699",
     rating: 4.1,
     reviews: 360,
   },
@@ -255,7 +255,7 @@ export const shops: Shop[] = [
     id: "yak-and-bull-hameed-garh",
     name: "Yak and Bull Cafe Hameed Garh",
     type: "restaurant",
-    openTime: "12:00",
+    openTime: "10:00",
     closeTime: "01:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",

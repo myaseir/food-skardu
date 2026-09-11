@@ -19,6 +19,7 @@ import {
   Building,
   MapPin,
   Clock,
+  NotebookPen,
 } from "lucide-react";
 import {
   getCountries,
@@ -133,7 +134,8 @@ function buildInvoiceLink(
   finalAddress: string,
   subtotal: number,
   deliveryFee: number,
-  total: number
+  total: number,
+  note: string
 ): string {
   const invoiceData = {
     date: new Date().toISOString(),
@@ -143,6 +145,7 @@ function buildInvoiceLink(
     subtotal,
     deliveryFee,
     total,
+    note: note || "",
     shops: shopsInCart.map((shop) => ({
       name: shop.name,
       items: items
@@ -177,6 +180,10 @@ export default function CheckoutPage() {
   const [addressDetail, setAddressDetail] = useState(""); // Acts as Room No OR Complete Address
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showMobileSummary, setShowMobileSummary] = useState(false);
+
+  // Special instructions for the restaurant (e.g. "no tomatoes", "no sauce")
+  const NOTE_MAX_LENGTH = 200;
+  const [note, setNote] = useState("");
 
   const { location: userLocation } = useUserLocation();
 
@@ -284,12 +291,15 @@ export default function CheckoutPage() {
     // WhatsApp numbers are local Skardu business numbers, so these are
     // always normalized against Pakistan regardless of which country
     // the customer selected above.
+    const trimmedNote = note.trim();
+
     const restaurantButtons = shopsInCart.map((shop) => {
       const shopItems = items.filter((it: any) => it.shopId === shop.id);
       const itemLines = shopItems
         .map((it: any) => `${it.quantity || 1}x ${it.name}`)
         .join("\n");
-      const message = `${shop.name}\n\n${itemLines}\n\n~ Meal Bear Skardu`;
+      const noteLine = trimmedNote ? `\n\n📝 Note: ${trimmedNote}` : "";
+      const message = `${shop.name}\n\n${itemLines}${noteLine}\n\n~ Meal Bear Skardu`;
       const normalizedShopPhone = shop.whatsapp
         ? normalizePhoneForWhatsApp(shop.whatsapp, "PK")
         : null;
@@ -309,7 +319,8 @@ export default function CheckoutPage() {
       finalAddress,
       subtotal,
       deliveryFee,
-      total
+      total,
+      note
     );
     const now = new Date();
 
@@ -323,6 +334,11 @@ export default function CheckoutPage() {
       subtotal,
       deliveryFee,
       total,
+      // Free-text note from the customer (e.g. "no tomatoes", "no sauce").
+      // Sent through to the sheet/email so the restaurant sees it alongside
+      // the order — falls back to "N/A" so downstream templates never show
+      // a blank cell.
+      customerNote: note.trim() || "N/A",
       estimatedDistanceKm: manualEstimate ? manualEstimate.distanceKm : "N/A",
       estimatedDeliveryTime: manualEstimate ? manualEstimate.timeLabel : "N/A",
       // NEW — rider accounting + order date/time, for the email
@@ -648,6 +664,39 @@ export default function CheckoutPage() {
               </div>
             )}
           </section>
+
+          {/* Note to Restaurant — optional customization requests */}
+          <section className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100">
+            <div className="flex items-center justify-between mb-1">
+              <h2 className="font-black uppercase text-[13px] tracking-widest text-gray-900">
+                Note to Restaurant
+              </h2>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                Optional
+              </span>
+            </div>
+            <p className="text-[12px] font-medium text-gray-400 mb-4 leading-snug">
+              Any special requests? Let the kitchen know.
+            </p>
+
+            <div className="relative">
+              <NotebookPen
+                size={17}
+                className="absolute left-4 top-4 text-gray-400"
+              />
+              <textarea
+                placeholder="e.g. No tomatoes, less spicy, no sauce on the side..."
+                value={note}
+                onChange={(e) => setNote(e.target.value.slice(0, NOTE_MAX_LENGTH))}
+                maxLength={NOTE_MAX_LENGTH}
+                rows={3}
+                className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all resize-none leading-relaxed"
+              />
+            </div>
+            <p className="mt-1.5 mr-1 text-[11px] font-medium text-gray-400 text-right">
+              {note.length}/{NOTE_MAX_LENGTH}
+            </p>
+          </section>
         </div>
 
         {/* Right column: order summary (static on desktop) */}
@@ -698,6 +747,16 @@ export default function CheckoutPage() {
               <div className="flex items-center gap-1.5 text-[12px] font-bold text-purple-600 mb-3">
                 <Clock size={13} />
                 <span>Est. delivery in {manualEstimate.timeLabel}</span>
+              </div>
+            )}
+
+            {/* Note preview — shown in the summary once the customer types one */}
+            {note.trim() && (
+              <div className="flex items-start gap-2 bg-purple-50 border border-purple-100 rounded-xl px-3.5 py-3 mb-4">
+                <NotebookPen size={14} className="text-purple-600 shrink-0 mt-0.5" />
+                <p className="text-[12px] font-semibold text-purple-800 leading-snug break-words">
+                  {note}
+                </p>
               </div>
             )}
 
@@ -781,6 +840,14 @@ export default function CheckoutPage() {
                 </div>
               );
             })}
+            {note.trim() && (
+              <div className="flex items-start gap-2 bg-purple-50 border border-purple-100 rounded-xl px-3 py-2.5 mt-1">
+                <NotebookPen size={13} className="text-purple-600 shrink-0 mt-0.5" />
+                <p className="text-[11px] font-semibold text-purple-800 leading-snug break-words">
+                  {note}
+                </p>
+              </div>
+            )}
           </div>
         )}
 

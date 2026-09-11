@@ -33,6 +33,12 @@ function stripPricesForRider(orderItems: string): string {
 function buildRiderWhatsAppLink(payload: OrderEmailData): string {
   const isMultiRestaurant = payload.restaurantNames.includes(",");
   const itemsSection = stripPricesForRider(payload.orderItems);
+  // Surface the customer's note to the rider too — "leave at the gate" /
+  // "call before arriving" type notes are often about delivery handling,
+  // not just kitchen prep, so it's worth a line here as well. Only shown
+  // when there's an actual note (checkout sends "N/A" when left blank).
+  const note = (payload as unknown as ExtraOrderFields).customerNote;
+  const hasNote = !!note && note !== "N/A";
 
   const message =
     `🛵 New Delivery Ready\n\n` +
@@ -40,6 +46,7 @@ function buildRiderWhatsAppLink(payload: OrderEmailData): string {
       ? `📍 Pickup from ${payload.restaurantNames} (visit in this order)\n\n`
       : `📍 Pickup from ${payload.restaurantNames}\n\n`) +
     `Items:\n${itemsSection}\n\n` +
+    (hasNote ? `📝 Note: ${note}\n\n` : "") +
     `Customer: ${payload.userName}\n` +
     `Phone: ${payload.userPhone}\n` +
     `Address: ${payload.address}\n\n` +
@@ -87,6 +94,10 @@ async function notifyNtfy(userName: string, total: number, restaurantNames: stri
 // text in the sheet rather than a blank cell. That's intentional: it makes
 // unmeasured routes visible/searchable in the sheet rather than looking
 // like a missing-data bug.
+//
+// `customerNote` follows the same pattern: checkout always sends a string
+// ("N/A" when the box was left empty), so it's passed through as-is here
+// too rather than being coerced to undefined/blank.
 interface ExtraOrderFields {
   subtotal?: number;
   deliveryFee?: number;
@@ -99,6 +110,7 @@ interface ExtraOrderFields {
   totalRiderPayment?: number | string;
   orderDate?: string;
   orderTime?: string;
+  customerNote?: string;
 }
 
 function buildSheetPayload(payload: OrderEmailData) {
@@ -112,6 +124,7 @@ function buildSheetPayload(payload: OrderEmailData) {
     address: payload.address,
     restaurantNames: payload.restaurantNames,
     orderItems: payload.orderItems,
+    customerNote: extra.customerNote || "N/A",
     subtotal: extra.subtotal,
     estimatedDistanceKm: extra.estimatedDistanceKm,
     totalRoundTripKm: extra.totalRoundTripKm,
@@ -137,7 +150,14 @@ export async function POST(req: Request) {
   }
 
   const riderWhatsAppLink = buildRiderWhatsAppLink(payload);
-  const html = buildOrderEmailHtml({ ...payload, riderWhatsAppLink });
+  const customerNote = (payload as unknown as ExtraOrderFields).customerNote || "N/A";
+
+  // Passed through explicitly (not just via the `...payload` spread) so it
+  // reaches the template under a stable, obvious key regardless of how
+  // OrderEmailData's own type is declared. buildOrderEmailHtml still needs
+  // to actually render `customerNote` in its HTML for it to show up in the
+  // email — see note below.
+  const html = buildOrderEmailHtml({ ...payload, riderWhatsAppLink, customerNote });
 
   // Email is best-effort, same as the sheet write below — a transient
   // Brevo failure must never make the order disappear entirely. If it
