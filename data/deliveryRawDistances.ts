@@ -145,6 +145,7 @@ export const AREAS: string[] = [
     "Ali plaza",
     "Radio Pakistan Chowk",
     "Manthal", 
+    "Hoto", 
     "Thorgu",
     "Aliabad, Skardu"
   // "Kachura",
@@ -600,6 +601,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ali plaza": { distance_km: 1.5, estimated_minutes: 4 },
     "Radio Pakistan Chowk": { distance_km: 2.1, estimated_minutes: 5 },
     "Manthal": { distance_km: 4.6, estimated_minutes: 13 },
+    "Hoto": { distance_km: 18, estimated_minutes: 24 },
 
 
     
@@ -1638,6 +1640,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Radio Pakistan Chowk": { distance_km: 4.1, estimated_minutes: 9 },
     "Ali plaza": { distance_km: 1.8, estimated_minutes: 5 },
     "Manthal": { distance_km: 5.3, estimated_minutes: 15 },
+    "Hoto": { distance_km: 20, estimated_minutes: 32 },
     "Aliabad Skardu": { distance_km: 1.9, estimated_minutes: 5 },
     "RHQ Hospital Skardu": { distance_km: 0.9, estimated_minutes: 2 },
     "Niyanour": { distance_km: 5.9, estimated_minutes: 12 },
@@ -2685,6 +2688,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ali plaza": { distance_km: 0.35, estimated_minutes: 2 },
     "Radio Pakistan Chowk": { distance_km: 3.7, estimated_minutes: 12 },
     "Manthal": { distance_km: 4.4, estimated_minutes: 16 },
+    "Hoto": { distance_km: 20, estimated_minutes: 29 },
    "Rus Olive Lodge": {
       distance_km: 3.2,
       estimated_minutes: 4
@@ -3726,6 +3730,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ali plaza": { distance_km: 1.6, estimated_minutes: 6 },
     "Radio Pakistan Chowk": { distance_km: 2.0, estimated_minutes: 7 },
     "Manthal": { distance_km: 4.8, estimated_minutes: 14 },
+    "Hoto": { distance_km: 18, estimated_minutes: 24 },
    "Rus Olive Lodge": {
     distance_km: 4.5,
     estimated_minutes: 6
@@ -4767,6 +4772,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ali plaza": { distance_km: 0.9, estimated_minutes: 4 },
     "Radio Pakistan Chowk": { distance_km: 2.5, estimated_minutes: 6 },
     "Manthal": { distance_km: 6.3, estimated_minutes: 19 },
+    "Hoto": { distance_km: 18, estimated_minutes: 24 },
     "Rus Olive Lodge": {
       distance_km: 3.1,
       estimated_minutes: 12
@@ -5804,6 +5810,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ali plaza": { distance_km: 1.4, estimated_minutes: 6 },
     "Radio Pakistan Chowk": { distance_km: 3, estimated_minutes: 10 },
     "Manthal": { distance_km: 4.6, estimated_minutes: 13 },
+    "Hoto": { distance_km: 19, estimated_minutes: 30 },
     "Rus Olive Lodge": { distance_km: 1.6, estimated_minutes: 7 },
     "Hargisa Resort Skardu": { distance_km: 7.9, estimated_minutes: 27 },
     "LOKAL Rooms x Skardu (Katpana Retreat)": { distance_km: 7.1, estimated_minutes: 26 },
@@ -6120,6 +6127,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ali plaza": { distance_km: 1.6, estimated_minutes: 6 },
     "Radio Pakistan Chowk": { distance_km: 2.0, estimated_minutes: 7 },
     "Manthal": { distance_km: 4.8, estimated_minutes: 14 },
+    "Hoto": { distance_km: 18, estimated_minutes: 25 },
     "Rus Olive Lodge": {
     distance_km: 4.5,
     estimated_minutes: 6
@@ -7163,6 +7171,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ali plaza": { distance_km: 1.4, estimated_minutes: 6 },
     "Radio Pakistan Chowk": { distance_km: 3, estimated_minutes: 10 },
     "Manthal": { distance_km: 4.6, estimated_minutes: 13 },
+    "Hoto": { distance_km: 18, estimated_minutes: 25 },
     
   "Rus Olive Lodge": {
     distance_km: 4.4,
@@ -8205,6 +8214,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ali plaza": { distance_km: 1.4, estimated_minutes: 5 },
     "Radio Pakistan Chowk": { distance_km: 2.7, estimated_minutes: 9 },
     "Manthal": { distance_km: 4.6, estimated_minutes: 13 },
+    "Hoto": { distance_km: 19, estimated_minutes: 28 },
     "Rus Olive Lodge": {
       distance_km: 4.1,
       estimated_minutes: 5
@@ -9245,6 +9255,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ali plaza": { distance_km: 1.4, estimated_minutes: 5 },
     "Radio Pakistan Chowk": { distance_km: 2.7, estimated_minutes: 9 },
     "Manthal": { distance_km: 4.6, estimated_minutes: 13 },
+    "Hoto": { distance_km: 19, estimated_minutes: 28 },
    "Rus Olive Lodge": {
       distance_km: 4.1,
       estimated_minutes: 5
@@ -10285,6 +10296,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ali plaza": { distance_km: 1.4, estimated_minutes: 6 },
     "Radio Pakistan Chowk": { distance_km: 3, estimated_minutes: 10 },
     "Manthal": { distance_km: 4.6, estimated_minutes: 13 },
+    "Hoto": { distance_km: 19, estimated_minutes: 30 },
    "Rus Olive Lodge": {
       distance_km: 4.5,
       estimated_minutes: 5
@@ -11326,6 +11338,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ali plaza": { distance_km: 1.3, estimated_minutes: 4 },
     "Radio Pakistan Chowk": { distance_km: 2.6, estimated_minutes: 6 },
     "Manthal": { distance_km: 4.4, estimated_minutes: 13 },
+    "Hoto": { distance_km: 19, estimated_minutes: 28 },
 
 
     "Rus Olive Lodge": {
@@ -12361,6 +12374,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Patwal": { distance_km: 3.0, estimated_minutes: 13 },
     "Olding": { distance_km: 6.0, estimated_minutes: 22 },
     "Karasmathang": { distance_km: 2.2, estimated_minutes: 8 },
+    "Manthal": { distance_km: 5.3, estimated_minutes: 14 },
+    "Hoto": { distance_km: 20, estimated_minutes: 32 },
     "Kachura": { distance_km: 9.3, estimated_minutes: 32 },
    "Rus Olive Lodge": {
       distance_km: 3.8,
@@ -14404,6 +14419,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Radio Pakistan Chowk": { destinationType: "Area", distance_km: 2.9, estimated_minutes: 10 }, // NEW — not yet in AREAS / location.ts, see note below
   "Sahara Complex": { destinationType: "Area", distance_km: 2.4, estimated_minutes: 8 }, // NEW — not yet in AREAS / location.ts, see note below
   "Manthal": { destinationType: "Area", distance_km: 4.6, estimated_minutes: 14 }, // NEW — not yet in AREAS / location.ts, see note below
+  "Hoto": { destinationType: "Area", distance_km: 19, estimated_minutes: 29 }, // NEW — not yet in AREAS / location.ts, see note below
 
 
   // Hotels
