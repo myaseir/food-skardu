@@ -872,12 +872,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 26
     },
     "Safena Hotel Skardu": {
-      distance_km: 4.7,
-      estimated_minutes: 16
+      distance_km: 15,
+      estimated_minutes: 23
     },
     "Byarsa Hotel Skardu": {
-      distance_km: 6.4,
-      estimated_minutes: 23
+      distance_km: 25,
+      estimated_minutes: 33
     },
     "Dream Nest Resort Hotels Skardu": {
       distance_km: 8.5,
@@ -964,8 +964,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 26
     },
     "The Pioneer Hotel": {
-      distance_km: 6.7,
-      estimated_minutes: 24
+      distance_km: 6.9,
+      estimated_minutes: 13
     },
     "Ramovi Guest House": {
       distance_km: 5.3,
@@ -1008,8 +1008,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 6
     },
     "Lashari Resort Skardu": {
-      distance_km: 5.9,
-      estimated_minutes: 22
+      distance_km: 11,
+      estimated_minutes: 18
     },
     "Melody Hills Skardu": {
       distance_km: 5.4,
@@ -1913,12 +1913,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 26
     },
     "Safena Hotel Skardu": {
-      distance_km: 4.7,
-      estimated_minutes: 16
+      distance_km: 17,
+      estimated_minutes: 29
     },
     "Byarsa Hotel Skardu": {
-      distance_km: 6.4,
-      estimated_minutes: 23
+      distance_km: 27,
+      estimated_minutes: 40
     },
     "Dream Nest Resort Hotels Skardu": {
       distance_km: 8.5,
@@ -2005,8 +2005,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 26
     },
     "The Pioneer Hotel": {
-      distance_km: 6.7,
-      estimated_minutes: 24
+      distance_km: 9.0,
+      estimated_minutes: 20
     },
     "Ramovi Guest House": {
       distance_km: 5.3,
@@ -2049,8 +2049,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 6
     },
     "Lashari Resort Skardu": {
-      distance_km: 5.9,
-      estimated_minutes: 22
+      distance_km: 13,
+      estimated_minutes: 25
     },
     "Melody Hills Skardu": {
       distance_km: 5.4,
@@ -2954,12 +2954,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 11
     },
     "Safena Hotel Skardu": {
-      distance_km: 15.4,
-      estimated_minutes: 13
+      distance_km: 16,
+      estimated_minutes: 27
     },
     "Byarsa Hotel Skardu": {
-      distance_km: 25.3,
-      estimated_minutes: 21
+      distance_km: 26,
+      estimated_minutes: 38
     },
     "Dream Nest Resort Hotels Skardu": {
       distance_km: 33.9,
@@ -3046,8 +3046,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 7
     },
     "The Pioneer Hotel": {
-      distance_km: 7.5,
-      estimated_minutes: 7
+      distance_km: 8.6,
+      estimated_minutes: 17
     },
     "Ramovi Guest House": {
       distance_km: 7.5,
@@ -3090,8 +3090,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 10
     },
     "Lashari Resort Skardu": {
-      distance_km: 11.2,
-      estimated_minutes: 10
+      distance_km: 12,
+      estimated_minutes: 23
     },
     "Melody Hills Skardu": {
       distance_km: 11.6,
@@ -3995,12 +3995,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 10
   },
   "Safena Hotel Skardu": {
-    distance_km: 14.7,
-    estimated_minutes: 12
+    distance_km: 15,
+    estimated_minutes: 22
   },
   "Byarsa Hotel Skardu": {
-    distance_km: 24.6,
-    estimated_minutes: 20
+    distance_km: 25,
+    estimated_minutes: 33
   },
   "Dream Nest Resort Hotels Skardu": {
     distance_km: 33.2,
@@ -4088,7 +4088,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
   },
   "The Pioneer Hotel": {
     distance_km: 6.8,
-    estimated_minutes: 6
+    estimated_minutes: 12
   },
   "Ramovi Guest House": {
     distance_km: 6.8,
@@ -4131,8 +4131,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 9
   },
   "Lashari Resort Skardu": {
-    distance_km: 10.5,
-    estimated_minutes: 9
+    distance_km: 11,
+    estimated_minutes: 17
   },
   "Melody Hills Skardu": {
     distance_km: 10.9,
@@ -5035,12 +5035,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 19
     },
     "Safena Hotel Skardu": {
-      distance_km: 2.4,
-      estimated_minutes: 9
+      distance_km: 15,
+      estimated_minutes: 21
     },
     "Byarsa Hotel Skardu": {
-      distance_km: 5.9,
-      estimated_minutes: 22
+      distance_km: 25,
+      estimated_minutes: 33
     },
     "Dream Nest Resort Hotels Skardu": {
       distance_km: 2.3,
@@ -5127,8 +5127,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 34
     },
     "The Pioneer Hotel": {
-      distance_km: 8.1,
-      estimated_minutes: 30
+      distance_km: 7.3,
+      estimated_minutes: 12
     },
     "Ramovi Guest House": {
       distance_km: 8.0,
@@ -5171,8 +5171,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 18
     },
     "Lashari Resort Skardu": {
-      distance_km: 8.5,
-      estimated_minutes: 32
+      distance_km: 11,
+      estimated_minutes: 17
     },
     "Melody Hills Skardu": {
       distance_km: 5.7,
@@ -5871,8 +5871,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Bilafond Cottage": { distance_km: 3.1, estimated_minutes: 10 },
     "North Hills Skardu": { distance_km: 1.2, estimated_minutes: 6 },
     "Pinnacle Executive Lodges": { distance_km: 7.0, estimated_minutes: 26 },
-    "Safena Hotel Skardu": { distance_km: 2.3, estimated_minutes: 8 },
-    "Byarsa Hotel Skardu": { distance_km: 9.1, estimated_minutes: 33 },
+    "Safena Hotel Skardu": { distance_km: 16, estimated_minutes: 28 },
+    "Byarsa Hotel Skardu": { distance_km: 26, estimated_minutes: 38 },
     "Dream Nest Resort Hotels Skardu": { distance_km: 1.0, estimated_minutes: 3 },
     "Stream view guest house skardu": { distance_km: 7.9, estimated_minutes: 29 },
     "Shangrila Resort Skardu": { distance_km: 1.7, estimated_minutes: 6 },
@@ -5894,7 +5894,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Skardu Gateway Hotel & Restaurant": { distance_km: 4.2, estimated_minutes: 14 },
     "Polo Land Hotel by Skyline": { distance_km: 2.5, estimated_minutes: 8 },
     "Baltistan White House Hotel": { distance_km: 6.1, estimated_minutes: 22 },
-    "The Pioneer Hotel": { distance_km: 9.0, estimated_minutes: 31 },
+    "The Pioneer Hotel": { distance_km: 7.9, estimated_minutes: 18 },
     "Ramovi Guest House": { distance_km: 4.1, estimated_minutes: 14 },
     "Friends & Family Guest House": { distance_km: 1.7, estimated_minutes: 7 },
     "SKY LAKE GUEST HOUSE": { distance_km: 6.4, estimated_minutes: 24 },
@@ -5905,7 +5905,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Grand view hotel": { distance_km: 7.2, estimated_minutes: 28 },
     "Hotel walnut": { distance_km: 3.8, estimated_minutes: 13 },
     "ABC hotel": { distance_km: 8.6, estimated_minutes: 32 },
-    "Lashari Resort Skardu": { distance_km: 4.8, estimated_minutes: 17 },
+    "Lashari Resort Skardu": { distance_km: 12, estimated_minutes: 23 },
     "Melody Hills Skardu": { distance_km: 6.1, estimated_minutes: 23 },
     "NJM House Near Skardu Airport": { distance_km: 1.7, estimated_minutes: 6 },
     "Le Yurt Skardu": { distance_km: 2.5, estimated_minutes: 10 },
@@ -6389,12 +6389,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 10
   },
   "Safena Hotel Skardu": {
-    distance_km: 14.7,
-    estimated_minutes: 12
+    distance_km: 15,
+    estimated_minutes: 23
   },
   "Byarsa Hotel Skardu": {
-    distance_km: 24.6,
-    estimated_minutes: 20
+    distance_km: 25,
+    estimated_minutes: 34
   },
   "Dream Nest Resort Hotels Skardu": {
     distance_km: 33.2,
@@ -6482,7 +6482,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
   },
   "The Pioneer Hotel": {
     distance_km: 6.8,
-    estimated_minutes: 6
+    estimated_minutes: 13
   },
   "Ramovi Guest House": {
     distance_km: 6.8,
@@ -6525,8 +6525,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 9
   },
   "Lashari Resort Skardu": {
-    distance_km: 10.5,
-    estimated_minutes: 9
+    distance_km: 11,
+    estimated_minutes: 18
   },
   "Melody Hills Skardu": {
     distance_km: 10.9,
@@ -7433,12 +7433,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 11
   },
   "Safena Hotel Skardu": {
-    distance_km: 15.7,
-    estimated_minutes: 13
+    distance_km: 16,
+    estimated_minutes: 26
   },
   "Byarsa Hotel Skardu": {
-    distance_km: 25.6,
-    estimated_minutes: 21
+    distance_km: 26,
+    estimated_minutes: 37
   },
   "Dream Nest Resort Hotels Skardu": {
     distance_km: 34.2,
@@ -7526,7 +7526,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
   },
   "The Pioneer Hotel": {
     distance_km: 7.8,
-    estimated_minutes: 7
+    estimated_minutes: 15
   },
   "Ramovi Guest House": {
     distance_km: 7.9,
@@ -7569,8 +7569,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 10
   },
   "Lashari Resort Skardu": {
-    distance_km: 11.6,
-    estimated_minutes: 10
+    distance_km: 12,
+    estimated_minutes: 21
   },
   "Melody Hills Skardu": {
     distance_km: 11.9,
@@ -8474,12 +8474,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 11
     },
     "Safena Hotel Skardu": {
-      distance_km: 15.4,
-      estimated_minutes: 12
+      distance_km: 15,
+      estimated_minutes: 25
     },
     "Byarsa Hotel Skardu": {
-      distance_km: 25.4,
-      estimated_minutes: 21
+      distance_km: 25,
+      estimated_minutes: 36
     },
     "Dream Nest Resort Hotels Skardu": {
       distance_km: 33.9,
@@ -8567,7 +8567,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "The Pioneer Hotel": {
       distance_km: 7.5,
-      estimated_minutes: 7
+      estimated_minutes: 15
     },
     "Ramovi Guest House": {
       distance_km: 7.6,
@@ -8610,8 +8610,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 9
     },
     "Lashari Resort Skardu": {
-      distance_km: 11.3,
-      estimated_minutes: 10
+      distance_km: 11,
+      estimated_minutes: 20
     },
     "Melody Hills Skardu": {
       distance_km: 11.6,
@@ -9514,12 +9514,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 11
     },
     "Safena Hotel Skardu": {
-      distance_km: 15.4,
-      estimated_minutes: 12
+      distance_km: 15,
+      estimated_minutes: 25
     },
     "Byarsa Hotel Skardu": {
-      distance_km: 25.4,
-      estimated_minutes: 21
+      distance_km: 25,
+      estimated_minutes: 36
     },
     "Dream Nest Resort Hotels Skardu": {
       distance_km: 33.9,
@@ -9607,7 +9607,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "The Pioneer Hotel": {
       distance_km: 7.5,
-      estimated_minutes: 7
+      estimated_minutes: 15
     },
     "Ramovi Guest House": {
       distance_km: 7.6,
@@ -9650,8 +9650,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 9
     },
     "Lashari Resort Skardu": {
-      distance_km: 11.3,
-      estimated_minutes: 10
+      distance_km: 11,
+      estimated_minutes: 20
     },
     "Melody Hills Skardu": {
       distance_km: 11.6,
@@ -10554,12 +10554,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 11
     },
     "Safena Hotel Skardu": {
-      distance_km: 15.8,
-      estimated_minutes: 13
+      distance_km: 16,
+      estimated_minutes: 28
     },
     "Byarsa Hotel Skardu": {
-      distance_km: 25.7,
-      estimated_minutes: 21
+      distance_km: 26,
+      estimated_minutes: 38
     },
     "Dream Nest Resort Hotels Skardu": {
       distance_km: 34.3,
@@ -10647,7 +10647,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "The Pioneer Hotel": {
       distance_km: 7.9,
-      estimated_minutes: 7
+      estimated_minutes: 18
     },
     "Ramovi Guest House": {
       distance_km: 8,
@@ -10690,8 +10690,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 10
     },
     "Lashari Resort Skardu": {
-      distance_km: 11.7,
-      estimated_minutes: 10
+      distance_km: 12,
+      estimated_minutes: 23
     },
     "Melody Hills Skardu": {
       distance_km: 12,
@@ -11597,12 +11597,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 11
     },
     "Safena Hotel Skardu": {
-      distance_km: 15.5,
-      estimated_minutes: 13
+      distance_km: 15,
+      estimated_minutes: 26
     },
     "Byarsa Hotel Skardu": {
-      distance_km: 25.4,
-      estimated_minutes: 21
+      distance_km: 25,
+      estimated_minutes: 36
     },
     "Dream Nest Resort Hotels Skardu": {
       distance_km: 34,
@@ -11690,7 +11690,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "The Pioneer Hotel": {
       distance_km: 7.6,
-      estimated_minutes: 7
+      estimated_minutes: 16
     },
     "Ramovi Guest House": {
       distance_km: 7.6,
@@ -11733,8 +11733,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 10
     },
     "Lashari Resort Skardu": {
-      distance_km: 11.3,
-      estimated_minutes: 10
+      distance_km: 11,
+      estimated_minutes: 21
     },
     "Melody Hills Skardu": {
       distance_km: 11.7,
@@ -12631,12 +12631,12 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 11
     },
     "Safena Hotel Skardu": {
-      distance_km: 16,
-      estimated_minutes: 13
+      distance_km: 17,
+      estimated_minutes: 29
     },
     "Byarsa Hotel Skardu": {
-      distance_km: 25.9,
-      estimated_minutes: 21
+      distance_km: 27,
+      estimated_minutes: 39
     },
     "Dream Nest Resort Hotels Skardu": {
       distance_km: 34.5,
@@ -12723,8 +12723,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 7
     },
     "The Pioneer Hotel": {
-      distance_km: 8.1,
-      estimated_minutes: 8
+      distance_km: 9.0,
+      estimated_minutes: 19
     },
     "Ramovi Guest House": {
       distance_km: 8.2,
@@ -12767,8 +12767,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 10
     },
     "Lashari Resort Skardu": {
-      distance_km: 11.9,
-      estimated_minutes: 10
+      distance_km: 13,
+      estimated_minutes: 24
     },
     "Melody Hills Skardu": {
       distance_km: 12.2,
@@ -13602,7 +13602,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "Byarsa Hotel Skardu": {
       distance_km: 25.1,
-      estimated_minutes: 20
+      estimated_minutes: 39
     },
     "Dream Nest Resort Hotels Skardu": {
       distance_km: 33.7,
@@ -14474,8 +14474,8 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Bilafond Cottage": { destinationType: "Hotel", distance_km: 7.0, estimated_minutes: 26 },
   "North Hills Skardu": { destinationType: "Hotel", distance_km: 4.8, estimated_minutes: 18 },
   "Pinnacle Executive Lodges": { destinationType: "Hotel", distance_km: 3.5, estimated_minutes: 12 },
-  "Safena Hotel Skardu": { destinationType: "Hotel", distance_km: 4.2, estimated_minutes: 17 },
-  "Byarsa Hotel Skardu": { destinationType: "Hotel", distance_km: 7.6, estimated_minutes: 29 },
+  "Safena Hotel Skardu": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
+  "Byarsa Hotel Skardu": { destinationType: "Hotel", distance_km: 26, estimated_minutes: 37 },
   "Dream Nest Resort Hotels Skardu": { destinationType: "Hotel", distance_km: 3.6, estimated_minutes: 14 },
   "Stream view guest house skardu": { destinationType: "Hotel", distance_km: 6.3, estimated_minutes: 24 },
   "Shangrila Resort Skardu": { destinationType: "Hotel", distance_km: 60, estimated_minutes: 16 },
@@ -14497,7 +14497,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Skardu Gateway Hotel & Restaurant": { destinationType: "Hotel", distance_km: 7.5, estimated_minutes: 29 },
   "Polo Land Hotel by Skyline": { destinationType: "Hotel", distance_km: 2.5, estimated_minutes: 9 },
   "Baltistan White House Hotel": { destinationType: "Hotel", distance_km: 3.3, estimated_minutes: 11 },
-  "The Pioneer Hotel": { destinationType: "Hotel", distance_km: 8.5, estimated_minutes: 32 },
+  "The Pioneer Hotel": { destinationType: "Hotel", distance_km: 7.8, estimated_minutes: 17 },
   "Ramovi Guest House": { destinationType: "Hotel", distance_km: 1.6, estimated_minutes: 8 },
   "Friends & Family Guest House": { destinationType: "Hotel", distance_km: 1.9, estimated_minutes: 8 },
   "SKY LAKE GUEST HOUSE": { destinationType: "Hotel", distance_km: 3.5, estimated_minutes: 15 },
@@ -14508,7 +14508,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Grand view hotel": { destinationType: "Hotel", distance_km: 1.5, estimated_minutes: 4 },
   "Hotel walnut": { destinationType: "Hotel", distance_km: 5.0, estimated_minutes: 20 },
   "ABC hotel": { destinationType: "Hotel", distance_km: 9.1, estimated_minutes: 32 },
-  "Lashari Resort Skardu": { destinationType: "Hotel", distance_km: 8.6, estimated_minutes: 30 },
+  "Lashari Resort Skardu": { destinationType: "Hotel", distance_km: 12, estimated_minutes: 21 },
   "Melody Hills Skardu": { destinationType: "Hotel", distance_km: 5.9, estimated_minutes: 23 },
   "NJM House Near Skardu Airport": { destinationType: "Hotel", distance_km: 5.8, estimated_minutes: 23 },
   "Le Yurt Skardu": { destinationType: "Hotel", distance_km: 5.9, estimated_minutes: 20 },
@@ -14667,8 +14667,8 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
 // other destination defaults to 0. Name must match exactly what's used
 // in AREA_TO_OFFICE / RESTAURANT_TO_AREA (areas or hotels).
 export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
-  "Shangrila Resort Skardu": 700,
-  "Kachura Inn Skardu": 700,
+  "Shangrila Resort Skardu": 770,
+  "Kachura Inn Skardu": 770,
   "LOKAL Rooms x Skardu (Katpana Retreat)":160,
   "Oasis Resort Katpana Skardu":160,
   "Qayam Skardu":150,
@@ -14679,6 +14679,10 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Himalaya Hotel Hussainabad, Skardu":180,
   "Rafsal A Countryside Cottage":120,
   "The Cherry Courtyard":160,
+  "Byarsa Hotel Skardu":810,
+  "The Pioneer Hotel":100,
+  "Lashari Resort Skardu":100,
+  "Safena Hotel Skardu":400,
 };
 // ---------------------------------------------------------------------
 // Scaffolding helpers — keep the structure easy to expand
