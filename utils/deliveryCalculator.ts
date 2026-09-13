@@ -7,9 +7,9 @@ import {
   SKARDU_LOCATIONS,
 } from "@/data/location";
 
-const FUEL_PRICE_PER_LITER = 367.75;
+const FUEL_PRICE_PER_LITER = 374.75;
 const BIKE_AVERAGE_KM_PER_LITER = 35
-const BASE_PROFIT = 170;
+const BASE_PROFIT = 190;
 
 // Extra flat fee per additional pickup stop beyond the first, on top of the
 // distance-based fuel cost. This exists because visiting an extra stop

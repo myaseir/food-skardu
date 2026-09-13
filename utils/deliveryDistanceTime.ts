@@ -266,9 +266,9 @@ export function getManualMultiStopTripDistanceTime(
 // what the customer is waiting for, so it's excluded from the time
 // estimate (it's still counted in the fee, since it's a real cost).
 
-const MANUAL_FUEL_PRICE_PER_LITER = 367.75;
+const MANUAL_FUEL_PRICE_PER_LITER = 374.75;
 const MANUAL_BIKE_AVERAGE_KM_PER_LITER = 35;
-const MANUAL_BASE_PROFIT = 150;
+const MANUAL_BASE_PROFIT = 180;
 const MANUAL_EXTRA_STOP_HANDLING_FEE = 30; // matches EXTRA_STOP_HANDLING_FEE in deliveryCalculator.ts
 
 const PREP_BUFFER_MIN_MINUTES = 20;
