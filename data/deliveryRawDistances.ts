@@ -221,6 +221,7 @@ export const HOTELS: string[] = [
   "North Hills Skardu",
   "Pinnacle Executive Lodges",
   "Safena Hotel Skardu",
+  "Jabal e Rawah Skardu",
   "Byarsa Hotel Skardu",
   "Dream Nest Resort Hotels Skardu",
   "Stream view guest house skardu",
@@ -743,8 +744,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 30
     },
     "Dynasty Skardu": {
-      distance_km: 1.6,
-      estimated_minutes: 6
+      distance_km: 5.9,
+      estimated_minutes: 11
     },
     "Sehrish Guest House Skardu": {
       distance_km: 7.1,
@@ -831,8 +832,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 30
     },
     "Maple Resort": {
-      distance_km: 5.8,
-      estimated_minutes: 23
+      distance_km: 3.4,
+      estimated_minutes: 8
     },
     "Candela Resorts": {
       distance_km: 0.4,
@@ -859,8 +860,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 18
     },
     "PC Legacy Skardu": {
-      distance_km: 6.2,
-      estimated_minutes: 21
+      distance_km: 11,
+      estimated_minutes: 18
     },
     "GB Lodges": {
       distance_km: 5.3,
@@ -881,6 +882,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Safena Hotel Skardu": {
       distance_km: 15,
       estimated_minutes: 23
+    },
+    "Jabal e Rawah Skardu": {
+      distance_km: 5.8,
+      estimated_minutes: 11
     },
     "Byarsa Hotel Skardu": {
       distance_km: 25,
@@ -947,8 +952,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 33
     },
     "Apex Hotels and Resorts Skardu": {
-      distance_km: 8.1,
-      estimated_minutes: 30
+      distance_km: 5.7,
+      estimated_minutes: 12
     },
     "Hotel virsa": {
       distance_km: 3.4,
@@ -1582,7 +1587,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Katpana": { distance_km: 7.8, estimated_minutes: 22 },
     "Khargrong": { distance_km: 0.9, estimated_minutes: 2 },
     "Hasnain Nagar": { distance_km: 1.9, estimated_minutes: 6 },
-    "Alamdar Chowk": { distance_km: 1.7, estimated_minutes: 5 },
+    "Alamdar Chowk": { distance_km: 1.7, estimated_minutes: 7 },
     "Hassan Colony": { distance_km: 3.5, estimated_minutes: 11 },
     "Hassan Colony Pine": { distance_km: 2.9, estimated_minutes: 8 },
     "Shinkhani Gond": { distance_km: 2.3, estimated_minutes: 6 },
@@ -1629,7 +1634,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Brolmo colony astana": { distance_km: 5.2, estimated_minutes: 11 },
     "Raees mohalla Haji Gam": { distance_km: 3.2, estimated_minutes: 10 },
     "Haji Gam": { distance_km: 3.0, estimated_minutes: 8 },
-    "Jamia masjid road": { distance_km: 1.8, estimated_minutes: 4 },
+    "Jamia masjid road": { distance_km: 1.5, estimated_minutes: 6 },
     "Gulshan e Ali skardu": { distance_km: 0.55, estimated_minutes: 1 },
     "Gayool skardu": { distance_km: 7.1, estimated_minutes: 14 },
     "Toqrangah Skardu": { distance_km: 5.0, estimated_minutes: 11 },
@@ -1789,8 +1794,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 30
     },
     "Dynasty Skardu": {
-      distance_km: 1.6,
-      estimated_minutes: 6
+      distance_km: 8.3,
+      estimated_minutes: 20
     },
     "Sehrish Guest House Skardu": {
       distance_km: 7.1,
@@ -1877,8 +1882,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 30
     },
     "Maple Resort": {
-      distance_km: 5.8,
-      estimated_minutes: 23
+      distance_km: 5.5,
+      estimated_minutes: 16
     },
     "Candela Resorts": {
       distance_km: 0.4,
@@ -1905,8 +1910,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 18
     },
     "PC Legacy Skardu": {
-      distance_km: 6.2,
-      estimated_minutes: 21
+      distance_km: 13,
+      estimated_minutes: 26
     },
     "GB Lodges": {
       distance_km: 5.3,
@@ -1927,6 +1932,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Safena Hotel Skardu": {
       distance_km: 17,
       estimated_minutes: 29
+    },
+    "Jabal e Rawah Skardu": {
+      distance_km: 7.8,
+      estimated_minutes: 18
     },
     "Byarsa Hotel Skardu": {
       distance_km: 27,
@@ -1993,8 +2002,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 33
     },
     "Apex Hotels and Resorts Skardu": {
-      distance_km: 8.1,
-      estimated_minutes: 30
+      distance_km: 7.7,
+      estimated_minutes: 19
     },
     "Hotel virsa": {
       distance_km: 3.4,
@@ -2835,8 +2844,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 2
     },
     "Dynasty Skardu": {
-      distance_km: 6.4,
-      estimated_minutes: 7
+      distance_km: 7.9,
+      estimated_minutes: 18
     },
     "Sehrish Guest House Skardu": {
       distance_km: 1.7,
@@ -2923,8 +2932,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 4
     },
     "Maple Resort": {
-      distance_km: 12.7,
-      estimated_minutes: 16
+      distance_km: 5.1,
+      estimated_minutes: 13
     },
     "Candela Resorts": {
       distance_km: 4.5,
@@ -2951,8 +2960,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 10
     },
     "PC Legacy Skardu": {
-      distance_km: 11.3,
-      estimated_minutes: 10
+      distance_km: 12,
+      estimated_minutes: 24
     },
     "GB Lodges": {
       distance_km: 12.1,
@@ -2973,6 +2982,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Safena Hotel Skardu": {
       distance_km: 16,
       estimated_minutes: 27
+    },
+    "Jabal e Rawah Skardu": {
+      distance_km: 8.2,
+      estimated_minutes: 18
     },
     "Byarsa Hotel Skardu": {
       distance_km: 26,
@@ -3039,8 +3052,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 6
     },
     "Apex Hotels and Resorts Skardu": {
-      distance_km: 6.2,
-      estimated_minutes: 6
+      distance_km: 7.3,
+      estimated_minutes: 17
     },
     "Hotel virsa": {
       distance_km: 6.3,
@@ -3881,8 +3894,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 3
   },
   "Dynasty Skardu": {
-    distance_km: 5.7,
-    estimated_minutes: 6
+    distance_km: 5.8,
+    estimated_minutes: 11
   },
   "Sehrish Guest House Skardu": {
     distance_km: 1.4,
@@ -3969,8 +3982,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 3
   },
   "Maple Resort": {
-    distance_km: 12,
-    estimated_minutes: 15
+    distance_km: 3.3,
+    estimated_minutes: 8
   },
   "Candela Resorts": {
     distance_km: 3.5,
@@ -3997,8 +4010,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 9
   },
   "PC Legacy Skardu": {
-    distance_km: 10.6,
-    estimated_minutes: 9
+    distance_km: 11,
+    estimated_minutes: 18
   },
   "GB Lodges": {
     distance_km: 11.4,
@@ -4019,6 +4032,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
   "Safena Hotel Skardu": {
     distance_km: 15,
     estimated_minutes: 22
+  },
+  "Jabal e Rawah Skardu": {
+    distance_km: 5.7,
+    estimated_minutes: 11
   },
   "Byarsa Hotel Skardu": {
     distance_km: 25,
@@ -4085,8 +4102,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 5
   },
   "Apex Hotels and Resorts Skardu": {
-    distance_km: 5.5,
-    estimated_minutes: 5
+    distance_km: 5.6,
+    estimated_minutes: 11
   },
   "Hotel virsa": {
     distance_km: 5.6,
@@ -4927,8 +4944,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 17
     },
     "Dynasty Skardu": {
-      distance_km: 9.2,
-      estimated_minutes: 33
+      distance_km: 6.7,
+      estimated_minutes: 12
     },
     "Sehrish Guest House Skardu": {
       distance_km: 7.8,
@@ -5014,8 +5031,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 15
     },
     "Maple Resort": {
-      distance_km: 3.3,
-      estimated_minutes: 14
+      distance_km: 3.8,
+      estimated_minutes: 8
     },
     "Candela Resorts": {
       distance_km: 5.4,
@@ -5042,8 +5059,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 31
     },
     "PC Legacy Skardu": {
-      distance_km: 6.9,
-      estimated_minutes: 25
+      distance_km: 11,
+      estimated_minutes: 18
     },
     "GB Lodges": {
       distance_km: 7.5,
@@ -5064,6 +5081,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Safena Hotel Skardu": {
       distance_km: 15,
       estimated_minutes: 21
+    },
+    "Jabal e Rawah Skardu": {
+      distance_km: 6.9,
+      estimated_minutes: 12
     },
     "Byarsa Hotel Skardu": {
       distance_km: 25,
@@ -5130,8 +5151,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 32
     },
     "Apex Hotels and Resorts Skardu": {
-      distance_km: 2.3,
-      estimated_minutes: 8
+      distance_km: 6.1,
+      estimated_minutes: 11
     },
     "Hotel virsa": {
       distance_km: 4.1,
@@ -5866,7 +5887,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Ringchan Guest House & Restaurant": { distance_km: 9.4, estimated_minutes: 34 },
     "Skardu Lodge": { distance_km: 8.0, estimated_minutes: 29 },
     "Karakoram Nest": { distance_km: 6.8, estimated_minutes: 23 },
-    "Dynasty Skardu": { distance_km: 0.9, estimated_minutes: 3 },
+    "Dynasty Skardu": { distance_km: 6.9, estimated_minutes: 17 },
     "Sehrish Guest House Skardu": { distance_km: 5.0, estimated_minutes: 19 },
     "PTDC Motel Skardu": { distance_km: 3.2, estimated_minutes: 13 },
     "Hotel Reego Skardu": { distance_km: 1.6, estimated_minutes: 5 },
@@ -5888,19 +5909,20 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Areena Hotel Skardu": { distance_km: 8.2, estimated_minutes: 32 },
     "Skardu Farmhouse for stay": { distance_km: 5.5, estimated_minutes: 21 },
     "Adventure Sarai Hotel Skardu": { distance_km: 3.1, estimated_minutes: 13 },
-    "Maple Resort": { distance_km: 2.0, estimated_minutes: 9 },
+    "Maple Resort": { distance_km: 4.4, estimated_minutes: 14 },
     "Candela Resorts": { distance_km: 6.0, estimated_minutes: 24 },
     "Hispar Hotel Skardu": { distance_km: 4.2, estimated_minutes: 14 },
     "K2 Paradise Guest House": { distance_km: 3.6, estimated_minutes: 12 },
     "Holiday Mountain Resort & Camping Site": { distance_km: 3.5, estimated_minutes: 14 },
     "Mountain Lodge Skardu": { distance_km: 6.6, estimated_minutes: 26 },
     "Mulberry Continental Hotel Skardu": { distance_km: 3.5, estimated_minutes: 14 },
-    "PC Legacy Skardu": { distance_km: 1.4, estimated_minutes: 4 },
+    "PC Legacy Skardu": { distance_km: 12, estimated_minutes: 24 },
     "GB Lodges": { distance_km: 9.4, estimated_minutes: 33 },
     "Bilafond Cottage": { distance_km: 3.1, estimated_minutes: 10 },
     "North Hills Skardu": { distance_km: 1.2, estimated_minutes: 6 },
     "Pinnacle Executive Lodges": { distance_km: 7.0, estimated_minutes: 26 },
     "Safena Hotel Skardu": { distance_km: 16, estimated_minutes: 28 },
+    "Jabal e Rawah Skardu": { distance_km: 6.8, estimated_minutes: 16 },
     "Byarsa Hotel Skardu": { distance_km: 26, estimated_minutes: 38 },
     "Dream Nest Resort Hotels Skardu": { distance_km: 1.0, estimated_minutes: 3 },
     "Stream view guest house skardu": { distance_km: 7.9, estimated_minutes: 29 },
@@ -5917,7 +5939,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Fatah inn Guest House": { distance_km: 2.8, estimated_minutes: 12 },
     "Kunhar": { distance_km: 5.4, estimated_minutes: 21 },
     "Maltoro guest house": { distance_km: 6.2, estimated_minutes: 22 },
-    "Apex Hotels and Resorts Skardu": { distance_km: 9.1, estimated_minutes: 34 },
+    "Apex Hotels and Resorts Skardu": { distance_km: 6.7, estimated_minutes: 17 },
     "Hotel virsa": { distance_km: 5.0, estimated_minutes: 17 },
     "Elli's Luxus": { distance_km: 6.2, estimated_minutes: 23 },
     "Skardu Gateway Hotel & Restaurant": { distance_km: 4.2, estimated_minutes: 14 },
@@ -6288,7 +6310,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
   },
   "Dynasty Skardu": {
     distance_km: 5.7,
-    estimated_minutes: 6
+    estimated_minutes: 12
   },
   "Sehrish Guest House Skardu": {
     distance_km: 1.4,
@@ -6375,8 +6397,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 3
   },
   "Maple Resort": {
-    distance_km: 12,
-    estimated_minutes: 15
+    distance_km: 3.3,
+    estimated_minutes: 9
   },
   "Candela Resorts": {
     distance_km: 3.5,
@@ -6403,8 +6425,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 9
   },
   "PC Legacy Skardu": {
-    distance_km: 10.6,
-    estimated_minutes: 9
+    distance_km: 11,
+    estimated_minutes: 19
   },
   "GB Lodges": {
     distance_km: 11.4,
@@ -6423,8 +6445,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 10
   },
   "Safena Hotel Skardu": {
-    distance_km: 15,
-    estimated_minutes: 23
+    distance_km: 5.6,
+    estimated_minutes: 12
   },
   "Byarsa Hotel Skardu": {
     distance_km: 25,
@@ -6492,7 +6514,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
   },
   "Apex Hotels and Resorts Skardu": {
     distance_km: 5.5,
-    estimated_minutes: 5
+    estimated_minutes: 12
   },
   "Hotel virsa": {
     distance_km: 5.6,
@@ -7336,8 +7358,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 2
   },
   "Dynasty Skardu": {
-    distance_km: 6.8,
-    estimated_minutes: 7
+    distance_km: 6.7,
+    estimated_minutes: 15
   },
   "Sehrish Guest House Skardu": {
     distance_km: 0.8,
@@ -7424,8 +7446,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 3
   },
   "Maple Resort": {
-    distance_km: 13,
-    estimated_minutes: 15
+    distance_km: 4.3,
+    estimated_minutes: 12
   },
   "Candela Resorts": {
     distance_km: 3.3,
@@ -7452,8 +7474,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 10
   },
   "PC Legacy Skardu": {
-    distance_km: 11.6,
-    estimated_minutes: 10
+    distance_km: 12,
+    estimated_minutes: 22
   },
   "GB Lodges": {
     distance_km: 12.4,
@@ -7474,6 +7496,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
   "Safena Hotel Skardu": {
     distance_km: 16,
     estimated_minutes: 26
+  },
+  "Jabal e Rawah Skardu": {
+    distance_km: 6.7,
+    estimated_minutes: 15
   },
   "Byarsa Hotel Skardu": {
     distance_km: 26,
@@ -7540,8 +7566,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 6
   },
   "Apex Hotels and Resorts Skardu": {
-    distance_km: 6.6,
-    estimated_minutes: 6
+    distance_km: 6.5,
+    estimated_minutes: 15
   },
   "Hotel virsa": {
     distance_km: 6.6,
@@ -8379,7 +8405,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "Dynasty Skardu": {
       distance_km: 6.5,
-      estimated_minutes: 7
+      estimated_minutes: 14
     },
     "Sehrish Guest House Skardu": {
       distance_km: 0.6,
@@ -8466,8 +8492,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 3
     },
     "Maple Resort": {
-      distance_km: 12.7,
-      estimated_minutes: 15
+      distance_km: 4.0,
+      estimated_minutes: 11
     },
     "Candela Resorts": {
       distance_km: 3.6,
@@ -8494,8 +8520,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 9
     },
     "PC Legacy Skardu": {
-      distance_km: 11.3,
-      estimated_minutes: 10
+      distance_km: 11,
+      estimated_minutes: 21
     },
     "GB Lodges": {
       distance_km: 12.1,
@@ -8516,6 +8542,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Safena Hotel Skardu": {
       distance_km: 15,
       estimated_minutes: 25
+    },
+    "Jabal e Rawah Skardu": {
+      distance_km: 6.4,
+      estimated_minutes: 14
     },
     "Byarsa Hotel Skardu": {
       distance_km: 25,
@@ -8583,7 +8613,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "Apex Hotels and Resorts Skardu": {
       distance_km: 6.3,
-      estimated_minutes: 6
+      estimated_minutes: 14
     },
     "Hotel virsa": {
       distance_km: 6.3,
@@ -9420,7 +9450,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "Dynasty Skardu": {
       distance_km: 6.5,
-      estimated_minutes: 7
+      estimated_minutes: 14
     },
     "Sehrish Guest House Skardu": {
       distance_km: 0.6,
@@ -9507,8 +9537,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 3
     },
     "Maple Resort": {
-      distance_km: 12.7,
-      estimated_minutes: 15
+      distance_km: 4.0,
+      estimated_minutes: 11
     },
     "Candela Resorts": {
       distance_km: 3.6,
@@ -9535,8 +9565,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 9
     },
     "PC Legacy Skardu": {
-      distance_km: 11.3,
-      estimated_minutes: 10
+      distance_km: 11,
+      estimated_minutes: 21
     },
     "GB Lodges": {
       distance_km: 12.1,
@@ -9557,6 +9587,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Safena Hotel Skardu": {
       distance_km: 15,
       estimated_minutes: 25
+    },
+    "Jabal e Rawah Skardu": {
+      distance_km: 6.4,
+      estimated_minutes: 14
     },
     "Byarsa Hotel Skardu": {
       distance_km: 25,
@@ -9624,7 +9658,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "Apex Hotels and Resorts Skardu": {
       distance_km: 6.3,
-      estimated_minutes: 6
+      estimated_minutes: 14
     },
     "Hotel virsa": {
       distance_km: 6.3,
@@ -10461,7 +10495,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "Dynasty Skardu": {
       distance_km: 6.9,
-      estimated_minutes: 7
+      estimated_minutes: 17
     },
     "Sehrish Guest House Skardu": {
       distance_km: 0.9,
@@ -10548,7 +10582,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 3
     },
     "Maple Resort": {
-      distance_km: 13.1,
+      distance_km: 4.4,
       estimated_minutes: 15
     },
     "Candela Resorts": {
@@ -10576,8 +10610,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 10
     },
     "PC Legacy Skardu": {
-      distance_km: 11.7,
-      estimated_minutes: 10
+      distance_km: 12,
+      estimated_minutes: 24
     },
     "GB Lodges": {
       distance_km: 12.5,
@@ -10598,6 +10632,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Safena Hotel Skardu": {
       distance_km: 16,
       estimated_minutes: 28
+    },
+    "Jabal e Rawah Skardu": {
+      distance_km: 6.8,
+      estimated_minutes: 16
     },
     "Byarsa Hotel Skardu": {
       distance_km: 26,
@@ -10665,7 +10703,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "Apex Hotels and Resorts Skardu": {
       distance_km: 6.7,
-      estimated_minutes: 6
+      estimated_minutes: 17
     },
     "Hotel virsa": {
       distance_km: 6.7,
@@ -11508,8 +11546,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 3
     },
     "Dynasty Skardu": {
-      distance_km: 6.5,
-      estimated_minutes: 7
+      distance_km: 6.6,
+      estimated_minutes: 14
     },
     "Sehrish Guest House Skardu": {
       distance_km: 0.6,
@@ -11596,8 +11634,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 3
     },
     "Maple Resort": {
-      distance_km: 12.8,
-      estimated_minutes: 16
+      distance_km: 4.1,
+      estimated_minutes: 11
     },
     "Candela Resorts": {
       distance_km: 3,
@@ -11624,8 +11662,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 10
     },
     "PC Legacy Skardu": {
-      distance_km: 11.4,
-      estimated_minutes: 10
+      distance_km: 11,
+      estimated_minutes: 22
     },
     "GB Lodges": {
       distance_km: 12.2,
@@ -11646,6 +11684,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Safena Hotel Skardu": {
       distance_km: 15,
       estimated_minutes: 26
+    },
+    "Jabal e Rawah Skardu": {
+      distance_km: 6.5,
+      estimated_minutes: 14
     },
     "Byarsa Hotel Skardu": {
       distance_km: 25,
@@ -11712,8 +11754,9 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 6
     },
     "Apex Hotels and Resorts Skardu": {
-      distance_km: 6.3,
-      estimated_minutes: 6
+      distance_km: 6.4,
+      estimated_minutes: 15
+
     },
     "Hotel virsa": {
       distance_km: 6.4,
@@ -12398,7 +12441,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Raees mohalla Haji Gam": { distance_km: 2.1, estimated_minutes: 7 },
     "Haji Gam": { distance_km: 1.1, estimated_minutes: 6 },
     "Gulshan e Ali skardu": { distance_km: 9.4, estimated_minutes: 36 },
-    "Jamia masjid road": { distance_km: 6.1, estimated_minutes: 21 },
+    "Jamia masjid road": { distance_km: 1.2, estimated_minutes: 4 },
     "Gayool skardu": { distance_km: 6.9, estimated_minutes: 26 },
     "Toqrangah Skardu": { distance_km: 9.0, estimated_minutes: 34 },
     "Maqponsar skardu": { distance_km: 1.3, estimated_minutes: 6 },
@@ -12548,8 +12591,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 1
     },
     "Dynasty Skardu": {
-      distance_km: 7.1,
-      estimated_minutes: 8
+      distance_km: 7.9,
+      estimated_minutes: 19
     },
     "Sehrish Guest House Skardu": {
       distance_km: 1.9,
@@ -12636,7 +12679,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 3
     },
     "Maple Resort": {
-      distance_km: 13.3,
+      distance_km: 5.5,
       estimated_minutes: 16
     },
     "Candela Resorts": {
@@ -12664,8 +12707,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 10
     },
     "PC Legacy Skardu": {
-      distance_km: 11.9,
-      estimated_minutes: 10
+      distance_km: 13,
+      estimated_minutes: 26
     },
     "GB Lodges": {
       distance_km: 12.7,
@@ -12686,6 +12729,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Safena Hotel Skardu": {
       distance_km: 17,
       estimated_minutes: 29
+    },
+    "Jabal e Rawah Skardu": {
+      distance_km: 7.9,
+      estimated_minutes: 18
     },
     "Byarsa Hotel Skardu": {
       distance_km: 27,
@@ -12752,8 +12799,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 7
     },
     "Apex Hotels and Resorts Skardu": {
-      distance_km: 6.9,
-      estimated_minutes: 7
+      distance_km: 7.8,
+      estimated_minutes: 19
     },
     "Hotel virsa": {
       distance_km: 6.9,
@@ -13519,7 +13566,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "Dynasty Skardu": {
       distance_km: 6.3,
-      estimated_minutes: 6
+      estimated_minutes: 18
     },
     "Sehrish Guest House Skardu": {
       distance_km: 4.5,
@@ -13606,7 +13653,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 7
     },
     "Maple Resort": {
-      distance_km: 12.5,
+      distance_km: 5.5,
       estimated_minutes: 15
     },
     "Candela Resorts": {
@@ -13634,8 +13681,8 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 9
     },
     "PC Legacy Skardu": {
-      distance_km: 11.1,
-      estimated_minutes: 9
+      distance_km: 12.1,
+      estimated_minutes: 20
     },
     "GB Lodges": {
       distance_km: 11.9,
@@ -13656,6 +13703,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Safena Hotel Skardu": {
       distance_km: 15.2,
       estimated_minutes: 12
+    },
+    "Jabal e Rawah Skardu": {
+      distance_km: 7.9,
+      estimated_minutes: 18
     },
     "Byarsa Hotel Skardu": {
       distance_km: 25.1,
@@ -13723,7 +13774,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     },
     "Apex Hotels and Resorts Skardu": {
       distance_km: 6.1,
-      estimated_minutes: 6
+      estimated_minutes: 18
     },
     "Hotel virsa": {
       distance_km: 6.1,
@@ -14391,7 +14442,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Katpana": { destinationType: "Area", distance_km: 7.7, estimated_minutes: 22 },
   "Khargrong": { destinationType: "Area", distance_km: 1.1, estimated_minutes: 4 },
   "Hasnain Nagar": { destinationType: "Area", distance_km: 0.6, estimated_minutes: 3 },
-  "Alamdar Chowk": { destinationType: "Area", distance_km: 0.45, estimated_minutes: 2 },
+  "Alamdar Chowk": { destinationType: "Area", distance_km: 0.45, estimated_minutes: 3 },
   "Hassan Colony": { destinationType: "Area", distance_km: 1.7, estimated_minutes: 7 },
   "Hassan Colony Pine": { destinationType: "Area", distance_km: 1.7, estimated_minutes: 7 },
   "Shinkhani Gond": { destinationType: "Area", distance_km: 1.2, estimated_minutes: 6 },
@@ -14443,7 +14494,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Raees mohalla Haji Gam": { destinationType: "Area", distance_km: 2.1, estimated_minutes: 8 },
   "Haji Gam": { destinationType: "Area", distance_km: 1.2, estimated_minutes: 4 },
   "Gulshan e Ali skardu": { destinationType: "Area", distance_km: 2.1, estimated_minutes: 7 },
-  "Jamia masjid road": { destinationType: "Area", distance_km: 0.9, estimated_minutes: 4 },
+  "Jamia masjid road": { destinationType: "Area", distance_km: 0.35, estimated_minutes: 3 },
   "Gayool skardu": { destinationType: "Area", distance_km: 5.8, estimated_minutes: 15 },
   "Toqrangah Skardu": { destinationType: "Area", distance_km: 4.1, estimated_minutes: 13 },
   "Maqponsar skardu": { destinationType: "Area", distance_km: 3.7, estimated_minutes: 12 },
@@ -14499,7 +14550,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Ringchan Guest House & Restaurant": { destinationType: "Hotel", distance_km: 3.8, estimated_minutes: 16 },
   "Skardu Lodge": { destinationType: "Hotel", distance_km: 6.6, estimated_minutes: 25 },
   "Karakoram Nest": { destinationType: "Hotel", distance_km: 3.4, estimated_minutes: 13 },
-  "Dynasty Skardu": { destinationType: "Hotel", distance_km: 12.0, estimated_minutes: 31 },
+  "Dynasty Skardu": { destinationType: "Hotel", distance_km: 6.7, estimated_minutes: 15 },
   "Sehrish Guest House Skardu": { destinationType: "Hotel", distance_km: 9.5, estimated_minutes: 34 },
   "PTDC Motel Skardu": { destinationType: "Hotel", distance_km: 8.6, estimated_minutes: 32 },
   "Hotel Reego Skardu": { destinationType: "Hotel", distance_km: 6.0, estimated_minutes: 22 },
@@ -14521,19 +14572,20 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Areena Hotel Skardu": { destinationType: "Hotel", distance_km: 4.2, estimated_minutes: 17 },
   "Skardu Farmhouse for stay": { destinationType: "Hotel", distance_km: 6.1, estimated_minutes: 24 },
   "Adventure Sarai Hotel Skardu": { destinationType: "Hotel", distance_km: 0.6, estimated_minutes: 2 },
-  "Maple Resort": { destinationType: "Hotel", distance_km: 8.8, estimated_minutes: 34 },
+  "Maple Resort": { destinationType: "Hotel", distance_km: 4.3, estimated_minutes: 12 },
   "Candela Resorts": { destinationType: "Hotel", distance_km: 9.3, estimated_minutes: 35 },
   "Hispar Hotel Skardu": { destinationType: "Hotel", distance_km: 8.8, estimated_minutes: 33 },
   "K2 Paradise Guest House": { destinationType: "Hotel", distance_km: 6.9, estimated_minutes: 25 },
   "Holiday Mountain Resort & Camping Site": { destinationType: "Hotel", distance_km: 6.1, estimated_minutes: 23 },
   "Mountain Lodge Skardu": { destinationType: "Hotel", distance_km: 0.7, estimated_minutes: 4 },
   "Mulberry Continental Hotel Skardu": { destinationType: "Hotel", distance_km: 2.8, estimated_minutes: 10 },
-  "PC Legacy Skardu": { destinationType: "Hotel", distance_km: 6.9, estimated_minutes: 24 },
+  "PC Legacy Skardu": { destinationType: "Hotel", distance_km: 12, estimated_minutes: 23 },
   "GB Lodges": { destinationType: "Hotel", distance_km: 2.8, estimated_minutes: 9 },
   "Bilafond Cottage": { destinationType: "Hotel", distance_km: 7.0, estimated_minutes: 26 },
   "North Hills Skardu": { destinationType: "Hotel", distance_km: 4.8, estimated_minutes: 18 },
   "Pinnacle Executive Lodges": { destinationType: "Hotel", distance_km: 3.5, estimated_minutes: 12 },
   "Safena Hotel Skardu": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
+  "Jabal e Rawah Skardu": { destinationType: "Hotel", distance_km: 6.6, estimated_minutes: 15 },
   "Byarsa Hotel Skardu": { destinationType: "Hotel", distance_km: 26, estimated_minutes: 37 },
   "Dream Nest Resort Hotels Skardu": { destinationType: "Hotel", distance_km: 3.6, estimated_minutes: 14 },
   "Stream view guest house skardu": { destinationType: "Hotel", distance_km: 6.3, estimated_minutes: 24 },
@@ -14550,7 +14602,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Fatah inn Guest House": { destinationType: "Hotel", distance_km: 9.2, estimated_minutes: 32 },
   "Kunhar": { destinationType: "Hotel", distance_km: 4.2, estimated_minutes: 14 },
   "Maltoro guest house": { destinationType: "Hotel", distance_km: 4.8, estimated_minutes: 19 },
-  "Apex Hotels and Resorts Skardu": { destinationType: "Hotel", distance_km: 5.6, estimated_minutes: 20 },
+  "Apex Hotels and Resorts Skardu": { destinationType: "Hotel", distance_km: 6.5, estimated_minutes: 15 },
   "Hotel virsa": { destinationType: "Hotel", distance_km: 5.9, estimated_minutes: 23 },
   "Elli's Luxus": { destinationType: "Hotel", distance_km: 4.8, estimated_minutes: 17 },
   "Skardu Gateway Hotel & Restaurant": { destinationType: "Hotel", distance_km: 7.5, estimated_minutes: 29 },
@@ -14732,7 +14784,8 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Oasis Resort Katpana Skardu":160,
   "Kesar Palace Skardu":50,
   "Qayam Skardu":150,
-  "Dynasty Skardu":150,
+  "Dynasty Skardu":130,
+  "Jabal e Rawah Skardu":130,
   "Tibet Hotel Kachura Skardu":700,
   "Hussainabad":180,
   "Thorgu":400,
@@ -14743,6 +14796,9 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "The Pioneer Hotel":100,
   "Lashari Resort Skardu":100,
   "Safena Hotel Skardu":400,
+  "Apex Hotels and Resorts Skardu":130,
+  "Maple Resort":100,
+  "PC Legacy Skardu":340,
 };
 // ---------------------------------------------------------------------
 // Scaffolding helpers — keep the structure easy to expand

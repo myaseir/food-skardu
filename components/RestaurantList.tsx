@@ -82,6 +82,10 @@ function ShopLogo({ shop }: { shop: Shop }) {
 // versions of the card, so the two stay visually identical.
 function ShopCardContent({ shop }: { shop: Shop }) {
   const statusText = getOpenStatusText(shop);
+  // estimateDeliveryTime now returns null when this shop's Office ->
+  // Restaurant leg hasn't been manually measured yet (no coordinate
+  // fallback anymore) — the clock badge below just omits itself in that
+  // case rather than showing a guessed time or crashing on `.label`.
   const deliveryTime = estimateDeliveryTime(shop);
 
   return (
@@ -106,10 +110,12 @@ function ShopCardContent({ shop }: { shop: Shop }) {
             </span>
           </span>
 
-          <span className="flex items-center gap-1 text-xs font-bold text-gray-700 bg-gray-50 px-2 py-0.5 rounded-full">
-            <Clock size={12} className="text-purple-600" />
-            {deliveryTime.label}
-          </span>
+          {deliveryTime && (
+            <span className="flex items-center gap-1 text-xs font-bold text-gray-700 bg-gray-50 px-2 py-0.5 rounded-full">
+              <Clock size={12} className="text-purple-600" />
+              {deliveryTime.label}
+            </span>
+          )}
         </div>
 
         <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">

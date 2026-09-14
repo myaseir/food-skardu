@@ -77,6 +77,11 @@ export default function FeaturedCarousel() {
         <div className="flex gap-4 px-6 snap-x snap-mandatory">
           {featuredShops.map((shop) => {
             const isOpen = checkShopStatus(shop);
+            // estimateDeliveryTime now returns null when this shop's
+            // Office -> Restaurant leg hasn't been manually measured yet
+            // (no coordinate fallback anymore) — the clock line below
+            // just omits itself in that case rather than showing a
+            // guessed time.
             const deliveryTime = estimateDeliveryTime(shop);
 
             return (
@@ -92,12 +97,19 @@ export default function FeaturedCarousel() {
                   <p className="text-[10px] md:text-xs text-gray-500 uppercase truncate mb-1.5">{shop.type}</p>
 
                   <div className="flex items-center justify-between gap-1.5 text-[9px] whitespace-nowrap">
-                    <span className="flex items-center gap-0.5 text-gray-500 min-w-0 truncate">
-                      <Clock size={10} className="shrink-0" />
-                      <span className="truncate">
-                        {isOpen ? deliveryTime.label : `Opens ${formatOpenTime(shop.openTime)}`}
+                    {isOpen ? (
+                      deliveryTime && (
+                        <span className="flex items-center gap-0.5 text-gray-500 min-w-0 truncate">
+                          <Clock size={10} className="shrink-0" />
+                          <span className="truncate">{deliveryTime.label}</span>
+                        </span>
+                      )
+                    ) : (
+                      <span className="flex items-center gap-0.5 text-gray-500 min-w-0 truncate">
+                        <Clock size={10} className="shrink-0" />
+                        <span className="truncate">Opens {formatOpenTime(shop.openTime)}</span>
                       </span>
-                    </span>
+                    )}
                     {typeof shop.rating === "number" && (
                       <span className="flex items-center gap-0.5 shrink-0">
                         <Star size={10} className="fill-yellow-400 text-yellow-400 shrink-0" />

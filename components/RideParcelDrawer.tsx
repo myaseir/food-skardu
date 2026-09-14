@@ -1,7 +1,7 @@
 // components/RideParcelForm.tsx
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   Bike,
@@ -21,17 +21,14 @@ import {
   Sparkles,
   Building2,
   LandPlot,
+  ChevronRight,
+  Home,
 } from "lucide-react";
 import {
   SKARDU_AREAS,
   SKARDU_HOTELS,
 } from "@/data/location";
 
-import {
-  calculateRideFare,
-  calculateParcelFare,
-  calculateTripDistance,
-} from "@/utils/deliveryCalculator";
 import { useUserLocation } from "@/contexts/LocationContext";
 
 type SubmitStatus = "idle" | "sending" | "error";
@@ -49,9 +46,9 @@ type Area = string;
 type LocationOption = { name: string; category: LocationCategory };
 
 // Combined directory of every known area + hotel, built once at module
-// scope. The picker searches across both groups together instead of
-// forcing the person to pick a tab first, then displays results grouped
-// by category so a long, unfiltered list still stays easy to scan.
+// scope. Both the desktop combobox and the mobile bottom sheet search
+// across this same directory, grouped by category, so the two surfaces
+// never drift out of sync with each other.
 const ALL_AREAS: LocationOption[] = Object.keys(SKARDU_AREAS)
   .map((name) => ({ name, category: "area" as const }))
   .sort((a, b) => a.name.localeCompare(b.name));
@@ -61,6 +58,7 @@ const ALL_HOTELS: LocationOption[] = Object.keys(SKARDU_HOTELS)
   .sort((a, b) => a.name.localeCompare(b.name));
 
 const KNOWN_LOCATION_NAMES = new Set([...ALL_AREAS, ...ALL_HOTELS].map((l) => l.name));
+const TOTAL_LOCATION_COUNT = ALL_AREAS.length + ALL_HOTELS.length;
 
 type BookingSummary = {
   mode: Mode;
@@ -68,8 +66,6 @@ type BookingSummary = {
   pickupAddress: string;
   dropoffArea: Area;
   dropoffAddress: string;
-  price: number | null;
-  distanceKm: number | null;
   riderName: string;
   riderPhone: string;
   senderName: string;
@@ -90,40 +86,43 @@ function matchAndSort(list: LocationOption[], needle: string): LocationOption[] 
     });
 }
 
+function findExactMatch(needle: string): LocationOption | undefined {
+  if (!needle) return undefined;
+  return [...ALL_AREAS, ...ALL_HOTELS].find((o) => o.name.toLowerCase() === needle);
+}
+
 /**
- * Searchable location picker.
+ * Searchable location picker — desktop version.
  *
  * Typing filters the combined area + hotel directory live. Results are
  * grouped under sticky "Areas" / "Hotels" headers so the full, unlimited
  * list stays navigable instead of turning into one long undifferentiated
  * scroll. If nothing in the directory matches what was typed, an extra
  * row lets the person use their own text as a custom location (e.g. a
- * village or street the directory doesn't have yet) — pricing simply
- * falls back to "On request" for anything outside the known list.
+ * village or street the directory doesn't have yet) — pricing is handled
+ * manually over WhatsApp regardless of whether the location is known.
  */
 function AreaCombobox({
-  label,
   value,
   onChange,
   isOpen,
   onOpen,
   onClose,
   placeholder,
+  label,
 }: {
-  label: string;
   value: Area;
   onChange: (a: Area) => void;
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
   placeholder: string;
+  label: string;
 }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState(value);
 
-  // Keep the input's text in sync with the committed value whenever the
-  // field isn't actively being edited (e.g. after "Book Another" resets it).
   useEffect(() => {
     if (!isOpen) setQuery(value);
   }, [value, isOpen]);
@@ -135,11 +134,8 @@ function AreaCombobox({
   const matchedHotels = useMemo(() => matchAndSort(ALL_HOTELS, trimmedLower), [trimmedLower]);
   const totalMatches = matchedAreas.length + matchedHotels.length;
 
-  const exactMatch = trimmedLower
-    ? [...ALL_AREAS, ...ALL_HOTELS].find((o) => o.name.toLowerCase() === trimmedLower)
-    : undefined;
+  const exactMatch = useMemo(() => findExactMatch(trimmedLower), [trimmedLower]);
   const showCustomOption = trimmed.length > 0 && !exactMatch;
-  const isCustomSelected = value !== "" && !KNOWN_LOCATION_NAMES.has(value);
 
   function selectOption(name: string) {
     setQuery(name);
@@ -154,8 +150,6 @@ function AreaCombobox({
     onClose();
   }
 
-  // Commits whatever was typed (as a custom location) when the field loses
-  // focus without an explicit selection, instead of silently discarding it.
   function commitAndClose() {
     if (trimmed) {
       if (trimmed !== value) onChange(trimmed);
@@ -199,10 +193,9 @@ function AreaCombobox({
       <div>
         <div className="sticky top-0 z-10 flex items-center gap-1.5 bg-white/95 px-3.5 py-1.5 backdrop-blur-sm">
           {icon}
-          <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-            {groupLabel}
+          <span className="text-[10px] font-semibold tracking-wide text-gray-400">
+            {groupLabel} · {items.length}
           </span>
-          <span className="text-[10px] font-semibold text-gray-300">· {items.length}</span>
         </div>
         {items.map((opt) => {
           const selected = opt.name === value;
@@ -228,21 +221,16 @@ function AreaCombobox({
     );
   }
 
+  const isCustomSelected = value !== "" && !KNOWN_LOCATION_NAMES.has(value);
+
   return (
     <div ref={wrapperRef} className="relative min-w-0">
-      <div className="flex items-center justify-between gap-2">
-        <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
-          {label}
-        </label>
-        {isCustomSelected && (
-          <span className="flex shrink-0 items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-600">
-            Custom
-          </span>
-        )}
-      </div>
-
-      <div className="relative mt-1.5 flex items-center">
-        <Search size={13} strokeWidth={2.5} className="pointer-events-none absolute left-0 text-gray-300" />
+      <div
+        className={`flex items-center gap-2.5 rounded-xl border bg-gray-50 px-3.5 py-3 transition-colors ${
+          isOpen ? "border-purple-400 ring-2 ring-purple-100" : "border-gray-200"
+        }`}
+      >
+        <Search size={15} strokeWidth={2.25} className="shrink-0 text-gray-400" />
         <input
           ref={inputRef}
           type="text"
@@ -259,8 +247,13 @@ function AreaCombobox({
           placeholder={placeholder}
           autoComplete="off"
           aria-label={label}
-          className="w-full min-w-0 bg-transparent py-1 pl-5 pr-5 text-sm font-semibold text-gray-900 placeholder:text-gray-400 placeholder:font-normal focus:outline-none"
+          className="min-w-0 flex-1 bg-transparent text-sm font-medium text-gray-900 placeholder:font-normal placeholder:text-gray-400 focus:outline-none"
         />
+        {isCustomSelected && !isOpen && (
+          <span className="shrink-0 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-600">
+            Custom
+          </span>
+        )}
         {(isOpen ? query : value) && (
           <button
             type="button"
@@ -271,7 +264,7 @@ function AreaCombobox({
               onChange("");
               inputRef.current?.focus();
             }}
-            className="absolute right-0 text-gray-300 transition-colors hover:text-gray-500"
+            className="shrink-0 text-gray-300 transition-colors hover:text-gray-500"
           >
             <X size={14} strokeWidth={2.5} />
           </button>
@@ -280,11 +273,12 @@ function AreaCombobox({
 
       {isOpen && (
         <div
-          className="absolute left-0 right-0 top-full z-30 mt-2 max-h-72 sm:max-h-80 overflow-y-auto overscroll-contain rounded-2xl border border-gray-100 bg-white py-1 shadow-xl shadow-gray-300/40"
+          className="absolute left-0 right-0 top-full z-30 mt-2 max-h-72 overflow-y-auto overscroll-contain rounded-2xl border border-gray-100 bg-white py-1 shadow-xl shadow-gray-300/40 sm:max-h-80"
           role="listbox"
         >
           {totalMatches === 0 && !showCustomOption ? (
             <div className="px-4 py-6 text-center">
+              <span className="mb-1.5 block text-xl">🤔</span>
               <p className="text-sm font-semibold text-gray-500">No matches yet</p>
               <p className="mt-0.5 text-xs text-gray-400">Keep typing to search areas &amp; hotels.</p>
             </div>
@@ -322,6 +316,471 @@ function AreaCombobox({
   );
 }
 
+/**
+ * Mobile location picker — bottom sheet.
+ *
+ * Same directory, grouping, and "custom location" fallback as the
+ * desktop combobox above, but presented full-screen: a slide-up sheet
+ * with its own sticky search bar, internally-scrolling grouped results,
+ * body scroll lock, and Android back-button handling (first back press
+ * drops the keyboard, second press closes the sheet).
+ */
+function AreaMobileSheet({
+  isOpen,
+  onClose,
+  label,
+  placeholder,
+  value,
+  onSelect,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  label: string;
+  placeholder: string;
+  value: Area;
+  onSelect: (a: Area) => void;
+}) {
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const consumedByUsRef = useRef(false);
+
+  useEffect(() => {
+    if (isOpen) setQuery("");
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const t = setTimeout(() => inputRef.current?.focus(), 150);
+    return () => clearTimeout(t);
+  }, [isOpen]);
+
+  // Body scroll lock — restores exact scroll position on close.
+  useEffect(() => {
+    if (!isOpen) return;
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const prev = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+    };
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    return () => {
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.left = prev.left;
+      body.style.right = prev.right;
+      body.style.width = prev.width;
+      window.scrollTo(0, scrollY);
+    };
+  }, [isOpen]);
+
+  // Android back-button handling: first press dismisses the keyboard,
+  // second press closes the sheet.
+  useEffect(() => {
+    if (!isOpen) return;
+    window.history.pushState({ mbAreaSheet: true }, "");
+    const handlePopState = () => {
+      if (document.activeElement === inputRef.current) {
+        inputRef.current?.blur();
+        window.history.pushState({ mbAreaSheet: true }, "");
+        return;
+      }
+      consumedByUsRef.current = true;
+      onClose();
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
+  const closeSheet = useCallback(() => {
+    inputRef.current?.blur();
+    if (window.history.state?.mbAreaSheet && !consumedByUsRef.current) {
+      window.history.back();
+    } else {
+      consumedByUsRef.current = false;
+      onClose();
+    }
+  }, [onClose]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeSheet();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isOpen, closeSheet]);
+
+  if (!isOpen) return null;
+
+  const trimmed = query.trim();
+  const trimmedLower = trimmed.toLowerCase();
+  const matchedAreas = matchAndSort(ALL_AREAS, trimmedLower);
+  const matchedHotels = matchAndSort(ALL_HOTELS, trimmedLower);
+  const totalMatches = matchedAreas.length + matchedHotels.length;
+  const exactMatch = findExactMatch(trimmedLower);
+  const showCustomOption = trimmed.length > 0 && !exactMatch;
+
+  function selectOption(name: string) {
+    onSelect(name);
+    closeSheet();
+  }
+
+  function useCustomLocation() {
+    if (!trimmed) return;
+    onSelect(trimmed);
+    closeSheet();
+  }
+
+  function renderGroup(items: LocationOption[], icon: React.ReactNode, groupLabel: string) {
+    if (items.length === 0) return null;
+    return (
+      <div>
+        <div className="sticky top-0 z-10 flex items-center gap-1.5 bg-white/95 px-4 py-2 backdrop-blur-sm">
+          {icon}
+          <span className="text-[10px] font-semibold tracking-wide text-gray-400">
+            {groupLabel} · {items.length}
+          </span>
+        </div>
+        {items.map((opt) => {
+          const selected = opt.name === value;
+          return (
+            <button
+              key={opt.name}
+              type="button"
+              onClick={() => selectOption(opt.name)}
+              className={`flex min-h-[48px] w-full items-center justify-between gap-3 rounded-xl px-4 py-3.5 text-left text-sm font-medium transition-colors ${
+                selected
+                  ? "bg-purple-50 text-purple-700"
+                  : "text-gray-700 active:bg-gray-100"
+              }`}
+            >
+              <span className="flex items-center gap-2.5 truncate">
+                {opt.category === "hotel" ? (
+                  <Building2 size={15} className={selected ? "shrink-0 text-purple-600" : "shrink-0 text-blue-300"} />
+                ) : (
+                  <LandPlot size={15} className={selected ? "shrink-0 text-purple-600" : "shrink-0 text-gray-300"} />
+                )}
+                <span className="truncate">{opt.name}</span>
+              </span>
+              {selected && <CheckCircle2 size={16} className="shrink-0 text-purple-600" />}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
+  return (
+    <div role="dialog" aria-modal="true" aria-label={label} className="fixed inset-0 z-[999] flex flex-col justify-end md:hidden">
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] animate-in fade-in duration-200" onClick={closeSheet} />
+
+      {/* Sheet */}
+      <div
+        className="relative flex flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl animate-in slide-in-from-bottom duration-300"
+        style={{ height: "94dvh", maxHeight: "94dvh" }}
+      >
+        {/* Drag handle */}
+        <div className="flex shrink-0 justify-center pb-1 pt-2.5">
+          <div className="h-1.5 w-10 rounded-full bg-gray-200" />
+        </div>
+
+        {/* Header */}
+        <div className="flex shrink-0 items-center justify-between gap-3 border-b border-gray-100 px-5 pb-3 pt-1">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-purple-50">
+              <MapPin size={15} className="text-purple-600" strokeWidth={2.5} />
+            </div>
+            <div className="min-w-0">
+              <h2 className="truncate text-[15px] font-bold text-gray-900">{label}</h2>
+              <p className="text-[11px] font-medium text-gray-400">
+                {TOTAL_LOCATION_COUNT} locations · Areas &amp; hotels
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={closeSheet}
+            aria-label="Close"
+            className="-mr-2 shrink-0 rounded-full p-2 text-gray-500 transition-colors hover:bg-gray-100 active:bg-gray-200"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* Search input */}
+        <div className="shrink-0 px-5 py-3">
+          <label htmlFor={`mb-search-${label}`} className="sr-only">
+            {placeholder}
+          </label>
+          <div className="relative">
+            <Search size={17} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              id={`mb-search-${label}`}
+              ref={inputRef}
+              type="text"
+              inputMode="search"
+              autoComplete="off"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={placeholder}
+              className="w-full rounded-xl border border-gray-200 bg-gray-50 py-3.5 pl-11 pr-10 text-sm font-medium text-gray-800 transition-all placeholder:text-gray-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("");
+                  inputRef.current?.focus();
+                }}
+                aria-label="Clear search"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-600"
+              >
+                <X size={14} strokeWidth={2.5} />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Results */}
+        <div
+          className="flex-1 overflow-y-auto overscroll-contain px-2"
+          style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
+        >
+          {totalMatches === 0 && !showCustomOption ? (
+            <div className="px-4 py-12 text-center">
+              <span className="mb-2 block text-3xl">🤔</span>
+              <p className="text-sm font-semibold text-gray-600">No matching locations found.</p>
+              <p className="mt-1 text-xs text-gray-400">Check your spelling, or try a nearby landmark.</p>
+            </div>
+          ) : (
+            <>
+              {renderGroup(matchedAreas, <LandPlot size={11} strokeWidth={2.5} className="text-gray-300" />, "Areas")}
+              {renderGroup(matchedHotels, <Building2 size={11} strokeWidth={2.5} className="text-blue-300" />, "Hotels")}
+              {showCustomOption && (
+                <div className="sticky bottom-0 mt-1 border-t border-dashed border-gray-100 bg-white px-1 pb-1 pt-1">
+                  <button
+                    type="button"
+                    onClick={useCustomLocation}
+                    className="flex min-h-[48px] w-full items-center gap-2.5 rounded-xl px-3.5 py-3.5 text-left text-sm font-semibold text-purple-700 transition-colors active:bg-purple-50"
+                  >
+                    <Plus size={16} strokeWidth={2.5} className="shrink-0" />
+                    <span className="truncate">
+                      Use &ldquo;{trimmed}&rdquo; as a custom location
+                    </span>
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Responsive wrapper around a single pickup/dropoff field: renders the
+ * desktop searchable combobox on md+ screens, and a tappable field that
+ * opens the mobile bottom sheet on small screens. Both surfaces are
+ * styled as the same boxed input, so a location field never looks like
+ * a different kind of control than the address field beneath it.
+ */
+function LocationField({
+  field,
+  label,
+  value,
+  onChange,
+  placeholder,
+  openField,
+  setOpenField,
+  mobileSheetField,
+  setMobileSheetField,
+}: {
+  field: Field;
+  label: string;
+  value: Area;
+  onChange: (a: Area) => void;
+  placeholder: string;
+  openField: Field | null;
+  setOpenField: React.Dispatch<React.SetStateAction<Field | null>>;
+  mobileSheetField: Field | null;
+  setMobileSheetField: (f: Field | null) => void;
+}) {
+  const isCustomSelected = value !== "" && !KNOWN_LOCATION_NAMES.has(value);
+
+  return (
+    <>
+      {/* Desktop: inline searchable combobox */}
+      <div className="hidden md:block">
+        <AreaCombobox
+          label={label}
+          value={value}
+          onChange={onChange}
+          isOpen={openField === field}
+          onOpen={() => setOpenField(field)}
+          onClose={() => setOpenField((f) => (f === field ? null : f))}
+          placeholder={placeholder}
+        />
+      </div>
+
+      {/* Mobile: tap to open bottom sheet — styled to match the boxed
+          input look used everywhere else, so it doesn't read as a
+          different kind of control than the address field below it. */}
+      <div className="md:hidden">
+        <button
+          type="button"
+          onClick={() => setMobileSheetField(field)}
+          className="flex w-full items-center gap-2.5 rounded-xl border border-gray-200 bg-gray-50 px-3.5 py-3 text-left transition-colors active:bg-gray-100"
+        >
+          <Search size={15} strokeWidth={2.25} className="shrink-0 text-gray-400" />
+          <span
+            className={`min-w-0 flex-1 truncate text-sm ${
+              value ? "font-medium text-gray-900" : "text-gray-400"
+            }`}
+          >
+            {value || placeholder}
+          </span>
+          {isCustomSelected && (
+            <span className="shrink-0 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-600">
+              Custom
+            </span>
+          )}
+          <ChevronRight size={15} strokeWidth={2.5} className="shrink-0 text-gray-300" />
+        </button>
+      </div>
+
+      <AreaMobileSheet
+        isOpen={mobileSheetField === field}
+        onClose={() => setMobileSheetField(null)}
+        label={label}
+        placeholder={placeholder}
+        value={value}
+        onSelect={onChange}
+      />
+    </>
+  );
+}
+
+/**
+ * One stop in the route: the icon marker + its "Pickup"/"Drop-off"
+ * label, the location field, and the optional address details field —
+ * grouped together with even spacing so the two inputs read as one
+ * unit instead of competing for space.
+ */
+function RouteStop({
+  icon,
+  label,
+  field,
+  area,
+  onAreaChange,
+  address,
+  onAddressChange,
+  openField,
+  setOpenField,
+  mobileSheetField,
+  setMobileSheetField,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  field: Field;
+  area: Area;
+  onAreaChange: (a: Area) => void;
+  address: string;
+  onAddressChange: (a: string) => void;
+  openField: Field | null;
+  setOpenField: React.Dispatch<React.SetStateAction<Field | null>>;
+  mobileSheetField: Field | null;
+  setMobileSheetField: (f: Field | null) => void;
+}) {
+  return (
+    <div className="flex gap-3.5">
+      <div className="flex w-5 shrink-0 flex-col items-center pt-3">{icon}</div>
+      <div className="min-w-0 flex-1 space-y-2.5">
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">{label}</p>
+        <LocationField
+          field={field}
+          label={label}
+          value={area}
+          onChange={onAreaChange}
+          placeholder="Search area or hotel..."
+          openField={openField}
+          setOpenField={setOpenField}
+          mobileSheetField={mobileSheetField}
+          setMobileSheetField={setMobileSheetField}
+        />
+        <div className="flex items-center gap-2.5 rounded-xl border border-transparent bg-gray-50/70 px-3.5 py-2.5 transition-colors focus-within:border-purple-200 focus-within:bg-white focus-within:ring-2 focus-within:ring-purple-100">
+          <Home size={14} strokeWidth={2.25} className="shrink-0 text-gray-300" />
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => onAddressChange(e.target.value)}
+            placeholder="House #, landmark, street... (optional)"
+            className="min-w-0 flex-1 bg-transparent text-[13px] text-gray-600 placeholder:text-gray-400 focus:outline-none"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * One name + phone row, used inside the contact card. Sharing one row
+ * component keeps ride mode's single contact and courier mode's two
+ * contacts visually identical instead of drifting into separate styles.
+ */
+function ContactRow({
+  title,
+  name,
+  onNameChange,
+  phone,
+  onPhoneChange,
+}: {
+  title: string;
+  name: string;
+  onNameChange: (v: string) => void;
+  phone: string;
+  onPhoneChange: (v: string) => void;
+}) {
+  return (
+    <div className="grid grid-cols-2 gap-4 py-3.5 first:pt-0 last:pb-0">
+      <div className="min-w-0">
+        <label className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+          <User size={11} /> {title} Name
+        </label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => onNameChange(e.target.value)}
+          placeholder="Full name"
+          className="mt-1.5 w-full min-w-0 text-sm font-medium text-gray-900 placeholder:font-normal placeholder:text-gray-300 focus:outline-none"
+        />
+      </div>
+      <div className="min-w-0">
+        <label className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+          <Phone size={11} /> {title} Phone
+        </label>
+        <input
+          type="tel"
+          value={phone}
+          onChange={(e) => onPhoneChange(e.target.value)}
+          placeholder="03xx-xxxxxxx"
+          className="mt-1.5 w-full min-w-0 text-sm font-medium text-gray-900 placeholder:font-normal placeholder:text-gray-300 focus:outline-none"
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function RideParcelForm() {
   const [mode, setMode] = useState<Mode>("ride");
 
@@ -340,8 +799,10 @@ export default function RideParcelForm() {
   const [receiverName, setReceiverName] = useState("");
   const [receiverPhone, setReceiverPhone] = useState("");
 
-  // Only one location dropdown open at a time.
+  // Only one desktop dropdown, and separately only one mobile sheet,
+  // open at a time.
   const [openField, setOpenField] = useState<Field | null>(null);
+  const [mobileSheetField, setMobileSheetField] = useState<Field | null>(null);
 
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [errorDetail, setErrorDetail] = useState<string>("");
@@ -353,36 +814,11 @@ export default function RideParcelForm() {
   // relying on the area name alone.
   const { location: userLocation } = useUserLocation();
 
-  // Fixed pricing only applies when both ends are in our known directory.
-  // A custom, freely-typed location falls back to "On request" instead of
-  // guessing a fare for a place we have no coordinates for.
-  const pickupKnown = pickupArea !== "" && KNOWN_LOCATION_NAMES.has(pickupArea);
-  const dropoffKnown = dropoffArea !== "" && KNOWN_LOCATION_NAMES.has(dropoffArea);
+  // Fare calculation is deferred for ride/courier bookings — no calculator
+  // is wired in yet. Every booking goes through as "price to be confirmed
+  // on WhatsApp" regardless of whether the location is a known area/hotel
+  // or something the person typed themselves.
   const bothAreasSelected = Boolean(pickupArea && dropoffArea);
-  const bothKnown = pickupKnown && dropoffKnown;
-
-  // Round trip: office -> pickup -> dropoff -> office.
-  // Same trip shape (and same fuel-cost pricing) as food delivery —
-  // see @/utils/delivery-calculator.
-  const distanceKm = useMemo(() => {
-    if (!bothKnown) return null;
-    try {
-      return calculateTripDistance(pickupArea, dropoffArea);
-    } catch {
-      return null;
-    }
-  }, [bothKnown, pickupArea, dropoffArea]);
-
-  const price = useMemo(() => {
-    if (!bothKnown) return null;
-    try {
-      return mode === "ride"
-        ? calculateRideFare(pickupArea, dropoffArea)
-        : calculateParcelFare(pickupArea, dropoffArea);
-    } catch {
-      return null;
-    }
-  }, [bothKnown, mode, pickupArea, dropoffArea]);
 
   // The exact house/street address is a nice-to-have, not a requirement —
   // the rider can always call to pin down the exact spot. Only the area
@@ -414,8 +850,7 @@ export default function RideParcelForm() {
       pickup_address: pickupAddress.trim() || "Not provided",
       dropoff_area: dropoffArea,
       dropoff_address: dropoffAddress.trim() || "Not provided",
-      distance_km: distanceKm !== null ? distanceKm.toFixed(1) : "",
-      price: price !== null && price > 0 ? `Rs. ${price}` : "On request",
+      price: "On request",
       rider_name: mode === "ride" ? riderName : "",
       rider_phone: mode === "ride" ? riderPhone : "",
       sender_name: mode === "parcel" ? senderName : "",
@@ -445,8 +880,6 @@ export default function RideParcelForm() {
         pickupAddress,
         dropoffArea,
         dropoffAddress,
-        price,
-        distanceKm,
         riderName,
         riderPhone,
         senderName,
@@ -487,7 +920,6 @@ export default function RideParcelForm() {
       pickupAddress: bookedPickupAddress,
       dropoffArea: bookedDropoffArea,
       dropoffAddress: bookedDropoffAddress,
-      price: bookedPrice,
       riderName: bookedRiderName,
       riderPhone: bookedRiderPhone,
       senderName: bookedSenderName,
@@ -497,109 +929,99 @@ export default function RideParcelForm() {
     } = confirmedBooking;
 
     return (
-      <div className="w-full max-w-md mx-auto">
-        <div className="rounded-3xl border border-gray-100 bg-white shadow-sm shadow-gray-200/60 overflow-hidden">
+      <div className="mx-auto w-full max-w-md">
+        <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm shadow-gray-200/60">
           {/* Header */}
-          <div className="bg-gradient-to-br from-purple-600 to-purple-700 px-6 pt-8 pb-7 text-center">
+          <div className="bg-gradient-to-br from-purple-600 to-purple-700 px-6 pb-7 pt-8 text-center">
             <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-white/15">
               <CheckCircle2 size={30} className="text-white" strokeWidth={2} />
             </div>
-            <h2 className="text-lg font-black uppercase tracking-wide text-white">
-              Booking Received
-            </h2>
+            <h2 className="text-lg font-bold text-white">Booking received</h2>
             <p className="mt-1 text-sm text-purple-100">
-              {bookedMode === "ride" ? "Your ride" : "Your courier"} request has been received.
+              {bookedMode === "ride" ? "Your ride" : "Your courier"} request is on its way to us.
             </p>
           </div>
 
           {/* Status pill */}
           <div className="flex items-center justify-center gap-2 border-b border-dashed border-gray-100 bg-amber-50 px-4 py-3">
             <Clock size={14} className="text-amber-600" strokeWidth={2.5} />
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-700">
-              Pending confirmation
-            </span>
+            <span className="text-xs font-semibold text-amber-700">Pending confirmation</span>
           </div>
 
           {/* Summary */}
-          <div className="px-6 py-5">
-            <div className="flex gap-3">
-              <div className="flex flex-col items-center pt-1 shrink-0 w-4">
+          <div className="px-6 py-6">
+            <div className="flex gap-3.5">
+              <div className="flex w-4 shrink-0 flex-col items-center pt-1">
                 <CircleDot size={14} className="text-purple-600" strokeWidth={2.5} />
-                <div className="w-px flex-1 my-1 border-l-2 border-dashed border-purple-200" />
-                <MapPin size={14} className="text-purple-600 fill-purple-100" strokeWidth={2} />
+                <div className="my-1 w-px flex-1 border-l-2 border-dashed border-purple-200" />
+                <MapPin size={14} className="fill-purple-100 text-purple-600" strokeWidth={2} />
               </div>
-              <div className="flex-1 min-w-0 space-y-4">
+              <div className="min-w-0 flex-1 space-y-4">
                 <div className="min-w-0">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                     Pickup
                   </div>
-                  <div className="text-sm font-semibold text-gray-900 truncate">
+                  <div className="truncate text-sm font-semibold text-gray-900">
                     {bookedPickupArea}
                   </div>
                   {bookedPickupAddress.trim() && (
-                    <div className="text-xs text-gray-500 truncate">{bookedPickupAddress}</div>
+                    <div className="truncate text-xs text-gray-500">{bookedPickupAddress}</div>
                   )}
                 </div>
                 <div className="min-w-0">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                     Drop-off
                   </div>
-                  <div className="text-sm font-semibold text-gray-900 truncate">
+                  <div className="truncate text-sm font-semibold text-gray-900">
                     {bookedDropoffArea}
                   </div>
                   {bookedDropoffAddress.trim() && (
-                    <div className="text-xs text-gray-500 truncate">{bookedDropoffAddress}</div>
+                    <div className="truncate text-xs text-gray-500">{bookedDropoffAddress}</div>
                   )}
                 </div>
               </div>
             </div>
 
             {bookedMode === "ride" && (
-              <div className="mt-5 rounded-xl bg-gray-50 p-3.5 min-w-0">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
-                  Your Name
+              <div className="mt-5 min-w-0 rounded-xl bg-gray-50 p-4">
+                <div className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                  Your name
                 </div>
-                <div className="text-sm font-semibold text-gray-900 truncate">
-                  {bookedRiderName}
+                <div className="truncate text-sm font-semibold text-gray-900">{bookedRiderName}</div>
+                <div className="mt-2 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                  Your phone
                 </div>
-                <div className="mt-2 text-[11px] font-bold uppercase tracking-wider text-gray-400">
-                  Your Phone
-                </div>
-                <div className="text-sm font-semibold text-gray-900 truncate">
-                  {bookedRiderPhone}
-                </div>
+                <div className="truncate text-sm font-semibold text-gray-900">{bookedRiderPhone}</div>
               </div>
             )}
 
             {bookedMode === "parcel" && (
               <div className="mt-5 grid grid-cols-2 gap-3">
-                <div className="rounded-xl bg-gray-50 p-3.5 min-w-0">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                <div className="min-w-0 rounded-xl bg-gray-50 p-4">
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                     Sender
                   </div>
-                  <div className="text-sm font-semibold text-gray-900 truncate">
+                  <div className="truncate text-sm font-semibold text-gray-900">
                     {bookedSenderName}
                   </div>
-                  <div className="text-xs text-gray-500 truncate">{bookedSenderPhone}</div>
+                  <div className="truncate text-xs text-gray-500">{bookedSenderPhone}</div>
                 </div>
-                <div className="rounded-xl bg-gray-50 p-3.5 min-w-0">
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                <div className="min-w-0 rounded-xl bg-gray-50 p-4">
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                     Receiver
                   </div>
-                  <div className="text-sm font-semibold text-gray-900 truncate">
+                  <div className="truncate text-sm font-semibold text-gray-900">
                     {bookedReceiverName}
                   </div>
-                  <div className="text-xs text-gray-500 truncate">{bookedReceiverPhone}</div>
+                  <div className="truncate text-xs text-gray-500">{bookedReceiverPhone}</div>
                 </div>
               </div>
             )}
 
-            <div className="mt-5 flex items-center justify-between rounded-xl bg-purple-50 px-4 py-3.5">
-              <span className="text-xs font-bold uppercase tracking-wider text-purple-700">
-                Fixed Price
-              </span>
-              <span className="text-lg font-black text-purple-700">
-                {bookedPrice !== null && bookedPrice > 0 ? `Rs. ${bookedPrice}` : "On request"}
+            <div className="mt-5 flex items-center gap-2 rounded-xl bg-purple-50 px-4 py-3.5">
+              <Sparkles size={14} className="shrink-0 text-purple-600" strokeWidth={2.5} />
+              <span className="text-xs font-medium text-purple-700">
+                We&rsquo;ll confirm the price on WhatsApp when we call to confirm.
               </span>
             </div>
           </div>
@@ -612,43 +1034,43 @@ export default function RideParcelForm() {
         <button
           type="button"
           onClick={handleBookAnother}
-          className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-purple-600 py-3.5 text-sm font-black uppercase tracking-wide text-purple-600 transition-colors hover:bg-purple-50 active:scale-[0.98]"
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-purple-600 py-3.5 text-sm font-bold text-purple-600 transition-colors hover:bg-purple-50 active:scale-[0.98]"
         >
           <Plus size={16} strokeWidth={2.5} />
-          Book Another
+          Book another
         </button>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="mx-auto w-full max-w-md">
       {/* Brand mark */}
-      <div className="mb-7 flex items-center justify-center gap-2.5">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-600 to-purple-700 text-white shadow-md shadow-purple-600/30">
-          <Sparkles size={16} strokeWidth={2.5} />
+      <div className="mb-8 flex items-center justify-center gap-2.5">
+        <div className="h-15 w-15 shrink-0 overflow-hidden rounded-xl shadow-md shadow-purple-600/30">
+          <img
+            src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlnZLphO962Ub_SJzR903k14i87FPHsHowAZKIwaLkq_zwtiwmwz366IV0K9jJGp_oRVbNxuWx4TtI4-aJYJOMwR8b8VglQkgrw5BPVnEzWz8bfqpjIvFFvB19NEZF6EnFjr5cajNHhzGm5=s680-w680-h510-rw"
+            alt="Meal Bear logo"
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="text-center leading-none">
-          <p className="text-sm font-black uppercase tracking-widest text-purple-700">
-            Meal Bear
-          </p>
-          <p className="mt-1 text-[11px] font-semibold text-gray-400">
-            Rides &amp; Courier · Skardu
-          </p>
+          <p className="text-cl font-bold text-purple-700">Meal Bear</p>
+          <p className="mt-1 text-[12px] font-medium text-gray-400">Rides &amp; Courier · Skardu</p>
         </div>
       </div>
 
       {/* Mode toggle */}
-      <div className="relative grid grid-cols-2 gap-1 mb-6 bg-purple-50 p-1 rounded-2xl">
+      <div className="relative mb-6 grid grid-cols-2 gap-1 rounded-2xl bg-purple-50 p-1">
         <div
-          className={`absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-xl bg-purple-600 shadow-md shadow-purple-600/30 transition-transform duration-300 ease-out ${
+          className={`absolute bottom-1 top-1 w-[calc(50%-4px)] rounded-xl bg-purple-600 shadow-md shadow-purple-600/30 transition-transform duration-300 ease-out ${
             mode === "parcel" ? "translate-x-[calc(100%+8px)]" : "translate-x-0"
           }`}
         />
         <button
           type="button"
           onClick={() => setMode("ride")}
-          className={`relative z-10 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm uppercase tracking-wide transition-colors duration-200 ${
+          className={`relative z-10 flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-colors duration-200 ${
             mode === "ride" ? "text-white" : "text-purple-900/50"
           }`}
         >
@@ -657,7 +1079,7 @@ export default function RideParcelForm() {
         <button
           type="button"
           onClick={() => setMode("parcel")}
-          className={`relative z-10 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm uppercase tracking-wide transition-colors duration-200 ${
+          className={`relative z-10 flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-colors duration-200 ${
             mode === "parcel" ? "text-white" : "text-purple-900/50"
           }`}
         >
@@ -665,174 +1087,92 @@ export default function RideParcelForm() {
         </button>
       </div>
 
-      {/* Route card: pickup + dropoff joined by a connector line */}
-      <div className="relative rounded-2xl border border-gray-100 bg-white shadow-sm shadow-gray-200/60 mb-5 overflow-visible">
-        {/* Connector line between the two dots */}
-        <div className="absolute left-[31px] top-[42px] bottom-[42px] w-px border-l-2 border-dashed border-purple-200" />
+      {/* Route card: pickup + dropoff, generously spaced so the location
+          and address fields never compete for the same visual line. */}
+      <div className="mb-5 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm shadow-gray-200/60 sm:p-6">
+        <RouteStop
+          icon={<CircleDot size={18} className="text-purple-600" strokeWidth={2.5} />}
+          label="Pickup"
+          field="pickup"
+          area={pickupArea}
+          onAreaChange={setPickupArea}
+          address={pickupAddress}
+          onAddressChange={setPickupAddress}
+          openField={openField}
+          setOpenField={setOpenField}
+          mobileSheetField={mobileSheetField}
+          setMobileSheetField={setMobileSheetField}
+        />
 
-        {/* Pickup */}
-        <div className="relative flex gap-3.5 p-5 pb-4">
-          <div className="flex flex-col items-center pt-2 shrink-0 w-5">
-            <CircleDot size={18} className="text-purple-600" strokeWidth={2.5} />
-          </div>
-          <div className="flex-1 min-w-0">
-            <AreaCombobox
-              label="Pickup"
-              value={pickupArea}
-              onChange={setPickupArea}
-              isOpen={openField === "pickup"}
-              onOpen={() => setOpenField("pickup")}
-              onClose={() => setOpenField((f) => (f === "pickup" ? null : f))}
-              placeholder="Search area or hotel..."
-            />
-            <textarea
-              value={pickupAddress}
-              onChange={(e) => setPickupAddress(e.target.value)}
-              placeholder="House #, landmark, street... (optional)"
-              className="w-full mt-2 text-sm text-gray-600 placeholder:text-gray-400 bg-gray-50 rounded-lg p-2.5 resize-none border border-transparent focus:border-purple-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 transition"
-              rows={1}
-            />
-          </div>
-        </div>
+        <div className="my-5 border-t border-dashed border-gray-100" />
 
-        <div className="mx-5 border-t border-dashed border-gray-100" />
-
-        {/* Dropoff */}
-        <div className="relative flex gap-3.5 p-5 pt-4">
-          <div className="flex flex-col items-center pt-2 shrink-0 w-5">
-            <MapPin size={18} className="text-purple-600 fill-purple-100" strokeWidth={2} />
-          </div>
-          <div className="flex-1 min-w-0">
-            <AreaCombobox
-              label="Drop-off"
-              value={dropoffArea}
-              onChange={setDropoffArea}
-              isOpen={openField === "dropoff"}
-              onOpen={() => setOpenField("dropoff")}
-              onClose={() => setOpenField((f) => (f === "dropoff" ? null : f))}
-              placeholder="Search area or hotel..."
-            />
-            <textarea
-              value={dropoffAddress}
-              onChange={(e) => setDropoffAddress(e.target.value)}
-              placeholder="House #, landmark, street... (optional)"
-              className="w-full mt-2 text-sm text-gray-600 placeholder:text-gray-400 bg-gray-50 rounded-lg p-2.5 resize-none border border-transparent focus:border-purple-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-100 transition"
-              rows={1}
-            />
-          </div>
-        </div>
+        <RouteStop
+          icon={<MapPin size={18} className="fill-purple-100 text-purple-600" strokeWidth={2} />}
+          label="Drop-off"
+          field="dropoff"
+          area={dropoffArea}
+          onAreaChange={setDropoffArea}
+          address={dropoffAddress}
+          onAddressChange={setDropoffAddress}
+          openField={openField}
+          setOpenField={setOpenField}
+          mobileSheetField={mobileSheetField}
+          setMobileSheetField={setMobileSheetField}
+        />
       </div>
 
-      {/* Ride contact details */}
-      {mode === "ride" && (
-        <div className="grid grid-cols-2 gap-3 mb-5">
-          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
-            <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
-              <User size={11} /> Your Name
-            </label>
-            <input
-              type="text"
-              value={riderName}
-              onChange={(e) => setRiderName(e.target.value)}
-              placeholder="Full name"
-              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
+      {/* Contact details — one card, grouped by a single divider per row
+          instead of a grid of separate bordered boxes. */}
+      <div className="mb-5 divide-y divide-gray-100 rounded-3xl border border-gray-100 bg-white px-5 shadow-sm shadow-gray-200/60 sm:px-6">
+        {mode === "ride" ? (
+          <ContactRow
+            title="Your"
+            name={riderName}
+            onNameChange={setRiderName}
+            phone={riderPhone}
+            onPhoneChange={setRiderPhone}
+          />
+        ) : (
+          <>
+            <ContactRow
+              title="Sender"
+              name={senderName}
+              onNameChange={setSenderName}
+              phone={senderPhone}
+              onPhoneChange={setSenderPhone}
             />
-          </div>
-          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
-            <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
-              <Phone size={11} /> Your Phone
-            </label>
-            <input
-              type="tel"
-              value={riderPhone}
-              onChange={(e) => setRiderPhone(e.target.value)}
-              placeholder="03xx-xxxxxxx"
-              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
+            <ContactRow
+              title="Receiver"
+              name={receiverName}
+              onNameChange={setReceiverName}
+              phone={receiverPhone}
+              onPhoneChange={setReceiverPhone}
             />
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </div>
 
-      {/* Parcel contact details */}
-      {mode === "parcel" && (
-        <div className="grid grid-cols-2 gap-3 mb-5">
-          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
-            <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
-              <User size={11} /> Sender Name
-            </label>
-            <input
-              type="text"
-              value={senderName}
-              onChange={(e) => setSenderName(e.target.value)}
-              placeholder="Full name"
-              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
-            />
-          </div>
-          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
-            <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
-              <Phone size={11} /> Sender Phone
-            </label>
-            <input
-              type="tel"
-              value={senderPhone}
-              onChange={(e) => setSenderPhone(e.target.value)}
-              placeholder="03xx-xxxxxxx"
-              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
-            />
-          </div>
-          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
-            <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
-              <User size={11} /> Receiver Name
-            </label>
-            <input
-              type="text"
-              value={receiverName}
-              onChange={(e) => setReceiverName(e.target.value)}
-              placeholder="Full name"
-              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
-            />
-          </div>
-          <div className="rounded-xl border border-gray-100 bg-white p-3.5 shadow-sm shadow-gray-200/60 min-w-0">
-            <label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
-              <Phone size={11} /> Receiver Phone
-            </label>
-            <input
-              type="tel"
-              value={receiverPhone}
-              onChange={(e) => setReceiverPhone(e.target.value)}
-              placeholder="03xx-xxxxxxx"
-              className="w-full min-w-0 mt-1.5 text-sm font-semibold text-gray-900 placeholder:text-gray-300 placeholder:font-normal focus:outline-none"
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Price summary */}
+      {/* Price note — no calculator wired in yet, so every booking is
+          confirmed manually over WhatsApp regardless of the route. */}
       {bothAreasSelected && (
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 to-purple-700 p-4.5 mb-5 flex items-center justify-between shadow-md shadow-purple-600/25">
+        <div className="relative mb-5 flex items-center justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 to-purple-700 p-4.5 shadow-md shadow-purple-600/25">
           <div className="absolute -right-4 -top-4 opacity-10">
             {mode === "ride" ? <Bike size={90} /> : <Package size={90} />}
           </div>
           <div className="relative">
-            <span className="block text-xs font-bold uppercase tracking-wider text-purple-100">
-              Fixed Price
+            <span className="block text-xs font-semibold text-purple-100">Price</span>
+            <span className="block text-[11px] text-purple-200">
+              We&rsquo;ll confirm by phone / WhatsApp
             </span>
-            {!bothKnown && (
-              <span className="block text-[11px] text-purple-200">
-                Custom location · we&rsquo;ll confirm by phone
-              </span>
-            )}
           </div>
-          <span className="relative text-xl font-black text-white">
-            {price !== null && price > 0 ? `Rs. ${price}` : "On request"}
-          </span>
+          <span className="relative text-xl font-bold text-white">On request</span>
         </div>
       )}
 
       <button
         disabled={!canSubmit || status === "sending"}
         onClick={handleSubmit}
-        className="group w-full py-4 rounded-2xl bg-purple-600 text-white font-black uppercase text-sm tracking-wide flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30 transition-all duration-200 hover:bg-purple-700 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none disabled:hover:bg-purple-600"
+        className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-purple-600 py-4 text-sm font-bold text-white shadow-lg shadow-purple-600/30 transition-all duration-200 hover:bg-purple-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:hover:bg-purple-600"
       >
         {status === "sending" ? (
           <>
@@ -841,7 +1181,7 @@ export default function RideParcelForm() {
           </>
         ) : (
           <>
-            {mode === "ride" ? "Book Ride" : "Book Courier"}
+            {mode === "ride" ? "Book ride" : "Book courier"}
             <ArrowRight
               size={16}
               strokeWidth={2.5}
@@ -852,7 +1192,7 @@ export default function RideParcelForm() {
       </button>
 
       {status === "error" && (
-        <p className="mt-3 text-center text-sm font-semibold text-red-600">
+        <p className="mt-3 text-center text-sm font-medium text-red-600">
           Something went wrong sending your booking{errorDetail ? `: ${errorDetail}` : ""}. Please try again.
         </p>
       )}

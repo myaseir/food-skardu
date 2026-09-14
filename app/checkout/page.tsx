@@ -29,7 +29,6 @@ import {
 } from "libphonenumber-js";
 import { AREAS, HOTELS } from "@/data/deliveryRawDistances";
 import { shops, Shop } from "@/data/config";
-import { calculateDeliveryFee } from "@/utils/deliveryCalculator";
 import { calculateManualDeliveryEstimate } from "@/utils/deliveryDistanceTime";
 import { useUserLocation } from "@/contexts/LocationContext";
 import MobileAreaSheet from "@/app/checkout/MobileAreaSheet";
@@ -197,16 +196,16 @@ export default function CheckoutPage() {
   const currentShop = shopsInCart[0];
 
   // ---------------------------------------------------------------------
-  // Distance / time / fee — manual data first, coordinate calc as fallback
+  // Distance / time / fee — manual data ONLY, no coordinate fallback
   // ---------------------------------------------------------------------
-  // deliveryDistanceTime.ts now supports multi-restaurant carts too (via
-  // the Restaurant->Restaurant table), so every shop in the cart is
-  // passed in — it internally finds the cheapest visiting order. It
-  // returns null if any leg for every possible order hasn't been
-  // manually measured yet. In that case we fall back to the existing
-  // coordinate-based calculateDeliveryFee so checkout never breaks or
-  // shows a missing fee — it just uses the less-precise number until
-  // those routes get measured on Google Maps and added to the file.
+  // deliveryDistanceTime.ts supports multi-restaurant carts too (via the
+  // Restaurant->Restaurant table), so every shop in the cart is passed
+  // in — it internally finds the cheapest visiting order. It returns
+  // null if any leg for every possible order hasn't been manually
+  // measured yet. There is NO coordinate-based fallback anymore — if
+  // this combo isn't measured, `manualEstimate` stays null and checkout
+  // is blocked below (see `deliveryUnavailable`) rather than guessing a
+  // fee from Haversine distance.
   const manualEstimate =
     shopsInCart.length > 0 && locationName
       ? calculateManualDeliveryEstimate(
@@ -215,13 +214,18 @@ export default function CheckoutPage() {
         )
       : null;
 
-  const deliveryFee = manualEstimate
-    ? manualEstimate.fee
-    : shopsInCart.length > 0 && locationName
-    ? calculateDeliveryFee(shopsInCart, locationName)
-    : 0;
+  const deliveryFee = manualEstimate ? manualEstimate.fee : 0;
 
   const total = subtotal + deliveryFee;
+
+  // True once the customer has picked a valid restaurant+location combo
+  // but that combo hasn't been manually measured yet — blocks placing
+  // the order instead of silently charging Rs. 0 delivery.
+  const deliveryUnavailable =
+    shopsInCart.length > 0 &&
+    locationName.length > 0 &&
+    (deliveryMode === "hotel" ? HOTELS : AREAS).includes(locationName) &&
+    !manualEstimate;
 
   const currentList = deliveryMode === "hotel" ? HOTELS : AREAS;
   const filteredLocations = currentList.filter((loc) =>
@@ -257,6 +261,15 @@ export default function CheckoutPage() {
         deliveryMode === 'hotel'
           ? "Please select a valid hotel from the suggested dropdown list."
           : "Please select a valid area from the suggested dropdown list."
+      );
+    }
+
+    // 3. Block orders where delivery distance/time/fee hasn't been
+    // manually measured for this restaurant+location combo yet — there
+    // is no coordinate fallback anymore to estimate a fee from.
+    if (deliveryUnavailable) {
+      return alert(
+        "Sorry, delivery isn't available to this location from the selected restaurant(s) yet. Please choose a different location or contact us directly."
       );
     }
 
@@ -705,6 +718,21 @@ export default function CheckoutPage() {
                 </p>
               </div>
             )}
+
+            {/* Delivery unavailable — this restaurant+location combo hasn't
+                been manually measured yet, so there's no fee/time to show
+                and the order can't be placed until it's added to the
+                manual distance tables. */}
+            {deliveryUnavailable && (
+              <div className="mt-5 flex items-start gap-3 bg-red-50 border border-red-100 rounded-xl px-4 py-3.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-500 shrink-0 mt-0.5">
+                  <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <p className="text-[13px] font-bold text-red-700">
+                  Sorry, delivery to this location isn't available yet from the selected restaurant(s). Please try a different location or contact us directly.
+                </p>
+              </div>
+            )}
           </section>
 
           {/* Note to Restaurant — optional customization requests */}
@@ -809,19 +837,21 @@ export default function CheckoutPage() {
               </div>
               <div className="flex justify-between text-[13px] font-bold text-gray-500">
                 <span>Delivery Fee</span>
-                <span>Rs. {deliveryFee}</span>
+                <span>{deliveryUnavailable ? "N/A" : `Rs. ${deliveryFee}`}</span>
               </div>
               <div className="flex justify-between items-end pt-1">
                 <span className="font-black text-gray-900 uppercase text-[13px] tracking-widest">
                   Total
                 </span>
-                <span className="text-2xl font-black text-purple-600">Rs. {total}</span>
+                <span className="text-2xl font-black text-purple-600">
+                  {deliveryUnavailable ? "N/A" : `Rs. ${total}`}
+                </span>
               </div>
             </div>
 
             <button
               onClick={handlePlaceOrder}
-              disabled={isSending}
+              disabled={isSending || deliveryUnavailable}
               className="w-full mt-6 bg-purple-600 text-white py-4 rounded-xl font-black uppercase text-sm tracking-widest hover:bg-purple-700 active:scale-[0.98] transition-all disabled:opacity-60 disabled:active:scale-100 flex items-center justify-center gap-2"
             >
               {isSending ? (
@@ -829,6 +859,8 @@ export default function CheckoutPage() {
                   <Loader2 size={16} className="animate-spin" />
                   Processing...
                 </>
+              ) : deliveryUnavailable ? (
+                "Delivery Unavailable"
               ) : (
                 "Place Order"
               )}
@@ -907,13 +939,15 @@ export default function CheckoutPage() {
           </div>
           <div className="flex justify-between text-[12px] font-bold text-gray-500">
             <span>Delivery Fee</span>
-            <span>Rs. {deliveryFee}</span>
+            <span>{deliveryUnavailable ? "N/A" : `Rs. ${deliveryFee}`}</span>
           </div>
           <div className="flex justify-between items-center pt-1">
             <span className="text-[11px] font-black uppercase tracking-widest text-gray-900">
               Total
             </span>
-            <span className="text-lg font-black text-purple-600">Rs. {total}</span>
+            <span className="text-lg font-black text-purple-600">
+              {deliveryUnavailable ? "N/A" : `Rs. ${total}`}
+            </span>
           </div>
         </div>
 
@@ -921,7 +955,7 @@ export default function CheckoutPage() {
         <div className="px-4 pb-4 pt-1">
           <button
             onClick={handlePlaceOrder}
-            disabled={isSending}
+            disabled={isSending || deliveryUnavailable}
             className="w-full bg-purple-600 text-white py-4 rounded-xl font-black uppercase text-sm tracking-widest hover:bg-purple-700 active:scale-[0.98] transition-all disabled:opacity-60 disabled:active:scale-100 flex items-center justify-center gap-2"
           >
             {isSending ? (
@@ -929,6 +963,8 @@ export default function CheckoutPage() {
                 <Loader2 size={16} className="animate-spin" />
                 Processing...
               </>
+            ) : deliveryUnavailable ? (
+              "Delivery Unavailable"
             ) : (
               "Place Order"
             )}
