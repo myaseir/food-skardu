@@ -32,6 +32,7 @@ import { shops, Shop } from "@/data/config";
 import { calculateDeliveryFee } from "@/utils/deliveryCalculator";
 import { calculateManualDeliveryEstimate } from "@/utils/deliveryDistanceTime";
 import { useUserLocation } from "@/contexts/LocationContext";
+import MobileAreaSheet from "@/app/checkout/MobileAreaSheet";
 
 // ---------------------------------------------------------------------
 // ntfy push notification
@@ -180,6 +181,11 @@ export default function CheckoutPage() {
   const [addressDetail, setAddressDetail] = useState(""); // Acts as Room No OR Complete Address
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showMobileSummary, setShowMobileSummary] = useState(false);
+
+  // Mobile-only: controls the dedicated searchable bottom sheet used for
+  // area/hotel selection on small screens. Desktop keeps using the
+  // inline dropdown driven by `showSuggestions` above, untouched.
+  const [isAreaSheetOpen, setIsAreaSheetOpen] = useState(false);
 
   // Special instructions for the restaurant (e.g. "no tomatoes", "no sauce")
   const NOTE_MAX_LENGTH = 200;
@@ -538,8 +544,13 @@ export default function CheckoutPage() {
                 <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 ml-1">
                   {deliveryMode === 'hotel' ? "1. Select your Hotel" : "1. Select your Area"}
                 </label>
-                {/* FIX: Added z-[100] here to ensure the entire input block floats above the mobile cart */}
-                <div className="relative ">
+
+                {/* ---------------------------------------------------------
+                    Desktop: the original inline searchable dropdown, left
+                    completely unchanged. Hidden on mobile so the keyboard
+                    can never fight it for space.
+                --------------------------------------------------------- */}
+                <div className="relative hidden md:block">
                   <MapPin
                     size={18}
                     className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${
@@ -582,7 +593,6 @@ export default function CheckoutPage() {
                   {/* Dropdown Suggestions */}
                   {showSuggestions && (
                     <div 
-                      // FIX: Changed z-50 to z-[100] so it completely covers the bottom mobile cart block
                       className="absolute w-full bg-white border border-gray-100 shadow-xl rounded-xl z-[2] max-h-[35vh] sm:max-h-56 overflow-y-auto mt-2 py-1"
                       onMouseDown={(e) => e.preventDefault()} 
                     >
@@ -609,9 +619,9 @@ export default function CheckoutPage() {
                   )}
                 </div>
 
-                {/* Simple Validation Warning */}
+                {/* Simple Validation Warning — desktop only, tied to the free-typing input above */}
                 {locationName.length > 0 && !currentList.includes(locationName) && !showSuggestions && (
-                  <div className="flex items-start gap-1.5 mt-2.5 px-1 animate-in slide-in-from-top-1 fade-in duration-200">
+                  <div className="hidden md:flex items-start gap-1.5 mt-2.5 px-1 animate-in slide-in-from-top-1 fade-in duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-500 shrink-0 mt-[2px]">
                       <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
                     </svg>
@@ -620,6 +630,38 @@ export default function CheckoutPage() {
                     </p>
                   </div>
                 )}
+
+                {/* ---------------------------------------------------------
+                    Mobile: tapping opens the dedicated searchable bottom
+                    sheet instead of an inline dropdown. No native keyboard
+                    ever opens behind this field — the sheet owns its own
+                    search input, so results are never hidden behind it.
+                --------------------------------------------------------- */}
+                <div className="relative md:hidden">
+                  <MapPin
+                    size={18}
+                    className={`absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-colors ${
+                      locationName.length > 0 && currentList.includes(locationName)
+                        ? "text-green-500"
+                        : "text-gray-400"
+                    }`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setIsAreaSheetOpen(true)}
+                    className={`w-full pl-11 pr-10 py-3.5 bg-gray-50 border rounded-xl text-sm font-medium text-left truncate focus:outline-none focus:ring-2 focus:border-transparent transition-all ${
+                      locationName.length > 0 && currentList.includes(locationName)
+                        ? "border-green-300 focus:ring-green-500 bg-green-50/30 text-gray-800"
+                        : "border-gray-200 focus:ring-purple-600 text-gray-400"
+                    }`}
+                  >
+                    {locationName ||
+                      (deliveryMode === 'hotel' ? "Tap to select hotel..." : "Tap to select area...")}
+                  </button>
+                  {locationName.length > 0 && currentList.includes(locationName) && (
+                    <CheckCircle2 size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500" />
+                  )}
+                </div>
               </div>
 
               {/* Room Number OR Full Address Input */}
@@ -893,6 +935,18 @@ export default function CheckoutPage() {
           </button>
         </div>
       </div>
+
+      {/* Mobile-only searchable area/hotel bottom sheet — see the component
+          for scroll lock, focus management, and Android back-button handling. */}
+      <MobileAreaSheet
+        isOpen={isAreaSheetOpen}
+        onClose={() => setIsAreaSheetOpen(false)}
+        title={deliveryMode === 'hotel' ? "Select Delivery Hotel" : "Select Delivery Area"}
+        placeholder={deliveryMode === 'hotel' ? "Search hotel..." : "Search area..."}
+        areas={currentList}
+        value={locationName}
+        onSelect={setLocationName}
+      />
     </main>
   );
 }
