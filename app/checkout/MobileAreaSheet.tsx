@@ -186,7 +186,7 @@ export default function MobileAreaSheet({
       <div
         ref={sheetRef}
         className="relative bg-white rounded-t-3xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
-        style={{ height: "88dvh", maxHeight: "88dvh" }}
+        style={{ height: "96dvh", maxHeight: "96dvh" }}
       >
         {/* Drag handle */}
         <div className="flex justify-center pt-2.5 pb-1 shrink-0">
