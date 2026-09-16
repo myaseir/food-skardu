@@ -491,7 +491,7 @@ useEffect(() => {
                           {item.name}
                         </h3>
                         {item.desc && (
-                          <p className="text-xs text-[#6b6155] mt-1 leading-relaxed line-clamp-2">{item.desc}</p>
+                          <p className="text-xs text-dark mt-1 font-bold leading-relaxed line-clamp-2">{item.desc}</p>
                         )}
                         <div className="flex items-center gap-2 mt-auto pt-3">
                           <p
@@ -640,9 +640,7 @@ useEffect(() => {
 
       {/* "Added to cart" toast */}
       {showToast && (
-        <div className="fixed top-34 left-1/2 -translate-x-1/2 z-[60] bg-purple-900 text-white text-sm font-bold px-5 py-2.5 rounded-full shadow-xl animate-in fade-in slide-in-from-top-4 duration-200 pointer-events-none">
-          Yatta! Added to cart {theme.emoji}
-        </div>
+       <div className="fixed top-34 left-1/2 -translate-x-1/2 z-[60] bg-purple-800 text-white text-sm font-bold px-4 sm:px-5 py-2.5 rounded-full shadow-xl animate-in fade-in slide-in-from-top-4 duration-200 pointer-events-none whitespace-nowrap"> Yatta! Added to cart {theme.emoji} </div>
       )}
 
       {/* Floating Cart Button */}

@@ -78,7 +78,7 @@ export const shops: Shop[] = [
   lat: 35.2905,
   lng: 75.6330,
   whatsapp: "0311 5521945",
-  rating: 3.9,
+  rating: 4.0,
   reviews: 7,
 },
 {
