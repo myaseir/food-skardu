@@ -332,7 +332,7 @@ useEffect(() => {
           the hero. Seeks into the celebration segment of the same file on
           add-to-cart, then eases back to the idle segment. */}
       <div
-        className="fixed top-3 left-1/2 -translate-x-1/2 z-30 w-16 h-16 sm:w-24 sm:h-24 rounded-full overflow-hidden shadow-xl pointer-events-none border-4 border-white/90"
+        className="fixed top-1 left-1/2 -translate-x-1/2 z-30 w-16 h-16 sm:w-24 sm:h-24 rounded-full overflow-hidden shadow-xl pointer-events-none border-4 border-white/90"
         aria-hidden="true"
       >
         <video
