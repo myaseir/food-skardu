@@ -496,7 +496,7 @@ useEffect(() => {
                         <div className="flex items-center gap-2 mt-auto pt-3">
                           <p
                             style={{ fontFamily: "var(--font-display)" }}
-                            className={`text-base px-2 py-0.5 rounded-full ${
+                            className={`text-base px-1 py-0.5 rounded-full ${
                               page.isShopOpen ? "text-white bg-purple-900" : "text-gray-600 bg-gray-300"
                             }`}
                           >

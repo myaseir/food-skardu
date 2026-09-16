@@ -8,7 +8,7 @@ export const menu = {
       emoji: "🍟",
       items: [
         { id: "ca-1", name: "Fries", price: 150, image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1789568613/ChatGPT_Image_Sep_16_2026_05_55_53_PM_dkokuh.jpg", sound: "", desc: "Golden crispy power-up snack!" },
-        { id: "ca-2", name: "Balay", price: 180, image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1789568613/ChatGPT_Image_Sep_16_2026_05_56_46_PM_ogrism.jpg", sound: "", desc: "Crunchy bite, secret recipe!" },
+        { id: "ca-2", name: "Balay", price: 180, image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1789568613/ChatGPT_Image_Sep_16_2026_05_56_46_PM_ogrism.jpg", sound: "", desc: "Handmade flat noodles from local wheat" },
         { id: "ca-3", name: "Corn Soup", price: 180, image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1789568613/ChatGPT_Image_Sep_16_2026_06_14_41_PM_npu2wl.jpg", sound: "", desc: "Warm hug in a bowl!" },
         { id: "ca-4", name: "Momos(6 Pcs)", price: 180, image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1789568612/ChatGPT_Image_Sep_16_2026_06_17_11_PM_shz2ow.jpg", sound: "", desc: "Juicy dumplings, senpai approved!" },
         // Mumtu (6 Pcs) — price wasn't legible in the menu photo, add once confirmed.
