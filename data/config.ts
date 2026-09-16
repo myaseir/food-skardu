@@ -10,6 +10,8 @@ export interface Shop {
   lat: number; // Shop's coordinates — used to compute distance from hub automatically
   lng: number;
   whatsapp: string;
+  theme?: string; // Color/font tokens applied within a template (see lib/themes)
+  templateId?: string; // Which whole page layout to render (see lib/templates/registry.ts). Omit for the default design.
   rating: number; // e.g. 4.5
   reviews: number; // e.g. 42
 }
@@ -63,7 +65,22 @@ export const shops: Shop[] = [
 //     rating: 4.9, // TODO: confirm actual rating
 //     reviews: 467, // TODO: confirm actual review count
 //   },
- 
+ {
+  id: "cafe-anime",
+  name: "Cafe Anime" ,
+  type: "restaurant",
+  theme: "theme1",
+  templateId: "cafeAnime", // Custom layout with stickers + click sound — see lib/templates/cafe-anime/
+  openTime: "11:30",
+  closeTime: "23:00",
+  alwaysOpen: true,
+  logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcidNdSPOerj1kJNVdJvweJ_JWZbxlCwluMLTJiu90VxhHprzDxSDcmyt9&s=10",
+  lat: 35.2905,
+  lng: 75.6330,
+  whatsapp: "0311 5521945",
+  rating: 3.9,
+  reviews: 7,
+},
 {
     id: "the-kitchen-skardu",
     name: "The Kitchen",

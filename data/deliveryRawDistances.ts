@@ -71,6 +71,8 @@ export const RESTAURANTS: string[] = [
   "MFC Skardu",
   "Hassan Hussain Host",
   "Pizza King Skardu",
+  "Cafe Anime",
+  
   "Yak Grill Skardu",
 ];
 
@@ -426,6 +428,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "MFC Skardu": { distance_km: 0.6, estimated_minutes: 3 },
     "Hassan Hussain Host": { distance_km: 1.0, estimated_minutes: 4 },
     "Pizza King Skardu": { distance_km: 0.5, estimated_minutes: 2 },
+    "Cafe Anime": { distance_km: 0.5, estimated_minutes: 2 },
     "Yak Grill Skardu": { distance_km: 1.6, estimated_minutes: 5 },
     "Yak and Bull Cafe Hameed Garh": { distance_km: 2.0, estimated_minutes: 7 },
   },
@@ -439,6 +442,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "MFC Skardu": { distance_km: 1.2, estimated_minutes: 5 },
     "Hassan Hussain Host": { distance_km: 1.5, estimated_minutes: 6 },
     "Pizza King Skardu": { distance_km: 1.3, estimated_minutes: 5 },
+    "Cafe Anime": { distance_km: 1.3, estimated_minutes: 5 },
     "Yak Grill Skardu": { distance_km: 0.9, estimated_minutes: 4 },
     "Yak and Bull Cafe Hameed Garh": { distance_km: 1.6, estimated_minutes: 5 }
   },
@@ -451,6 +455,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "MFC Skardu": { distance_km: 0.7, estimated_minutes: 3 },
     "Hassan Hussain Host": { distance_km: 1.1, estimated_minutes: 4 },
     "Pizza King Skardu": { distance_km: 0.6, estimated_minutes: 2 },
+    "Cafe Anime": { distance_km: 0.6, estimated_minutes: 2 },
     "Yak Grill Skardu": { distance_km: 2.1, estimated_minutes: 7 },
     "Yak and Bull Cafe Hameed Garh": { distance_km: 2.1, estimated_minutes: 8 }
   },
@@ -462,6 +467,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "MFC Skardu": { distance_km: 2.2, estimated_minutes: 8 },
     "Hassan Hussain Host": { distance_km: 2.6, estimated_minutes: 10 },
     "Pizza King Skardu": { distance_km: 2.1, estimated_minutes: 8 },
+    "Cafe Anime": { distance_km: 2.1, estimated_minutes: 8 },
     "Yak Grill Skardu": { distance_km: 1.9, estimated_minutes: 8 },
     "Yak and Bull Cafe Hameed Garh": { distance_km: 2.6, estimated_minutes: 10 }
   },
@@ -472,6 +478,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "MFC Skardu": { distance_km: 0.4, estimated_minutes: 3 },
     "Hassan Hussain Host": { distance_km: 0.1, estimated_minutes: 1 },
     "Pizza King Skardu": { distance_km: 0.55, estimated_minutes: 3 },
+    "Cafe Anime": { distance_km: 0.55, estimated_minutes: 3 },
     "Yak Grill Skardu": { distance_km: 1.1, estimated_minutes: 3 },
     "Yak and Bull Cafe Hameed Garh": { distance_km: 1.1, estimated_minutes: 3 }
   },
@@ -481,6 +488,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "MFC Skardu": { distance_km: 0.8, estimated_minutes: 4 },
     "Hassan Hussain Host": { distance_km: 1.2, estimated_minutes: 5 },
     "Pizza King Skardu": { distance_km: 0.7, estimated_minutes: 3 },
+    "Cafe Anime": { distance_km: 0.7, estimated_minutes: 3 },
     "Yak Grill Skardu": { distance_km: 2.2, estimated_minutes: 8 },
      "Yak and Bull Cafe Hameed Garh": { distance_km: 2.2, estimated_minutes: 8 }
   },
@@ -489,6 +497,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "MFC Skardu": { distance_km: 0.27, estimated_minutes: 1 },
     "Hassan Hussain Host": { distance_km: 0.15, estimated_minutes: 1 },
     "Pizza King Skardu": { distance_km: 0.4, estimated_minutes: 2 },
+    "Cafe Anime": { distance_km: 0.4, estimated_minutes: 2 },
     "Yak Grill Skardu": { distance_km: 1.2, estimated_minutes: 3 },
      "Yak and Bull Cafe Hameed Garh": { distance_km: 1.2, estimated_minutes: 4 }
   },
@@ -496,22 +505,26 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "MFC Skardu": { distance_km: 0.1, estimated_minutes: 1 },
     "Hassan Hussain Host": { distance_km: 0.4, estimated_minutes: 2 },
     "Pizza King Skardu": { distance_km: 0.11, estimated_minutes: 1 },
+    "Cafe Anime": { distance_km: 0.11, estimated_minutes: 1 },
     "Yak Grill Skardu": { distance_km: 1.5, estimated_minutes: 4 },
      "Yak and Bull Cafe Hameed Garh": { distance_km: 1.4, estimated_minutes: 5 }
   },
   "MFC Skardu": {
     "Hassan Hussain Host": { distance_km: 0.4, estimated_minutes: 2 },
     "Pizza King Skardu": { distance_km: 0.11, estimated_minutes: 1 },
+    "Cafe Anime": { distance_km: 0.11, estimated_minutes: 1 },
     "Yak Grill Skardu": { distance_km: 1.5, estimated_minutes: 4 },
     "Yak and Bull Cafe Hameed Garh": { distance_km: 1.4, estimated_minutes: 5 }
   },
   "Hassan Hussain Host": {
     "Pizza King Skardu": { distance_km: 0.55, estimated_minutes: 3 },
+    "Cafe Anime": { distance_km: 0.55, estimated_minutes: 3 },
     "Yak Grill Skardu": { distance_km: 1.1, estimated_minutes: 3 },
      "Yak and Bull Cafe Hameed Garh": { distance_km: 1.1, estimated_minutes: 3 }
   },
   "Pizza King Skardu": {
     "Yak Grill Skardu": { distance_km: 1.6, estimated_minutes: 5},
+    "Cafe Anime": { distance_km: 0.3, estimated_minutes: 2},
     "Yak and Bull Cafe Hameed Garh": { distance_km: 1.8, estimated_minutes: 6}
   },
 };
@@ -12383,6 +12396,1058 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 7
     }
    },
+   "Cafe Anime": {
+    "Sundus Skilgrong": { distance_km: 4.0, estimated_minutes: 13 },
+    "Sundus Gond": { distance_km: 4.8, estimated_minutes: 14 },
+    "Newranga": { distance_km: 3.6, estimated_minutes: 10 },
+    "Katpana": { distance_km: 7.3, estimated_minutes: 22 },
+    "Khargrong": { distance_km: 1.0, estimated_minutes: 4 },
+    "Hasnain Nagar": { distance_km: 0.55, estimated_minutes: 2 },
+    "Alamdar Chowk": { distance_km: 0.14, estimated_minutes: 1 },
+    "Hassan Colony": { distance_km: 1.3, estimated_minutes: 5 },
+    "Hassan Colony Pine": { distance_km: 1.4, estimated_minutes: 5 },
+    "Shinkhani Gond": { distance_km: 0.95, estimated_minutes: 4 },
+    "Oldiing Nansoq": { distance_km: 2.6, estimated_minutes: 8 },
+    "RHQ Road Harriot Hotel": { distance_km: 2.0, estimated_minutes: 7 },
+    "Newranga Near Agha Ali House": { distance_km: 1.7, estimated_minutes: 6 },
+    "Newranga ": { distance_km: 3.6, estimated_minutes: 10 },
+    "Kushmarah": { distance_km: 2.9, estimated_minutes: 8 },
+    "Sherthang Girls High School": { distance_km: 1.9, estimated_minutes: 7 },
+    "Marfie Colony": { distance_km: 1.7, estimated_minutes: 6 },
+    "Chumik": { distance_km: 1.6, estimated_minutes: 6 },
+    "Gamba Skardu": { distance_km: 11, estimated_minutes: 24 },
+    "United Line, Hassan Colony": { distance_km: 1.2, estimated_minutes: 4 },
+    "Muhib Road Khargrong": { distance_km: 1.4, estimated_minutes: 6 },
+    "GB Chief Court Skardu Registry Skardu": { distance_km: 3.5, estimated_minutes: 11 },
+    "Shaheen Public School Skardu": { distance_km: 2.3, estimated_minutes: 9 },
+    "Mehdi Colony Skardu": { distance_km: 2.3, estimated_minutes: 9 },
+    "Agha Hadi Chowk": { distance_km: 0.85, estimated_minutes: 3 },
+    "Hussainabad": { distance_km: 6.7, estimated_minutes: 17 },
+    "Thorgu": { distance_km: 11, estimated_minutes: 25 },
+    "Aliabad, Skardu": { distance_km: 0.26, estimated_minutes: 2 },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.7, estimated_minutes: 17 },
+    "Hameed Garh": { distance_km: 1.7, estimated_minutes: 6 },
+    "Shaheed colony": { distance_km: 3.4, estimated_minutes: 10 },
+    "Tufail colony": { distance_km: 2.8, estimated_minutes: 8 },
+    "Jafferi Mohallah": { distance_km: 1.9, estimated_minutes: 7 },
+    "Chogo Matamsara": { distance_km: 1.9, estimated_minutes: 8 },
+    "Nagulispang Road": { distance_km: 0.95, estimated_minutes: 3 },
+    "Eidgah,Sundus ": { distance_km: 3.4, estimated_minutes: 11 },
+    "Sukemaidan ": { distance_km: 1.2, estimated_minutes: 4 },
+    "Hargissa shakthang": { distance_km: 1.8, estimated_minutes: 7 },
+    "Bhutto Bazar Skardu": { distance_km: 1.4, estimated_minutes: 5 },
+    "Devision": { distance_km: 2.4, estimated_minutes: 8 },
+    "Abbas Town": { distance_km: 1.8, estimated_minutes: 6 },
+    "Musa Line": { distance_km: 1.0, estimated_minutes: 3 },
+    "Clifton pull": { distance_km: 0.9, estimated_minutes: 2 },
+    "Sheikh ijaz masjid": { distance_km: 1.5, estimated_minutes: 4 },
+    "Khila Toq Road": { distance_km: 1.6, estimated_minutes: 5 },
+    "Public school area": { distance_km: 2.2, estimated_minutes: 7 },
+    "Xhathang": { distance_km: 2.8, estimated_minutes: 8 },
+    "Brolmo colony sundus": { distance_km: 4.2, estimated_minutes: 11 },
+    "Ghazi Colony sundus": { distance_km: 4.5, estimated_minutes: 13 },
+    "Hyderabad Gangupi Area": { distance_km: 0.7, estimated_minutes: 2 },
+    "LT Col ihsan Ali rd": { distance_km: 0.6, estimated_minutes: 2 },
+    "Astana skardu": { distance_km: 3.5, estimated_minutes: 9 },
+    "Bintul Huda Girls model school": { distance_km: 4.6, estimated_minutes: 10 },
+    "Brolmo colony astana": { distance_km: 3.7, estimated_minutes: 8 },
+    "Raees mohalla Haji Gam": { distance_km: 2.1, estimated_minutes: 7 },
+    "Haji Gam": { distance_km: 1.6, estimated_minutes: 7 },
+    "Gulshan e Ali skardu": { distance_km: 2.1, estimated_minutes: 6 },
+    "Jamia masjid road": { distance_km: 0.8, estimated_minutes: 3 },
+    "Gayool skardu": { distance_km: 5.5, estimated_minutes: 11 },
+    "Toqrangah Skardu": { distance_km: 3.8, estimated_minutes: 9 },
+    "Maqponsar skardu": { distance_km: 3.6, estimated_minutes: 8 },
+    "Newranga road": { distance_km: 3.3, estimated_minutes: 7 },
+    "Quaidabad": { distance_km: 1.9, estimated_minutes: 4 },
+    "Kharpocho Road": { distance_km: 1.5, estimated_minutes: 6 },
+    "Patwal": { distance_km: 1.4, estimated_minutes: 4 },
+    "Olding": { distance_km: 2.4, estimated_minutes: 7 },
+    "Karasmathang": { distance_km: 1.3, estimated_minutes: 3 },
+    "Kachura": { distance_km: 28, estimated_minutes: 48 },
+    "3 talwar chowk": { distance_km: 2.5, estimated_minutes: 6 },
+    "Teen talwar chowk": { distance_km: 2.5, estimated_minutes: 6 },
+    "Sahara Complex": { distance_km: 2.4, estimated_minutes: 6 },
+    "Ali plaza": { distance_km: 1.3, estimated_minutes: 4 },
+    "Radio Pakistan Chowk": { distance_km: 2.6, estimated_minutes: 6 },
+    "Manthal": { distance_km: 4.4, estimated_minutes: 13 },
+    "Hoto": { distance_km: 19, estimated_minutes: 28 },
+
+
+    "Rus Olive Lodge": {
+      distance_km: 4.2,
+      estimated_minutes: 5
+    },
+    "Hargisa Resort Skardu": {
+      distance_km: 5.1,
+      estimated_minutes: 7
+    },
+    "LOKAL Rooms x Skardu (Katpana Retreat)": {
+      distance_km: 5.1,
+      estimated_minutes: 6
+    },
+    "Green Orchard Skardu": {
+      distance_km: 3.2,
+      estimated_minutes: 4
+    },
+    "Oasis Resort Katpana Skardu": {
+      distance_km: 5.4,
+      estimated_minutes: 7
+    },
+    "Kesar Palace Skardu": {
+      distance_km: 1.7,
+      estimated_minutes: 7
+    },
+    "Avari Xpress Skardu Hotel": {
+      distance_km: 3.6,
+      estimated_minutes: 4
+    },
+    "Hotel Mashabrum Skardu": {
+      distance_km: 2.5,
+      estimated_minutes: 4
+    },
+    "Skardu Luxus Hotel": {
+      distance_km: 2.5,
+      estimated_minutes: 4
+    },
+    "The Mountain Cottage Skardu": {
+      distance_km: 2.9,
+      estimated_minutes: 4
+    },
+    "Summit Hotel Skardu": {
+      distance_km: 2.7,
+      estimated_minutes: 4
+    },
+    "Skardu Saraye Hotel & Resort": {
+      distance_km: 3.6,
+      estimated_minutes: 6
+    },
+    "Baltistan Tourist Cottage - Skardu": {
+      distance_km: 3,
+      estimated_minutes: 4
+    },
+    "Glamp Pakistan": {
+      distance_km: 6.5,
+      estimated_minutes: 9
+    },
+    "Montagna Pods": {
+      distance_km: 6.6,
+      estimated_minutes: 10
+    },
+    "Hotel Luxy Skardu": {
+      distance_km: 3.8,
+      estimated_minutes: 5
+    },
+    "Baltistan Fort, Skardu Resort Hotel": {
+      distance_km: 8.4,
+      estimated_minutes: 13
+    },
+    "Hotel Skardu1": {
+      distance_km: 2.1,
+      estimated_minutes: 3
+    },
+    "Baltistan Resort": {
+      distance_km: 2.1,
+      estimated_minutes: 3
+    },
+    "Skardu Royal Hotel & Restaurant": {
+      distance_km: 1.5,
+      estimated_minutes: 3
+    },
+    "Sharif Cottages and Hotel Skardu": {
+      distance_km: 5,
+      estimated_minutes: 5
+    },
+    "Base Camp Katpana": {
+      distance_km: 7.5,
+      estimated_minutes: 12
+    },
+    "Hotel Dewan-e-Khas": {
+      distance_km: 1.8,
+      estimated_minutes: 3
+    },
+    "Legend Hotel Skardu": {
+      distance_km: 1.6,
+      estimated_minutes: 3
+    },
+    "Northlanders Guest House Skardu": {
+      distance_km: 1.5,
+      estimated_minutes: 3
+    },
+    "Hotel Travellodge Skardu": {
+      distance_km: 1.1,
+      estimated_minutes: 2
+    },
+    "Qayam Skardu": {
+      distance_km: 5.8,
+      estimated_minutes: 6
+    },
+    "Rafsal A Countryside Cottage": {
+      distance_km: 4.4,
+      estimated_minutes: 11
+    },
+    "Kentish Lodge Skardu": {
+      distance_km: 0.8,
+      estimated_minutes: 2
+    },
+    "Skardu Villas": {
+      distance_km: 6.2,
+      estimated_minutes: 6
+    },
+    "The Cherry Courtyard": {
+      distance_km: 6.2,
+      estimated_minutes: 15
+    },
+    "Ringchan Guest House & Restaurant": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "Skardu Lodge": {
+      distance_km: 1.7,
+      estimated_minutes: 2
+    },
+    "Karakoram Nest": {
+      distance_km: 2.3,
+      estimated_minutes: 3
+    },
+    "Dynasty Skardu": {
+      distance_km: 6.6,
+      estimated_minutes: 14
+    },
+    "Sehrish Guest House Skardu": {
+      distance_km: 0.6,
+      estimated_minutes: 2
+    },
+    "PTDC Motel Skardu": {
+      distance_km: 2.3,
+      estimated_minutes: 3
+    },
+    "Hotel Reego Skardu": {
+      distance_km: 1,
+      estimated_minutes: 2
+    },
+    "Lavender Cottage & Guest House": {
+      distance_km: 0.6,
+      estimated_minutes: 2
+    },
+    "Rock View Skardu": {
+      distance_km: 0.5,
+      estimated_minutes: 2
+    },
+    "Dream Guest House Haji Gam Chowk": {
+      distance_km: 0.7,
+      estimated_minutes: 2
+    },
+    "Indus Lodges Skardu": {
+      distance_km: 2.4,
+      estimated_minutes: 3
+    },
+    "Pacific Guest House Skardu": {
+      distance_km: 1.7,
+      estimated_minutes: 3
+    },
+    "Skardu View Point Hotel and Huts": {
+      distance_km: 1.7,
+      estimated_minutes: 3
+    },
+    "Khar Hotel Skardu": {
+      distance_km: 1,
+      estimated_minutes: 2
+    },
+    "HIKK Inn Skardu": {
+      distance_km: 1.7,
+      estimated_minutes: 3
+    },
+    "Taaj Residence Skardu": {
+      distance_km: 1.1,
+      estimated_minutes: 2
+    },
+    "Homeland Guest House Skardu": {
+      distance_km: 1.5,
+      estimated_minutes: 2
+    },
+    "Sultan Guest House Skardu": {
+      distance_km: 1.1,
+      estimated_minutes: 3
+    },
+    "The Hill Town Resort": {
+      distance_km: 1.5,
+      estimated_minutes: 3
+    },
+    "AlJannah Guest House Skardu": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "Deosai Gateway Inn Skardu": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "Skardu Arcadian Resort": {
+      distance_km: 9.1,
+      estimated_minutes: 11
+    },
+    "Areena Hotel Skardu": {
+      distance_km: 2.2,
+      estimated_minutes: 3
+    },
+    "Skardu Farmhouse for stay": {
+      distance_km: 2.6,
+      estimated_minutes: 3
+    },
+    "Adventure Sarai Hotel Skardu": {
+      distance_km: 2.1,
+      estimated_minutes: 3
+    },
+    "Maple Resort": {
+      distance_km: 4.1,
+      estimated_minutes: 11
+    },
+    "Candela Resorts": {
+      distance_km: 3,
+      estimated_minutes: 4
+    },
+    "Hispar Hotel Skardu": {
+      distance_km: 3,
+      estimated_minutes: 4
+    },
+    "K2 Paradise Guest House": {
+      distance_km: 3,
+      estimated_minutes: 3
+    },
+    "Holiday Mountain Resort & Camping Site": {
+      distance_km: 3.5,
+      estimated_minutes: 6
+    },
+    "Mountain Lodge Skardu": {
+      distance_km: 3.6,
+      estimated_minutes: 6
+    },
+    "Mulberry Continental Hotel Skardu": {
+      distance_km: 11.2,
+      estimated_minutes: 10
+    },
+    "PC Legacy Skardu": {
+      distance_km: 11,
+      estimated_minutes: 22
+    },
+    "GB Lodges": {
+      distance_km: 12.2,
+      estimated_minutes: 11
+    },
+    "Bilafond Cottage": {
+      distance_km: 8,
+      estimated_minutes: 10
+    },
+    "North Hills Skardu": {
+      distance_km: 2.1,
+      estimated_minutes: 3
+    },
+    "Pinnacle Executive Lodges": {
+      distance_km: 12.7,
+      estimated_minutes: 11
+    },
+    "Safena Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Jabal e Rawah Skardu": {
+      distance_km: 6.5,
+      estimated_minutes: 14
+    },
+    "Byarsa Hotel Skardu": {
+      distance_km: 25,
+      estimated_minutes: 36
+    },
+    "Dream Nest Resort Hotels Skardu": {
+      distance_km: 34,
+      estimated_minutes: 35
+    },
+    "Stream view guest house skardu": {
+      distance_km: 1.5,
+      estimated_minutes: 3
+    },
+    "Shangrila Resort Skardu": {
+      distance_km: 26.3,
+      estimated_minutes: 24
+    },
+    "Kachura Inn Skardu": {
+      distance_km: 31.1,
+      estimated_minutes: 29
+    },
+    "Tibet Hotel Kachura Skardu": {
+      distance_km: 29.6,
+      estimated_minutes: 25
+    },
+    "Hotel Mountain Lagoon Skardu": {
+      distance_km: 26.7,
+      estimated_minutes: 26
+    },
+    "Skardu River Resort": {
+      distance_km: 26.9,
+      estimated_minutes: 26
+    },
+    "Morning Resort": {
+      distance_km: 30.1,
+      estimated_minutes: 26
+    },
+    "Hotel Desert Bloom Skardu": {
+      distance_km: 4.3,
+      estimated_minutes: 6
+    },
+    "TheQue Skardu": {
+      distance_km: 30.6,
+      estimated_minutes: 26
+    },
+    "Singay Homestay Skardu": {
+      distance_km: 1.9,
+      estimated_minutes: 3
+    },
+    "Baltistan Crown Resort": {
+      distance_km: 6.4,
+      estimated_minutes: 8
+    },
+    "Fatah inn Guest House": {
+      distance_km: 6.5,
+      estimated_minutes: 8
+    },
+    "Kunhar": {
+      distance_km: 6.2,
+      estimated_minutes: 7
+    },
+    "Maltoro guest house": {
+      distance_km: 6.3,
+      estimated_minutes: 6
+    },
+    "Apex Hotels and Resorts Skardu": {
+      distance_km: 6.4,
+      estimated_minutes: 15
+
+    },
+    "Hotel virsa": {
+      distance_km: 6.4,
+      estimated_minutes: 6
+    },
+    "Elli's Luxus": {
+      distance_km: 7,
+      estimated_minutes: 7
+    },
+    "Skardu Gateway Hotel & Restaurant": {
+      distance_km: 7.1,
+      estimated_minutes: 7
+    },
+    "Polo Land Hotel by Skyline": {
+      distance_km: 7.2,
+      estimated_minutes: 7
+    },
+    "Baltistan White House Hotel": {
+      distance_km: 7.5,
+      estimated_minutes: 7
+    },
+    "The Pioneer Hotel": {
+      distance_km: 7.6,
+      estimated_minutes: 16
+    },
+    "Ramovi Guest House": {
+      distance_km: 7.6,
+      estimated_minutes: 7
+    },
+    "Friends & Family Guest House": {
+      distance_km: 8,
+      estimated_minutes: 8
+    },
+    "SKY LAKE GUEST HOUSE": {
+      distance_km: 8.3,
+      estimated_minutes: 8
+    },
+    "Skardu bliss hotel": {
+      distance_km: 9.6,
+      estimated_minutes: 9
+    },
+    "Comfort inn hotel": {
+      distance_km: 9.6,
+      estimated_minutes: 9
+    },
+    "Grand Hotel Skardu": {
+      distance_km: 9.9,
+      estimated_minutes: 9
+    },
+    "Baltistan inn hotel": {
+      distance_km: 10,
+      estimated_minutes: 9
+    },
+    "Grand view hotel": {
+      distance_km: 10,
+      estimated_minutes: 9
+    },
+    "Hotel walnut": {
+      distance_km: 11,
+      estimated_minutes: 10
+    },
+    "ABC hotel": {
+      distance_km: 11.2,
+      estimated_minutes: 10
+    },
+    "Lashari Resort Skardu": {
+      distance_km: 11,
+      estimated_minutes: 21
+    },
+    "Melody Hills Skardu": {
+      distance_km: 11.7,
+      estimated_minutes: 10
+    },
+    "NJM House Near Skardu Airport": {
+      distance_km: 11.7,
+      estimated_minutes: 10
+    },
+    "Le Yurt Skardu": {
+      distance_km: 11.9,
+      estimated_minutes: 10
+    },
+    "FearLess lodge": {
+      distance_km: 13.1,
+      estimated_minutes: 13
+    },
+    "Wamiq Skardu Resort": {
+      distance_km: 15.8,
+      estimated_minutes: 16
+    },
+    "Hosho Guest House": {
+      distance_km: 14.5,
+      estimated_minutes: 12
+    },
+    "Orgventure Resorts Skardu": {
+      distance_km: 15.7,
+      estimated_minutes: 13
+    },
+    "Green orchard skardu": {
+      distance_km: 3.2,
+      estimated_minutes: 4
+    },
+    "Mount View hotel skardu": {
+      distance_km: 3,
+      estimated_minutes: 4
+    },
+    "Laal Haveli": {
+      distance_km: 2.8,
+      estimated_minutes: 4
+    },
+    "Skardu view Guest house": {
+      distance_km: 2.7,
+      estimated_minutes: 4
+    },
+    "Baltistan Mountain Chalet Hotel": {
+      distance_km: 2.7,
+      estimated_minutes: 4
+    },
+    "Hotel Five star & restaurant skardu": {
+      distance_km: 2.6,
+      estimated_minutes: 4
+    },
+    "Tufail palace hotel & restaurant": {
+      distance_km: 2.6,
+      estimated_minutes: 4
+    },
+    "Indus motel": {
+      distance_km: 2.3,
+      estimated_minutes: 4
+    },
+    "Paradise hotel": {
+      distance_km: 2.2,
+      estimated_minutes: 3
+    },
+    "Hotel Red sun": {
+      distance_km: 2.2,
+      estimated_minutes: 3
+    },
+    "Haks hotel": {
+      distance_km: 2.1,
+      estimated_minutes: 3
+    },
+    "Hotel inn skardu": {
+      distance_km: 2.1,
+      estimated_minutes: 3
+    },
+    "Skardu embassy hotel": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "Hotel Delight Skardu": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "Ayan Hotel": {
+      distance_km: 1.5,
+      estimated_minutes: 3
+    },
+    "Hotel Highlander inn": {
+      distance_km: 2.2,
+      estimated_minutes: 3
+    },
+    "The North face inn hotel skardu": {
+      distance_km: 2.4,
+      estimated_minutes: 3
+    },
+    "The yak Hotel skardu": {
+      distance_km: 2.4,
+      estimated_minutes: 3
+    },
+    "Indus lodge skardu": {
+      distance_km: 2.4,
+      estimated_minutes: 3
+    },
+    "Stay inn hotel": {
+      distance_km: 2.4,
+      estimated_minutes: 3
+    },
+    "Eden Rock skardu": {
+      distance_km: 2.5,
+      estimated_minutes: 3
+    },
+    "Concordia Motel Baltistan": {
+      distance_km: 2.7,
+      estimated_minutes: 3
+    },
+    "Harriot Skardu": {
+      distance_km: 3.2,
+      estimated_minutes: 3
+    },
+    "Hotel PeakNest": {
+      distance_km: 3.2,
+      estimated_minutes: 3
+    },
+    "Royal Glaxy Hotel": {
+      distance_km: 3.4,
+      estimated_minutes: 4
+    },
+    "Sarfaranga view rock Guest house skardu": {
+      distance_km: 3.2,
+      estimated_minutes: 3
+    },
+    "Eat and Read Guesthouse skardu": {
+      distance_km: 3.1,
+      estimated_minutes: 3
+    },
+    "North Face explorers": {
+      distance_km: 3.1,
+      estimated_minutes: 3
+    },
+    "Holiday resort skardu": {
+      distance_km: 3,
+      estimated_minutes: 3
+    },
+    "Kallisto Resort": {
+      distance_km: 3,
+      estimated_minutes: 3
+    },
+    "Sagar hotel skardu": {
+      distance_km: 3.3,
+      estimated_minutes: 3
+    },
+    "Hotel Elite skardu": {
+      distance_km: 3,
+      estimated_minutes: 3
+    },
+    "SnowLand Resort": {
+      distance_km: 2.8,
+      estimated_minutes: 4
+    },
+    "Bismillah Guest House": {
+      distance_km: 2.9,
+      estimated_minutes: 4
+    },
+    "Hotel Yak sarai": {
+      distance_km: 2.8,
+      estimated_minutes: 4
+    },
+    "The North Palace": {
+      distance_km: 2.8,
+      estimated_minutes: 4
+    },
+    "Duqsa Family Guest House": {
+      distance_km: 3.1,
+      estimated_minutes: 4
+    },
+    "Wazir's villa": {
+      distance_km: 3.2,
+      estimated_minutes: 5
+    },
+    "Hotel Rewaaj": {
+      distance_km: 3,
+      estimated_minutes: 4
+    },
+    "Comfort Hotel & Huts skardu": {
+      distance_km: 2.4,
+      estimated_minutes: 4
+    },
+    "Zam Zam Guest House": {
+      distance_km: 2.2,
+      estimated_minutes: 3
+    },
+    "The Mountain Gypsy Resort": {
+      distance_km: 2.2,
+      estimated_minutes: 3
+    },
+    "Rigo Resort Skardu": {
+      distance_km: 3.3,
+      estimated_minutes: 6
+    },
+    "Arish Luxury Sites": {
+      distance_km: 1.9,
+      estimated_minutes: 3
+    },
+    "InterContinental Hotel": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "Royal fort resort skardu": {
+      distance_km: 2.1,
+      estimated_minutes: 3
+    },
+    "Meer Stay and Dine skardu": {
+      distance_km: 1.9,
+      estimated_minutes: 2
+    },
+    "Dream Land Guest House": {
+      distance_km: 2.1,
+      estimated_minutes: 4
+    },
+    "Hotel GraceLand": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "MOUNTAIN MAJESTY INN SKARDU": {
+      distance_km: 1.6,
+      estimated_minutes: 3
+    },
+    "Alnoor Lodges": {
+      distance_km: 1.5,
+      estimated_minutes: 2
+    },
+    "Jasper House": {
+      distance_km: 1.7,
+      estimated_minutes: 3
+    },
+    "The Himalayan Guest House": {
+      distance_km: 1.8,
+      estimated_minutes: 3
+    },
+    "Epoch Inn Guest House Skardu": {
+      distance_km: 1.9,
+      estimated_minutes: 3
+    },
+    "Mountaindale Guest House": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "Al Jannah Guest House Skardu": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "Biafo Resort Skardu": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "Skardu Blossom Inn": {
+      distance_km: 2.1,
+      estimated_minutes: 3
+    },
+    "The Diamond Guest House Skardu": {
+      distance_km: 2.2,
+      estimated_minutes: 3
+    },
+    "Anarres | A Creative Residency": {
+      distance_km: 2.6,
+      estimated_minutes: 3
+    },
+    "Submit Embassy Hotel": {
+      distance_km: 2.6,
+      estimated_minutes: 4
+    },
+    "Alpine Abode Skardu": {
+      distance_km: 3,
+      estimated_minutes: 4
+    },
+    "Relax Inn Skardu": {
+      distance_km: 3,
+      estimated_minutes: 4
+    },
+    "Gumaan Resort Skardu": {
+      distance_km: 3.2,
+      estimated_minutes: 4
+    },
+    "Yuligo Resort Skardu": {
+      distance_km: 3.4,
+      estimated_minutes: 4
+    },
+    "Urban escape resort": {
+      distance_km: 1,
+      estimated_minutes: 2
+    },
+    "Mohsin Lodge Skardu": {
+      distance_km: 0.9,
+      estimated_minutes: 2
+    },
+    "Back To Home Lodging": {
+      distance_km: 0.9,
+      estimated_minutes: 2
+    },
+    "Royal Brangsa Guest House": {
+      distance_km: 0.7,
+      estimated_minutes: 2
+    },
+    "Wazir Guest House Skardu": {
+      distance_km: 0.4,
+      estimated_minutes: 1
+    },
+    "Golden Ibex Guest House": {
+      distance_km: 0.3,
+      estimated_minutes: 1
+    },
+    "Up Way Guest House": {
+      distance_km: 0.5,
+      estimated_minutes: 2
+    },
+    "Kunlun Peak Inn skardu": {
+      distance_km: 0.7,
+      estimated_minutes: 2
+    },
+    "Markhor Hotel": {
+      distance_km: 0.9,
+      estimated_minutes: 2
+    },
+    "Tibet hotel skardu": {
+      distance_km: 1.2,
+      estimated_minutes: 3
+    },
+    "Alpha Nomads House": {
+      distance_km: 1.3,
+      estimated_minutes: 3
+    },
+    "Dirleh Hotel": {
+      distance_km: 1.5,
+      estimated_minutes: 4
+    },
+    "North Home Skardu": {
+      distance_km: 1.5,
+      estimated_minutes: 4
+    },
+    "Valhalla Guest House": {
+      distance_km: 1.4,
+      estimated_minutes: 3
+    },
+    "Creek villa skardu": {
+      distance_km: 1.5,
+      estimated_minutes: 4
+    },
+    "Prince Tourist Hut": {
+      distance_km: 1.8,
+      estimated_minutes: 4
+    },
+    "Mountain House": {
+      distance_km: 1.9,
+      estimated_minutes: 4
+    },
+    "Reechan Resort House": {
+      distance_km: 1.6,
+      estimated_minutes: 3
+    },
+    "Himalayan Guest House Hassan colony": {
+      distance_km: 1.6,
+      estimated_minutes: 3
+    },
+    "Jasmine Skardu": {
+      distance_km: 1.7,
+      estimated_minutes: 3
+    },
+    "Mountain Face Skardu": {
+      distance_km: 1.8,
+      estimated_minutes: 3
+    },
+    "Four Seasons Bed and Breakfast": {
+      distance_km: 1.7,
+      estimated_minutes: 3
+    },
+    "Flora Inn skardu": {
+      distance_km: 1.7,
+      estimated_minutes: 3
+    },
+    "Broadpeak Resort skardu": {
+      distance_km: 1.8,
+      estimated_minutes: 3
+    },
+    "Chinar Residency": {
+      distance_km: 2.5,
+      estimated_minutes: 4
+    },
+    "Buddha Rock Guest House Skardu": {
+      distance_km: 2.6,
+      estimated_minutes: 4
+    },
+    "Buddha view Resort skardu": {
+      distance_km: 2.6,
+      estimated_minutes: 4
+    },
+    "Moonal Residency": {
+      distance_km: 2.8,
+      estimated_minutes: 4
+    },
+    "Skarchan Resort skardu": {
+      distance_km: 2.9,
+      estimated_minutes: 5
+    },
+    "ZAGO Guest House": {
+      distance_km: 1.3,
+      estimated_minutes: 3
+    },
+    "Skardu Blossom Guest House": {
+      distance_km: 1.3,
+      estimated_minutes: 3
+    },
+    "Harpo Resorts": {
+      distance_km: 1.3,
+      estimated_minutes: 3
+    },
+    "Baltistan Continental Hotel skardu": {
+      distance_km: 0.9,
+      estimated_minutes: 2
+    },
+    "Al Abbas Guest House": {
+      distance_km: 0.8,
+      estimated_minutes: 2
+    },
+    "Apricot Spring Resort Skardu": {
+      distance_km: 0.8,
+      estimated_minutes: 2
+    },
+    "Executive Guest House Skardu": {
+      distance_km: 0.7,
+      estimated_minutes: 2
+    },
+    "Hotel Bloom Hills,Skardu": {
+      distance_km: 2.5,
+      estimated_minutes: 4
+    },
+    "Siachen Stay&Tours": {
+      distance_km: 2.3,
+      estimated_minutes: 3
+    },
+    "Mountain Guest House and Desi Restaurant": {
+      distance_km: 2.2,
+      estimated_minutes: 3
+    },
+    "Decent Baltistan guest house": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "Baltistan Village Guest House": {
+      distance_km: 2,
+      estimated_minutes: 3
+    },
+    "Bareen": {
+      distance_km: 1.9,
+      estimated_minutes: 3
+    },
+    "SUMMIT GUEST HOUSE": {
+      distance_km: 1.9,
+      estimated_minutes: 3
+    },
+    "Serene Baltistan Hotel": {
+      distance_km: 1.8,
+      estimated_minutes: 3
+    },
+    "Alpha Hotel & Restaurant": {
+      distance_km: 1.5,
+      estimated_minutes: 2
+    },
+    "Saani Rooms": {
+      distance_km: 1.4,
+      estimated_minutes: 2
+    },
+    "Ridakh Inn": {
+      distance_km: 1.2,
+      estimated_minutes: 2
+    },
+    "Clifton Spachan Hotel": {
+      distance_km: 1.1,
+      estimated_minutes: 2
+    },
+    "K2 Tourism Guest House": {
+      distance_km: 1,
+      estimated_minutes: 2
+    },
+    "Heaven's Adventure.pk": {
+      distance_km: 3.4,
+      estimated_minutes: 5
+    },
+    "Desert one hotel and restaurant skardu": {
+      distance_km: 3.2,
+      estimated_minutes: 4
+    },
+    "Yazgar Residency Skardu": {
+      distance_km: 3.3,
+      estimated_minutes: 4
+    },
+    "The Next Home Skardu": {
+      distance_km: 3.3,
+      estimated_minutes: 4
+    },
+    "Heaven Hotel Skardu": {
+      distance_km: 3.3,
+      estimated_minutes: 4
+    },
+    "Skardu Midway hotel": {
+      distance_km: 3.8,
+      estimated_minutes: 5
+    },
+    "Sarfaranga Reaidency": {
+      distance_km: 4.1,
+      estimated_minutes: 5
+    },
+    "Skengoo Inn Hotel": {
+      distance_km: 4.3,
+      estimated_minutes: 5
+    },
+    "Alnoor Starlet Hotel": {
+      distance_km: 4.5,
+      estimated_minutes: 5
+    },
+    "Top Hill Resort": {
+      distance_km: 5,
+      estimated_minutes: 6
+    },
+    "Royal Resort Skardu": {
+      distance_km: 4.7,
+      estimated_minutes: 5
+    },
+    "Signature Skardu Hotel": {
+      distance_km: 4.7,
+      estimated_minutes: 5
+    },
+    "Shama Resort Skardu": {
+      distance_km: 4.8,
+      estimated_minutes: 5
+    },
+    "Pearl of Skardu Resort": {
+      distance_km: 4.8,
+      estimated_minutes: 5
+    },
+    "Crystal Mountain Lodge": {
+      distance_km: 5,
+      estimated_minutes: 5
+    },
+    "H A K S RESSORT": {
+      distance_km: 5.6,
+      estimated_minutes: 6
+    },
+    "Shaheen Guest House Skardu": {
+      distance_km: 5.9,
+      estimated_minutes: 6
+    },
+    "Nirvana Resort Skardu": {
+      distance_km: 6.1,
+      estimated_minutes: 7
+    }
+   },
   "Yak Grill Skardu": {
     "Sundus Skilgrong": { distance_km: 6.7, estimated_minutes: 23 },
     "Sundus Gond": { distance_km: 2.4, estimated_minutes: 10 },
@@ -14422,6 +15487,7 @@ export const OFFICE_TO_RESTAURANT: Record<string, DistanceTimeEntry> = {
   "MFC Skardu": { distance_km: 0.28, estimated_minutes: 1 },
   "Hassan Hussain Host": { distance_km: 0.55, estimated_minutes: 3 },
   "Pizza King Skardu": { distance_km: 0.25, estimated_minutes: 1 },
+  "Cafe Anime": { distance_km: 0.25, estimated_minutes: 1 },
   "Yak Grill Skardu": { distance_km: 1.6, estimated_minutes: 5 },
   "Yak and Bull Cafe Hameed Garh": { distance_km: 1.6, estimated_minutes: 7 },
 };

@@ -9,6 +9,10 @@ import ProductGrid from "@/components/ProductGrid";
 import RestaurantList from "@/components/RestaurantList";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
+import VideoPreloader from "@/components/VideoPreloader";
+import { CAFE_ANIME_VIDEO_URL } from "@/lib/constants/cafeAnime";
+
+// Hardcoded: only one restaurant currently uses this character video.
 
 export default function HomeClient() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -16,6 +20,8 @@ export default function HomeClient() {
 
   return (
     <main className="min-h-screen bg-white text-gray-900 pb-24 md:pb-0">
+      <VideoPreloader url={CAFE_ANIME_VIDEO_URL} />
+
       {/* 1. Pass the props to the Navbar for Desktop users */}
       <Navbar 
         onFoodClick={() => setView('restaurants')} 

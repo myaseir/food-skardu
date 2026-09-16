@@ -1,7 +1,7 @@
 export const menu = {
   shopId: "balti-cuisine-skardu",
   name: "Balti Cuisine Skardu",
-  logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4MHJr5IIt6j7rWP1jwfUl8C1isf5e5AciPwkmMyAe0Q&s",
+  logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4MHJr5IIt6j7rWP1jwfUl8C1isf5e5AciPwkmMyAe0Q&sgit push origin main",
   categories: [
     // ---------- MAIN COURSE ----------
     {

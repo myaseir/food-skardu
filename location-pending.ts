@@ -266,51 +266,7 @@ export const SKARDU_HOTELS: Record<string, { lat: number; lng: number }> = {
 
 export const SKARDU_AREAS: Record<string, { lat: number; lng: number }> = {
  
-  "Mehdi Colony Skardu": { lat: 35.280880, lng: 75.622837 },
-  "Agha Hadi Chowk": { lat: 35.289714, lng: 75.645761 },
-  "Hussainabad": { lat: 35.301109, lng: 75.745200 },
-  "Hameed Garh": { lat: 35.294471, lng: 75.651311 },
-  "Shaheed colony": { lat: 35.3073918, lng: 75.6131777 },
-  "Tufail colony": { lat: 35.305638, lng: 75.6199754 },
-  "Jafferi Mohallah": { lat: 35.302586, lng: 75.6294966 },
-  "Chogo Matamsara": { lat: 35.3019392, lng: 75.6350404 },
-  "Nagulispang Road": { lat: 35.2916037, lng: 75.6315213 },
-  "Eidgah,Sundus ": { lat: 35.3087992, lng: 75.6331488 },
-  "Sukemaidan ": { lat: 35.295960, lng: 75.634698 },
-   "Hargissa shakthang": { lat: 35.2902756, lng: 75.6236118 },
-  "Bhutto Bazar Skardu": { lat: 35.298960, lng: 75.631146 },
-  "Devision": { lat: 35.273762, lng: 75.639931 },
-  "Abbas Town": { lat: 35.279639, lng: 75.644633 },
-  "Musa Line": { lat: 35.2822840, lng: 75.6327498 },
-  "Clifton pull": { lat: 35.288549, lng: 75.626398 },
-  "Sheikh ijaz masjid": { lat: 35.294934, lng: 75.627085 },
-  "Khila Toq Road": { lat: 35.2880496, lng: 75.6507990 },
-  "Public school area": { lat: 35.2700367, lng: 75.6373464 },
-  "Xhathang": { lat: 35.269971, lng: 75.638869 },
-  "Brolmo colony sundus": { lat: 35.312039, lng: 75.613317 },
-  "Ghazi Colony sundus": { lat: 35.314328, lng: 75.611907 },
-  "Hyderabad Gangupi Area": { lat: 35.293592, lng: 75.636376 },
-  "LT Col ihsan Ali rd": { lat: 35.287383, lng: 75.635499 },
-  "Astana skardu": { lat: 35.2909562, lng: 75.6014698 },
-  "Bintul Huda Girls model school": { lat: 35.2966715, lng: 75.5970931 },
-  "Brolmo colony astana": { lat: 35.2968852, lng: 75.6017984 },
-  "Raees mohalla Haji Gam": { lat: 35.2748294, lng: 75.6312323 },
-  "Haji Gam": { lat: 35.2807428, lng: 75.6358819 },
-  "Gulshan e Ali skardu": { lat: 35.2935158, lng: 75.6560977 },
-  "Jamia masjid road": { lat: 35.2962812, lng: 75.6376887 },
-  "Gayool skardu": { lat: 35.2827982, lng: 75.5836938 },
-  "Toqrangah Skardu": { lat: 35.2977575, lng: 75.6098014 },
-  "Maqponsar skardu": { lat: 35.3014144, lng: 75.6115469 },
-  "New ranga road": { lat: 35.2963196, lng: 75.6192572 },
-  "Quaidabad": { lat: 35.290757, lng: 75.616208 },
-  "Kharpocho Road": { lat: 35.3019687, lng: 75.6364251 },
-  
-  // Gayool: { lat: 35.2737, lng: 75.5669 },
-  Patwal: { lat: 35.288269, lng: 75.647929 },
-  Olding: { lat: 35.280321, lng: 75.652694 },
-  Karasmathang: { lat: 35.290438, lng: 75.650253 },
-  
-  Kachura: { lat: 35.434870, lng: 75.4501409 },
+ 
 };
 
 // Merged lookup for the delivery calculator.

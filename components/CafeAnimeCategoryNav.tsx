@@ -11,20 +11,6 @@ export default function CategoryNav({ categories, activeCategory }: CategoryNavP
   const navRef = useRef<HTMLElement | null>(null);
   const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
-  // When the active category changes (from scrolling the page), make sure
-  // its button is visible within the horizontally-scrolling nav bar.
-  //
-  // IMPORTANT: we deliberately do NOT use button.scrollIntoView() here.
-  // This nav is `sticky top-0`, and calling scrollIntoView() on an element
-  // inside a sticky ancestor is a known cross-browser footgun: browsers can
-  // compute the target position using the element's underlying *static*
-  // (unstuck) layout position instead of its pinned on-screen position,
-  // which can cause the browser to scroll the whole document (not just
-  // this nav) back toward wherever that static position sits — visible as
-  // the page suddenly jumping back up while scrolling down.
-  //
-  // Instead we scroll only this nav's own container by computing scrollLeft
-  // directly, which never touches document/vertical scroll at all.
   useEffect(() => {
     if (!activeCategory) return;
     const nav = navRef.current;
@@ -34,12 +20,10 @@ export default function CategoryNav({ categories, activeCategory }: CategoryNavP
     const navRect = nav.getBoundingClientRect();
     const btnRect = activeButton.getBoundingClientRect();
 
-    // Current offset of the button relative to the nav's scrollable content.
     const buttonOffsetLeft = activeButton.offsetLeft;
     const buttonWidth = btnRect.width;
     const navWidth = navRect.width;
 
-    // Center the button within the nav's visible width.
     const targetScrollLeft = buttonOffsetLeft - navWidth / 2 + buttonWidth / 2;
 
     nav.scrollTo({
@@ -51,7 +35,8 @@ export default function CategoryNav({ categories, activeCategory }: CategoryNavP
   return (
     <nav
       ref={navRef}
-      className="sticky top-0 bg-white z-20 border-b border-gray-100 overflow-x-auto flex px-6 py-4 gap-6 no-scrollbar"
+      // Changed to dark theme matching the screenshot with a subtle bottom border
+      className="sticky top-0 z-20 bg-[#0b0c14]/95 backdrop-blur-md border-b border-white/10 overflow-x-auto flex px-4 sm:px-6 pt-4 gap-6 sm:gap-8 no-scrollbar"
     >
       {categories.map((cat: any) => {
         const isActive = cat.name === activeCategory;
@@ -69,13 +54,19 @@ export default function CategoryNav({ categories, activeCategory }: CategoryNavP
               }
             }}
             aria-current={isActive ? "true" : undefined}
-            className={`font-bold text-xs uppercase tracking-widest whitespace-nowrap transition-colors ${
+            // Relative positioning added so the absolute underline aligns to the text width
+            className={`relative pb-3 font-semibold text-sm sm:text-base uppercase tracking-widest whitespace-nowrap transition-colors ${
               isActive
-                ? "text-purple-600 font-black"
-                : "text-gray-600 hover:text-purple-600"
+                ? "text-red-500" // Bright red for active text
+                : "text-gray-300 hover:text-gray-100" // Light gray for inactive
             }`}
           >
             {cat.name}
+            
+            {/* The distinct red underline that appears only on the active category */}
+            {isActive && (
+              <div className="absolute bottom-0 left-0 w-full h-[3px] bg-red-500 rounded-t-sm" />
+            )}
           </button>
         );
       })}
