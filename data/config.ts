@@ -71,9 +71,9 @@ export const shops: Shop[] = [
   type: "restaurant",
   theme: "theme1",
   templateId: "cafeAnime", // Custom layout with stickers + click sound — see lib/templates/cafe-anime/
-  openTime: "11:30",
-  closeTime: "23:00",
-  alwaysOpen: true,
+  openTime: "12:30",
+  closeTime: "15:00",
+  alwaysOpen: false,
   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcidNdSPOerj1kJNVdJvweJ_JWZbxlCwluMLTJiu90VxhHprzDxSDcmyt9&s=10",
   lat: 35.2905,
   lng: 75.6330,
