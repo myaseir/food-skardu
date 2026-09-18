@@ -243,10 +243,10 @@ export const HOTELS: string[] = [
   "Maltoro guest house",
   "Apex Hotels and Resorts Skardu",
   "Hotel virsa",
-  "Elli's Luxus",
+  "Elli's Luxus Hotel",
   "Skardu Gateway Hotel & Restaurant",
   "Polo Land Hotel by Skyline",
-  "Baltistan White House Hotel",
+  "Baltistan White House Hotel & Restaurant",
   "The Pioneer Hotel",
   "Ramovi Guest House",
   "Friends & Family Guest House",
@@ -977,7 +977,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 3.4,
       estimated_minutes: 12
     },
-    "Elli's Luxus": {
+    "Elli's Luxus Hotel": {
       distance_km: 0.5,
       estimated_minutes: 4
     },
@@ -989,7 +989,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.3,
       estimated_minutes: 24
     },
-    "Baltistan White House Hotel": {
+    "Baltistan White House Hotel & Restaurant": {
       distance_km: 7.0,
       estimated_minutes: 26
     },
@@ -2031,7 +2031,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 3.4,
       estimated_minutes: 12
     },
-    "Elli's Luxus": {
+    "Elli's Luxus Hotel": {
       distance_km: 0.5,
       estimated_minutes: 4
     },
@@ -2043,7 +2043,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.3,
       estimated_minutes: 24
     },
-    "Baltistan White House Hotel": {
+    "Baltistan White House Hotel & Restaurant": {
       distance_km: 7.0,
       estimated_minutes: 26
     },
@@ -3085,7 +3085,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.3,
       estimated_minutes: 6
     },
-    "Elli's Luxus": {
+    "Elli's Luxus Hotel": {
       distance_km: 6.9,
       estimated_minutes: 7
     },
@@ -3097,7 +3097,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 7.1,
       estimated_minutes: 7
     },
-    "Baltistan White House Hotel": {
+    "Baltistan White House Hotel & Restaurant": {
       distance_km: 7.4,
       estimated_minutes: 7
     },
@@ -4139,7 +4139,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 5.6,
     estimated_minutes: 5
   },
-  "Elli's Luxus": {
+  "Elli's Luxus Hotel": {
     distance_km: 6.2,
     estimated_minutes: 6
   },
@@ -4151,7 +4151,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 6.4,
     estimated_minutes: 6
   },
-  "Baltistan White House Hotel": {
+  "Baltistan White House Hotel & Restaurant": {
     distance_km: 6.7,
     estimated_minutes: 6
   },
@@ -5192,7 +5192,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 4.1,
       estimated_minutes: 17
     },
-    "Elli's Luxus": {
+    "Elli's Luxus Hotel": {
       distance_km: 8.3,
       estimated_minutes: 32
     },
@@ -5204,7 +5204,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 9.2,
       estimated_minutes: 33
     },
-    "Baltistan White House Hotel": {
+    "Baltistan White House Hotel & Restaurant": {
       distance_km: 8.8,
       estimated_minutes: 34
     },
@@ -5976,10 +5976,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Maltoro guest house": { distance_km: 6.2, estimated_minutes: 22 },
     "Apex Hotels and Resorts Skardu": { distance_km: 6.7, estimated_minutes: 17 },
     "Hotel virsa": { distance_km: 5.0, estimated_minutes: 17 },
-    "Elli's Luxus": { distance_km: 6.2, estimated_minutes: 23 },
+    "Elli's Luxus Hotel": { distance_km: 6.2, estimated_minutes: 23 },
     "Skardu Gateway Hotel & Restaurant": { distance_km: 4.2, estimated_minutes: 14 },
     "Polo Land Hotel by Skyline": { distance_km: 2.5, estimated_minutes: 8 },
-    "Baltistan White House Hotel": { distance_km: 6.1, estimated_minutes: 22 },
+    "Baltistan White House Hotel & Restaurant": { distance_km: 6.1, estimated_minutes: 22 },
     "The Pioneer Hotel": { distance_km: 7.9, estimated_minutes: 18 },
     "Ramovi Guest House": { distance_km: 4.1, estimated_minutes: 14 },
     "Friends & Family Guest House": { distance_km: 1.7, estimated_minutes: 7 },
@@ -6559,7 +6559,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 5.6,
     estimated_minutes: 5
   },
-  "Elli's Luxus": {
+  "Elli's Luxus Hotel": {
     distance_km: 6.2,
     estimated_minutes: 6
   },
@@ -6571,7 +6571,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 6.4,
     estimated_minutes: 6
   },
-  "Baltistan White House Hotel": {
+  "Baltistan White House Hotel & Restaurant": {
     distance_km: 6.7,
     estimated_minutes: 6
   },
@@ -7616,7 +7616,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 6.6,
     estimated_minutes: 6
   },
-  "Elli's Luxus": {
+  "Elli's Luxus Hotel": {
     distance_km: 7.3,
     estimated_minutes: 7
   },
@@ -7628,7 +7628,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 7.4,
     estimated_minutes: 7
   },
-  "Baltistan White House Hotel": {
+  "Baltistan White House Hotel & Restaurant": {
     distance_km: 7.7,
     estimated_minutes: 7
   },
@@ -8666,7 +8666,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.3,
       estimated_minutes: 6
     },
-    "Elli's Luxus": {
+    "Elli's Luxus Hotel": {
       distance_km: 7,
       estimated_minutes: 6
     },
@@ -8678,7 +8678,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 7.1,
       estimated_minutes: 7
     },
-    "Baltistan White House Hotel": {
+    "Baltistan White House Hotel & Restaurant": {
       distance_km: 7.4,
       estimated_minutes: 7
     },
@@ -9715,7 +9715,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.3,
       estimated_minutes: 6
     },
-    "Elli's Luxus": {
+    "Elli's Luxus Hotel": {
       distance_km: 7,
       estimated_minutes: 6
     },
@@ -9727,7 +9727,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 7.1,
       estimated_minutes: 7
     },
-    "Baltistan White House Hotel": {
+    "Baltistan White House Hotel & Restaurant": {
       distance_km: 7.4,
       estimated_minutes: 7
     },
@@ -10764,7 +10764,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.7,
       estimated_minutes: 6
     },
-    "Elli's Luxus": {
+    "Elli's Luxus Hotel": {
       distance_km: 7.4,
       estimated_minutes: 7
     },
@@ -10776,7 +10776,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 7.5,
       estimated_minutes: 7
     },
-    "Baltistan White House Hotel": {
+    "Baltistan White House Hotel & Restaurant": {
       distance_km: 7.8,
       estimated_minutes: 7
     },
@@ -11821,7 +11821,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.4,
       estimated_minutes: 6
     },
-    "Elli's Luxus": {
+    "Elli's Luxus Hotel": {
       distance_km: 7,
       estimated_minutes: 7
     },
@@ -11833,7 +11833,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 7.2,
       estimated_minutes: 7
     },
-    "Baltistan White House Hotel": {
+    "Baltistan White House Hotel & Restaurant": {
       distance_km: 7.5,
       estimated_minutes: 7
     },
@@ -12877,7 +12877,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.4,
       estimated_minutes: 6
     },
-    "Elli's Luxus": {
+    "Elli's Luxus Hotel": {
       distance_km: 7,
       estimated_minutes: 7
     },
@@ -12889,7 +12889,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 7.2,
       estimated_minutes: 7
     },
-    "Baltistan White House Hotel": {
+    "Baltistan White House Hotel & Restaurant": {
       distance_km: 7.5,
       estimated_minutes: 7
     },
@@ -13925,7 +13925,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.9,
       estimated_minutes: 7
     },
-    "Elli's Luxus": {
+    "Elli's Luxus Hotel": {
       distance_km: 7.6,
       estimated_minutes: 7
     },
@@ -13937,7 +13937,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 7.7,
       estimated_minutes: 7
     },
-    "Baltistan White House Hotel": {
+    "Baltistan White House Hotel & Restaurant": {
       distance_km: 8,
       estimated_minutes: 7
     },
@@ -14903,7 +14903,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.1,
       estimated_minutes: 6
     },
-    "Elli's Luxus": {
+    "Elli's Luxus Hotel": {
       distance_km: 6.8,
       estimated_minutes: 6
     },
@@ -14915,7 +14915,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.9,
       estimated_minutes: 6
     },
-    "Baltistan White House Hotel": {
+    "Baltistan White House Hotel & Restaurant": {
       distance_km: 7.2,
       estimated_minutes: 6
     },
@@ -15729,10 +15729,10 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Maltoro guest house": { destinationType: "Hotel", distance_km: 4.8, estimated_minutes: 19 },
   "Apex Hotels and Resorts Skardu": { destinationType: "Hotel", distance_km: 6.5, estimated_minutes: 15 },
   "Hotel virsa": { destinationType: "Hotel", distance_km: 5.9, estimated_minutes: 23 },
-  "Elli's Luxus": { destinationType: "Hotel", distance_km: 4.8, estimated_minutes: 17 },
+  "Elli's Luxus Hotel": { destinationType: "Hotel", distance_km: 4.8, estimated_minutes: 17 },
   "Skardu Gateway Hotel & Restaurant": { destinationType: "Hotel", distance_km: 7.5, estimated_minutes: 29 },
   "Polo Land Hotel by Skyline": { destinationType: "Hotel", distance_km: 2.5, estimated_minutes: 9 },
-  "Baltistan White House Hotel": { destinationType: "Hotel", distance_km: 3.3, estimated_minutes: 11 },
+  "Baltistan White House Hotel & Restaurant": { destinationType: "Hotel", distance_km: 3.3, estimated_minutes: 11 },
   "The Pioneer Hotel": { destinationType: "Hotel", distance_km: 7.8, estimated_minutes: 17 },
   "Ramovi Guest House": { destinationType: "Hotel", distance_km: 1.6, estimated_minutes: 8 },
   "Friends & Family Guest House": { destinationType: "Hotel", distance_km: 1.9, estimated_minutes: 8 },
@@ -15922,7 +15922,7 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Rafsal A Countryside Cottage":120,
   "The Cherry Courtyard":160,
   "Byarsa Hotel Skardu":810,
-  "The Pioneer Hotel":100,
+  "The Pioneer Hotel":150,
   "Lashari Resort Skardu":100,
   "Safena Hotel Skardu":400,
   "Nirvana Resort Skardu":200,
@@ -15931,8 +15931,16 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Sarfaranga Residency Skardu":170,
   "Hotel Luxy Skardu":50,
   "Shaheen Guest House Skardu":200,
+  "Elli's Luxus Hotel":300,
+  "Skardu Gateway Hotel & Restaurant":300,
+  "Polo Land Hotel by Skyline":300,
+  "Baltistan White House Hotel & Restaurant":350,
+  "Ramovi Guest House":300,
+  "Friends & Family Guest House":400,
+  "SKY LAKE GUEST HOUSE":430,
+  "Grand Hotel Skardu":430,
  
-  "Maple Resort":100,
+  "Maple Resort":430,
   "PC Legacy Skardu":340,
 };
 // ---------------------------------------------------------------------
