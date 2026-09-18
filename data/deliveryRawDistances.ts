@@ -189,6 +189,7 @@ export const HOTELS: string[] = [
   "Skardu Lodge",
   "Karakoram Nest",
   "Dynasty Skardu",
+  "Sukoon Resorts Skardu",
   "Sehrish Guest House Skardu",
   "PTDC Motel Skardu",
   "Hotel Reego Skardu",
@@ -385,7 +386,7 @@ export const HOTELS: string[] = [
   "The Next Home Skardu",
   "Heaven Hotel Skardu",
   "Skardu Midway hotel",
-  "Sarfaranga Reaidency",
+  "Sarfaranga Residency Skardu",
   "Skengoo Inn Hotel",
   "Alnoor Starlet Hotel",
   "Top Hill Resort",
@@ -757,6 +758,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 30
     },
     "Dynasty Skardu": {
+      distance_km: 5.9,
+      estimated_minutes: 11
+    },
+    "Sukoon Resorts Skardu": {
       distance_km: 5.9,
       estimated_minutes: 11
     },
@@ -1544,7 +1549,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 2.2,
       estimated_minutes: 10
     },
-    "Sarfaranga Reaidency": {
+    "Sarfaranga Residency Skardu": {
       distance_km: 6.2,
       estimated_minutes: 21
     },
@@ -1807,6 +1812,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 30
     },
     "Dynasty Skardu": {
+      distance_km: 8.3,
+      estimated_minutes: 20
+    },
+    "Sukoon Resorts Skardu": {
       distance_km: 8.3,
       estimated_minutes: 20
     },
@@ -2594,7 +2603,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 2.2,
       estimated_minutes: 10
     },
-    "Sarfaranga Reaidency": {
+    "Sarfaranga Residency Skardu": {
       distance_km: 6.2,
       estimated_minutes: 21
     },
@@ -2857,6 +2866,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 2
     },
     "Dynasty Skardu": {
+      distance_km: 7.9,
+      estimated_minutes: 18
+    },
+    "Sukoon Resorts Skardu": {
       distance_km: 7.9,
       estimated_minutes: 18
     },
@@ -3644,7 +3657,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 3.7,
       estimated_minutes: 5
     },
-    "Sarfaranga Reaidency": {
+    "Sarfaranga Residency Skardu": {
       distance_km: 4,
       estimated_minutes: 5
     },
@@ -3907,6 +3920,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 3
   },
   "Dynasty Skardu": {
+    distance_km: 5.8,
+    estimated_minutes: 11
+  },
+  "Sukoon Resorts Skardu": {
     distance_km: 5.8,
     estimated_minutes: 11
   },
@@ -4694,7 +4711,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 3,
     estimated_minutes: 4
   },
-  "Sarfaranga Reaidency": {
+  "Sarfaranga Residency Skardu": {
     distance_km: 3.3,
     estimated_minutes: 4
   },
@@ -4957,6 +4974,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 17
     },
     "Dynasty Skardu": {
+      distance_km: 6.7,
+      estimated_minutes: 12
+    },
+    "Sukoon Resorts Skardu": {
       distance_km: 6.7,
       estimated_minutes: 12
     },
@@ -5742,7 +5763,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 8.2,
       estimated_minutes: 32
     },
-    "Sarfaranga Reaidency": {
+    "Sarfaranga Residency Skardu": {
       distance_km: 7.6,
       estimated_minutes: 26
     },
@@ -5901,6 +5922,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Skardu Lodge": { distance_km: 8.0, estimated_minutes: 29 },
     "Karakoram Nest": { distance_km: 6.8, estimated_minutes: 23 },
     "Dynasty Skardu": { distance_km: 6.9, estimated_minutes: 17 },
+    "Sukoon Resorts Skardu": { distance_km: 6.9, estimated_minutes: 17 },
     "Sehrish Guest House Skardu": { distance_km: 5.0, estimated_minutes: 19 },
     "PTDC Motel Skardu": { distance_km: 3.2, estimated_minutes: 13 },
     "Hotel Reego Skardu": { distance_km: 1.6, estimated_minutes: 5 },
@@ -6097,7 +6119,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "The Next Home Skardu": { distance_km: 4.1, estimated_minutes: 16 },
     "Heaven Hotel Skardu": { distance_km: 2.5, estimated_minutes: 10 },
     "Skardu Midway hotel": { distance_km: 6.3, estimated_minutes: 23 },
-    "Sarfaranga Reaidency": { distance_km: 5.1, estimated_minutes: 17 },
+    "Sarfaranga Residency Skardu": { distance_km: 5.1, estimated_minutes: 17 },
     "Skengoo Inn Hotel": { distance_km: 3.6, estimated_minutes: 13 },
     "Alnoor Starlet Hotel": { distance_km: 3.5, estimated_minutes: 15 },
     "Top Hill Resort": { distance_km: 8.2, estimated_minutes: 29 },
@@ -6322,6 +6344,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 3
   },
   "Dynasty Skardu": {
+    distance_km: 5.7,
+    estimated_minutes: 12
+  },
+  "Sukoon Resorts Skardu": {
     distance_km: 5.7,
     estimated_minutes: 12
   },
@@ -7105,7 +7131,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 3,
     estimated_minutes: 4
   },
-  "Sarfaranga Reaidency": {
+  "Sarfaranga Residency Skardu": {
     distance_km: 3.3,
     estimated_minutes: 4
   },
@@ -7371,6 +7397,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 2
   },
   "Dynasty Skardu": {
+    distance_km: 6.7,
+    estimated_minutes: 15
+  },
+  "Sukoon Resorts Skardu": {
     distance_km: 6.7,
     estimated_minutes: 15
   },
@@ -8158,7 +8188,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 4,
     estimated_minutes: 4
   },
-  "Sarfaranga Reaidency": {
+  "Sarfaranga Residency Skardu": {
     distance_km: 4.4,
     estimated_minutes: 5
   },
@@ -8420,6 +8450,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.5,
       estimated_minutes: 14
     },
+    "Sukoon Resorts Skardu": {
+      distance_km: 6.5,
+      estimated_minutes: 14
+    },
     "Sehrish Guest House Skardu": {
       distance_km: 0.6,
       estimated_minutes: 2
@@ -9204,7 +9238,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 3.7,
       estimated_minutes: 4
     },
-    "Sarfaranga Reaidency": {
+    "Sarfaranga Residency Skardu": {
       distance_km: 4.1,
       estimated_minutes: 4
     },
@@ -9465,6 +9499,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.5,
       estimated_minutes: 14
     },
+    "Sukoon Resorts Skardu": {
+      distance_km: 6.5,
+      estimated_minutes: 14
+    },
     "Sehrish Guest House Skardu": {
       distance_km: 0.6,
       estimated_minutes: 2
@@ -10249,7 +10287,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 3.7,
       estimated_minutes: 4
     },
-    "Sarfaranga Reaidency": {
+    "Sarfaranga Residency Skardu": {
       distance_km: 4.1,
       estimated_minutes: 4
     },
@@ -10507,6 +10545,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 2
     },
     "Dynasty Skardu": {
+      distance_km: 6.9,
+      estimated_minutes: 17
+    },
+    "Sukoon Resorts Skardu": {
       distance_km: 6.9,
       estimated_minutes: 17
     },
@@ -11294,7 +11336,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 4.1,
       estimated_minutes: 4
     },
-    "Sarfaranga Reaidency": {
+    "Sarfaranga Residency Skardu": {
       distance_km: 4.5,
       estimated_minutes: 5
     },
@@ -11562,6 +11604,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.6,
       estimated_minutes: 14
     },
+    "Sukoon Resorts Skardu": {
+      distance_km: 6.6,
+      estimated_minutes: 14
+    },
     "Sehrish Guest House Skardu": {
       distance_km: 0.6,
       estimated_minutes: 2
@@ -12347,7 +12393,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 3.8,
       estimated_minutes: 5
     },
-    "Sarfaranga Reaidency": {
+    "Sarfaranga Residency Skardu": {
       distance_km: 4.1,
       estimated_minutes: 5
     },
@@ -12614,6 +12660,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 6.6,
       estimated_minutes: 14
     },
+    "Sukoon Resorts Skardu": {
+      distance_km: 6.6,
+      estimated_minutes: 14
+    },
     "Sehrish Guest House Skardu": {
       distance_km: 0.6,
       estimated_minutes: 2
@@ -13399,7 +13449,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 3.8,
       estimated_minutes: 5
     },
-    "Sarfaranga Reaidency": {
+    "Sarfaranga Residency Skardu": {
       distance_km: 4.1,
       estimated_minutes: 5
     },
@@ -13656,6 +13706,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 1
     },
     "Dynasty Skardu": {
+      distance_km: 7.9,
+      estimated_minutes: 19
+    },
+    "Sukoon Resorts Skardu": {
       distance_km: 7.9,
       estimated_minutes: 19
     },
@@ -14443,7 +14497,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 4.3,
       estimated_minutes: 5
     },
-    "Sarfaranga Reaidency": {
+    "Sarfaranga Residency Skardu": {
       distance_km: 4.7,
       estimated_minutes: 5
     },
@@ -14630,6 +14684,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 5
     },
     "Dynasty Skardu": {
+      distance_km: 6.3,
+      estimated_minutes: 18
+    },
+    "Sukoon Resorts Skardu": {
       distance_km: 6.3,
       estimated_minutes: 18
     },
@@ -15417,7 +15475,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 3.5,
       estimated_minutes: 4
     },
-    "Sarfaranga Reaidency": {
+    "Sarfaranga Residency Skardu": {
       distance_km: 3.9,
       estimated_minutes: 4
     },
@@ -15617,6 +15675,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Skardu Lodge": { destinationType: "Hotel", distance_km: 6.6, estimated_minutes: 25 },
   "Karakoram Nest": { destinationType: "Hotel", distance_km: 3.4, estimated_minutes: 13 },
   "Dynasty Skardu": { destinationType: "Hotel", distance_km: 6.7, estimated_minutes: 15 },
+  "Sukoon Resorts Skardu": { destinationType: "Hotel", distance_km: 6.7, estimated_minutes: 15 },
   "Sehrish Guest House Skardu": { destinationType: "Hotel", distance_km: 9.5, estimated_minutes: 34 },
   "PTDC Motel Skardu": { destinationType: "Hotel", distance_km: 8.6, estimated_minutes: 32 },
   "Hotel Reego Skardu": { destinationType: "Hotel", distance_km: 6.0, estimated_minutes: 22 },
@@ -15813,7 +15872,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "The Next Home Skardu": { destinationType: "Hotel", distance_km: 5.7, estimated_minutes: 23 },
   "Heaven Hotel Skardu": { destinationType: "Hotel", distance_km: 0.9, estimated_minutes: 5 },
   "Skardu Midway hotel": { destinationType: "Hotel", distance_km: 5.9, estimated_minutes: 23 },
-  "Sarfaranga Reaidency": { destinationType: "Hotel", distance_km: 3.6, estimated_minutes: 14 },
+  "Sarfaranga Residency Skardu": { destinationType: "Hotel", distance_km: 3.6, estimated_minutes: 14 },
   "Skengoo Inn Hotel": { destinationType: "Hotel", distance_km: 5.3, estimated_minutes: 19 },
   "Alnoor Starlet Hotel": { destinationType: "Hotel", distance_km: 2.8, estimated_minutes: 12 },
   "Top Hill Resort": { destinationType: "Hotel", distance_km: 5.0, estimated_minutes: 18 },
@@ -15853,6 +15912,7 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Skardu Villas": 210,
   "Qayam Skardu":150,
   "Dynasty Skardu":130,
+  "Sukoon Resorts Skardu":140,
   "Jabal e Rawah Skardu":130,
   "Tibet Hotel Kachura Skardu":700,
   "Hussainabad":180,
@@ -15867,6 +15927,10 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Safena Hotel Skardu":400,
   "Nirvana Resort Skardu":200,
   "Shama Resort Skardu":200,
+  "Alnoor Starlet Hotel":200,
+  "Sarfaranga Residency Skardu":170,
+  "Hotel Luxy Skardu":50,
+  "Shaheen Guest House Skardu":200,
  
   "Maple Resort":100,
   "PC Legacy Skardu":340,
