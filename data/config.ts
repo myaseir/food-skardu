@@ -65,22 +65,22 @@ export const shops: Shop[] = [
 //     rating: 4.9, // TODO: confirm actual rating
 //     reviews: 467, // TODO: confirm actual review count
 //   },
- {
-  id: "cafe-anime",
-  name: "Cafe Anime" ,
-  type: "restaurant",
-  theme: "theme1",
-  templateId: "cafeAnime", // Custom layout with stickers + click sound — see lib/templates/cafe-anime/
-  openTime: "12:30",
-  closeTime: "15:00",
-  alwaysOpen: false,
-  logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcidNdSPOerj1kJNVdJvweJ_JWZbxlCwluMLTJiu90VxhHprzDxSDcmyt9&s=10",
-  lat: 35.2905,
-  lng: 75.6330,
-  whatsapp: "0311 5521945",
-  rating: 4.0,
-  reviews: 7,
-},
+//  {
+//   id: "cafe-anime",
+//   name: "Cafe Anime" ,
+//   type: "restaurant",
+//   theme: "theme1",
+//   templateId: "cafeAnime", // Custom layout with stickers + click sound — see lib/templates/cafe-anime/
+//   openTime: "12:30",
+//   closeTime: "15:00",
+//   alwaysOpen: false,
+//   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcidNdSPOerj1kJNVdJvweJ_JWZbxlCwluMLTJiu90VxhHprzDxSDcmyt9&s=10",
+//   lat: 35.2905,
+//   lng: 75.6330,
+//   whatsapp: "0311 5521945",
+//   rating: 4.0,
+//   reviews: 7,
+// },
 {
     id: "the-kitchen-skardu",
     name: "The Kitchen",
