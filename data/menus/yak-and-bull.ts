@@ -144,12 +144,12 @@ export const menu = {
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrxvuFkRWzazBv_KaCDg4wcWptadS77ipYTKpzGZqqYQ&s=10",
           variants: []
         },
-        {
+          {
           id: "wrp-3",
           name: "Chicken Tikka Roll",
           price: 550,
           desc: "Wrapped in crispy paratha",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0nHEP04zvI5EJhszj5x4Kcs7pf9JRdLBcnd4QI1kdYg&s=10",
+          image: "https://twoclovesinapot.com/wp-content/uploads/2024/06/33e48d82-9cf1-4794-a3c0-acf0c1f14d3f-500x500.jpg",
           variants: []
         },
         {
@@ -165,28 +165,34 @@ export const menu = {
     {
       name: "Burgers",
       items: [
-        {
-          id: "brg-1",
-          name: "Yak & Bull Special Burger + Fries",
-          price: 1250,
-          desc: "Premium yak meat, served with fries",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX-UVLgBNHt2W-hgExgqk2uOn51EIqDVFD0sOo01XshtoAwgXUdMLi86NU&s=10",
-          variants: []
-        },
-        {
-          id: "brg-2",
-          name: "Yak & Bull Special Burger",
-          price: 1100,
-          desc: "Premium yak meat, without fries",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX-UVLgBNHt2W-hgExgqk2uOn51EIqDVFD0sOo01XshtoAwgXUdMLi86NU&s=10",
-          variants: []
-        },
+     {
+  id: "brg-1",
+  name: "Yak Burger + Fries",
+  price: 900, // starting price (single patty)
+  desc: "Premium yak meat, served with fries",
+  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY-5HicmPjGn7OQqhK15cf60DZYbLpwomfYMc0GufI-Mhzqop6TWDEm_oR&s=10",
+  variants: [
+    { id: "brg-1-single", name: "Single Patty", price: 900 },
+    { id: "brg-1-double", name: "Double Patty", price: 1250 }
+  ]
+},
+{
+  id: "brg-2",
+  name: "Yak Burger Without Fries",
+  price: 800, // starting price (single patty)
+  desc: "Premium yak meat, without fries",
+  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY-5HicmPjGn7OQqhK15cf60DZYbLpwomfYMc0GufI-Mhzqop6TWDEm_oR&s=10",
+  variants: [
+    { id: "brg-2-single", name: "Single Patty", price: 800 },
+    { id: "brg-2-double", name: "Double Patty", price: 1100 }
+  ]
+},
         {
           id: "brg-3",
           name: "Chicken Grilled Burger + Fries",
           price: 850,
           desc: "Tender grilled chicken, served with fries",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTylRaZUJGrSLI6G4X-4SR71gR8KdRDAw6SD3XPF78gZQ&s=10",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjzDfDtZNWkhOCqpoQ_ZDWOe788D-VSd4IRbKDMpPhnpi4nN8FxkrBuA&s=10",
           variants: []
         },
         {
@@ -194,7 +200,7 @@ export const menu = {
           name: "Chicken Grilled Burger",
           price: 750,
           desc: "Tender grilled chicken, without fries",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTylRaZUJGrSLI6G4X-4SR71gR8KdRDAw6SD3XPF78gZQ&s=10",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjzDfDtZNWkhOCqpoQ_ZDWOe788D-VSd4IRbKDMpPhnpi4nN8FxkrBuA&s=10",
           variants: []
         },
         {
@@ -202,7 +208,7 @@ export const menu = {
           name: "Zinger Burger + Fries",
           price: 750,
           desc: "Crispy fried chicken, served with fries",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnCy6x0-WLu7-QK0MZkTrM08z9RKIeF253t0HxQ3MJeg&s=10",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGgACT-osZtnChf_spU1uoBPuE898ERHlt95k8DFx7k6whzygw9FUC8RQ&s=10",
           variants: []
         },
         {
