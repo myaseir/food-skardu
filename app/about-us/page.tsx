@@ -1,18 +1,46 @@
 import Link from "next/link";
 import { ArrowLeft, Zap, ShieldCheck, HeartHandshake, MapPin } from "lucide-react";
 
+const SITE_URL = "https://www.mealbear.pk";
+
+/**
+ * Real facts about your business live here.
+ * Leave a field empty ("" or []) and the matching FAQ / schema entry is
+ * skipped automatically, so the page never shows a guess.
+ */
+const SITE = {
+  // e.g. "+92 300 0000000" (include the country code)
+  phone: "",
+  // e.g. "10:00 AM to 11:00 PM, every day"
+  hours: "",
+  // e.g. "Rs. 500". Leave empty if there is no minimum order.
+  minimumOrder: "",
+  // e.g. ["Restaurant A", "Restaurant B"]
+  partnerRestaurants: [] as string[],
+  // e.g. ["https://www.instagram.com/mealbearskardu"]
+  socialLinks: [] as string[],
+  // Put a 1200x630 image at /public/og-image.png. Remove this line if you don't have one yet.
+  ogImage: "/og-image.png",
+  // Optional: a square logo at /public/logo.png for the Organization schema.
+  logo: "",
+};
+
 export const metadata = {
-  title: "About Meal Bear | Food Delivery Company in Skardu, Gilgit-Baltistan",
+  title: "About Meal Bear | Food Delivery in Skardu",
   description:
-    "Meal Bear Skardu is an on-demand food delivery service in Skardu, Gilgit-Baltistan, Pakistan. We deliver from local restaurants to homes, offices, and hotel rooms with Cash on Delivery. Learn about our mission, coverage area, and how delivery works.",
+    "Meal Bear Skardu delivers food from local restaurants to homes, offices, and hotels in Skardu, Gilgit-Baltistan. Cash on Delivery available.",
   alternates: {
-    canonical: "https://www.mealbear.pk/about",
+    canonical: `${SITE_URL}/about`,
   },
   openGraph: {
     title: "About Meal Bear Skardu",
     description:
-      "The story behind Skardu's on-demand food delivery platform — connecting local restaurants to homes, offices, and hotels.",
-    url: "https://www.mealbear.pk/about",
+      "Skardu's on-demand food delivery platform, connecting local restaurants to homes, offices, and hotels.",
+    url: `${SITE_URL}/about`,
+    type: "website",
+    ...(SITE.ogImage && {
+      images: [{ url: SITE.ogImage, width: 1200, height: 630, alt: "Meal Bear Skardu" }],
+    }),
   },
 };
 
@@ -34,15 +62,18 @@ const values = [
   },
 ];
 
-// Each answer is written as a short, self-contained factual statement —
-// this is what AI answer engines (ChatGPT, Perplexity, Google AI Overviews)
-// extract and quote directly. Replace any [INSERT] placeholder with a real,
-// verified fact before shipping — do not guess at these.
-const faqs = [
+// Each answer is a short, self-contained statement so search engines and
+// AI answer tools can quote it directly.
+const faqs: { question: string; answer: string }[] = [
   {
     question: "What is Meal Bear Skardu?",
     answer:
       "Meal Bear Skardu is an on-demand food delivery service operating in Skardu, Gilgit-Baltistan, Pakistan. It connects local restaurants with customers at homes, offices, and hotels.",
+  },
+  {
+    question: "How do I order from Meal Bear Skardu?",
+    answer:
+      "Visit www.mealbear.pk, choose a restaurant, and add items to your cart. At checkout, select Hotel or Home delivery and enter your details. After you place the order, our team contacts you on WhatsApp or by phone to confirm it before a rider is dispatched.",
   },
   {
     question: "Does Meal Bear deliver to hotels in Skardu?",
@@ -59,23 +90,92 @@ const faqs = [
     answer:
       "Yes. Meal Bear Skardu accepts Cash on Delivery (COD) for all orders.",
   },
-  
-   {
+  {
     question: "How much is the delivery fee?",
     answer:
-      "Our delivery fee is calculated dynamically based on the exact distance between the restaurant and your location (hotel or home). This ensures you always get a fair rate. You will see the exact delivery charge on the checkout page before you place your order.",
+      "The delivery fee is calculated from the distance between the restaurant and your location (hotel or home). You see the exact delivery charge on the checkout page before you place your order.",
   },
   {
     question: "What restaurants deliver through Meal Bear in Skardu?",
-    answer:
-      "Meal Bear partners with a range of local restaurants in Skardu. The current list of participating restaurants is available on the Meal Bear homepage.",
+    answer: SITE.partnerRestaurants.length
+      ? `Current partner restaurants include ${SITE.partnerRestaurants.join(", ")}. The full, up-to-date list is on the Meal Bear homepage.`
+      : "Meal Bear partners with a range of local restaurants in Skardu. The current list of participating restaurants is available on the Meal Bear homepage.",
   },
+  ...(SITE.hours
+    ? [
+        {
+          question: "What are Meal Bear Skardu's operating hours?",
+          answer: `Meal Bear Skardu takes orders ${SITE.hours}. Individual restaurants may have their own opening times, which are shown on the homepage.`,
+        },
+      ]
+    : []),
+  ...(SITE.minimumOrder
+    ? [
+        {
+          question: "Is there a minimum order?",
+          answer: `Yes. The minimum order value is ${SITE.minimumOrder}, excluding the delivery fee.`,
+        },
+      ]
+    : []),
   {
-    question: "How do I order from Meal Bear Skardu?",
-    answer:
-      "Ordering is simple! Visit www.mealbear.pk, choose your favorite restaurant, and add items to your cart. At checkout, you can select either 'Hotel' or 'Home' delivery and enter your details. Once placed, our team will quickly contact you via WhatsApp or a phone call to confirm your order before dispatching the rider.",
+    question: "How do I contact Meal Bear or report a problem with my order?",
+    answer: SITE.phone
+      ? `Call or message us on ${SITE.phone}, or use the Contact page on www.mealbear.pk. Please include your order details so we can help quickly.`
+      : "Use the Contact page on www.mealbear.pk and include your order details so we can help quickly.",
   },
 ];
+
+// Escape "<" so the JSON can never close the script tag, even if this data
+// later becomes dynamic.
+const toJsonLd = (data: object) =>
+  JSON.stringify(data).replace(/</g, "\\u003c");
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "About Meal Bear Skardu",
+  url: `${SITE_URL}/about`,
+  mainEntity: {
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    name: "Meal Bear Skardu",
+    url: SITE_URL,
+    description:
+      "On-demand food delivery platform connecting Skardu's restaurants to homes, offices, and hotels.",
+    areaServed: {
+      "@type": "City",
+      name: "Skardu",
+      containedInPlace: {
+        "@type": "AdministrativeArea",
+        name: "Gilgit-Baltistan",
+      },
+    },
+    paymentAccepted: "Cash on Delivery",
+    ...(SITE.logo && { logo: `${SITE_URL}${SITE.logo}` }),
+    ...(SITE.socialLinks.length && { sameAs: SITE.socialLinks }),
+    ...(SITE.phone && {
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: SITE.phone,
+        contactType: "customer service",
+        areaServed: "PK",
+      },
+    }),
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
 
 export default function AboutPage() {
   return (
@@ -101,13 +201,13 @@ export default function AboutPage() {
           </p>
         </header>
 
-        {/* Intro Card — short declarative sentences up top for AEO extraction */}
+        {/* Mission */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-10 mb-8">
           <h2 className="text-sm font-black uppercase tracking-tight text-gray-900 mb-3">
             Our Mission
           </h2>
           <p className="text-[13px] leading-relaxed text-gray-600 mb-4">
-            Meal Bear Skardu connects Skardu's local restaurants with
+            Meal Bear Skardu connects Skardu&apos;s local restaurants with
             customers at home, at work, and at partner hotels. We remove the
             wait, the walk, and the guesswork from ordering food in Skardu.
           </p>
@@ -156,8 +256,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* FAQ — highest-leverage AEO/GEO block on this page.
-            Each Q&A is a self-contained answer AI engines can quote directly. */}
+        {/* FAQ */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-10 mb-8">
           <h2 className="text-sm font-black uppercase tracking-tight text-gray-900 mb-6">
             Frequently Asked Questions
@@ -187,51 +286,13 @@ export default function AboutPage() {
       {/* AboutPage + Organization schema */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "AboutPage",
-            name: "About Meal Bear Skardu",
-            url: "https://www.mealbear.pk/about",
-            mainEntity: {
-              "@type": "Organization",
-              "@id": "https://www.mealbear.pk/#organization",
-              name: "Meal Bear Skardu",
-              url: "https://www.mealbear.pk",
-              description:
-                "On-demand food delivery platform connecting Skardu's restaurants to homes, offices, and hotels.",
-              areaServed: {
-                "@type": "City",
-                name: "Skardu",
-                containedInPlace: {
-                  "@type": "AdministrativeArea",
-                  name: "Gilgit-Baltistan",
-                },
-              },
-              paymentAccepted: "Cash on Delivery",
-            },
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: toJsonLd(organizationSchema) }}
       />
 
-      {/* FAQPage schema — lets AI Overviews / ChatGPT / Perplexity
-          surface these Q&A pairs directly as answers. */}
+      {/* FAQPage schema */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.question,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: faq.answer,
-              },
-            })),
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: toJsonLd(faqSchema) }}
       />
     </main>
   );

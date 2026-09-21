@@ -14,6 +14,15 @@ export interface Shop {
   templateId?: string; // Which whole page layout to render (see lib/templates/registry.ts). Omit for the default design.
   rating: number; // e.g. 4.5
   reviews: number; // e.g. 42
+
+  // ---- SEO / restaurant details (all optional) ----
+  // Shown on the restaurant page and used for search-result text and
+  // structured data. Write a different description for every restaurant.
+  description?: string; // 1-3 sentences about what the restaurant is known for
+  cuisines?: string[]; // e.g. ["Pizza", "Burgers"]
+  address?: string; // street or landmark, if known
+  area?: string; // neighbourhood, e.g. "Hameed Garh" (city is added automatically)
+  priceRange?: string; // optional, e.g. "Rs. 300 - 1500"
 }
 
 export interface CategoryConfig {
@@ -51,37 +60,40 @@ export const shops: Shop[] = [
     whatsapp: "923485825247",
     rating: 4.6,
     reviews: 185,
+    description:
+      "Yak and Bull Cafe in Skardu is famous for its yak pizza, yak burger and special pizza. The menu also has wraps and rolls, wings, loaded fries, fresh shakes, juices, tea and coffee.",
+    cuisines: ["Pizza", "Burgers", "Fast Food", "Cafe"],
   },
-// {
-//     id: "balti-cuisine-skardu",
-//     name: "Balti Cuisine Skardu",
-//     type: "restaurant",
-//     openTime: "11:00", // TODO: confirm actual opening time
-//     closeTime: "23:00", // TODO: confirm actual closing time
-//     alwaysOpen: false,
-//     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4MHJr5IIt6j7rWP1jwfUl8C1isf5e5AciPwkmMyAe0Q&s", // TODO: no logo image available yet
-//     lat: 35.2900162, // TODO: replace with real coordinates (Marafie Colony, Skardu)
-//     lng: 75.6374406, // TODO: replace with real coordinates (Marafie Colony, Skardu)
-//     rating: 4.9, // TODO: confirm actual rating
-//     reviews: 467, // TODO: confirm actual review count
-//   },
-//  {
-//   id: "cafe-anime",
-//   name: "Cafe Anime" ,
-//   type: "restaurant",
-//   theme: "theme1",
-//   templateId: "cafeAnime", // Custom layout with stickers + click sound — see lib/templates/cafe-anime/
-//   openTime: "12:30",
-//   closeTime: "15:00",
-//   alwaysOpen: false,
-//   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcidNdSPOerj1kJNVdJvweJ_JWZbxlCwluMLTJiu90VxhHprzDxSDcmyt9&s=10",
-//   lat: 35.2905,
-//   lng: 75.6330,
-//   whatsapp: "0311 5521945",
-//   rating: 4.0,
-//   reviews: 7,
-// },
-{
+  // {
+  //   id: "balti-cuisine-skardu",
+  //   name: "Balti Cuisine Skardu",
+  //   type: "restaurant",
+  //   openTime: "11:00", // TODO: confirm actual opening time
+  //   closeTime: "23:00", // TODO: confirm actual closing time
+  //   alwaysOpen: false,
+  //   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4MHJr5IIt6j7rWP1jwfUl8C1isf5e5AciPwkmMyAe0Q&s", // TODO: no logo image available yet
+  //   lat: 35.2900162, // TODO: replace with real coordinates (Marafie Colony, Skardu)
+  //   lng: 75.6374406, // TODO: replace with real coordinates (Marafie Colony, Skardu)
+  //   rating: 4.9, // TODO: confirm actual rating
+  //   reviews: 467, // TODO: confirm actual review count
+  // },
+  // {
+  //   id: "cafe-anime",
+  //   name: "Cafe Anime",
+  //   type: "restaurant",
+  //   theme: "theme1",
+  //   templateId: "cafeAnime", // Custom layout with stickers + click sound — see lib/templates/cafe-anime/
+  //   openTime: "12:30",
+  //   closeTime: "15:00",
+  //   alwaysOpen: false,
+  //   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcidNdSPOerj1kJNVdJvweJ_JWZbxlCwluMLTJiu90VxhHprzDxSDcmyt9&s=10",
+  //   lat: 35.2905,
+  //   lng: 75.6330,
+  //   whatsapp: "0311 5521945",
+  //   rating: 4.0,
+  //   reviews: 7,
+  // },
+  {
     id: "the-kitchen-skardu",
     name: "The Kitchen",
     type: "restaurant",
@@ -94,8 +106,11 @@ export const shops: Shop[] = [
     whatsapp: "923555709276",
     rating: 4.8, // TODO: adjust once real reviews exist
     reviews: 61, // TODO: adjust once real reviews exist
+    description:
+      "The Kitchen is a restaurant in Skardu famous for its beef pulao and chicken biryani.",
+    cuisines: ["Pakistani", "Pulao", "Biryani"],
   },
-   {
+  {
     id: "dominos-skardu",
     name: "Domino's Pizza Skardu",
     type: "restaurant",
@@ -106,10 +121,12 @@ export const shops: Shop[] = [
     lat: 35.302132, // TODO: replace with real coordinates
     lng: 75.625344, // TODO: replace with real coordinates
     whatsapp: "923441518777",
-    rating: 4.5,          // adjust as needed
+    rating: 4.5, // adjust as needed
     reviews: 46,
+    description: "Domino's Pizza in Skardu is famous for its pizza.",
+    cuisines: ["Pizza", "Fast Food"],
   },
-     {
+  {
     id: "yak-and-bull-hameed-garh",
     name: "Yak and Bull Cafe Hameed Garh",
     type: "restaurant",
@@ -121,8 +138,12 @@ export const shops: Shop[] = [
     whatsapp: "923485825247",
     rating: 4.6,
     reviews: 185,
+    description:
+      "The Hameed Garh branch of Yak and Bull Cafe is famous for its yak pizza, yak burger and special pizza, alongside wraps, wings, fresh shakes and coffee.",
+    cuisines: ["Pizza", "Burgers", "Fast Food", "Cafe"],
+    area: "Hameed Garh",
   },
-    {
+  {
     id: "the-balti-table",
     name: "The Balti Table",
     type: "restaurant",
@@ -135,8 +156,11 @@ export const shops: Shop[] = [
     whatsapp: "03169030178",
     rating: 4.7,
     reviews: 89,
+    description:
+      "The Balti Table in Skardu is famous for its traditional momos, served with pulao.",
+    cuisines: ["Balti", "Momos", "Pulao"],
   },
-   {
+  {
     id: "skyway-pizza",
     name: "Skyway Pizza Skardu",
     type: "restaurant",
@@ -149,8 +173,11 @@ export const shops: Shop[] = [
     whatsapp: "923554524401",
     rating: 4.1,
     reviews: 106,
+    description:
+      "Skyway Pizza in Skardu is known for its pizza and its affordable prices.",
+    cuisines: ["Pizza", "Fast Food"],
   },
-   {
+  {
     id: "thefoodcorridor-skardu",
     name: "The Food Corridor Skardu",
     type: "restaurant",
@@ -163,9 +190,11 @@ export const shops: Shop[] = [
     whatsapp: "03407620699",
     rating: 4.1,
     reviews: 360,
+    description:
+      "The Food Corridor in Skardu is known for its fast food and Chinese dishes.",
+    cuisines: ["Fast Food", "Chinese"],
   },
 
- 
   // {
   //   id: "aima-kitchen",
   //   name: "Aima's Kitchen Skardu",
@@ -181,7 +210,7 @@ export const shops: Shop[] = [
   // },
   {
     id: "sungum-hotel-restaurant",
-    name: "Sungum Hotel Restaurant Skardu ",
+    name: "Sungum Hotel Restaurant Skardu",
     type: "restaurant",
     openTime: "11:00",
     closeTime: "22:00",
@@ -192,6 +221,9 @@ export const shops: Shop[] = [
     whatsapp: "923167018580",
     rating: 4.5,
     reviews: 15,
+    description:
+      "Sungum Hotel Restaurant in Skardu is famous for its pulao and biryani.",
+    cuisines: ["Pakistani", "Pulao", "Biryani"],
   },
 
   {
@@ -207,8 +239,10 @@ export const shops: Shop[] = [
     whatsapp: "923554220114",
     rating: 4.3,
     reviews: 21,
+    description: "MFC in Skardu is famous for its Pakistani and Chinese food.",
+    cuisines: ["Pakistani", "Chinese"],
   },
- {
+  {
     id: "baltistan-tea-grill-house",
     name: "Baltistan Tea and Grill House",
     type: "restaurant",
@@ -221,7 +255,10 @@ export const shops: Shop[] = [
     whatsapp: "923554718865",
     rating: 5.0,
     reviews: 24,
-  }, 
+    description:
+      "Baltistan Tea and Grill House in Skardu is famous for its fast food.",
+    cuisines: ["Fast Food", "Grill"],
+  },
   {
     id: "hassan-hussain-host",
     name: "Hassan Hussain Host",
@@ -230,13 +267,16 @@ export const shops: Shop[] = [
     closeTime: "20:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Vba66LQaBXtJejMOezwhFNWkX4NVN0yXn0RV03oYNw&s",
-     lat: 35.2899888, // TODO: replace with real coordinates
+    lat: 35.2899888, // TODO: replace with real coordinates
     lng: 75.6415605, // TODO: replace with real coordinates
     whatsapp: "923554395551",
     rating: 4.0,
     reviews: 1,
+    description:
+      "Hassan Hussain Host in Skardu is famous for its mamtu pulao and mamtu, the steamed dumplings.",
+    cuisines: ["Mamtu", "Pulao"],
   },
-   
+
   {
     id: "pizza-king",
     name: "Pizza King Skardu",
@@ -250,6 +290,8 @@ export const shops: Shop[] = [
     whatsapp: "923453220824",
     rating: 4.0,
     reviews: 29,
+    description: "Pizza King in Skardu is famous for its pizza.",
+    cuisines: ["Pizza", "Fast Food"],
   },
   {
     id: "yak-grill-skardu",
@@ -264,6 +306,9 @@ export const shops: Shop[] = [
     whatsapp: "923408922555",
     rating: 4.2,
     reviews: 37,
+    description:
+      "Yak Grill in Skardu is famous for its yak burger and giant potato fries.",
+    cuisines: ["Burgers", "Fast Food", "Grill"],
   },
 
   {
@@ -281,7 +326,4 @@ export const shops: Shop[] = [
     rating: 0,
     reviews: 0,
   },
-
-  
- 
 ];
