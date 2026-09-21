@@ -2651,6 +2651,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 9.3,
       estimated_minutes: 34
     },
+    "Himalaya Hotel Hussainabad, Skardu": { distance_km: 5.4, estimated_minutes: 11 },
 
   },
    "Baltistan Tea and Grill House": {
@@ -15903,6 +15904,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
 // other destination defaults to 0. Name must match exactly what's used
 // in AREA_TO_OFFICE / RESTAURANT_TO_AREA (areas or hotels).
 export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
+  "Gamba Skardu":300,
   "Shangrila Resort Skardu": 770,
   "Kachura Inn Skardu": 770,
   "LOKAL Rooms x Skardu (Katpana Retreat)":160,
@@ -15923,8 +15925,12 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "The Cherry Courtyard":160,
   "Byarsa Hotel Skardu":810,
   "The Pioneer Hotel":150,
-  "Lashari Resort Skardu":100,
-  "Safena Hotel Skardu":400,
+  "Lashari Resort Skardu":400,
+  "Hotel walnut":600,
+  "Grand view hotel":600,
+  "Safena Hotel Skardu":600,
+  "Pinnacle Executive Lodges":850,
+  "Hosho Guest House":800,
   "Nirvana Resort Skardu":200,
   "Shama Resort Skardu":200,
   "Alnoor Starlet Hotel":200,
@@ -15941,7 +15947,7 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Grand Hotel Skardu":430,
  
   "Maple Resort":430,
-  "PC Legacy Skardu":340,
+  "PC Legacy Skardu":580,
 };
 // ---------------------------------------------------------------------
 // Scaffolding helpers — keep the structure easy to expand
