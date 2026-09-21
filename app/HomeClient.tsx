@@ -20,7 +20,7 @@ export default function HomeClient() {
 
   return (
     <main className="min-h-screen bg-white text-gray-900 pb-24 md:pb-0">
-      <VideoPreloader url={CAFE_ANIME_VIDEO_URL} />
+      {/* <VideoPreloader url={CAFE_ANIME_VIDEO_URL} /> */}
 
       {/* 1. Pass the props to the Navbar for Desktop users */}
       <Navbar 
