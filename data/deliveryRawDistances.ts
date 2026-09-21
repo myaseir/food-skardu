@@ -399,6 +399,7 @@ export const HOTELS: string[] = [
   "Shaheen Guest House Skardu",
   "Nirvana Resort Skardu",
   "Himalaya Hotel Hussainabad, Skardu",
+  "Himmel Skardu by Luxux",
 ];
 
 // ---------------------------------------------------------------------
@@ -572,6 +573,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Aliabad, Skardu": { distance_km: 0.85, estimated_minutes: 4 },
     
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.9, estimated_minutes: 18 },
+    "Himmel Skardu by Luxux": { distance_km: 39, estimated_minutes: 81 },
    
     "Shaheed colony": { distance_km: 3.8, estimated_minutes: 11 },
     "Tufail colony": { distance_km: 3.1, estimated_minutes: 10 },
@@ -2652,6 +2654,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 34
     },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 5.4, estimated_minutes: 11 },
+    "Himmel Skardu by Luxux": { distance_km: 37, estimated_minutes: 77 },
 
   },
    "Baltistan Tea and Grill House": {
@@ -2684,6 +2687,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Thorgu": { distance_km: 11, estimated_minutes: 25 },
     "Aliabad, Skardu": { distance_km: 1.3, estimated_minutes: 6 },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 7, estimated_minutes: 18 },
+    "Himmel Skardu by Luxux": { distance_km: 39, estimated_minutes: 81 },
     
     "Shaheed colony": { distance_km: 2.6, estimated_minutes: 10 },
     "Tufail colony": { distance_km: 1.9, estimated_minutes: 8 },
@@ -3738,6 +3742,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Thorgu": { distance_km: 11, estimated_minutes: 26 },
     "Aliabad, Skardu": { distance_km: 0.95, estimated_minutes: 5 },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 7, estimated_minutes: 18 },
+    "Himmel Skardu by Luxux": { distance_km: 39, estimated_minutes: 82 },
   
     "Shaheed colony": { distance_km: 3.4, estimated_minutes: 9 },
     "Tufail colony": { distance_km: 2.6, estimated_minutes: 8 },
@@ -4792,6 +4797,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Aliabad, Skardu": { distance_km: 2.5, estimated_minutes: 9 },
     "Hameed Garh": { distance_km: 2.9, estimated_minutes: 11 },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 8, estimated_minutes: 23 },
+    "Himmel Skardu by Luxux": { distance_km: 40, estimated_minutes: 85 },
     
     "Shaheed colony": { distance_km: 1.4, estimated_minutes: 4 },
     "Tufail colony": { distance_km: 0.65, estimated_minutes: 2 },
@@ -5842,6 +5848,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Thorgu": { distance_km: 10, estimated_minutes: 21 },
     "Aliabad, Skardu": { distance_km: 0.55, estimated_minutes: 3 },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6, estimated_minutes: 14 },
+    "Himmel Skardu by Luxux": { distance_km: 38, estimated_minutes: 80 },
     "Hameed Garh": { distance_km: 1, estimated_minutes: 3 },
     "Shaheed colony": { distance_km: 3.9, estimated_minutes: 14 },
     "Tufail colony": { distance_km: 3.2, estimated_minutes: 12 },
@@ -6162,6 +6169,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Thorgu": { distance_km: 12, estimated_minutes: 27 },
     "Aliabad, Skardu": { distance_km: 1, estimated_minutes: 5 },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 7.1, estimated_minutes: 19 },
+    "Himmel Skardu by Luxux": { distance_km: 39, estimated_minutes: 83 },
     "Hameed Garh": { distance_km: 2.1, estimated_minutes: 8 },
     "Shaheed colony": { distance_km: 3.4, estimated_minutes: 9 },
     "Tufail colony": { distance_km: 2.6, estimated_minutes: 8 },
@@ -7214,6 +7222,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Aliabad, Skardu": { distance_km: 0.45, estimated_minutes: 3 },
     
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.1, estimated_minutes: 14 },
+    "Himmel Skardu by Luxux": { distance_km: 38, estimated_minutes: 79 },
     "Hameed Garh": { distance_km: 1.0, estimated_minutes: 3 },
     "Shaheed colony": { distance_km: 3.9, estimated_minutes: 14 },
     "Tufail colony": { distance_km: 3.2, estimated_minutes: 12 },
@@ -8269,6 +8278,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Thorgu": { distance_km: 11, estimated_minutes: 22 },
     "Aliabad, Skardu": { distance_km: 0.25, estimated_minutes: 1 },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.4, estimated_minutes: 15 },
+    "Himmel Skardu by Luxux": { distance_km: 38, estimated_minutes: 80 },
     "Hameed Garh": { distance_km: 1.3, estimated_minutes: 4 },
     "Shaheed colony": { distance_km: 3.6, estimated_minutes: 13 },
     "Tufail colony": { distance_km: 2.9, estimated_minutes: 11 },
@@ -9318,6 +9328,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Thorgu": { distance_km: 11, estimated_minutes: 22 },
     "Aliabad, Skardu": { distance_km: 0.25, estimated_minutes: 1 },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.4, estimated_minutes: 15 },
+    "Himmel Skardu by Luxux": { distance_km: 38, estimated_minutes: 80 },
     "Hameed Garh": { distance_km: 1.3, estimated_minutes: 4 },
     "Shaheed colony": { distance_km: 3.6, estimated_minutes: 13 },
     "Tufail colony": { distance_km: 2.9, estimated_minutes: 11 },
@@ -10367,6 +10378,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Thorgu": { distance_km: 10, estimated_minutes: 21 },
     "Aliabad, Skardu": { distance_km: 0.55, estimated_minutes: 4 },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6, estimated_minutes: 14 },
+    "Himmel Skardu by Luxux": { distance_km: 38, estimated_minutes: 79 },
     "Hameed Garh": { distance_km: 1.0, estimated_minutes: 3 },
     "Shaheed colony": { distance_km: 3.9, estimated_minutes: 14 },
     "Tufail colony": { distance_km: 3.2, estimated_minutes: 12 },
@@ -11417,6 +11429,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Thorgu": { distance_km: 11, estimated_minutes: 25 },
     "Aliabad, Skardu": { distance_km: 0.26, estimated_minutes: 2 },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.7, estimated_minutes: 17 },
+    "Himmel Skardu by Luxux": { distance_km: 39, estimated_minutes: 83 },
     "Hameed Garh": { distance_km: 1.7, estimated_minutes: 6 },
     "Shaheed colony": { distance_km: 3.4, estimated_minutes: 10 },
     "Tufail colony": { distance_km: 2.8, estimated_minutes: 8 },
@@ -12473,6 +12486,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Thorgu": { distance_km: 11, estimated_minutes: 25 },
     "Aliabad, Skardu": { distance_km: 0.26, estimated_minutes: 2 },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 6.7, estimated_minutes: 17 },
+    "Himmel Skardu by Luxux": { distance_km: 39, estimated_minutes: 81 },
     "Hameed Garh": { distance_km: 1.7, estimated_minutes: 6 },
     "Shaheed colony": { distance_km: 3.4, estimated_minutes: 10 },
     "Tufail colony": { distance_km: 2.8, estimated_minutes: 8 },
@@ -13529,6 +13543,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Thorgu": { distance_km: 11, estimated_minutes: 22 },
     "Aliabad, Skardu": { distance_km: 1.6, estimated_minutes: 7 },
     "Himalaya Hotel Hussainabad, Skardu": { distance_km: 7.5, estimated_minutes: 27 },
+    "Himmel Skardu by Luxux": { distance_km: 38, estimated_minutes: 80 },
     "Hameed Garh": { distance_km: 1.0, estimated_minutes: 3 },
     "Shaheed colony": { distance_km: 3.8, estimated_minutes: 14 },
     "Tufail colony": { distance_km: 7.2, estimated_minutes: 25 },
@@ -15591,6 +15606,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Aliabad, Skardu": { destinationType: "Area", distance_km: 0.1, estimated_minutes: 1 },
   
   "Himalaya Hotel Hussainabad, Skardu": { destinationType: "Area", distance_km: 6.5, estimated_minutes: 17 },
+  "Himmel Skardu by Luxux": { destinationType: "Area", distance_km: 38, estimated_minutes: 82 },
   "Hameed Garh": { destinationType: "Area", distance_km: 1.4, estimated_minutes: 6 },
   "Shaheed colony": { destinationType: "Area", distance_km: 3.8, estimated_minutes: 13 },
   "Tufail colony": { destinationType: "Area", distance_km: 3.1, estimated_minutes: 10 },
@@ -15921,6 +15937,7 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Thorgu":400,
   "Orgventure Resorts Skardu":980,
   "Himalaya Hotel Hussainabad, Skardu":180,
+  "Himmel Skardu by Luxux":4000,
   "Rafsal A Countryside Cottage":120,
   "The Cherry Courtyard":160,
   "Byarsa Hotel Skardu":810,
