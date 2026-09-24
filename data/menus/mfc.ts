@@ -65,6 +65,14 @@ export const menu = {
             { name: "Half", price: 1700 },
             { name: "Full", price: 3000 }
           ]
+        },
+        {
+          id: "mfc-pk-5",
+          name: "Naan",
+          price: 40,
+          desc: "Sada Naan",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkgiQwXnbmU89du2gUh7jjUy3YycqchJQFbiWAhuSGLBP60v4Eca0r3U0&s=10",
+          variants: []
         }
       ]
     },
