@@ -20,8 +20,22 @@ export default function KRamenCategoryNav({
   const railRef = useRef<HTMLDivElement>(null);
   const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
-  // Keep the active pill scrolled into view as the user scrolls the page
-  // and activeCategory changes, so the nav rail tracks along with them.
+  // Keep the active pill scrolled into view horizontally as the user
+  // scrolls the page and activeCategory changes.
+  //
+  // IMPORTANT: this used to call pill.scrollIntoView({ inline: "center",
+  // block: "nearest" }). On mobile Safari/Chrome, scrollIntoView can nudge
+  // the *page's* vertical scroll position even with block: "nearest" —
+  // especially when the target sits inside a `sticky` ancestor, which this
+  // nav always does. Since activeCategory changes on every scroll tick (via
+  // the IntersectionObserver in useRestaurantPage), that bug fired
+  // constantly and looked exactly like "the page snaps back up while I'm
+  // scrolling."
+  //
+  // Fix: scroll only this rail's own scrollLeft directly. That can never
+  // touch the page's vertical scroll, since it's a plain property write on
+  // this one element, not a browser-decided "bring into view" that walks
+  // up the whole scroll-container chain.
   useEffect(() => {
     if (!activeCategory) return;
     const pill = pillRefs.current[activeCategory];
@@ -34,7 +48,12 @@ export default function KRamenCategoryNav({
     const railRight = railLeft + rail.clientWidth;
 
     if (pillLeft < railLeft || pillRight > railRight) {
-      pill.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      const pillCenter = pillLeft + pill.offsetWidth / 2;
+      const targetScrollLeft = pillCenter - rail.clientWidth / 2;
+      rail.scrollTo({
+        left: Math.max(0, targetScrollLeft),
+        behavior: "smooth",
+      });
     }
   }, [activeCategory]);
 

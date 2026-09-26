@@ -17,6 +17,7 @@ import {
   buildTitle,
   getShopFacts,
   lowestPrice,
+  highestPrice,
   type MenuCategoryLike,
   type MenuItemLike,
 } from "@/lib/shopSeo";
@@ -52,7 +53,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const image = absoluteUrl(shop.logo);
 
   return {
-    title: buildTitle(facts.name),
+    // `facts.area` (a neighborhood/locality, when the shop record has one)
+    // lets the title also catch more specific searches, e.g. "Korean food
+    // Khomer Skardu", without losing the exact-name match that matters most
+    // for a branded search like "K Ramen Skardu". Requires the updated
+    // buildTitle(name, area?) signature in lib/shopSeo.ts.
+    title: buildTitle(facts.name, facts.area),
     description,
     alternates: { canonical: url },
     openGraph: {
@@ -61,6 +67,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${facts.name} | ${SITE_NAME}`,
       description,
       url,
+      // Pinning the locale helps Google/Facebook target this listing at the
+      // right regional audience instead of assuming en_US.
+      locale: "en_PK",
       images: image ? [{ url: image, alt: facts.name }] : undefined,
     },
     twitter: {
@@ -69,7 +78,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       images: image ? [image] : undefined,
     },
-    robots: { index: true, follow: true },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        // Lets Google use a longer snippet and a larger image preview in
+        // results (and makes the page eligible for AI Overview citations)
+        // instead of defaulting to a conservative, short auto-snippet.
+        "max-snippet": -1,
+        "max-image-preview": "large",
+        "max-video-preview": -1,
+      },
+    },
   };
 }
 
@@ -108,6 +130,11 @@ export default async function RestaurantPage({ params }: PageProps) {
     shop.rating <= 5 &&
     shop.reviews > 0;
 
+  // A real phone/WhatsApp number on the Restaurant node helps eligibility
+  // for Google's local pack / map card, not just the plain web result.
+  const telephone: string | undefined =
+    typeof shop.whatsapp === "string" && shop.whatsapp.trim() ? shop.whatsapp.trim() : undefined;
+
   const restaurant = {
     "@type": "Restaurant",
     "@id": `${url}#restaurant`,
@@ -116,6 +143,7 @@ export default async function RestaurantPage({ params }: PageProps) {
     description,
     image,
     logo: image,
+    telephone,
     servesCuisine: facts.cuisines.length ? facts.cuisines : undefined,
     priceRange: facts.priceRange ?? undefined,
     paymentAccepted: "Cash on Delivery",
@@ -141,10 +169,46 @@ export default async function RestaurantPage({ params }: PageProps) {
             "@type": "AggregateRating",
             ratingValue: shop.rating,
             reviewCount: shop.reviews,
+            // States the scale explicitly rather than leaving Google to
+            // assume it — schema.org's own guidance recommends this.
+            bestRating: 5,
+            worstRating: 1,
           },
         }
       : {}),
   };
+
+  // Builds the `offers` block for one menu item. Items with size/style
+  // variants (e.g. Regular/Large) get an AggregateOffer spanning the full
+  // price range instead of a single Offer pinned to the cheapest variant —
+  // reporting only the lowest price for a multi-price item is exactly the
+  // kind of mismatch Google's Rich Results Test flags, since a customer
+  // clicking through can end up seeing a higher price than the listing
+  // implied.
+  function buildItemOffers(item: MenuItemLike) {
+    const hasVariants = !!(item.variants && item.variants.length > 1);
+    if (!hasVariants) {
+      return {
+        "@type": "Offer",
+        price: lowestPrice(item),
+        priceCurrency: CURRENCY,
+      };
+    }
+
+    const low = lowestPrice(item);
+    const high = highestPrice(item);
+    if (low === high) {
+      return { "@type": "Offer", price: low, priceCurrency: CURRENCY };
+    }
+
+    return {
+      "@type": "AggregateOffer",
+      lowPrice: low,
+      highPrice: high,
+      priceCurrency: CURRENCY,
+      offerCount: item.variants!.length,
+    };
+  }
 
   const menuSchema = {
     "@type": "Menu",
@@ -159,11 +223,7 @@ export default async function RestaurantPage({ params }: PageProps) {
         name: item.name,
         description: item.desc || undefined,
         image: absoluteUrl(item.image),
-        offers: {
-          "@type": "Offer",
-          price: lowestPrice(item),
-          priceCurrency: CURRENCY,
-        },
+        offers: buildItemOffers(item),
       })),
     })),
   };

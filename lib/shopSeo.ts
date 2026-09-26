@@ -53,6 +53,18 @@ export function absoluteUrl(src?: string | null): string | undefined {
   return `${SITE_URL}${value.startsWith("/") ? "" : "/"}${value}`;
 }
 
+/**
+ * Builds a canonical, absolute URL for a page path, e.g.
+ * buildCanonicalUrl("/skardu/k-ramen-skardu") -> "https://www.mealbear.pk/skardu/k-ramen-skardu".
+ * A correct <link rel="canonical"> pointing at this is what stops Google
+ * from splitting ranking signal across "?ref=..." or trailing-slash
+ * variants of the same page.
+ */
+export function buildCanonicalUrl(path: string): string {
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return `${SITE_URL}${cleanPath}`;
+}
+
 /** Shortens text to `max` characters at a word boundary, adding "…". */
 export function truncate(text: string, max: number): string {
   const clean = text.replace(/\s+/g, " ").trim();
@@ -228,9 +240,21 @@ export function popularItemNames(menu: MenuLike, limit = 3): string[] {
 
 /* ---------- Titles and descriptions ---------- */
 
-/** Page title, kept to about 60 characters so Google doesn't cut it off. */
-export function buildTitle(name: string): string {
+/**
+ * Page title, kept to about 60 characters so Google doesn't cut it off.
+ * Leads with the exact restaurant name first — critical for branded
+ * searches like "K Ramen Skardu", since Google weighs an exact match near
+ * the start of the <title> heavily for that kind of query. `area` (a
+ * neighborhood/locality, if you have one) lets the same title also catch
+ * more specific searches like "Korean food Khomer Skardu". The site name
+ * is appended only when there's room, since a title stuffed past ~60
+ * characters just gets truncated in search results anyway.
+ */
+export function buildTitle(name: string, area?: string | null): string {
+  const areaPart = area ? ` (${area})` : "";
   const candidates = [
+    `${name} Menu & Delivery in ${CITY}${areaPart} | ${SITE_NAME}`,
+    `${name} Menu & Delivery in ${CITY}${areaPart}`,
     `${name} Menu & Delivery in ${CITY}`,
     `${name} Delivery in ${CITY}`,
     `${name} ${CITY}`,
@@ -274,14 +298,16 @@ export function buildMetaDescription(facts: ShopFacts, menu: MenuLike, max = 155
 
   const cuisine = facts.cuisines.length ? `Serving ${joinList(facts.cuisines)}.` : "";
   const popular = popularItemNames(menu, 2);
+  const areaPart = facts.area ? ` (${facts.area})` : "";
 
   // Listed in reading order. `priority` decides what survives if space runs out.
   const segments = [
-    { text: `Order from ${facts.name} in ${CITY}, ${REGION}.`, priority: 0 },
+    { text: `Order from ${facts.name} in ${CITY}${areaPart}, ${REGION}.`, priority: 0 },
     { text: cuisine, priority: 3 },
     { text: popular.length ? `Try ${joinList(popular)}.` : "", priority: 4 },
     { text: "Delivery to homes, offices and hotels.", priority: 1 },
     { text: "Cash on Delivery.", priority: 2 },
+    { text: "Order online now.", priority: 5 },
   ].map((segment, index) => ({ ...segment, index }))
    .filter((segment) => segment.text);
 
@@ -304,4 +330,129 @@ export function buildMetaDescription(facts: ShopFacts, menu: MenuLike, max = 155
     .filter((segment) => chosen.has(segment.index))
     .map((segment) => segment.text)
     .join(" ");
+}
+
+/* ---------- Image SEO ---------- */
+
+/**
+ * Descriptive alt text for a menu item photo. Real alt text (not "photo1"
+ * or a blank string) is what lets a dish photo itself surface in Google
+ * Image search and Google Lens results for the dish name.
+ */
+export function buildItemImageAlt(itemName: string, shopName: string): string {
+  return `${itemName} - ${shopName} in ${CITY}`;
+}
+
+/* ---------- Structured data (JSON-LD) ---------- */
+
+export interface RestaurantJsonLdOptions {
+  /** This shop's page path, e.g. "/skardu/k-ramen-skardu" — used to build `url`. */
+  path: string;
+  /** Photo URL(s); relative or absolute. The first is treated as the primary image. */
+  images?: (string | undefined | null)[];
+  telephone?: string | null;
+  /** WGS84 coordinates, if you have them — improves local-pack/map eligibility. */
+  geo?: { latitude: number; longitude: number } | null;
+  /** Average rating (1-5) and how many reviews it's based on, if you track these. */
+  rating?: { value: number; count: number } | null;
+}
+
+const DAYS_OF_WEEK = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+/**
+ * Builds a schema.org Restaurant JSON-LD object. Render this inside
+ * `<script type="application/ld+json">{JSON.stringify(json)}</script>`
+ * on the page — this is the single highest-leverage on-page change for
+ * ranking a branded, local search like "<name> <city>" #1: it hands
+ * Google exact, structured facts (address, hours, price range, cuisine)
+ * instead of making it infer them from prose, and is what makes the page
+ * eligible for rich results (star rating, price range, hours) in the SERP.
+ */
+export function buildRestaurantJsonLd(
+  facts: ShopFacts,
+  menu: MenuLike,
+  options: RestaurantJsonLdOptions
+): Record<string, unknown> {
+  const images = (options.images ?? [])
+    .map((src) => absoluteUrl(src ?? undefined))
+    .filter((src): src is string => !!src);
+
+  const range = derivePriceRange(menu);
+
+  const json: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    name: facts.name,
+    url: buildCanonicalUrl(options.path),
+    description: buildMetaDescription(facts, menu),
+    servesCuisine: facts.cuisines.length ? facts.cuisines : undefined,
+    priceRange:
+      facts.priceRange ?? (range ? `${formatRs(range.min)} - ${formatRs(range.max)}` : undefined),
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: facts.address ?? undefined,
+      addressLocality: CITY,
+      addressRegion: REGION,
+      addressCountry: COUNTRY_CODE,
+    },
+    telephone: options.telephone ?? undefined,
+    image: images.length ? images : undefined,
+    acceptsReservations: "False",
+    paymentAccepted: "Cash",
+    currenciesAccepted: CURRENCY,
+  };
+
+  if (options.geo) {
+    json.geo = {
+      "@type": "GeoCoordinates",
+      latitude: options.geo.latitude,
+      longitude: options.geo.longitude,
+    };
+  }
+
+  if (facts.hours) {
+    json.openingHoursSpecification = {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: DAYS_OF_WEEK,
+      opens: facts.hours.alwaysOpen ? "00:00" : facts.hours.opens,
+      closes: facts.hours.alwaysOpen ? "23:59" : facts.hours.closes,
+    };
+  }
+
+  if (options.rating && options.rating.count > 0) {
+    json.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: options.rating.value,
+      reviewCount: options.rating.count,
+    };
+  }
+
+  // Strip undefined keys so the emitted JSON-LD stays clean — Google is
+  // lenient about this, but a tidy payload is easier to debug in the Rich
+  // Results Test.
+  return JSON.parse(JSON.stringify(json));
+}
+
+/**
+ * Builds a simple Home > Restaurant breadcrumb JSON-LD. Breadcrumb rich
+ * results are a small but easy CTR win — they replace the plain URL line
+ * in a search result with a readable path.
+ */
+export function buildBreadcrumbJsonLd(name: string, path: string): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name, item: buildCanonicalUrl(path) },
+    ],
+  };
 }
