@@ -71,7 +71,7 @@ export const shops: Shop[] = [
     theme: "theme1",
     templateId: "kramen", // Custom layout with stickers + click sound — see lib/templates/cafe-anime/
     openTime: "12:30",
-    closeTime: "23:00",
+    closeTime: "10:00",
     alwaysOpen: false,
     logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1790413219/WhatsApp_Image_2026-09-25_at_2.49.52_PM_ox7ev9.jpg",
     lat: 35.2905,
