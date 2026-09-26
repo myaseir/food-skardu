@@ -77,22 +77,41 @@ export const shops: Shop[] = [
   //   rating: 4.9, // TODO: confirm actual rating
   //   reviews: 467, // TODO: confirm actual review count
   // },
-  // {
-  //   id: "cafe-anime",
-  //   name: "Cafe Anime",
-  //   type: "restaurant",
-  //   theme: "theme1",
-  //   templateId: "cafeAnime", // Custom layout with stickers + click sound — see lib/templates/cafe-anime/
-  //   openTime: "12:30",
-  //   closeTime: "15:00",
-  //   alwaysOpen: false,
-  //   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcidNdSPOerj1kJNVdJvweJ_JWZbxlCwluMLTJiu90VxhHprzDxSDcmyt9&s=10",
-  //   lat: 35.2905,
-  //   lng: 75.6330,
-  //   whatsapp: "0311 5521945",
-  //   rating: 4.0,
-  //   reviews: 7,
-  // },
+  {
+    id: "kramen",
+    name: "K-RAMEN SKARDU",
+    type: "restaurant",
+    theme: "theme1",
+    templateId: "kramen", // Custom layout with stickers + click sound — see lib/templates/cafe-anime/
+    openTime: "12:30",
+    closeTime: "23:00",
+    alwaysOpen: false,
+    logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1790329813/WhatsApp_Image_2026-09-25_at_2.49.52_PM_y9osuo.jpg",
+    lat: 35.2905,
+    lng: 75.6330,
+    whatsapp: "03169030178",
+    rating: 4.0,
+    reviews: 7,
+    description:
+  "K-Ramen Skardu is the go-to spot for authentic Korean ramen in Skardu, serving Buldak Hot Chicken, Shin Ramyun, and Samyang spicy noodles built fresh to order. The menu features build-your-own ramen bowls with add-ons like cheese, boiled egg, and sausage, paired with Korean sparkling drinks and combo deals for solo bowls or sharing.",
+cuisines: ["Korean", "Ramen", "Noodles", "Fast Food"],
+  },
+  {
+    id: "cafe-anime",
+    name: "Cafe Anime",
+    type: "restaurant",
+    theme: "theme1",
+    templateId: "cafeAnime", // Custom layout with stickers + click sound — see lib/templates/cafe-anime/
+    openTime: "12:30",
+    closeTime: "15:00",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcidNdSPOerj1kJNVdJvweJ_JWZbxlCwluMLTJiu90VxhHprzDxSDcmyt9&s=10",
+    lat: 35.2905,
+    lng: 75.6330,
+    whatsapp: "0311 5521945",
+    rating: 4.0,
+    reviews: 7,
+  },
   {
     id: "the-kitchen-skardu",
     name: "The Kitchen",

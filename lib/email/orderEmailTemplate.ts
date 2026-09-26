@@ -54,13 +54,52 @@ function formatOrderItems(str: string): string {
   return withDescStyled.replace(/\n/g, "<br/>");
 }
 
+// ---------------------------------------------------------------------
+// WhatsApp link redirect wrapper
+// ---------------------------------------------------------------------
+// Brevo (our transactional email provider) rewrites EVERY link in this
+// email into its own click-tracking redirect before it ever reaches the
+// real destination — that's unavoidable for transactional sends and is
+// not something the API lets us turn off. The actual reliability problem
+// is what happens on the hop *after* Brevo's redirect: going straight to
+// wa.me means if the hand-off to WhatsApp is slow, blocked, or fails, the
+// person just sees a dead/blank page with nothing to do about it.
+//
+// So instead of pointing these buttons straight at wa.me, we point them at
+// a small page on our own domain (/go/whatsapp) that immediately attempts
+// to open WhatsApp itself, and — critically — falls back to a visible
+// "Tap to Open WhatsApp" button if the automatic hand-off doesn't fire.
+// That turns a silent dead end into something the person can always
+// recover from with one more tap.
+//
+// Requires SITE_URL (or NEXT_PUBLIC_SITE_URL) to be set to this app's
+// deployed origin, e.g. "https://mealbearskardu.com". If it isn't set,
+// this falls back to the original wa.me link untouched, so nothing here
+// breaks before that env var is configured.
+const SITE_URL = process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || "";
+
+function toWhatsAppRedirectLink(waLink: string): string {
+  if (!SITE_URL) return waLink;
+  try {
+    const url = new URL(waLink);
+    const phone = url.pathname.replace(/^\//, "");
+    const text = url.searchParams.get("text") || "";
+    const base = SITE_URL.replace(/\/$/, "");
+    return `${base}/go/whatsapp?to=${encodeURIComponent(phone)}${text ? `&text=${encodeURIComponent(text)}` : ""}`;
+  } catch {
+    // Not a well-formed URL for some reason — safer to fall back to it
+    // as-is than to break the button entirely.
+    return waLink;
+  }
+}
+
 function buildRestaurantRows(buttons: RestaurantButton[]): string {
   return buttons
     .map(
       (b) => `
         <tr>
           <td style="padding-bottom: 10px;">
-            <a href="${b.link}" style="display:block; width:100%; box-sizing:border-box; background-color:#25D366; color:#ffffff; font-weight:800; font-size:13px; text-decoration:none; padding:12px 16px; border-radius:10px; text-align:center;">
+            <a href="${toWhatsAppRedirectLink(b.link)}" style="display:block; width:100%; box-sizing:border-box; background-color:#25D366; color:#ffffff; font-weight:800; font-size:13px; text-decoration:none; padding:12px 16px; border-radius:10px; text-align:center;">
               💬 ${esc(b.name)} — Order on WhatsApp
             </a>
           </td>
@@ -128,6 +167,11 @@ function buildRiderPayoutSection(data: OrderEmailData): string {
 }
 
 export function buildOrderEmailHtml(data: OrderEmailData): string {
+  // Both action buttons below go through the own-domain redirect page (see
+  // toWhatsAppRedirectLink above) instead of straight to wa.me.
+  const confirmLink = toWhatsAppRedirectLink(data.confirmWhatsAppLink);
+  const riderLink = toWhatsAppRedirectLink(data.riderWhatsAppLink);
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -219,8 +263,8 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
           </div>
         </div>
 
-        <a href="${data.confirmWhatsAppLink}" style="display:block; background-color:#9333ea; color:#ffffff; font-weight:800; font-size:13px; text-decoration:none; padding:13px 16px; border-radius:10px; text-align:center; margin-bottom:16px;">✅ Confirm Order with Customer</a>
-        <a href="${data.riderWhatsAppLink}" style="display:block; background-color:#f97316; color:#ffffff; font-weight:800; font-size:13px; text-decoration:none; padding:13px 16px; border-radius:10px; text-align:center; margin-bottom:16px;">
+        <a href="${confirmLink}" style="display:block; background-color:#9333ea; color:#ffffff; font-weight:800; font-size:13px; text-decoration:none; padding:13px 16px; border-radius:10px; text-align:center; margin-bottom:16px;">✅ Confirm Order with Customer</a>
+        <a href="${riderLink}" style="display:block; background-color:#f97316; color:#ffffff; font-weight:800; font-size:13px; text-decoration:none; padding:13px 16px; border-radius:10px; text-align:center; margin-bottom:16px;">
           🛵 Send to Riders Group
         </a>
 

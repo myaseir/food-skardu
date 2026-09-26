@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 export const templates = {
   default: dynamic(() => import("./default/DefaultTemplate")),
   cafeAnime: dynamic(() => import("./cafe-anime/CafeAnimeTemplate")),
+  kramen: dynamic(() => import("./kramenskardu/kramenskardutemplate"))
 } as const;
 
 export type TemplateId = keyof typeof templates;
