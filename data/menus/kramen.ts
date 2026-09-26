@@ -130,7 +130,7 @@ export const menu = {
   drinks: [
     { name: "Soft Drinks", price: 120, image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1790344296/WhatsApp_Image_2026-09-25_at_6.45.39_PM_1_wuqzho.jpg" },
     { name: "Water", price: 100, image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1790344296/WhatsApp_Image_2026-09-25_at_6.45.39_PM_rwfek3.jpg" },
-    { name: "Mango Slice", price: 70, image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1790344296/WhatsApp_Image_2026-09-25_at_6.45.38_PM_1_dafy0h.jpg" },
+    { name: "Mango Slice", price: 100, image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1790344296/WhatsApp_Image_2026-09-25_at_6.45.38_PM_1_dafy0h.jpg" },
   ],
 
   // "COMBO DEALS" board. Badge order on the board is 3 / 2 / 1 (Combo A,
