@@ -73,7 +73,7 @@ export const shops: Shop[] = [
     openTime: "12:30",
     closeTime: "23:00",
     alwaysOpen: false,
-    logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1790329813/WhatsApp_Image_2026-09-25_at_2.49.52_PM_y9osuo.jpg",
+    logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1790413219/WhatsApp_Image_2026-09-25_at_2.49.52_PM_ox7ev9.jpg",
     lat: 35.2905,
     lng: 75.6330,
     whatsapp: "03466328884",
