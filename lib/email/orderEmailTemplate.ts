@@ -40,18 +40,28 @@ function esc(str: string): string {
     .replace(/"/g, "&quot;");
 }
 
-// Escapes text, converts newlines to <br>, and shrinks/mutes item descriptions
-// that were wrapped in [[DESC]]...[[/DESC]] markers by the caller (checkout
-// page). Using an explicit marker — rather than styling anything in
-// (round braces) — keeps the "(Rs. 1600)" price segment at full size, since
-// it's also parenthesized but is not a description.
+// Escapes text, converts newlines to <br>, and styles two kinds of inline
+// markers the caller (checkout page) wraps around specific segments:
+//   [[DESC]](...)[[/DESC]]  — static menu item description, already
+//                             wrapped in round braces by the caller,
+//                             rendered small + muted here
+//   [[NOTE]]...[[/NOTE]]    — customer-entered customization (e.g. cake
+//                             message), bold purple so kitchen staff
+//                             can't miss it among the rest of the item line
+// Using explicit markers — rather than styling anything in (round braces)
+// directly — keeps the "(Rs. 1600)" price segment at full size, since it's
+// also parenthesized but is neither a description nor a note.
 function formatOrderItems(str: string): string {
   const escaped = esc(str);
   const withDescStyled = escaped.replace(
     /\[\[DESC\]\]([\s\S]*?)\[\[\/DESC\]\]/g,
     '<span style="font-size:11px; font-weight:500; color:#64748b;">$1</span>'
   );
-  return withDescStyled.replace(/\n/g, "<br/>");
+  const withNoteStyled = withDescStyled.replace(
+    /\[\[NOTE\]\]([\s\S]*?)\[\[\/NOTE\]\]/g,
+    '<span style="font-size:12px; font-weight:800; color:#9333ea;">📝 $1</span>'
+  );
+  return withNoteStyled.replace(/\n/g, "<br/>");
 }
 
 // ---------------------------------------------------------------------

@@ -8,6 +8,7 @@ export interface CartItem {
   price: number;
   image?: string;
   desc?: string;
+  notes?: string; // Customer-entered customization text (e.g. "Message on Cake: Happy Birthday Ali")
   shopId?: string;
   category?: string;
   quantity?: number; // Tracks how many of this item are in the cart
@@ -27,7 +28,7 @@ export const useCart = create<CartState>()(
   persist(
     (set) => ({
       items: [],
-      
+
       // Multi-restaurant carts are now allowed — items from different
       // shopIds simply coexist in the same cart. The delivery calculator
       // (calculateDeliveryFee) handles pricing the multi-stop trip; this
@@ -40,13 +41,13 @@ export const useCart = create<CartState>()(
         // possible in your data, match on `i.id === item.id && i.shopId === item.shopId`
         // instead — see commented-out version below.
         const existingItem = state.items.find((i) => i.id === item.id);
-        
+
         if (existingItem) {
           // If it exists, increase its quantity by 1
           return {
             items: state.items.map((i) =>
-              i.id === item.id 
-                ? { ...i, quantity: (i.quantity || 1) + 1 } 
+              i.id === item.id
+                ? { ...i, quantity: (i.quantity || 1) + 1 }
                 : i
             ),
           };
@@ -75,16 +76,16 @@ export const useCart = create<CartState>()(
       //
       //   return { items: [...state.items, { ...item, quantity: 1 }] };
       // }),
-      
+
       // Completely removes the item row regardless of quantity
-      removeItem: (id) => set((state) => ({ 
-        items: state.items.filter((i) => i.id !== id) 
+      removeItem: (id) => set((state) => ({
+        items: state.items.filter((i) => i.id !== id)
       })),
 
       // Decreases quantity by 1. If it hits 0, it removes the item completely.
       removeSingleItem: (id) => set((state) => {
         const existingItem = state.items.find((i) => i.id === id);
-        
+
         if (existingItem && (existingItem.quantity || 1) > 1) {
           return {
             items: state.items.map((i) =>
@@ -92,11 +93,11 @@ export const useCart = create<CartState>()(
             ),
           };
         }
-        
+
         // If quantity is 1 (or undefined), remove it from the array
         return { items: state.items.filter((i) => i.id !== id) };
       }),
-      
+
       clearCart: () => set({ items: [] }),
     }),
     {

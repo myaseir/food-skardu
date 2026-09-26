@@ -30,9 +30,22 @@ function stripPricesForRider(orderItems: string): string {
   return orderItems.replace(/\s*\(Rs\.\s*[\d,]+\)/g, "");
 }
 
+// orderItems also carries [[DESC]](...)[[/DESC]] and [[NOTE]]...[[/NOTE]]
+// markers meant for the HTML email template (orderEmailTemplate.ts turns
+// those into styled spans). WhatsApp is plain text and has no idea what
+// those brackets mean, so before the rider message is built, the markers
+// are converted to their plain-text equivalents: the description (already
+// wrapped in round braces by checkout) just loses its tags, and the note
+// gets a 📝 prefix in place of its tags.
+function convertMarkersForPlainText(orderItems: string): string {
+  return orderItems
+    .replace(/\[\[DESC\]\]([\s\S]*?)\[\[\/DESC\]\]/g, "$1")
+    .replace(/\[\[NOTE\]\]([\s\S]*?)\[\[\/NOTE\]\]/g, "📝 $1");
+}
+
 function buildRiderWhatsAppLink(payload: OrderEmailData): string {
   const isMultiRestaurant = payload.restaurantNames.includes(",");
-  const itemsSection = stripPricesForRider(payload.orderItems);
+  const itemsSection = stripPricesForRider(convertMarkersForPlainText(payload.orderItems));
   // Surface the customer's note to the rider too — "leave at the gate" /
   // "call before arriving" type notes are often about delivery handling,
   // not just kitchen prep, so it's worth a line here as well. Only shown
@@ -123,7 +136,10 @@ function buildSheetPayload(payload: OrderEmailData) {
     userPhone: payload.userPhone,
     address: payload.address,
     restaurantNames: payload.restaurantNames,
-    orderItems: payload.orderItems,
+    // Sheet cells are plain text too — same marker conversion as the rider
+    // message, so the sheet shows readable "(desc)" / "📝 note" text
+    // instead of literal [[DESC]]/[[NOTE]] brackets.
+    orderItems: convertMarkersForPlainText(payload.orderItems),
     customerNote: extra.customerNote || "N/A",
     subtotal: extra.subtotal,
     estimatedDistanceKm: extra.estimatedDistanceKm,

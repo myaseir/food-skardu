@@ -168,7 +168,7 @@ export default function CheckoutPage() {
 
   const [step, setStep] = useState<"form" | "success">("form");
   const [isSending, setIsSending] = useState(false);
-  
+
   // Contact State
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -284,6 +284,12 @@ export default function CheckoutPage() {
       ? `HOTEL: ${locationName} | ROOM: ${addressDetail}`
       : `HOME AREA: ${locationName} | ADDRESS: ${addressDetail}`;
 
+    // Used for the EMAIL only (orderEmailTemplate.ts turns these markers
+    // into styled HTML). The item description is wrapped in round braces
+    // here so it reads "(Soft, fluffy sponge...)" — the template then
+    // renders that whole [[DESC]] segment small + muted. The customer's
+    // per-item note (e.g. cake message) gets its own [[NOTE]] marker,
+    // rendered bold purple with a 📝 prefix so kitchen staff can't miss it.
     const detailedItems = shopsInCart
       .map((shop) => {
         const shopItems = items.filter((i: any) => i.shopId === shop.id);
@@ -293,7 +299,8 @@ export default function CheckoutPage() {
           .map(
             (i: any) =>
               "  " + (i.quantity || 1) + "x " + i.name + " (Rs. " + i.price * (i.quantity || 1) + ")" +
-              (i.desc ? "\n    [[DESC]]" + i.desc + "[[/DESC]]" : "")
+              (i.desc ? "\n    [[DESC]](" + i.desc + ")[[/DESC]]" : "") +
+              (i.notes ? "\n    [[NOTE]]" + i.notes + "[[/NOTE]]" : "")
           )
           .join("\n");
         return `${shop.name}:\n${itemLines}`;
@@ -310,12 +317,22 @@ export default function CheckoutPage() {
     // WhatsApp numbers are local Skardu business numbers, so these are
     // always normalized against Pakistan regardless of which country
     // the customer selected above.
+    //
+    // WhatsApp messages are plain text — there's no font-size control —
+    // so the description is set apart the same way a human would write
+    // it by hand: wrapped in round parentheses on its own line, rather
+    // than the [[DESC]] marker used for the HTML email above.
     const trimmedNote = note.trim();
 
     const restaurantButtons = shopsInCart.map((shop) => {
       const shopItems = items.filter((it: any) => it.shopId === shop.id);
       const itemLines = shopItems
-        .map((it: any) => `${it.quantity || 1}x ${it.name}`)
+        .map(
+          (it: any) =>
+            `${it.quantity || 1}x ${it.name}` +
+            (it.desc ? `\n   (${it.desc})` : "") +
+            (it.notes ? `\n   📝 ${it.notes}` : "")
+        )
         .join("\n");
       const noteLine = trimmedNote ? `\n\n📝 Note: ${trimmedNote}` : "";
       const message = `${shop.name}\n\n${itemLines}${noteLine}\n\n~ Meal Bear Skardu`;
@@ -796,14 +813,20 @@ export default function CheckoutPage() {
                     </p>
                     <div className="space-y-1.5">
                       {shopItems.map((item: any, idx: number) => (
-                        <div
-                          key={idx}
-                          className="flex justify-between text-[13px] font-bold text-gray-700 gap-3"
-                        >
-                          <span className="truncate">
-                            {item.quantity}x {item.name}
-                          </span>
-                          <span className="shrink-0">Rs. {item.price * item.quantity}</span>
+                        <div key={idx}>
+                          <div
+                            className="flex justify-between text-[13px] font-bold text-gray-700 gap-3"
+                          >
+                            <span className="truncate">
+                              {item.quantity}x {item.name}
+                            </span>
+                            <span className="shrink-0">Rs. {item.price * item.quantity}</span>
+                          </div>
+                          {item.notes && (
+                            <p className="text-[11px] font-semibold text-purple-600 mt-0.5 pl-0.5 break-words">
+                              📝 {item.notes}
+                            </p>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -901,14 +924,20 @@ export default function CheckoutPage() {
                     {shop.name}
                   </p>
                   {shopItems.map((item: any, idx: number) => (
-                    <div
-                      key={idx}
-                      className="flex justify-between text-[12px] font-bold text-gray-700 gap-3"
-                    >
-                      <span className="truncate">
-                        {item.quantity}x {item.name}
-                      </span>
-                      <span className="shrink-0">Rs. {item.price * item.quantity}</span>
+                    <div key={idx}>
+                      <div
+                        className="flex justify-between text-[12px] font-bold text-gray-700 gap-3"
+                      >
+                        <span className="truncate">
+                          {item.quantity}x {item.name}
+                        </span>
+                        <span className="shrink-0">Rs. {item.price * item.quantity}</span>
+                      </div>
+                      {item.notes && (
+                        <p className="text-[10px] font-semibold text-purple-600 mt-0.5 break-words">
+                          📝 {item.notes}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>

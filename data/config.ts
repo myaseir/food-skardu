@@ -1,7 +1,7 @@
 export interface Shop {
   id: string;
   name: string;
-  type: "restaurant" | "mart";
+  type: "restaurant" | "mart" | "bakery";
   openTime: string; // Format "HH:mm" (24-hour, zero-padded)
   closeTime: string; // Format "HH:mm" (24-hour, zero-padded)
   alwaysOpen: boolean;
@@ -145,6 +145,25 @@ cuisines: ["Korean", "Ramen", "Noodles"],
     reviews: 46,
     description: "Domino's Pizza in Skardu is famous for its pizza.",
     cuisines: ["Pizza", "Fast Food"],
+  },
+{
+    id: "aljannat-bakers",
+    name: "Al Jannat Bakers and Sweets Skardu",
+    type: "bakery",
+    openTime: "011:30",
+    closeTime: "1:30", // TODO: confirm actual opening/closing hours
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvy9ePYYMn2brEYQeP8lw4JhnuQOPILsfwoL-A3sHWx0jVnxlPyqbcamY&s=10", // TODO: add logo image URL
+    lat: 35.298864, // TODO: replace with real coordinates
+    lng: 75.637217,// TODO: replace with real coordinates
+    whatsapp: "03463470173",
+    templateId: "aljannat", // TODO: add WhatsApp number
+    rating: 4.9, // TODO: replace with real rating
+    reviews: 262, // TODO: replace with real review count
+    description:
+      "Al Jannat Bakers and Sweets is known for its fresh cream cakes, chocolate cakes, pastries and dry cakes, baked daily for everyday treats and special occasions.",
+    cuisines: ["Bakery", "Cakes", "Pastries", "Sweets"],
+    area: "Skardu", // TODO: add area/location name
   },
   {
     id: "yak-and-bull-hameed-garh",

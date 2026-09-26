@@ -11,6 +11,15 @@ export interface Variant {
   discountPrice?: number;
 }
 
+export interface CustomizationField {
+  id: string;
+  label: string;
+  type?: "text" | "textarea" | "number";
+  placeholder?: string;
+  maxLength?: number;
+  required?: boolean;
+}
+
 export interface MenuItem {
   id: string;
   name: string;
@@ -18,13 +27,14 @@ export interface MenuItem {
   discountPrice?: number;
   desc?: string;
   image?: string;
-  sound?: string; // optional per-item sound effect / voice line path
+  sound?: string;
   variants?: Variant[];
+  customizations?: CustomizationField[];
 }
 
 export interface Category {
   name: string;
-  emoji?: string; // optional decorative emoji shown next to the category heading
+  emoji?: string;
   items: MenuItem[];
 }
 
@@ -36,9 +46,6 @@ export interface Menu {
 
 export type SelectedItem = MenuItem & { category: string };
 
-// A discount only counts if it's a positive number strictly less than the
-// original price — protects against bad data (e.g. discountPrice higher
-// than price, or 0/negative values).
 export function getEffectivePrice(price: number, discountPrice?: number): number {
   const hasDiscount = typeof discountPrice === "number" && discountPrice > 0 && discountPrice < price;
   return hasDiscount ? discountPrice : price;
@@ -54,6 +61,7 @@ export function useRestaurantPage(shop: any, menu: Menu, shopId: string) {
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [customValues, setCustomValues] = useState<Record<string, string>>({});
 
   const { items, addItem } = useCart();
   const { checkShopStatus } = useAvailability();
@@ -62,8 +70,6 @@ export function useRestaurantPage(shop: any, menu: Menu, shopId: string) {
   const statusText = getOpenStatusText(shop);
   const cartTotal = items.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
 
-  // Scroll-spy: watch each category section and track whichever one is
-  // most visible near the top of the viewport, so CategoryNav can bold it.
   useEffect(() => {
     const sections = menu.categories
       .map((cat) => document.getElementById(cat.name))
@@ -81,41 +87,38 @@ export function useRestaurantPage(shop: any, menu: Menu, shopId: string) {
           setActiveCategory(visible[0].target.id);
         }
       },
-      {
-        rootMargin: "-140px 0px -70% 0px",
-        threshold: 0,
-      }
+      { rootMargin: "-140px 0px -70% 0px", threshold: 0 }
     );
 
     sections.forEach((section) => observer.observe(section));
-
     return () => observer.disconnect();
   }, [menu]);
 
-  // Close the modal with a small closing animation, then clear state.
   const closeModal = () => {
     setIsClosing(true);
     window.setTimeout(() => {
       setSelectedItem(null);
       setSelectedVariant(null);
+      setCustomValues({});
       setIsClosing(false);
     }, 150);
   };
 
-  // Tapping a card opens the full details view.
   const handleCardClick = (item: MenuItem, catName: string) => {
     if (!isShopOpen) return;
     setSelectedItem({ ...item, category: catName });
     setSelectedVariant(item.variants && item.variants.length > 0 ? item.variants[0] : null);
+    // Start each item's note fields empty (or prefilled if you ever want defaults)
+    setCustomValues({});
   };
 
-  // Quick-add: simple items add straight to cart; items with variants fall
-  // back to opening the details modal since there's no single price to add.
   const handleQuickAdd = (e: React.MouseEvent, item: MenuItem, catName: string) => {
     e.stopPropagation();
     if (!isShopOpen) return;
 
-    if (item.variants && item.variants.length > 0) {
+    // Quick-add bypasses the modal, so items with variants OR customizations
+    // (e.g. "Message on Cake") need the full modal to collect that info.
+    if ((item.variants && item.variants.length > 0) || (item.customizations && item.customizations.length > 0)) {
       handleCardClick(item, catName);
       return;
     }
@@ -124,10 +127,31 @@ export function useRestaurantPage(shop: any, menu: Menu, shopId: string) {
     addItem({ ...item, price: effectivePrice, shopId, category: catName });
   };
 
-  // Handles "Add to Cart" from inside the details modal, for both simple
-  // items and variant items.
+  // Builds a readable "Message: Happy Birthday Sara" style notes string
+  // from whatever customization fields were filled in.
+  const buildNotesFromCustomValues = (item: MenuItem) => {
+    if (!item.customizations || item.customizations.length === 0) return undefined;
+    const parts = item.customizations
+      .map((field) => {
+        const val = customValues[field.id]?.trim();
+        return val ? `${field.label}: ${val}` : null;
+      })
+      .filter(Boolean);
+    return parts.length > 0 ? parts.join(" \u00B7 ") : undefined;
+  };
+
+  const hasMissingRequiredCustomization = (item: MenuItem) => {
+    if (!item.customizations) return false;
+    return item.customizations.some(
+      (field) => field.required && !customValues[field.id]?.trim()
+    );
+  };
+
   const confirmAdd = () => {
     if (!isShopOpen || !selectedItem) return;
+    if (hasMissingRequiredCustomization(selectedItem)) return;
+
+    const notes = buildNotesFromCustomValues(selectedItem);
 
     if (selectedItem.variants && selectedItem.variants.length > 0) {
       if (!selectedVariant) return;
@@ -140,10 +164,17 @@ export function useRestaurantPage(shop: any, menu: Menu, shopId: string) {
         price: effectivePrice,
         shopId,
         category: selectedItem.category,
+        ...(notes ? { notes, customValues: { ...customValues } } : {}),
       });
     } else {
       const effectivePrice = getEffectivePrice(selectedItem.price, selectedItem.discountPrice);
-      addItem({ ...selectedItem, price: effectivePrice, shopId, category: selectedItem.category });
+      addItem({
+        ...selectedItem,
+        price: effectivePrice,
+        shopId,
+        category: selectedItem.category,
+        ...(notes ? { notes, customValues: { ...customValues } } : {}),
+      });
     }
 
     closeModal();
@@ -157,6 +188,10 @@ export function useRestaurantPage(shop: any, menu: Menu, shopId: string) {
     : selectedItem
     ? getEffectivePrice(selectedItem.price, selectedItem.discountPrice)
     : 0;
+
+  const confirmDisabled =
+    (selectedHasVariants && !selectedVariant) ||
+    (selectedItem ? hasMissingRequiredCustomization(selectedItem) : false);
 
   return {
     isCartOpen,
@@ -172,6 +207,9 @@ export function useRestaurantPage(shop: any, menu: Menu, shopId: string) {
     items,
     selectedHasVariants,
     modalDisplayPrice,
+    customValues,
+    setCustomValues,
+    confirmDisabled,
     closeModal,
     handleCardClick,
     handleQuickAdd,
