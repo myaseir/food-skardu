@@ -41,7 +41,7 @@ const THEME = {
 
 // Extra service charge (in Rs.) added when the customer asks for a
 // ramen/combo item to be served cooked.
-const COOKED_SERVICE_CHARGE = 300;
+const COOKED_SERVICE_CHARGE = 100;
 
 // Feature-strip icons, cycled by index — matches the poster's
 // bowl / pepper / smiley row when the restaurant doesn't supply its own icon.
