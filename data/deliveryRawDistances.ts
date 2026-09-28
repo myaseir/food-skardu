@@ -162,6 +162,7 @@ export const HOTELS: string[] = [
   "LOKAL Rooms x Skardu (Katpana Retreat)",
   "Green Orchard Skardu",
   "Kesar Palace Skardu",
+  "Pyramid Lodge Skardu",
   "Oasis Resort Katpana Skardu",
   "Avari Xpress Skardu Hotel",
   "Hotel Mashabrum Skardu",
@@ -679,6 +680,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 10
     },
     "Kesar Palace Skardu": {
+      distance_km: 1.9,
+      estimated_minutes: 7
+    },
+    "Pyramid Lodge Skardu": {
       distance_km: 1.9,
       estimated_minutes: 7
     },
@@ -1749,6 +1754,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 10
     },
     "Kesar Palace Skardu": {
+      distance_km: 0.75,
+      estimated_minutes: 2
+    },
+    "Pyramid Lodge Skardu": {
       distance_km: 0.75,
       estimated_minutes: 2
     },
@@ -2825,6 +2834,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 1,
       estimated_minutes: 4
     },
+    "Pyramid Lodge Skardu": {
+      distance_km: 1,
+      estimated_minutes: 4
+    },
     "Avari Xpress Skardu Hotel": {
       distance_km: 2.5,
       estimated_minutes: 3
@@ -3893,6 +3906,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 7
   },
   "Kesar Palace Skardu": {
+    distance_km: 2.0,
+    estimated_minutes: 7
+  },
+  "Pyramid Lodge Skardu": {
     distance_km: 2.0,
     estimated_minutes: 7
   },
@@ -4967,6 +4984,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 2,
       estimated_minutes: 9
     },
+    "Pyramid Lodge Skardu": {
+      distance_km: 2,
+      estimated_minutes: 9
+    },
     "Avari Xpress Skardu Hotel": {
       distance_km: 1.9,
       estimated_minutes: 25
@@ -6016,6 +6037,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Green Orchard Skardu": { distance_km: 7.7, estimated_minutes: 29 },
     "Oasis Resort Katpana Skardu": { distance_km: 6.4, estimated_minutes: 24 },
     "Kesar Palace Skardu": { distance_km: 0.95, estimated_minutes: 3 },
+    "Pyramid Lodge Skardu": { distance_km: 0.95, estimated_minutes: 3 },
     "Avari Xpress Skardu Hotel": { distance_km: 4.0, estimated_minutes: 30 },
     "Hotel Mashabrum Skardu": { distance_km: 6.1, estimated_minutes: 21 },
     "Skardu Luxus Hotel": { distance_km: 3.1, estimated_minutes: 11 },
@@ -6356,6 +6378,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 7
   },
   "Kesar Palace Skardu": {
+    distance_km: 2.1,
+    estimated_minutes: 7
+  },
+  "Pyramid Lodge Skardu": {
     distance_km: 2.1,
     estimated_minutes: 7
   },
@@ -7429,6 +7455,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 1,
     estimated_minutes: 3
   },
+  "Pyramid Lodge Skardu": {
+    distance_km: 1,
+    estimated_minutes: 3
+  },
   "Avari Xpress Skardu Hotel": {
     distance_km: 3.8,
     estimated_minutes: 4
@@ -8493,6 +8523,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 4
     },
     "Kesar Palace Skardu": {
+      distance_km: 1.3,
+      estimated_minutes: 4
+    },
+    "Pyramid Lodge Skardu": {
       distance_km: 1.3,
       estimated_minutes: 4
     },
@@ -9562,6 +9596,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 1.3,
       estimated_minutes: 4
     },
+    "Pyramid Lodge Skardu": {
+      distance_km: 1.3,
+      estimated_minutes: 4
+    },
     "Avari Xpress Skardu Hotel": {
       distance_km: 3.5,
       estimated_minutes: 4
@@ -10628,6 +10666,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 1.3,
       estimated_minutes: 4
     },
+    "Pyramid Lodge Skardu": {
+      distance_km: 1.3,
+      estimated_minutes: 4
+    },
     "Avari Xpress Skardu Hotel": {
       distance_km: 3.5,
       estimated_minutes: 4
@@ -11691,6 +11733,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 4
     },
     "Kesar Palace Skardu": {
+      distance_km: 0.95,
+      estimated_minutes: 3
+    },
+    "Pyramid Lodge Skardu": {
       distance_km: 0.95,
       estimated_minutes: 3
     },
@@ -12767,6 +12813,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 1.7,
       estimated_minutes: 7
     },
+    "Pyramid Lodge Skardu": {
+      distance_km: 1.7,
+      estimated_minutes: 7
+    },
     "Avari Xpress Skardu Hotel": {
       distance_km: 3.6,
       estimated_minutes: 4
@@ -13837,6 +13887,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 7
     },
     "Kesar Palace Skardu": {
+      distance_km: 1.7,
+      estimated_minutes: 7
+    },
+    "Pyramid Lodge Skardu": {
       distance_km: 1.7,
       estimated_minutes: 7
     },
@@ -14913,6 +14967,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 1.7,
       estimated_minutes: 7
     },
+    "Pyramid Lodge Skardu": {
+      distance_km: 1.7,
+      estimated_minutes: 7
+    },
     "Avari Xpress Skardu Hotel": {
       distance_km: 3.6,
       estimated_minutes: 4
@@ -15979,6 +16037,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 0.13,
       estimated_minutes: 1
     },
+    "Pyramid Lodge Skardu": {
+      distance_km: 0.13,
+      estimated_minutes: 1
+    },
     "Avari Xpress Skardu Hotel": {
       distance_km: 4.2,
       estimated_minutes: 3
@@ -16970,6 +17032,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 2
     },
     "Kesar Palace Skardu": {
+      distance_km: 5,
+      estimated_minutes: 2
+    },
+    "Pyramid Lodge Skardu": {
       distance_km: 5,
       estimated_minutes: 2
     },
@@ -18067,6 +18133,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Green Orchard Skardu": { destinationType: "Hotel", distance_km: 4.1, estimated_minutes: 14 },
   "Oasis Resort Katpana Skardu": { destinationType: "Hotel", distance_km: 7.2, estimated_minutes: 25 },
   "Kesar Palace Skardu": { destinationType: "Hotel", distance_km: 1.5, estimated_minutes: 6 },
+  "Pyramid Lodge Skardu": { destinationType: "Hotel", distance_km: 1.5, estimated_minutes: 6 },
   "Avari Xpress Skardu Hotel": { destinationType: "Hotel", distance_km: 3.0, estimated_minutes: 26 },
   "Hotel Mashabrum Skardu": { destinationType: "Hotel", distance_km: 6.2, estimated_minutes: 24 },
   "Skardu Luxus Hotel": { destinationType: "Hotel", distance_km: 2.3, estimated_minutes: 10 },
@@ -18334,6 +18401,7 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "LOKAL Rooms x Skardu (Katpana Retreat)":160,
   "Oasis Resort Katpana Skardu":160,
   "Kesar Palace Skardu":50,
+  "Pyramid Lodge Skardu":50,
   "Apex Hotels and Resorts Skardu":170,
   "Skardu Villas": 210,
   "Qayam Skardu":150,
@@ -18350,8 +18418,9 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "The Cherry Courtyard":160,
   "Byarsa Hotel Skardu":810,
   "The Pioneer Hotel":150,
-  "Lashari Resort Skardu":400,
-  "Hotel walnut":600,
+  "Lashari Resort Skardu":550,
+  "ABC hotel":650,
+  "Hotel walnut":700,
   "Grand view hotel":600,
   "Safena Hotel Skardu":600,
   "Indus Cabana Lodge, Hoto":700,
@@ -18379,6 +18448,7 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Maple Resort":430,
   "Maple Hotel Skardu":90,
   "PC Legacy Skardu":580,
+  "Melody Hills Skardu":850,
 
 };
 // ---------------------------------------------------------------------
