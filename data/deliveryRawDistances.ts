@@ -3015,7 +3015,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 4
     },
     "The Hill Town Resort": {
-      distance_km: 3.6,
+      distance_km: 3,
       estimated_minutes: 5
     },
     "AlJannah Guest House Skardu": {
