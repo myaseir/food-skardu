@@ -3,14 +3,15 @@ export const menu = {
   name: "Baltistan Tea and Grill House",
   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s", // TODO: add logo image URL
   categories: [
-   
+
+    // ---- Deals — unchanged ----
     {
       name: "Deals",
       items: [
         {
           id: "deal-1",
           name: "Student Deal 1",
-          price: 450,
+          price: 550,
           desc: "Paratha Roll, Fries, 1 Drink 250ml",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785575093/ChatGPT_Image_Aug_1_2026_02_02_55_PM_qx5vfp.jpg",
           variants: []
@@ -18,7 +19,7 @@ export const menu = {
         {
           id: "deal-2",
           name: "Student Deal 2",
-          price: 600,
+          price: 700,
           desc: "1 Crispy Burger, 1 Fries, 1 Drink 250ml",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785575201/ChatGPT_Image_Aug_1_2026_02_06_07_PM_bbfila.jpg",
           variants: []
@@ -26,7 +27,7 @@ export const menu = {
         {
           id: "deal-3",
           name: "Student Deal 3",
-          price: 500,
+          price: 600,
           desc: "1 Shawarma Roll, 1 Fries, 1 Drink 250ml",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785575306/ChatGPT_Image_Aug_1_2026_02_08_08_PM_ddvpxm.jpg",
           variants: []
@@ -34,7 +35,7 @@ export const menu = {
         {
           id: "deal-4",
           name: "Chinese Platter Deal",
-          price: 2500,
+          price: 2600,
           desc: "Honey Chilli Wings (6 Pcs), Chilli Dry with Rice, Beef Chilli Noodles, Cold Drink (1 Ltr)",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785575409/ChatGPT_Image_Aug_1_2026_02_09_48_PM_jatqfv.jpg",
           variants: []
@@ -47,7 +48,7 @@ export const menu = {
         {
           id: "brg-1",
           name: "Zinger Burger",
-          price: 800,
+          price: 850,
           desc: "Chicken, tomatoes and cucumber, cheese slice, mayo and eggs",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReTzPVGIT4rtfj6rkB-fAOk_Z4uo6H9uwZcutxv96tVoTYtbz1gCMUNgoB&s=10",
           variants: []
@@ -55,7 +56,7 @@ export const menu = {
         {
           id: "brg-2",
           name: "Grilled Chicken Burger",
-          price: 600,
+          price: 700,
           desc: "Grilled chicken, cheese slice, mayo, tomatoes and cucumber",
           image: "https://www.andy-cooks.com/cdn/shop/articles/20240831035715-andy-20cooks-20-20grilled-20chicken-20burger-20recipe_e0e5e1a7-cb37-48ba-bc46-a97780f32eaa.jpg?v=1725428110",
           variants: []
@@ -63,7 +64,7 @@ export const menu = {
         {
           id: "brg-3",
           name: "Patty Burger",
-          price: 850,
+          price: 900,
           desc: "",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvIytCKh44ANT9M9ZqUi007xF5FCf0e27yZUvn8C8aKA&s=10",
           variants: []
@@ -71,7 +72,7 @@ export const menu = {
         {
           id: "brg-4",
           name: "Grill Chicken Cheese Burger",
-          price: 900,
+          price: 1080,
           desc: "",
           image: "https://www.peanutbutterandfitness.com/wp-content/uploads/2023/07/Juicy-Grilled-Chicken-Burgers-Recipe-6.jpg",
           variants: []
@@ -79,7 +80,7 @@ export const menu = {
         {
           id: "brg-5",
           name: "Special Burger",
-          price: 1100,
+          price: 1200,
           desc: "Cheese, mushroom, jalapeno with side fries, 300ml drink",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWug0QqPNj9fMVyZPOEYMHE5B95II-NghSg4lIdvmLhx65DJKFt3RHPSA&s=10",
           variants: []
@@ -87,23 +88,23 @@ export const menu = {
         {
           id: "brg-6",
           name: "Roasted Grill Burger",
-          price: 850,
+          price: 950,
           desc: "Chicken sliced roasted, salad, tomato, side fries",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5HAjIkTT_JvqikUj63MaxkS8gTwVf6PLe2ToDS9h0JHqxICWhO5CY_ZaB&s=10",
           variants: []
         },
-        // {
-        //   id: "brg-7",
-        //   name: "Yak Burger",
-        //   price: 1000,
-        //   desc: "Grilled yak, cheese slice, mayo, tomatoes and cucumber",
-        //   image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZi7IUejuIvn8hAUgkb3xzVvJSgG-Q6ASrO0dgVv7GovczlKkOLZVpShXA&s=10",
-        //   variants: []
-        // },
+        {
+          id: "brg-7",
+          name: "Yak Burger",
+          price: 1200,
+          desc: "Grilled yak, cheese slice, mayo, tomatoes and cucumber",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZi7IUejuIvn8hAUgkb3xzVvJSgG-Q6ASrO0dgVv7GovczlKkOLZVpShXA&s=10",
+          variants: []
+        },
         {
           id: "brg-8",
           name: "Yak Double Patty",
-          price: 1500,
+          price: 1550,
           desc: "",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkN04tq0TWmyuWpDG3rsvEWD5gJIeCVwTbmQExOgb61XoYJ9ReaB56q8b9&s=10",
           variants: []
@@ -111,19 +112,28 @@ export const menu = {
         {
           id: "brg-9",
           name: "Yak Roasted Cheese Burger",
-          price: 1000,
+          price: 1300,
           desc: "",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKn7Lcd-P4yp6rKGjrVDoeKpuI-jYtiayZ2lLesnJHtAo46VR54YGGe88R&s=10",
           variants: []
         },
-        // {
-        //   id: "brg-10",
-        //   name: "Yak Mushroom Burger",
-        //   price: 1100,
-        //   desc: "",
-        //   image: "https://preview.redd.it/homemade-ground-yak-burger-with-mushrooms-bacon-jam-and-v0-b46ccf8fw2de1.jpeg?auto=webp&s=b616b453ca04c53b55c2133f2df06236ee4c9beb",
-        //   variants: []
-        // }
+        {
+          id: "brg-10",
+          name: "Yak Mushroom Burger",
+          price: 1300,
+          desc: "",
+          image: "https://preview.redd.it/homemade-ground-yak-burger-with-mushrooms-bacon-jam-and-v0-b46ccf8fw2de1.jpeg?auto=webp&s=b616b453ca04c53b55c2133f2df06236ee4c9beb",
+          variants: []
+        }
+      ]
+    },
+    {
+      // NEW category
+      name: "Fries",
+      items: [
+        { id: "fr-1", name: "Plain Fries", price: 300, desc: "", image: "https://static.tossdown.com/images/c060f05d-5963-46b6-86b4-2b38b0a0f45c.webp", variants: [] }, // TODO: add image
+        { id: "fr-2", name: "Masala Fries", price: 350, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxD9ccDVj6sxMD59ujRRFtHAewtmBL-J1iwNJcjVWUYvrPW-UxAS8QVGP2&s=10", variants: [] }, // TODO: add image
+        { id: "fr-3", name: "Loaded Fries", price: 650, desc: "", image: "https://therecipecritic.com/wp-content/uploads/2023/02/loaded-fries-4.jpg", variants: [] } // TODO: add image
       ]
     },
     {
@@ -141,82 +151,72 @@ export const menu = {
         {
           id: "ch-1",
           name: "Chicken Special Chowmen",
-          price: 1300,
+          price: 1450,
           desc: "Beef, mushroom, chicken, almond",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHEYPcE2UAel4hq7tyH9GC4VRYhzLasTKdcgD2gi0YSqV2Yr2dN4oPH4w4&s=10",
           variants: []
         },
-        { id: "ch-2", name: "Chicken Chowmen", price: 800, desc: "", image: "https://iheartumami.com/wp-content/uploads/2024/02/House-special-chow-mein-recipe.jpg", variants: [] },
-        { id: "ch-3", name: "Vegetable Chowmen", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR73yyf3aohqPHMfD6IxCLu_K9_hr8e9LtFhhbdePxpowCyl32bT4enLEH_&s=10", variants: [] },
-        { id: "ch-4", name: "Beef Chilli Noodles", price: 950, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6DFZZqP1VhQ0N5gp9PfiSqprR7fWUIL5BU4spuytfsg&s=10", variants: [] }
+        { id: "ch-2", name: "Chicken Chowmen", price: 950, desc: "", image: "https://iheartumami.com/wp-content/uploads/2024/02/House-special-chow-mein-recipe.jpg", variants: [] },
+        { id: "ch-3", name: "Vegetable Chowmen", price: 800, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR73yyf3aohqPHMfD6IxCLu_K9_hr8e9LtFhhbdePxpowCyl32bT4enLEH_&s=10", variants: [] },
+        { id: "ch-4", name: "Beef Chilli Noodles", price: 1050, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6DFZZqP1VhQ0N5gp9PfiSqprR7fWUIL5BU4spuytfsg&s=10", variants: [] }
       ]
     },
     {
       name: "Single Platter",
       items: [
-        { id: "sp-1", name: "Black Pepper with Rice", price: 1150, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAmdH_7wmhLai42GLiHCMDeKZf6YHdZm91-LHcIQlkp36zlr1gnGwD9-M&s=10", variants: [] },
-        { id: "sp-2", name: "Chilli Dry with Rice", price: 1150, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFdrm9BwG8Qc08VxI_Utmm469rWbwlgnxGrIZU_GxapDOUO_79ZX8joTw&s=10", variants: [] },
-        { id: "sp-3", name: "Chicken Manchurian with Rice", price: 1150, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRArnGvl8tJtpH_Q6XUIbT-vY5iFQyqCP97_nJejSJIQ&s=10", variants: [] },
-        { id: "sp-4", name: "Cashewnut with Rice", price: 1400, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyZyuoUBtRpEf0f27fEVnALNfX9PDLmUcujXSzGIvxew&s=10", variants: [] },
-        { id: "sp-5", name: "Almond with Rice", price: 1400, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYIlJpYFpXJf68dTUMydPDk0xCsah5tBfufq9wzJex1AShEQmAiN8cpBSf&s=10", variants: [] }
+        { id: "sp-1", name: "Black Pepper with Rice", price: 1350, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAmdH_7wmhLai42GLiHCMDeKZf6YHdZm91-LHcIQlkp36zlr1gnGwD9-M&s=10", variants: [] },
+        { id: "sp-2", name: "Chilli Dry with Rice", price: 1350, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFdrm9BwG8Qc08VxI_Utmm469rWbwlgnxGrIZU_GxapDOUO_79ZX8joTw&s=10", variants: [] },
+        { id: "sp-3", name: "Chicken Manchurian with Rice", price: 1350, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRArnGvl8tJtpH_Q6XUIbT-vY5iFQyqCP97_nJejSJIQ&s=10", variants: [] },
+        { id: "sp-4", name: "Cashewnut with Rice", price: 1600, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyZyuoUBtRpEf0f27fEVnALNfX9PDLmUcujXSzGIvxew&s=10", variants: [] },
+        { id: "sp-5", name: "Almond with Rice", price: 1600, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYIlJpYFpXJf68dTUMydPDk0xCsah5tBfufq9wzJex1AShEQmAiN8cpBSf&s=10", variants: [] }
       ]
     },
-    // {
-    //   name: "BBQ",
-    //   items: [
-    //     { id: "bbq-1", name: "Malai Boti (8 Pcs)", price: 1000, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM94hYrfrtmtGqYpB0f3vLBfRBkJT8ECrKawvBr2CLmYnv843T7uyfNw0R&s=10", variants: [] },
-    //     { id: "bbq-2", name: "Chicken Tikka Boti (8 Pcs)", price: 800, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlDDV2Iw1ii_D4Ur8sgvGJaiG7G8_Gi39fJYnRQGAHug&s=10", variants: [] },
-    //     { id: "bbq-3", name: "Tikka Leg/Chest", price: 650, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo9cMvCiLuehLqvxdNkanVk47AyQRVQbPBP9_0Xfni3wkGaYp9Sibv_HI&s=10", variants: [] },
-    //     { id: "bbq-4", name: "Tikka Leg/Chest with Rice", price: 1000, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGK-Wa0Hb8YW9Hd1EDlRfOOIQ-RdkEh-MhgnfoapC7bQ&s=10", variants: [] },
-    //     { id: "bbq-5", name: "Turkish Kabab (4 Pcs)", price: 1400, desc: "", image: "Turkish Kabab (4 Pcs)", variants: [] }
-    //   ]
-    // },
     {
       name: "Appetizers",
       items: [
         {
           id: "ap-1",
           name: "Hot & Sour Soup",
-          price: 800,
+          price: 950,
           desc: "Chicken, carrot, cabbage, hot sauce, egg",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl7w3c6-8C3ODO8T5OpP-LaFmEEOXUViFDEOrY50P8Wyo_BBfk8r7NuY4&s=10",
           variants: [
-            { name: "Half", price: 800 },
-            { name: "Full", price: 1600 }
+            { name: "Half", price: 950 },
+            { name: "Full", price: 1850 }
           ]
         },
         {
           id: "ap-2",
           name: "Chicken Corn Soup",
-          price: 800,
+          price: 950,
           desc: "Chicken, sweet corn, egg",
           image: "https://healthylivingjames.co.uk/wp-content/uploads/2025/03/Chicken-and-Sweetcorn-Soup-Square.jpg",
           variants: [
-            { name: "Half", price: 800 },
-            { name: "Full", price: 1600 }
+            { name: "Half", price: 950 },
+            { name: "Full", price: 1850 }
           ]
         },
-        // {
-        //   id: "ap-3",
-        //   name: "19B Special",
-        //   price: 900,
-        //   desc: "",
-        //   image: "",
-        //   variants: [
-        //     { name: "Half", price: 900 },
-        //     { name: "Full", price: 1800 }
-        //   ]
-        // }
+        {
+          id: "ap-3",
+          name: "19B Special",
+          price: 1100,
+          desc: "",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfqJzLRnf5RIqRSE1I9BYXpKxWCN6IykMsPWVd2BiW1ZThLFHGLNQY-FJT&s=10", // TODO: add image
+          variants: [
+            { name: "Half", price: 1100 },
+            { name: "Full", price: 2000 }
+          ]
+        }
       ]
     },
     {
       name: "Pastas",
       items: [
-        { id: "ps-1", name: "Alfredo Pasta", price: 950, desc: "", image: "https://cdn.bakedbree.com/uploads/2023/11/A-Broccoli-Alfredo-Pasta-Recipe-Feature-2.jpg", variants: [] },
-        { id: "ps-2", name: "Fettuccine Pasta", price: 900, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjIFhcRmoz1aCUO8r-QeR7s_oq6ilT9PTpCajfgj-0ry9eHz4i7vSNSQ&s=10", variants: [] },
-        { id: "ps-3", name: "Mexican Pasta", price: 1000, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2UOrWxjFiJMHFDIPhQak4SUMMa8uZZ1Z68OA59xzzL4ym6Rk5oVc3VLk&s=10", variants: [] }
+        { id: "ps-1", name: "Alfredo Pasta", price: 1300, desc: "", image: "https://cdn.bakedbree.com/uploads/2023/11/A-Broccoli-Alfredo-Pasta-Recipe-Feature-2.jpg", variants: [] },
+        { id: "ps-2", name: "Fettuccine Pasta", price: 1250, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjIFhcRmoz1aCUO8r-QeR7s_oq6ilT9PTpCajfgj-0ry9eHz4i7vSNSQ&s=10", variants: [] }
       ]
     },
+    // NOTE: Hot Wings & Strips is not on the new menu images — prices below are the OLD ones, please verify.
     {
       name: "Hot Wings & Strips",
       items: [
@@ -247,67 +247,56 @@ export const menu = {
         {
           id: "st-1",
           name: "Tarragon Steak",
-          price: 1500,
+          price: 1800,
           desc: "Tarragon herbs, fresh cream, side with mashed potatoes and sauteed veggies",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1zZ-DGYiCwI-m95NjYcLMx6npX554_OCGccQlZzbrrSBonEWXmKYCmOP&s=10",
           variants: [
-            { name: "Chicken", price: 1500 },
-            { name: "Yak", price: 2000 }
+            { name: "Chicken", price: 1800 },
+            { name: "Yak", price: 2400 }
           ]
         },
         {
           id: "st-2",
           name: "Morrocon Steak",
-          price: 1450,
+          price: 1740,
           desc: "Symbolic chilli, olives, fresh cream, side with mashed potato and sauteed veggies",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu7NCfgkDvrXO2NT1e6UNLuzCD25g84mtCFKWzNUdpNjSmNYHpCsdrW2zO&s=10",
           variants: [
-            { name: "Chicken", price: 1450 },
-            { name: "Yak", price: 2000 }
+            { name: "Chicken", price: 1740 },
+            { name: "Yak", price: 2400 }
           ]
         },
         {
           id: "st-3",
           name: "Mushroom Steak",
-          price: 1400,
+          price: 1680,
           desc: "Mushroom white sauce, fresh cream, side with mashed potatoes and sauteed veggies",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROtxA1V6_OyXsgj3rs_BuAOQbKEYEmeckt6Izf6OUP3A&s=10",
           variants: [
-            { name: "Chicken", price: 1400 },
-            { name: "Yak", price: 2000 }
+            { name: "Chicken", price: 1680 },
+            { name: "Yak", price: 2400 }
           ]
         },
         {
           id: "st-4",
           name: "Grilled Jalapeno Steak",
-          price: 1400,
+          price: 1680,
           desc: "Jalapeno, French mustard, fresh cream, sauteed veggies",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsL1cuMNRoD2gqBCBXivzCm6mVv1xWble1r31GcYg1hghP3Xf4nB8mE1E&s=10",
           variants: [
-            { name: "Chicken", price: 1400 },
-            { name: "Yak", price: 2000 }
-          ]
-        },
-        {
-          id: "st-5",
-          name: "Mexican Steak",
-          price: 1600,
-          desc: "",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBSEG6c1jHFoQVLrI72YAbP2wHu521GOOCSRpgx7MI9Vv4zNIeHsYsXcv1&s=10",
-          variants: [
-            { name: "Chicken", price: 1600 },
-            { name: "Yak", price: 2200 }
+            { name: "Chicken", price: 1680 },
+            { name: "Yak", price: 2400 }
           ]
         },
         {
           id: "st-6",
           name: "Black Pepper Steak",
-          price: 1400,
+          price: 1680,
           desc: "",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtTnLoN4H2Ma6GQFFiXoxHt5JL20lrZbVJqWfbgjlQpA&s=10",
           variants: [
-            { name: "Chicken", price: 1400 },
-            { name: "Yak", price: 2000 }
+            { name: "Chicken", price: 1680 },
+            { name: "Yak", price: 2400 }
           ]
         }
       ]
@@ -315,21 +304,23 @@ export const menu = {
     {
       name: "Shawarma & Paratha Roll",
       items: [
-        { id: "shw-1", name: "Chicken Shawarma", price: 500, desc: "", image: "https://www.simplyquinoa.com/wp-content/uploads/2023/05/chicken-shawarma-gyros-9.jpg", variants: [] },
-        { id: "shw-2", name: "Paratha Roll", price: 450, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhna1VNoisQ5lpEB625dBDguy8ImdyOhQ4dFiG5tSotcLz_fEj-AGRenA&s=10", variants: [] },
-        { id: "shw-3", name: "Chicken Cheese Shawarma", price: 550, desc: "", image: "https://images.deliveryhero.io/image/fd-pk/LH/n7hb-listing.jpg", variants: [] },
-        { id: "shw-4", name: "Fajita Shawarma", price: 500, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcg1moNIktFILAtVifyrLPPQLDjZlrWU0l_b1c5rENrX8H3B9xj7Dh_ECz&s=10", variants: [] }
+        { id: "shw-1", name: "Chicken Shawarma", price: 600, desc: "", image: "https://www.simplyquinoa.com/wp-content/uploads/2023/05/chicken-shawarma-gyros-9.jpg", variants: [] },
+        { id: "shw-2", name: "Paratha Roll", price: 500, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhna1VNoisQ5lpEB625dBDguy8ImdyOhQ4dFiG5tSotcLz_fEj-AGRenA&s=10", variants: [] },
+        { id: "shw-3", name: "Chicken Cheese Shawarma", price: 650, desc: "", image: "https://images.deliveryhero.io/image/fd-pk/LH/n7hb-listing.jpg", variants: [] },
+        { id: "shw-4", name: "Fajita Shawarma", price: 600, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcg1moNIktFILAtVifyrLPPQLDjZlrWU0l_b1c5rENrX8H3B9xj7Dh_ECz&s=10", variants: [] }
       ]
     },
     {
       name: "Snacks",
       items: [
-        { id: "sn-1", name: "Samosa", price: 50, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFo8MJN5TkDh6H9JiFVJqg_-QvFVeOINBS6oySRxLCCKniRZG-VR-yFYw&s=10", variants: [] },
-        { id: "sn-2", name: "Pakoray Plate", price: 200, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZuz-g7QHNhZVzRXDyrxnk3NM9sqr2A8DRuERi00dv0GYNQh7WOmLlhRLr&s=10", variants: [] },
-        { id: "sn-3", name: "Spring Roll", price: 70, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS96twAIzDQEiuy0qbuyz2CVD_j94iddLBBbAorQ1lMw7Rey1Ay30274fo&s=10", variants: [] },
-        { id: "sn-4", name: "French Toast (2 Pieces)", price: 350, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQFN-Th1DWciXSgp1JqO8TazQnxOMcLZeUsdRyzze9Iw&s=10", variants: [] },
+        { id: "sn-7", name: "Chocolate Brownie", price: 350, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKPz_96pTZDCiD0QlaRkbW11-CEamMmCh9xfePw5cfQ&s", variants: [] }, // NEW — TODO: add image
+        { id: "sn-6", name: "Banana Cake Slice", price: 300, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwECtWzsQzOpo8Xbj5Q9LDarHGWBlRWOe99VYrvrBhLIa4zT_g7ksnNqI&s=10", variants: [] },
         { id: "sn-5", name: "Walnut Cake Slice", price: 350, desc: "", image: "https://addictedtodates.com/wp-content/uploads/2023/11/dates-and-walnut-cake.jpg", variants: [] },
-        { id: "sn-6", name: "Banana Cake Slice", price: 300, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwECtWzsQzOpo8Xbj5Q9LDarHGWBlRWOe99VYrvrBhLIa4zT_g7ksnNqI&s=10", variants: [] }
+        // { id: "sn-8", name: "Icecream", price: 300, desc: "", image: "", variants: [] }, // NEW — TODO: add image
+        { id: "sn-2", name: "Pakora Plate", price: 300, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZuz-g7QHNhZVzRXDyrxnk3NM9sqr2A8DRuERi00dv0GYNQh7WOmLlhRLr&s=10", variants: [] },
+        { id: "sn-1", name: "Vegetable Samosa", price: 50, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFo8MJN5TkDh6H9JiFVJqg_-QvFVeOINBS6oySRxLCCKniRZG-VR-yFYw&s=10", variants: [] },
+        { id: "sn-3", name: "Vegetable Roll", price: 70, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS96twAIzDQEiuy0qbuyz2CVD_j94iddLBBbAorQ1lMw7Rey1Ay30274fo&s=10", variants: [] }
+        // Plain / Masala / Loaded Fries are listed under the "Fries" category above.
       ]
     },
     {
@@ -350,16 +341,16 @@ export const menu = {
         { id: "tea-4", name: "Karak Chaye", price: 200, desc: "", image: "https://images.immediate.co.uk/production/volatile/sites/2/2022/11/Karak-Chai-4c79786.jpg", variants: [] },
         { id: "tea-5", name: "Gurr Chaye", price: 250, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIEbgXLpnnPcGdEgFYsLbaB9ZIuxhaq6aqd-IeuoyNCGvKG8tQKdE0I0w&s=10", variants: [] },
         { id: "tea-6", name: "Tumburuk Mountain Tea", price: 150, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKdA82kWF6g1naaUTs3XYUvEc5a5tEiWMLSvcpCpWBbrwY2SNck05YZ7dy&s=10", variants: [] },
-        { id: "tea-7", name: "Green Tea", price: 100, desc: "", image: "", variants: [] },
-        { id: "cc-1", name: "Iced Latte", price: 800, desc: "", image: "", variants: [] },
-        { id: "cc-2", name: "Iced Spanish Latte", price: 800, desc: "", image: "", variants: [] },
-        { id: "cc-3", name: "Iced Vanilla Latte", price: 800, desc: "", image: "", variants: [] },
-        { id: "cc-4", name: "Iced Americano", price: 800, desc: "", image: "", variants: [] },
-        { id: "cc-5", name: "Mango Coffee Latte", price: 800, desc: "", image: "", variants: [] },
-        { id: "it-1", name: "Peach Iced Tea", price: 700, desc: "", image: "", variants: [] },
-        { id: "it-2", name: "Strawberry Iced Tea", price: 700, desc: "", image: "", variants: [] },
-        { id: "it-3", name: "Mango Iced Tea", price: 700, desc: "", image: "", variants: [] },
-        { id: "it-4", name: "Peach & Lemon Tea", price: 700, desc: "", image: "", variants: [] }
+        // { id: "tea-7", name: "Green Tea", price: 100, desc: "", image: "", variants: [] },
+        // { id: "cc-1", name: "Iced Latte", price: 800, desc: "", image: "", variants: [] },
+        // { id: "cc-2", name: "Iced Spanish Latte", price: 800, desc: "", image: "", variants: [] },
+        // { id: "cc-3", name: "Iced Vanilla Latte", price: 800, desc: "", image: "", variants: [] },
+        // { id: "cc-4", name: "Iced Americano", price: 800, desc: "", image: "", variants: [] },
+        // { id: "cc-5", name: "Iced Mango Coffee", price: 800, desc: "", image: "", variants: [] },
+        // { id: "it-1", name: "Peach Iced Tea", price: 700, desc: "", image: "", variants: [] },
+        // { id: "it-2", name: "Strawberry Iced Tea", price: 700, desc: "", image: "", variants: [] },
+        // { id: "it-3", name: "Mango Iced Tea", price: 700, desc: "", image: "", variants: [] },
+        // { id: "it-4", name: "Peach & Lemon Tea", price: 700, desc: "", image: "", variants: [] }
       ]
     },
     {
@@ -368,8 +359,8 @@ export const menu = {
         { id: "sh-1", name: "Banana Shake", price: 350, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWyD7_4W0cOt60Bm0pckY12JujOXwknlXp1XghuAjdeBbmnlZZ1P8_Gg5v&s=10", variants: [] },
         { id: "sh-2", name: "Banana Dates Shake", price: 450, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_oD1CICPIbSsoPTAvMl5S6xUDz9PgiLKmBva7Ek3kVA6IwZMYX5XbB58&s=10", variants: [] },
         { id: "sh-3", name: "Mango Shake", price: 550, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRywVYPwEkWAlOtILf3TYlALwh1hasX9SdCyQ-oRN081Q&s=10", variants: [] },
-        { id: "sh-4", name: "Peach Shake", price: 550, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrDqnQhMCsBOwkvBOweJKh-bUO_r0ImU4NXzvEuq2Jqg&s=10", variants: [] },
-        // { id: "sh-5", name: "Strawberry Shake", price: 550, desc: "", image: "", variants: [] },
+        // { id: "sh-4", name: "Peach Shake", price: 550, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrDqnQhMCsBOwkvBOweJKh-bUO_r0ImU4NXzvEuq2Jqg&s=10", variants: [] },
+        // { id: "sh-5", name: "Strawberry Shake", price: 550, desc: "", image: "", variants: [] }, // back on the menu — TODO: add image
         { id: "sh-6", name: "Oreo Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDUGBuvC7SIglcdjiHhG4kzn3SxalJIGK01fyXl4QPGA&s=10", variants: [] },
         { id: "sh-7", name: "Kit Kat Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlQyZkJWqZQiC5H3NAea4h5FodRNLvK1LdVSMq3Vz_7IGIhdt_i9147bUU&s=10", variants: [] },
         { id: "sh-8", name: "Chocolate Brownie Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zuuFnPyVpMC7X0NOQi99ZNzGZfPx9s78ga-o2T6lYrZ3CaCMXbxzZUwU&s=10", variants: [] },
