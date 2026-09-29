@@ -3,13 +3,110 @@ import React, { useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Star, Clock } from 'lucide-react';
+import { Star, Clock, Crown, Flame, Heart, Zap } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { shops, Shop } from "@/data/config";
 import { useAvailability } from "@/hooks/useAvailability";
 import { estimateDeliveryTime } from "@/utils/deliveryCalculator";
 
 // Add/remove shop ids here to control what shows in the carousel
 const FEATURED_SHOP_IDS = ["yak-and-bull","kramen" ,"baltistan-tea-grill-house","dominos-skardu","mfc","thefoodcorridor-skardu","yak-grill-skardu","the-balti-table", ];
+
+// ---------------------------------------------------------------------------
+// BADGES — pick which restaurants get a badge and which kind.
+// Restaurants not listed here simply get no badge.
+// Kinds: "top-rated" | "most-ordered" | "fan-favorite" | "fast"
+//
+// An entry can be a plain kind ("fast") or an object that starts from a kind
+// and overrides any of: label, Icon, bg, color, border.
+//   bg     -> any CSS background: "#facc15" or "linear-gradient(90deg,#f59e0b,#eab308)"
+//   color  -> font + icon color:  "#000000"
+//   border -> thin outline color: "#fef08a"
+// Colors are inline styles, so they don't depend on Tailwind.
+// ---------------------------------------------------------------------------
+type BadgeKind = "Must Try" | "most-ordered" | "fan-favorite" | "fast";
+
+type CustomBadge = {
+  kind?: BadgeKind;
+  label?: string;
+  Icon?: LucideIcon;
+  bg?: string;
+  color?: string;
+  border?: string;
+};
+
+const SHOP_BADGES: Record<string, BadgeKind | CustomBadge> = {
+  "yak-and-bull": {
+    kind: "Must Try",
+    bg: "#facc15",
+    color: "#000000",
+    border: "#fef08a",
+  },
+  
+  "baltistan-tea-grill-house": "fan-favorite",
+  
+  "mfc": "most-ordered",
+};
+
+// Default look for each kind
+const BADGE_STYLES: Record<
+  BadgeKind,
+  { label: string; Icon: LucideIcon; bg: string; color: string; border: string }
+> = {
+  "Must Try": {
+    label: "Must Try",
+    Icon: Crown,
+    bg: "linear-gradient(90deg,#fbbf24,#eab308)",
+    color: "#451a03",
+    border: "rgba(255,255,255,0.6)",
+  },
+  "most-ordered": {
+    label: "Most Ordered",
+    Icon: Flame,
+    bg: "linear-gradient(90deg,#f97316,#ef4444)",
+    color: "#ffffff",
+    border: "rgba(255,255,255,0.4)",
+  },
+ "fan-favorite": {
+  label: "Fan Favorite",
+  Icon: Heart,
+  bg: "linear-gradient(90deg,#3b82f6,#4f46e5)",
+  color: "#ffffff",
+  border: "rgba(79,70,229,0.5)",
+},
+  "fast": {
+    label: "Fast Delivery",
+    Icon: Zap,
+    bg: "linear-gradient(90deg,#10b981,#14b8a6)",
+    color: "#ffffff",
+    border: "rgba(255,255,255,0.4)",
+  },
+};
+
+// Small pill that floats on the cover image (absolute, so it never affects layout)
+function ShopBadge({ badge }: { badge: BadgeKind | CustomBadge }) {
+  const custom: CustomBadge = typeof badge === "string" ? { kind: badge } : badge;
+  const base = BADGE_STYLES[custom.kind ?? "Must Try"];
+  const label = custom.label ?? base.label;
+  const Icon = custom.Icon ?? base.Icon;
+  const bg = custom.bg ?? base.bg;
+  const color = custom.color ?? base.color;
+  const border = custom.border ?? base.border;
+
+  return (
+    <span
+      style={{
+        background: bg,
+        color,
+        boxShadow: `inset 0 0 0 1px ${border}, 0 4px 10px rgba(0,0,0,0.25)`,
+      }}
+      className="absolute top-2 left-2 z-10 flex items-center gap-1 max-w-[85%] text-[10px] font-extrabold tracking-wide px-2 py-1 rounded-full"
+    >
+      <Icon size={11} className="shrink-0" style={{ fill: "currentColor" }} />
+      <span className="truncate">{label}</span>
+    </span>
+  );
+}
 
 // Turns "11:00" into "11:00 AM" for display
 function formatOpenTime(time: string): string {
@@ -22,6 +119,7 @@ function formatOpenTime(time: string): string {
 function FeaturedCover({ shop, isOpen }: { shop: Shop; isOpen: boolean }) {
   const [imgError, setImgError] = useState(false);
   const hasLogo = !!shop.logo && !imgError;
+  const badge = SHOP_BADGES[shop.id];
 
   return (
     <div className="relative w-full aspect-[3/2] overflow-hidden bg-gray-100">
@@ -41,6 +139,9 @@ function FeaturedCover({ shop, isOpen }: { shop: Shop; isOpen: boolean }) {
           </span>
         </div>
       )}
+
+      {/* Quality badge — top-left of the image */}
+      {badge && <ShopBadge badge={badge} />}
 
       {/* Rating badge — floats on the image, foodpanda-style */}
       {typeof shop.rating === "number" && (
