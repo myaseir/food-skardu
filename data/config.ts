@@ -59,7 +59,7 @@ export const shops: Shop[] = [
     lat: 35.289211, lng: 75.631235, // TODO: replace with real coordinates
     whatsapp: "923485825247",
     rating: 4.6,
-    reviews: 185,
+    reviews: 206,
     description:
       "Yak and Bull Cafe in Skardu is famous for its yak pizza, yak burger and special pizza. The menu also has wraps and rolls, wings, loaded fries, fresh shakes, juices, tea and coffee.",
     cuisines: ["Pizza", "Burgers", "Fast Food", "Cafe"],
@@ -113,6 +113,24 @@ cuisines: ["Korean", "Ramen", "Noodles"],
   //   rating: 4.0,
   //   reviews: 7,
   // },
+      {
+    id: "baltistan-tea-grill-house",
+    name: "Baltistan Tea and Grill House",
+    type: "restaurant",
+    openTime: "11:00",
+    closeTime: "23:00",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
+    lat: 35.298864, // TODO: replace with real coordinates
+    lng: 75.637217, // TODO: replace with real coordinates
+    whatsapp: "923554718865",
+    rating: 4.9,
+    reviews: 36,
+   description:
+  "Baltistan Tea and Grill House Skardu is a popular grill and fast food restaurant in Skardu, Gilgit-Baltistan, serving grilled food, BBQ, burgers, sandwiches, coffee, and other delicious fast food. It also offers a quiet and relaxing atmosphere with bookshelves, making it a comfortable spot for reading, studying, working, or enjoying a coffee. With beautiful views of the surrounding mountains and the Indus River, Baltistan Tea and Grill House is a great place to enjoy food, coffee, scenic views, and a peaceful experience in Skardu.",
+
+cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
+  },
   {
     id: "the-kitchen-skardu",
     name: "The Kitchen",
@@ -124,8 +142,8 @@ cuisines: ["Korean", "Ramen", "Noodles"],
     lat: 35.28872, // TODO: replace with real coordinates
     lng: 75.630066, // TODO: replace with real coordinates
     whatsapp: "923555709276",
-    rating: 4.8, // TODO: adjust once real reviews exist
-    reviews: 61, // TODO: adjust once real reviews exist
+    rating: 4.7, // TODO: adjust once real reviews exist
+    reviews: 79, // TODO: adjust once real reviews exist
     description:
       "The Kitchen is a restaurant in Skardu famous for its beef pulao and chicken biryani.",
     cuisines: ["Pakistani", "Pulao", "Biryani"],
@@ -141,8 +159,8 @@ cuisines: ["Korean", "Ramen", "Noodles"],
     lat: 35.302132, // TODO: replace with real coordinates
     lng: 75.625344, // TODO: replace with real coordinates
     whatsapp: "923441518777",
-    rating: 4.5, // adjust as needed
-    reviews: 46,
+    rating: 4.4, // adjust as needed
+    reviews: 49,
     description: "Domino's Pizza in Skardu is famous for its pizza.",
     cuisines: ["Pizza", "Fast Food"],
   },
@@ -165,40 +183,38 @@ cuisines: ["Korean", "Ramen", "Noodles"],
     cuisines: ["Bakery", "Cakes", "Pastries", "Sweets"],
     area: "Skardu", // TODO: add area/location name
   },
-    {
-    id: "baltistan-tea-grill-house",
-    name: "Baltistan Tea and Grill House",
+  {
+    id: "mfc",
+    name: "MFC Skardu",
     type: "restaurant",
     openTime: "11:00",
     closeTime: "23:00",
     alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
-    lat: 35.298864, // TODO: replace with real coordinates
-    lng: 75.637217, // TODO: replace with real coordinates
-    whatsapp: "923554718865",
-    rating: 5.0,
-    reviews: 24,
-   description:
-  "Baltistan Tea and Grill House Skardu is a popular grill and fast food restaurant in Skardu, Gilgit-Baltistan, serving grilled food, BBQ, burgers, sandwiches, coffee, and other delicious fast food. It also offers a quiet and relaxing atmosphere with bookshelves, making it a comfortable spot for reading, studying, working, or enjoying a coffee. With beautiful views of the surrounding mountains and the Indus River, Baltistan Tea and Grill House is a great place to enjoy food, coffee, scenic views, and a peaceful experience in Skardu.",
-
-cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMQ6dmqgrHiuXYkuCAjoK9uflq4-G8JiXB6Fglzqfsw9AAN9KhQRlQ6vs&s=10",
+    lat: 35.289893, // TODO: replace with real coordinates
+    lng: 75.637079, // TODO: replace with real coordinates
+    whatsapp: "923554220114",
+    rating: 4.3,
+    reviews: 439,
+    description: "MFC in Skardu is famous for its Pakistani and Chinese food.",
+    cuisines: ["Pakistani", "Chinese"],
   },
-  {
-    id: "yak-and-bull-hameed-garh",
-    name: "Yak and Bull Cafe Hameed Garh",
+    {
+    id: "yak-grill-skardu",
+    name: "Yak Grill Skardu",
     type: "restaurant",
     openTime: "12:00",
-    closeTime: "01:30",
+    closeTime: "23:30",
     alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
-    lat: 35.293904, lng: 75.650896, // TODO: replace with real coordinates
-    whatsapp: "923485825247",
-    rating: 4.6,
-    reviews: 185,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCK1MjSAqQF5vWaFQeoB26t69zQdIJEkEBA8pGEZYAs8QhCwkmFSRmwcG&s=10",
+    lat: 35.296598, // TODO: replace with real coordinates
+    lng: 75.643991, // TODO: replace with real coordinates
+    whatsapp: "923408922555",
+    rating: 4.5,
+    reviews: 61,
     description:
-      "The Hameed Garh branch of Yak and Bull Cafe is famous for its yak pizza, yak burger and special pizza, alongside wraps, wings, fresh shakes and coffee.",
-    cuisines: ["Pizza", "Burgers", "Fast Food", "Cafe"],
-    area: "Hameed Garh",
+      "Yak Grill in Skardu is famous for its yak burger and giant potato fries.",
+    cuisines: ["Burgers", "Fast Food", "Grill"],
   },
   {
     id: "the-balti-table",
@@ -228,8 +244,8 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     lat: 35.288921, // TODO: replace with real coordinates
     lng: 75.629178, // TODO: replace with real coordinates
     whatsapp: "923554524401",
-    rating: 4.1,
-    reviews: 106,
+    rating: 4.0,
+    reviews: 115,
     description:
       "Skyway Pizza in Skardu is known for its pizza and its affordable prices.",
     cuisines: ["Pizza", "Fast Food"],
@@ -246,7 +262,7 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     lng: 75.6406073, // TODO: replace with real coordinates
     whatsapp: "03407620699",
     rating: 4.1,
-    reviews: 360,
+    reviews: 371,
     description:
       "The Food Corridor in Skardu is known for its fast food and Chinese dishes.",
     cuisines: ["Fast Food", "Chinese"],
@@ -276,29 +292,14 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     lat: 35.2900162, // TODO: replace with real coordinates
     lng: 75.6374406, // TODO: replace with real coordinates
     whatsapp: "923167018580",
-    rating: 4.5,
-    reviews: 15,
+    rating: 4.4,
+    reviews: 20,
     description:
       "Sungum Hotel Restaurant in Skardu is famous for its pulao and biryani.",
     cuisines: ["Pakistani", "Pulao", "Biryani"],
   },
 
-  {
-    id: "mfc",
-    name: "MFC Skardu",
-    type: "restaurant",
-    openTime: "11:00",
-    closeTime: "23:00",
-    alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMQ6dmqgrHiuXYkuCAjoK9uflq4-G8JiXB6Fglzqfsw9AAN9KhQRlQ6vs&s=10",
-    lat: 35.289893, // TODO: replace with real coordinates
-    lng: 75.637079, // TODO: replace with real coordinates
-    whatsapp: "923554220114",
-    rating: 4.3,
-    reviews: 21,
-    description: "MFC in Skardu is famous for its Pakistani and Chinese food.",
-    cuisines: ["Pakistani", "Chinese"],
-  },
+
 
   {
     id: "hassan-hussain-host",
@@ -330,28 +331,28 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     lng: 75.636453, // TODO: replace with real coordinates
     whatsapp: "923453220824",
     rating: 4.0,
-    reviews: 29,
+    reviews: 33,
     description: "Pizza King in Skardu is famous for its pizza.",
     cuisines: ["Pizza", "Fast Food"],
   },
-  {
-    id: "yak-grill-skardu",
-    name: "Yak Grill Skardu",
+
+{
+    id: "yak-and-bull-hameed-garh",
+    name: "Yak and Bull Cafe Hameed Garh",
     type: "restaurant",
     openTime: "12:00",
-    closeTime: "23:30",
+    closeTime: "01:30",
     alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCK1MjSAqQF5vWaFQeoB26t69zQdIJEkEBA8pGEZYAs8QhCwkmFSRmwcG&s=10",
-    lat: 35.296598, // TODO: replace with real coordinates
-    lng: 75.643991, // TODO: replace with real coordinates
-    whatsapp: "923408922555",
-    rating: 4.2,
-    reviews: 37,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
+    lat: 35.293904, lng: 75.650896, // TODO: replace with real coordinates
+    whatsapp: "923485825247",
+    rating: 4.6,
+    reviews: 185,
     description:
-      "Yak Grill in Skardu is famous for its yak burger and giant potato fries.",
-    cuisines: ["Burgers", "Fast Food", "Grill"],
+      "The Hameed Garh branch of Yak and Bull Cafe is famous for its yak pizza, yak burger and special pizza, alongside wraps, wings, fresh shakes and coffee.",
+    cuisines: ["Pizza", "Burgers", "Fast Food", "Cafe"],
+    area: "Hameed Garh",
   },
-
   {
     id: "mart-1", // MUST match shopId used in products.ts
     name: "Meal Mart", // TODO: real name
