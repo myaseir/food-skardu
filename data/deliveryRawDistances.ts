@@ -67,7 +67,7 @@ export const RESTAURANTS: string[] = [
   "The Balti Table",
   "Skyway Pizza Skardu",
   "The Food Corridor Skardu",
-  "Sungum Hotel Restaurant Skardu ",
+  "Sungum Hotel Restaurant Skardu",
   "MFC Skardu",
   "Al Jannat Bakers and Sweets Skardu",
   "Hassan Hussain Host",
@@ -8429,7 +8429,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
   }
 
   },
-    "Sungum Hotel Restaurant Skardu ": {
+  "Sungum Hotel Restaurant Skardu": {
     "Sundus Skilgrong": { distance_km: 4.1, estimated_minutes: 13 },
     "Sundus Gond": { distance_km: 4.9, estimated_minutes: 16 },
     "Newranga": { distance_km: 3.7, estimated_minutes: 11 },
@@ -18025,7 +18025,7 @@ export const OFFICE_TO_RESTAURANT: Record<string, DistanceTimeEntry> = {
   "The Balti Table": { distance_km: 0.55, estimated_minutes: 3 },
   "Skyway Pizza Skardu": { distance_km: 1.0, estimated_minutes: 4 },
   "The Food Corridor Skardu": { distance_km: 0.45, estimated_minutes: 2 },
-  "Sungum Hotel Restaurant Skardu ": { distance_km: 0.25, estimated_minutes: 1 },
+  "Sungum Hotel Restaurant Skardu": { distance_km: 0.25, estimated_minutes: 1 },
   "MFC Skardu": { distance_km: 0.28, estimated_minutes: 1 },
   "Al Jannat Bakers and Sweets Skardu": { distance_km: 0.28, estimated_minutes: 1 },
   "Hassan Hussain Host": { distance_km: 0.55, estimated_minutes: 3 },
