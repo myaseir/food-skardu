@@ -361,9 +361,9 @@ export const menu = {
         { id: "sh-3", name: "Mango Shake", price: 550, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRywVYPwEkWAlOtILf3TYlALwh1hasX9SdCyQ-oRN081Q&s=10", variants: [] },
         // { id: "sh-4", name: "Peach Shake", price: 550, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrDqnQhMCsBOwkvBOweJKh-bUO_r0ImU4NXzvEuq2Jqg&s=10", variants: [] },
         // { id: "sh-5", name: "Strawberry Shake", price: 550, desc: "", image: "", variants: [] }, // back on the menu — TODO: add image
-        { id: "sh-6", name: "Oreo Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDUGBuvC7SIglcdjiHhG4kzn3SxalJIGK01fyXl4QPGA&s=10", variants: [] },
-        { id: "sh-7", name: "Kit Kat Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlQyZkJWqZQiC5H3NAea4h5FodRNLvK1LdVSMq3Vz_7IGIhdt_i9147bUU&s=10", variants: [] },
-        { id: "sh-8", name: "Chocolate Brownie Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zuuFnPyVpMC7X0NOQi99ZNzGZfPx9s78ga-o2T6lYrZ3CaCMXbxzZUwU&s=10", variants: [] },
+        // { id: "sh-6", name: "Oreo Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDUGBuvC7SIglcdjiHhG4kzn3SxalJIGK01fyXl4QPGA&s=10", variants: [] },
+        // { id: "sh-7", name: "Kit Kat Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlQyZkJWqZQiC5H3NAea4h5FodRNLvK1LdVSMq3Vz_7IGIhdt_i9147bUU&s=10", variants: [] },
+        // { id: "sh-8", name: "Chocolate Brownie Shake", price: 750, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zuuFnPyVpMC7X0NOQi99ZNzGZfPx9s78ga-o2T6lYrZ3CaCMXbxzZUwU&s=10", variants: [] },
         { id: "sh-9", name: "Lassi Sweet", price: 250, desc: "", image: "https://www.cubesnjuliennes.com/wp-content/uploads/2025/07/Punjabi-Sweet-Lassi-Drink-Recipe.jpg", variants: [] },
         { id: "sh-10", name: "Lassi Namkeen", price: 250, desc: "", image: "https://ikneadtoeat.com/wp-content/uploads/2022/11/salty-lassi-7.jpg", variants: [] }
       ]
