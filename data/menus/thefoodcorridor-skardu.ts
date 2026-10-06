@@ -474,7 +474,7 @@ export const menu = {
         {
           id: "brg-3",
           name: "Zinger Burger",
-          price: 600,
+          price: 550,
           desc: "Served with fries",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQstpBOoytVRWkY8qLxHoazWp6y2uiHZFvS-LwInq6hXA&s=10",
           variants: []
@@ -482,7 +482,7 @@ export const menu = {
         {
           id: "brg-4",
           name: "Zinger Burger with Cheese",
-          price: 650,
+          price: 600,
           desc: "Served with fries",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK_Vy1Iw7rmUG70D7VjbQqGVNlN0FYwgonmVwIq-wOIK85LlbwxG1u8gKe&s=10",
           variants: []
@@ -579,7 +579,7 @@ export const menu = {
             { name: "Mountain Dew", price: 280, discountPrice: 250 }
           ]
         },
-        { id: "dr-4", name: "Mineral Water (Large)", price: 150, discountPrice: 100, desc: "Pure mountain water", image: "https://static.tossdown.com/images/e747f555-54b7-4e81-b017-306abce84ba2.jpg", variants: [] },
+        { id: "dr-4", name: "Mineral Water (Large)", price: 150, discountPrice: 150, desc: "Pure mountain water", image: "https://static.tossdown.com/images/e747f555-54b7-4e81-b017-306abce84ba2.jpg", variants: [] },
         { id: "dr-5", name: "Sting Energy", price: 200, discountPrice: 200, desc: "Boost your energy", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbiZo_-FAlUMhL1lwWz7jwzSn6o82u-_I6TMf12A9byjJfHV1-pXpty65-&s=10", variants: [] }
       ]
     }

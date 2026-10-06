@@ -217,13 +217,13 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     cuisines: ["Burgers", "Fast Food", "Grill"],
   },
   {
-    id: "the-balti-table",
-    name: "The Balti Table",
+    id: "quetta-cafe",
+    name: "Quetta Cafe skardu",
     type: "restaurant",
-    openTime: "12:00",
-    closeTime: "20:30",
+    openTime: "11:00",
+    closeTime: "2:30",
     alwaysOpen: false,
-    logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785659359/WhatsApp_Image_2026-08-02_at_1.26.33_PM_webhxh.jpg",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqqE6XOm2ianK4DvH67srEmRR46Ckv7tppNpKmQ8jhjw&s=10",
     lat: 35.2899888, // TODO: replace with real coordinates
     lng: 75.6415605, // TODO: replace with real coordinates
     whatsapp: "03169030178",
@@ -233,6 +233,23 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
       "The Balti Table in Skardu is famous for its traditional momos, served with pulao.",
     cuisines: ["Balti", "Momos", "Pulao"],
   },
+  // {
+  //   id: "the-balti-table",
+  //   name: "The Balti Table",
+  //   type: "restaurant",
+  //   openTime: "12:00",
+  //   closeTime: "20:30",
+  //   alwaysOpen: false,
+  //   logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785659359/WhatsApp_Image_2026-08-02_at_1.26.33_PM_webhxh.jpg",
+  //   lat: 35.2899888, // TODO: replace with real coordinates
+  //   lng: 75.6415605, // TODO: replace with real coordinates
+  //   whatsapp: "03169030178",
+  //   rating: 4.7,
+  //   reviews: 89,
+  //   description:
+  //     "The Balti Table in Skardu is famous for its traditional momos, served with pulao.",
+  //   cuisines: ["Balti", "Momos", "Pulao"],
+  // },
   {
     id: "skyway-pizza",
     name: "Skyway Pizza Skardu",
