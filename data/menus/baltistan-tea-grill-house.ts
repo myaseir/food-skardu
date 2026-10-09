@@ -11,7 +11,7 @@ export const menu = {
         {
           id: "deal-1",
           name: "Student Deal 1",
-          price: 550,
+          price: 600,
           desc: "Paratha Roll, Fries, 1 Drink 250ml",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785575093/ChatGPT_Image_Aug_1_2026_02_02_55_PM_qx5vfp.jpg",
           variants: []
@@ -19,7 +19,7 @@ export const menu = {
         {
           id: "deal-2",
           name: "Student Deal 2",
-          price: 700,
+          price: 750,
           desc: "1 Crispy Burger, 1 Fries, 1 Drink 250ml",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785575201/ChatGPT_Image_Aug_1_2026_02_06_07_PM_bbfila.jpg",
           variants: []
@@ -27,7 +27,7 @@ export const menu = {
         {
           id: "deal-3",
           name: "Student Deal 3",
-          price: 600,
+          price: 650,
           desc: "1 Shawarma Roll, 1 Fries, 1 Drink 250ml",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785575306/ChatGPT_Image_Aug_1_2026_02_08_08_PM_ddvpxm.jpg",
           variants: []
