@@ -153,7 +153,7 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     name: "Domino's Pizza Skardu",
     type: "restaurant",
     openTime: "13:00",
-    closeTime: "01:30",
+    closeTime: "01:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
     lat: 35.302132, // TODO: replace with real coordinates
@@ -341,7 +341,7 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     name: "Pizza King Skardu",
     type: "restaurant",
     openTime: "13:00",
-    closeTime: "01:00",
+    closeTime: "12:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa8xtMwcGub4wGh9HgvVns3fAAIMH8V7a5rR3IzlQMijEyMbt9XXL4Rhrv&s=10",
     lat: 35.289174, // TODO: replace with real coordinates
