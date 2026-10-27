@@ -434,7 +434,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "The Balti Table": { distance_km: 1.0, estimated_minutes: 4 },
     "Skyway Pizza Skardu": { distance_km: 0.2, estimated_minutes: 1 },
     "The Food Corridor Skardu": { distance_km: 0.85, estimated_minutes: 3 },
-    "Sungum Hotel Restaurant Skardu ": { distance_km: 0.6, estimated_minutes: 3 },
+    "Sungum Hotel Restaurant Skardu": { distance_km: 0.6, estimated_minutes: 3 },
     "MFC Skardu": { distance_km: 0.6, estimated_minutes: 3 },
     "Al Jannat Bakers and Sweets Skardu": { distance_km: 0.6, estimated_minutes: 3 },
     "Hassan Hussain Host": { distance_km: 1.0, estimated_minutes: 4 },
@@ -450,7 +450,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "The Balti Table": { distance_km: 1.5, estimated_minutes: 6 },
     "Skyway Pizza Skardu": { distance_km: 2.0, estimated_minutes: 8 },
     "The Food Corridor Skardu": { distance_km: 1.4, estimated_minutes: 5 },
-    "Sungum Hotel Restaurant Skardu ": { distance_km: 1.2, estimated_minutes: 5 },
+    "Sungum Hotel Restaurant Skardu": { distance_km: 1.2, estimated_minutes: 5 },
     "MFC Skardu": { distance_km: 1.2, estimated_minutes: 5 },
     "Al Jannat Bakers and Sweets Skardu": { distance_km: 1.2, estimated_minutes: 5 },
     "Hassan Hussain Host": { distance_km: 1.5, estimated_minutes: 6 },
@@ -464,7 +464,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "The Balti Table": { distance_km: 1.1, estimated_minutes: 4 },
     "Skyway Pizza Skardu": { distance_km: 0.1, estimated_minutes: 1 },
     "The Food Corridor Skardu": { distance_km: 0.95, estimated_minutes: 4 },
-    "Sungum Hotel Restaurant Skardu ": { distance_km: 0.7 , estimated_minutes: 3 },
+    "Sungum Hotel Restaurant Skardu": { distance_km: 0.7 , estimated_minutes: 3 },
     "MFC Skardu": { distance_km: 0.7, estimated_minutes: 3 },
     "Al Jannat Bakers and Sweets Skardu": { distance_km: 0.7, estimated_minutes: 3 },
     "Hassan Hussain Host": { distance_km: 1.1, estimated_minutes: 4 },
@@ -478,7 +478,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "The Balti Table": { distance_km: 2.6, estimated_minutes: 10 },
     "Skyway Pizza Skardu": { distance_km: 2.0, estimated_minutes: 7 },
     "The Food Corridor Skardu": { distance_km: 2.5, estimated_minutes: 9 },
-    "Sungum Hotel Restaurant Skardu ": { distance_km: 2.2, estimated_minutes: 8 },
+    "Sungum Hotel Restaurant Skardu": { distance_km: 2.2, estimated_minutes: 8 },
     "MFC Skardu": { distance_km: 2.2, estimated_minutes: 8 },
     "Al Jannat Bakers and Sweets Skardu": { distance_km: 2.2, estimated_minutes: 8 },
     "Hassan Hussain Host": { distance_km: 2.6, estimated_minutes: 10 },
@@ -491,7 +491,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
   "The Balti Table": {
     "Skyway Pizza Skardu": { distance_km: 1.2, estimated_minutes: 6 },
     "The Food Corridor Skardu": { distance_km: 0.15, estimated_minutes: 2 },
-    "Sungum Hotel Restaurant Skardu ": { distance_km: 0.4, estimated_minutes: 3 },
+    "Sungum Hotel Restaurant Skardu": { distance_km: 0.4, estimated_minutes: 3 },
     "MFC Skardu": { distance_km: 0.4, estimated_minutes: 3 },
     "Al Jannat Bakers and Sweets Skardu": { distance_km: 0.4, estimated_minutes: 3 },
     "Hassan Hussain Host": { distance_km: 0.1, estimated_minutes: 1 },
@@ -503,7 +503,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
   },
   "Skyway Pizza Skardu": {
     "The Food Corridor Skardu": { distance_km: 1.1, estimated_minutes: 5 },
-    "Sungum Hotel Restaurant Skardu ": { distance_km: 0.8, estimated_minutes: 4},
+    "Sungum Hotel Restaurant Skardu": { distance_km: 0.8, estimated_minutes: 4},
     "MFC Skardu": { distance_km: 0.8, estimated_minutes: 4 },
     "Al Jannat Bakers and Sweets Skardu": { distance_km: 0.8, estimated_minutes: 4 },
     "Hassan Hussain Host": { distance_km: 1.2, estimated_minutes: 5 },
@@ -514,7 +514,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
      "Yak and Bull Cafe Hameed Garh": { distance_km: 2.2, estimated_minutes: 8 }
   },
   "The Food Corridor Skardu": {
-    "Sungum Hotel Restaurant Skardu ": { distance_km: 0.27, estimated_minutes: 1 },
+    "Sungum Hotel Restaurant Skardu": { distance_km: 0.27, estimated_minutes: 1 },
     "MFC Skardu": { distance_km: 0.27, estimated_minutes: 1 },
     "Al Jannat Bakers and Sweets Skardu": { distance_km: 0.27, estimated_minutes: 1 },
     "Hassan Hussain Host": { distance_km: 0.15, estimated_minutes: 1 },
@@ -524,7 +524,7 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "Yak Grill Skardu": { distance_km: 1.2, estimated_minutes: 3 },
      "Yak and Bull Cafe Hameed Garh": { distance_km: 1.2, estimated_minutes: 4 }
   },
-  "Sungum Hotel Restaurant Skardu ": {
+  "Sungum Hotel Restaurant Skardu": {
     "MFC Skardu": { distance_km: 0.1, estimated_minutes: 1 },
     "Al Jannat Bakers and Sweets Skardu": { distance_km: 0.1, estimated_minutes: 1 },
     "Hassan Hussain Host": { distance_km: 0.4, estimated_minutes: 2 },
@@ -532,7 +532,8 @@ export const RESTAURANT_TO_RESTAURANT: Record<string, Record<string, DistanceTim
     "K-RAMEN SKARDU": { distance_km: 0.11, estimated_minutes: 1 },
     "Cafe Anime": { distance_km: 0.11, estimated_minutes: 1 },
     "Yak Grill Skardu": { distance_km: 1.5, estimated_minutes: 4 },
-     "Yak and Bull Cafe Hameed Garh": { distance_km: 1.4, estimated_minutes: 5 }
+     "Yak and Bull Cafe Hameed Garh": { distance_km: 1.4, estimated_minutes: 5 },
+     "Yak and Bull Cafe": { distance_km: 0.6, estimated_minutes: 2 }
   },
   "MFC Skardu": {
     "Hassan Hussain Host": { distance_km: 0.4, estimated_minutes: 2 },

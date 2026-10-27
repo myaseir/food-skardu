@@ -4,10 +4,34 @@ export const menu = {
   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s", // TODO: add logo image URL
   categories: [
 
-    // ---- Deals — unchanged ----
+    // ---- Deals — Yaari + Family deals added at the top ----
     {
       name: "Deals",
       items: [
+        {
+          id: "deal-yaari",
+          name: "Yaari Deal",
+          price: 2000,
+          desc: "2 Zinger Burgers, 1 Loaded Fries, 2 Soft Drinks",
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1793094632/WhatsApp_Image_2026-10-27_at_2.47.27_PM_vczkpq.jpg", // TODO: temporary image — replace with the Yaari Deal photo
+          variants: []
+        },
+        {
+          id: "deal-family",
+          name: "6 in 1 Family Deal",
+          price: 5500,
+          desc: "Chicken Chowmein, Alfredo Pasta, Chilli Dry with Rice, Hot & Sour Soup, Fries, 1 Litre Drink",
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1793094631/WhatsApp_Image_2026-10-27_at_2.47.26_PM_1_mnl7o1.jpg", // TODO: temporary image — replace with the Family Deal photo
+          variants: []
+        },
+         {
+          id: "deal-4",
+          name: "Chinese Platter Deal",
+          price: 2600,
+          desc: "Honey Chilli Wings (6 Pcs), Chilli Dry with Rice, Beef Chilli Noodles, Cold Drink (1 Ltr)",
+          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1793094626/WhatsApp_Image_2026-10-27_at_2.47.26_PM_ciqlql.jpg",
+          variants: []
+        },
         {
           id: "deal-1",
           name: "Student Deal 1",
@@ -32,14 +56,7 @@ export const menu = {
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785575306/ChatGPT_Image_Aug_1_2026_02_08_08_PM_ddvpxm.jpg",
           variants: []
         },
-        {
-          id: "deal-4",
-          name: "Chinese Platter Deal",
-          price: 2600,
-          desc: "Honey Chilli Wings (6 Pcs), Chilli Dry with Rice, Beef Chilli Noodles, Cold Drink (1 Ltr)",
-          image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1785575409/ChatGPT_Image_Aug_1_2026_02_09_48_PM_jatqfv.jpg",
-          variants: []
-        }
+       
       ]
     },
     {
