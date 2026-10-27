@@ -10,7 +10,7 @@ import { useAvailability } from "@/hooks/useAvailability";
 import { estimateDeliveryTime } from "@/utils/deliveryCalculator";
 
 // Add/remove shop ids here to control what shows in the carousel
-const FEATURED_SHOP_IDS = ["yak-and-bull" ,"baltistan-tea-grill-house","dominos-skardu","mfc","thefoodcorridor-skardu","yak-grill-skardu","the-balti-table", ];
+const FEATURED_SHOP_IDS = ["yak-and-bull" ,"mfc","dominos-skardu","thefoodcorridor-skardu","yak-grill-skardu","the-balti-table", ];
 
 // ---------------------------------------------------------------------------
 // BADGES — pick which restaurants get a badge and which kind.
@@ -43,7 +43,7 @@ const SHOP_BADGES: Record<string, BadgeKind | CustomBadge> = {
     border: "#fef08a",
   },
   
-  "baltistan-tea-grill-house": "fan-favorite",
+  // "baltistan-tea-grill-house": "fan-favorite",
   
   "mfc": "most-ordered",
 };
