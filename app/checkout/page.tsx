@@ -20,6 +20,7 @@ import {
   MapPin,
   Clock,
   NotebookPen,
+  MessageCircle,
 } from "lucide-react";
 import {
   getCountries,
@@ -32,6 +33,15 @@ import { shops, Shop } from "@/data/config";
 import { calculateManualDeliveryEstimate } from "@/utils/deliveryDistanceTime";
 import { useUserLocation } from "@/contexts/LocationContext";
 import MobileAreaSheet from "@/app/checkout/MobileAreaSheet";
+
+// ---------------------------------------------------------------------
+// Meal Bear's own WhatsApp number — used by the "Confirm order on
+// WhatsApp" button on the success screen. The customer sends the first
+// message, which proves their number is real and reachable.
+// Digits only, with country code, no "+" and no leading zero.
+// e.g. 923001234567
+// ---------------------------------------------------------------------
+const BUSINESS_WHATSAPP = "923715982735"; // TODO: replace with your real number
 
 // ---------------------------------------------------------------------
 // ntfy push notification
@@ -169,9 +179,15 @@ export default function CheckoutPage() {
   const [step, setStep] = useState<"form" | "success">("form");
   const [isSending, setIsSending] = useState(false);
 
+  // Snapshot of the order taken right before the cart is cleared, so the
+  // success screen can still build the "Confirm on WhatsApp" message
+  // (the live `total` drops to Rs. 0 once the cart is emptied).
+  const [placedOrder, setPlacedOrder] = useState<{ name: string; total: number } | null>(null);
+
   // Contact State
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [phoneConfirm, setPhoneConfirm] = useState(""); // typed a second time to catch typos
   const [countryCode, setCountryCode] = useState<CountryCode>("PK"); // default — most customers today
 
   // Delivery State
@@ -191,6 +207,20 @@ export default function CheckoutPage() {
   const [note, setNote] = useState("");
 
   const { location: userLocation } = useUserLocation();
+
+  // ---------------------------------------------------------------------
+  // Live phone checks — drive the "We'll message: ..." preview and the
+  // "numbers match / don't match" feedback under the confirm field.
+  // ---------------------------------------------------------------------
+  const parsedPhone = phone ? parsePhoneNumberFromString(phone, countryCode) : undefined;
+  const phoneIsValid = !!parsedPhone && parsedPhone.isValid();
+  const normalizedPhoneLive = phoneIsValid ? normalizePhoneForWhatsApp(phone, countryCode) : null;
+  const normalizedConfirmLive = phoneConfirm
+    ? normalizePhoneForWhatsApp(phoneConfirm, countryCode)
+    : null;
+  const phonesMatch =
+    !!normalizedPhoneLive && !!normalizedConfirmLive && normalizedPhoneLive === normalizedConfirmLive;
+  const showMismatch = phoneConfirm.length > 0 && phoneIsValid && !phonesMatch;
 
   const shopsInCart = getShopsInCartOrder(items);
   const currentShop = shopsInCart[0];
@@ -246,7 +276,18 @@ export default function CheckoutPage() {
         "That WhatsApp number doesn't look right for the selected country. Please double-check it."
       );
     }
-// 1. Check for empty fields
+
+    // Second entry must match the first — catches typos like swapped or
+    // missing digits that still produce a "valid" number.
+    if (!phoneConfirm) {
+      return alert("Please re-enter your WhatsApp number in the confirm field.");
+    }
+    const normalizedConfirm = normalizePhoneForWhatsApp(phoneConfirm, countryCode);
+    if (normalizedConfirm !== normalizedPhone) {
+      return alert("The two WhatsApp numbers don't match. Please check them.");
+    }
+
+    // 1. Check for empty fields
     if (!locationName || !addressDetail) {
       const errorMsg = deliveryMode === 'hotel' 
         ? "Please select your hotel and enter your room number." 
@@ -407,6 +448,8 @@ export default function CheckoutPage() {
       // like it failed to the customer, so this is fire-and-forget with
       // its own catch.
 
+      // Save what the success screen needs BEFORE the cart is cleared.
+      setPlacedOrder({ name, total });
       setStep("success");
       clearCart();
     } catch (error) {
@@ -445,19 +488,41 @@ export default function CheckoutPage() {
       <main className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4 sm:p-6 text-center">
         <div className="bg-white p-6 sm:p-10 rounded-3xl shadow-xl max-w-md w-full flex flex-col items-center animate-in zoom-in duration-500">
           <CheckCircle2 size={64} className="text-purple-600 mb-4 sm:mb-6 sm:w-20 sm:h-20" />
-          <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-2">Order Confirmed!</h1>
+          <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-2">Order Placed!</h1>
           <p className="text-gray-500 font-bold mb-5 text-sm sm:text-base">
-            Your order is cooking. Thank you for choosing Meal Bear Skardu.
+            Thank you for choosing Meal Bear Skardu. Your order is received.
           </p>
 
-          <div className="w-full flex items-center gap-3 bg-purple-50 border border-purple-100 rounded-2xl p-4 mb-8 text-left">
+          <div className="w-full flex items-center gap-3 bg-purple-50 border border-purple-100 rounded-2xl p-4 mb-5 text-left">
             <div className="shrink-0 w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center">
               <PhoneCall size={18} className="text-white" />
             </div>
             <p className="text-purple-700 font-bold text-xs sm:text-sm leading-snug">
-              You'll get a confirmation call on WhatsApp or your phone number shortly.
+              We will send you a confirmation on WhatsApp soon.
             </p>
           </div>
+
+          {/* Fallback: if our confirmation is late, the customer messages us.
+              This also proves their number works. */}
+          {placedOrder && (
+            <div className="w-full mb-8">
+              <p className="text-gray-500 font-semibold text-xs sm:text-sm mb-3">
+                Did not get our message yet? Send us a text and we will confirm your order.
+              </p>
+              <a
+                href={buildWhatsAppLink(
+                  BUSINESS_WHATSAPP,
+                  `Hi Meal Bear, I'm ${placedOrder.name}. I placed an order (Rs. ${placedOrder.total}). Please confirm my order.`
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-green-500 text-white py-3.5 sm:py-4 rounded-xl font-black uppercase tracking-widest text-sm hover:bg-green-600 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+              >
+                <MessageCircle size={18} />
+                Text us on WhatsApp
+              </a>
+            </div>
+          )}
 
           <Link href="/" replace className="w-full bg-purple-600 text-white py-3.5 sm:py-4 rounded-xl font-black uppercase tracking-widest text-sm hover:bg-purple-700 transition-colors">
             Back to Home
@@ -542,6 +607,61 @@ export default function CheckoutPage() {
                 <p className="mt-1.5 ml-1 text-[11px] font-medium text-gray-400">
                   Enter it in local format for {countryDisplayNames?.of(countryCode) ?? countryCode} — we&rsquo;ll confirm your order on WhatsApp.
                 </p>
+
+                {/* Read-back of the number we understood, so typos are easy to spot */}
+                {phoneIsValid && parsedPhone && (
+                  <p className="mt-1.5 ml-1 text-[12px] font-bold text-green-600">
+                    We&rsquo;ll message: {parsedPhone.formatInternational()}
+                  </p>
+                )}
+                {phone.length > 0 && !phoneIsValid && (
+                  <p className="mt-1.5 ml-1 text-[12px] font-semibold text-red-500">
+                    This doesn&rsquo;t look like a valid number for {countryDisplayNames?.of(countryCode) ?? countryCode} yet.
+                  </p>
+                )}
+              </div>
+
+              {/* Confirm WhatsApp number — typed again to catch mistakes.
+                  Paste is blocked so a typo can't be copied across. */}
+              <div>
+                <div className="relative">
+                  <Phone
+                    size={17}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Confirm WhatsApp Number"
+                    value={phoneConfirm}
+                    onChange={(e) => setPhoneConfirm(e.target.value)}
+                    onPaste={(e) => e.preventDefault()}
+                    onDrop={(e) => e.preventDefault()}
+                    autoComplete="off"
+                    className={`w-full pl-11 pr-10 py-3.5 bg-gray-50 border rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all ${
+                      phonesMatch
+                        ? "border-green-300 focus:ring-green-500 bg-green-50/30"
+                        : showMismatch
+                        ? "border-red-300 focus:ring-red-500 bg-red-50/50"
+                        : "border-gray-200 focus:ring-purple-600"
+                    }`}
+                  />
+                  {phonesMatch && (
+                    <CheckCircle2
+                      size={18}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500"
+                    />
+                  )}
+                </div>
+                {showMismatch && (
+                  <p className="mt-1.5 ml-1 text-[12px] font-semibold text-red-500">
+                    The numbers don&rsquo;t match. Please check both.
+                  </p>
+                )}
+                {phonesMatch && (
+                  <p className="mt-1.5 ml-1 text-[12px] font-bold text-green-600">
+                    Numbers match.
+                  </p>
+                )}
               </div>
             </div>
           </section>
