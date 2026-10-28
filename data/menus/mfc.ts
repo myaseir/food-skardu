@@ -210,8 +210,8 @@ export const menu = {
         {
           id: "dr-1b",
           name: "Soft Drink 1.5 Ltr",
-          price: 280, // TODO: 1.5L prices not confirmed — please provide actual values
-          discountPrice: 280,
+          price: 250, // TODO: 1.5L prices not confirmed — please provide actual values
+          discountPrice: 250,
           desc: "Chilled soft drink, 1.5 litre",
           image: "https://static.tossdown.com/images/9cf67798-83cc-47e9-8b68-018a5b051325.webp",
           variants: [

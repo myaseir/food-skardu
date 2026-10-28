@@ -523,8 +523,8 @@ export const menu = {
         {
           id: "sg-bv-4",
           name: "Soft Drink 1.5 Ltr",
-          price: 280,
-          discountPrice: 280,
+          price: 250,
+          discountPrice: 250,
           desc: "Assorted soft drink, 1.5 litre",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJrBRbuu2bic3fvuxWLvk-xfcPc4lYedLOn8w3E000FwGGDdx8D_6_2rLp&s=10",
           variants: []
