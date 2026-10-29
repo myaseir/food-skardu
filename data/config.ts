@@ -171,7 +171,7 @@ cuisines: ["Korean", "Ramen", "Noodles"],
     name: "MFC Skardu",
     type: "restaurant",
     openTime: "11:00",
-    closeTime: "23:00",
+    closeTime: "22:20",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMQ6dmqgrHiuXYkuCAjoK9uflq4-G8JiXB6Fglzqfsw9AAN9KhQRlQ6vs&s=10",
     lat: 35.289893, // TODO: replace with real coordinates
