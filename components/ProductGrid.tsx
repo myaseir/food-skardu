@@ -24,8 +24,8 @@ export const MART_CATEGORIES = [
 // ---- Mart-only timing config ----
 // Fully isolated from data/config.ts and the restaurant shops array.
 // Change these two values any time to adjust mart hours.
-const MART_OPEN_HOUR = 10; // 8 AM
-const MART_CLOSE_HOUR = 20; // 4 AM (next day)
+const MART_OPEN_HOUR = 12; // 8 AM
+const MART_CLOSE_HOUR = 13; // 4 AM (next day)
 
 function getMartStatus() {
   const now = new Date();

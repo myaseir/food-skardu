@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useCart } from "@/store/useCart";
 import {
@@ -21,6 +21,8 @@ import {
   Clock,
   NotebookPen,
   MessageCircle,
+  Ticket,
+  X,
 } from "lucide-react";
 import {
   getCountries,
@@ -31,6 +33,7 @@ import {
 import { AREAS, HOTELS } from "@/data/deliveryRawDistances";
 import { shops, Shop } from "@/data/config";
 import { calculateManualDeliveryEstimate } from "@/utils/deliveryDistanceTime";
+import { computeVoucherDiscount, type AppliedVoucher } from "@/utils/voucher";
 import { useUserLocation } from "@/contexts/LocationContext";
 import MobileAreaSheet from "@/app/checkout/MobileAreaSheet";
 
@@ -42,20 +45,6 @@ import MobileAreaSheet from "@/app/checkout/MobileAreaSheet";
 // e.g. 923001234567
 // ---------------------------------------------------------------------
 const BUSINESS_WHATSAPP = "923715982735"; // TODO: replace with your real number
-
-// ---------------------------------------------------------------------
-// ntfy push notification
-// ---------------------------------------------------------------------
-// Fires a push notification to the ntfy.sh topic the shop owner has
-// subscribed to (phone app, browser tab, or CLI) so a new order is seen
-// instantly, without waiting on email or polling a dashboard. Kept to a
-// single summary line on purpose — no address, phone, or item breakdown
-// — since the notification is just a heads-up ping, not the source of
-// order details. This is a best-effort side channel: if ntfy.sh is
-// briefly down or the request fails, the order itself must still go
-// through, so every caller wraps this in try/catch and never lets it
-// block or fail the checkout flow.
-
 
 // ---------------------------------------------------------------------
 // Country selector (dropdown) — drives WhatsApp number format below it
@@ -135,7 +124,37 @@ function encodeInvoiceData(data: object): string {
   return encodeURIComponent(utf8Safe);
 }
 
+// Turns an applied voucher into readable text for the customer, e.g.
+//   "50% off food (up to Rs. 800)"  or  "Rs. 200 off delivery"
+// Uses loose typing on purpose so it compiles even if AppliedVoucher
+// doesn't declare every field (kind / value / maxDiscount).
+function describeVoucher(voucher: AppliedVoucher): string {
+  const v = voucher as any;
+  const target = v.appliesTo === "DELIVERY" ? "delivery" : "food";
+
+  if (v.kind === "PERCENT") {
+    const cap = v.maxDiscount ? ` (up to Rs. ${v.maxDiscount})` : "";
+    return `${v.value}% off ${target}${cap}`;
+  }
+  return `Rs. ${v.value} off ${target}`;
+}
+
+// Voucher details passed to the invoice so it can show the original
+// total and the discounts. "None" / zeros when no voucher was used.
+type InvoiceVoucherInfo = {
+  voucherCode: string;
+  originalSubtotal: number;
+  originalDeliveryFee: number;
+  originalTotal: number;
+  foodDiscount: number;
+  deliveryDiscount: number;
+  totalDiscount: number;
+};
+
 // Builds the link to the printable invoice page.
+// `subtotal` and `deliveryFee` stay the ORIGINAL amounts; `total` is the
+// final amount after the voucher. The /invoice page should show the
+// discount lines when voucher.totalDiscount > 0.
 function buildInvoiceLink(
   shopsInCart: Shop[],
   items: any[],
@@ -145,7 +164,8 @@ function buildInvoiceLink(
   subtotal: number,
   deliveryFee: number,
   total: number,
-  note: string
+  note: string,
+  voucher: InvoiceVoucherInfo
 ): string {
   const invoiceData = {
     date: new Date().toISOString(),
@@ -156,6 +176,11 @@ function buildInvoiceLink(
     deliveryFee,
     total,
     note: note || "",
+    voucherCode: voucher.voucherCode,
+    originalTotal: voucher.originalTotal,
+    foodDiscount: voucher.foodDiscount,
+    deliveryDiscount: voucher.deliveryDiscount,
+    totalDiscount: voucher.totalDiscount,
     shops: shopsInCart.map((shop) => ({
       name: shop.name,
       items: items
@@ -206,6 +231,16 @@ export default function CheckoutPage() {
   const NOTE_MAX_LENGTH = 200;
   const [note, setNote] = useState("");
 
+  // Voucher State
+  // `appliedVoucher` only holds the rules the server approved. The actual
+  // discount amounts are recomputed live below, because the delivery fee
+  // changes whenever the customer changes location. The server still
+  // re-validates everything when the order is placed.
+  const [voucherInput, setVoucherInput] = useState("");
+  const [appliedVoucher, setAppliedVoucher] = useState<AppliedVoucher | null>(null);
+  const [voucherError, setVoucherError] = useState("");
+  const [isCheckingVoucher, setIsCheckingVoucher] = useState(false);
+
   const { location: userLocation } = useUserLocation();
 
   // ---------------------------------------------------------------------
@@ -246,7 +281,19 @@ export default function CheckoutPage() {
 
   const deliveryFee = manualEstimate ? manualEstimate.fee : 0;
 
-  const total = subtotal + deliveryFee;
+  // ---------------------------------------------------------------------
+  // Voucher discounts — recomputed on every render from the approved
+  // rules, so they stay correct if the cart or delivery location changes.
+  //   originalTotal = food + delivery BEFORE any voucher
+  //   total         = what the customer actually pays
+  // ---------------------------------------------------------------------
+  const { foodDiscount, deliveryDiscount } = appliedVoucher
+    ? computeVoucherDiscount(appliedVoucher, subtotal, deliveryFee)
+    : { foodDiscount: 0, deliveryDiscount: 0 };
+
+  const originalTotal = subtotal + deliveryFee;
+  const totalDiscount = foodDiscount + deliveryDiscount;
+  const total = Math.max(0, originalTotal - totalDiscount);
 
   // True once the customer has picked a valid restaurant+location combo
   // but that combo hasn't been manually measured yet — blocks placing
@@ -261,6 +308,61 @@ export default function CheckoutPage() {
   const filteredLocations = currentList.filter((loc) =>
     loc.toLowerCase().includes(locationName.toLowerCase())
   );
+
+  // Drop the voucher if the cart no longer meets its minimum order
+  // (e.g. the customer removed items after applying it).
+  useEffect(() => {
+    if (appliedVoucher?.minOrder && subtotal < appliedVoucher.minOrder) {
+      setVoucherError(`Voucher removed: it needs a minimum food order of Rs. ${appliedVoucher.minOrder}.`);
+      setAppliedVoucher(null);
+    }
+  }, [subtotal, appliedVoucher]);
+
+  // A voucher approved for one number must not carry over to another.
+  // Changing the number or country clears it and the customer re-applies.
+  const clearVoucherForPhoneChange = () => {
+    if (appliedVoucher) {
+      setAppliedVoucher(null);
+      setVoucherError("Phone number changed. Please apply your voucher again.");
+    }
+  };
+
+  const applyVoucher = async () => {
+    const code = voucherInput.trim().toUpperCase();
+    if (!code) return;
+
+    if (!normalizedPhoneLive) {
+      setVoucherError("Enter your WhatsApp number first so we can check the voucher.");
+      return;
+    }
+
+    setIsCheckingVoucher(true);
+    setVoucherError("");
+    try {
+      const res = await fetch("/api/vouchers/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, phone: normalizedPhoneLive, subtotal }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setAppliedVoucher(null);
+        setVoucherError(data.error || "This voucher is not valid.");
+      } else {
+        setAppliedVoucher(data.voucher);
+      }
+    } catch {
+      setVoucherError("Couldn't check the voucher. Please try again.");
+    } finally {
+      setIsCheckingVoucher(false);
+    }
+  };
+
+  const removeVoucher = () => {
+    setAppliedVoucher(null);
+    setVoucherInput("");
+    setVoucherError("");
+  };
 
   const handlePlaceOrder = async () => {
     if (!name || !phone) return alert("Please enter your name and whatsapp number.");
@@ -295,7 +397,7 @@ export default function CheckoutPage() {
       return alert(errorMsg);
     }
 
-    // 2. NEW: Restrict to exact matches from the predefined lists only
+    // 2. Restrict to exact matches from the predefined lists only
     const validLocations = deliveryMode === 'hotel' ? HOTELS : AREAS;
     if (!validLocations.includes(locationName)) {
       return alert(
@@ -312,6 +414,13 @@ export default function CheckoutPage() {
       return alert(
         "Sorry, delivery isn't available to this location from the selected restaurant(s) yet. Please choose a different location or contact us directly."
       );
+    }
+
+    // 4. If a voucher is applied, its approval was tied to the number
+    // typed at that time. Make sure it still matches (the handlers above
+    // clear it on change, this is a final safety net).
+    if (appliedVoucher && !normalizedPhoneLive) {
+      return alert("Please apply your voucher again.");
     }
 
     setIsSending(true);
@@ -351,6 +460,8 @@ export default function CheckoutPage() {
 
     const restaurantNames = shopsInCart.map((s) => s.name).join(", ") || "N/A";
 
+    // `total` here is the FINAL amount after the voucher, so the WhatsApp
+    // confirmation message shows what the customer really pays.
     const confirmWhatsAppLink = buildCustomerConfirmLink(normalizedPhone, name, total);
 
     // One button per shop actually in the cart — no fixed slots needed
@@ -388,6 +499,8 @@ export default function CheckoutPage() {
       };
     });
 
+    const voucherCodeForOrder = appliedVoucher?.code ?? "None";
+
     const invoiceLink = buildInvoiceLink(
       shopsInCart,
       items,
@@ -397,7 +510,16 @@ export default function CheckoutPage() {
       subtotal,
       deliveryFee,
       total,
-      note
+      note,
+      {
+        voucherCode: voucherCodeForOrder,
+        originalSubtotal: subtotal,
+        originalDeliveryFee: deliveryFee,
+        originalTotal,
+        foodDiscount,
+        deliveryDiscount,
+        totalDiscount,
+      }
     );
     const now = new Date();
 
@@ -405,12 +527,27 @@ export default function CheckoutPage() {
       userName: name,
       userPhone: phone,
       userPhoneCountry: countryCode,
+      // E.164 digits only.
+      userPhoneNormalized: normalizedPhone,
       restaurantNames,
       address: finalAddress,
       orderItems: detailedItems,
+      // subtotal / deliveryFee stay the ORIGINAL amounts; `total` is the
+      // final amount the customer pays after the voucher.
       subtotal,
       deliveryFee,
       total,
+      // ---- Voucher / discount tracking ----
+      // The server must re-validate `voucherCode` and recompute these
+      // amounts itself. The numbers sent here are for display and
+      // cross-checking only.
+      voucherCode: voucherCodeForOrder,
+      originalSubtotal: subtotal,
+      originalDeliveryFee: deliveryFee,
+      originalTotal,
+      foodDiscount,
+      deliveryDiscount,
+      totalDiscount,
       // Free-text note from the customer (e.g. "no tomatoes", "no sauce").
       // Sent through to the sheet/email so the restaurant sees it alongside
       // the order — falls back to "N/A" so downstream templates never show
@@ -418,11 +555,14 @@ export default function CheckoutPage() {
       customerNote: note.trim() || "N/A",
       estimatedDistanceKm: manualEstimate ? manualEstimate.distanceKm : "N/A",
       estimatedDeliveryTime: manualEstimate ? manualEstimate.timeLabel : "N/A",
-      // NEW — rider accounting + order date/time, for the email
+      // Rider accounting + order date/time, for the email.
+      // These stay based on the ORIGINAL delivery fee. Decide on the
+      // server whether a delivery voucher comes out of the platform
+      // share or the rider's pay.
       totalRoundTripKm: manualEstimate ? manualEstimate.totalRoundTripKm : "N/A",
       estimatedFuelCost: manualEstimate ? manualEstimate.estimatedFuelCost : "N/A",
       riderCommission: manualEstimate ? manualEstimate.riderCommission : "N/A",
-      platformShare: manualEstimate ? manualEstimate.platformShare : "N/A", // NEW
+      platformShare: manualEstimate ? manualEstimate.platformShare : "N/A",
       totalRiderPayment: manualEstimate ? manualEstimate.totalRiderPayment : "N/A",
       orderDate: now.toLocaleDateString("en-GB"),   // e.g. 26/08/2026
       orderTime: now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
@@ -440,21 +580,27 @@ export default function CheckoutPage() {
         body: JSON.stringify(orderPayload),
       });
 
-      if (!res.ok) throw new Error("Order request failed");
-
-      // Push a ntfy notification so the shop sees the order instantly.
-      // Deliberately NOT awaited-with-try-that-blocks-success: a failed
-      // notification should never make a successfully placed order look
-      // like it failed to the customer, so this is fire-and-forget with
-      // its own catch.
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        // The voucher was valid when applied but isn't anymore (expired,
+        // switched off). Remove it so the customer sees the real price
+        // and can decide whether to continue.
+        if (data?.voucherInvalid) {
+          setAppliedVoucher(null);
+          setVoucherError(data.error || "This voucher is no longer valid.");
+        }
+        throw new Error(data?.error || "Order request failed");
+      }
 
       // Save what the success screen needs BEFORE the cart is cleared.
       setPlacedOrder({ name, total });
       setStep("success");
       clearCart();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Order error:", error);
-      alert("Failed to place order. Please try again.");
+      alert(error?.message && error.message !== "Order request failed"
+        ? error.message
+        : "Failed to place order. Please try again.");
     } finally {
       setIsSending(false);
     }
@@ -579,7 +725,10 @@ export default function CheckoutPage() {
                 </label>
                 <select
                   value={countryCode}
-                  onChange={(e) => setCountryCode(e.target.value as CountryCode)}
+                  onChange={(e) => {
+                    setCountryCode(e.target.value as CountryCode);
+                    clearVoucherForPhoneChange();
+                  }}
                   className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
                 >
                   {COUNTRY_OPTIONS.map((c) => (
@@ -600,7 +749,10 @@ export default function CheckoutPage() {
                     type="tel"
                     placeholder="WhatsApp Number"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                      clearVoucherForPhoneChange();
+                    }}
                     className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
                   />
                 </div>
@@ -667,7 +819,7 @@ export default function CheckoutPage() {
           </section>
 
           {/* Delivery Location */}
-        <section className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100">
+          <section className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100">
             <h2 className="font-black uppercase text-[13px] tracking-widest mb-4 text-gray-900">
               Delivery Location
             </h2>
@@ -904,6 +1056,95 @@ export default function CheckoutPage() {
               {note.length}/{NOTE_MAX_LENGTH}
             </p>
           </section>
+
+          {/* Voucher Code — optional discount */}
+          <section className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-black uppercase text-[13px] tracking-widest text-gray-900">
+                Voucher Code
+              </h2>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                Optional
+              </span>
+            </div>
+
+            {appliedVoucher ? (
+              <div className="flex items-center justify-between gap-3 bg-green-50 border border-green-200 rounded-xl px-4 py-3">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Ticket size={16} className="text-green-600 shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-[13px] font-black text-green-700 truncate">
+                      {appliedVoucher.code} applied
+                    </p>
+                    {/* What the voucher actually gives, e.g. "50% off food (up to Rs. 800)" */}
+                    <p className="text-[12px] font-bold text-green-700">
+                      {describeVoucher(appliedVoucher)}
+                    </p>
+                    <p className="text-[12px] font-semibold text-green-600">
+                      {totalDiscount > 0
+                        ? `You save Rs. ${totalDiscount}${
+                            appliedVoucher.appliesTo === "DELIVERY" && !manualEstimate
+                              ? " (shown once you pick a location)"
+                              : ""
+                          }`
+                        : appliedVoucher.appliesTo === "DELIVERY"
+                        ? "Pick a delivery location to see your saving."
+                        : "No discount on this order."}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={removeVoucher}
+                  aria-label="Remove voucher"
+                  className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-green-100 rounded-full transition-colors shrink-0"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Ticket
+                    size={17}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Enter code"
+                    value={voucherInput}
+                    onChange={(e) => {
+                      setVoucherInput(e.target.value.toUpperCase());
+                      if (voucherError) setVoucherError("");
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        applyVoucher();
+                      }
+                    }}
+                    autoCapitalize="characters"
+                    autoComplete="off"
+                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold uppercase tracking-wider text-gray-800 placeholder:text-gray-400 placeholder:font-medium placeholder:normal-case placeholder:tracking-normal focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={applyVoucher}
+                  disabled={isCheckingVoucher || !voucherInput.trim()}
+                  className="px-5 bg-purple-600 text-white rounded-xl font-black uppercase text-xs tracking-widest hover:bg-purple-700 active:scale-[0.98] transition-all disabled:opacity-60 disabled:active:scale-100 flex items-center justify-center min-w-[84px]"
+                >
+                  {isCheckingVoucher ? <Loader2 size={16} className="animate-spin" /> : "Apply"}
+                </button>
+              </div>
+            )}
+
+            {voucherError && (
+              <p className="mt-2.5 ml-1 text-[12px] font-semibold text-red-500 leading-snug">
+                {voucherError}
+              </p>
+            )}
+          </section>
         </div>
 
         {/* Right column: order summary (static on desktop) */}
@@ -978,10 +1219,22 @@ export default function CheckoutPage() {
                 <span>Subtotal</span>
                 <span>Rs. {subtotal}</span>
               </div>
+              {foodDiscount > 0 && (
+                <div className="flex justify-between text-[13px] font-bold text-green-600">
+                  <span>Voucher ({appliedVoucher?.code})</span>
+                  <span>- Rs. {foodDiscount}</span>
+                </div>
+              )}
               <div className="flex justify-between text-[13px] font-bold text-gray-500">
                 <span>Delivery Fee</span>
                 <span>{deliveryUnavailable ? "N/A" : `Rs. ${deliveryFee}`}</span>
               </div>
+              {deliveryDiscount > 0 && (
+                <div className="flex justify-between text-[13px] font-bold text-green-600">
+                  <span>Delivery discount ({appliedVoucher?.code})</span>
+                  <span>- Rs. {deliveryDiscount}</span>
+                </div>
+              )}
               <div className="flex justify-between items-end pt-1">
                 <span className="font-black text-gray-900 uppercase text-[13px] tracking-widest">
                   Total
@@ -1086,10 +1339,22 @@ export default function CheckoutPage() {
             <span>Subtotal</span>
             <span>Rs. {subtotal}</span>
           </div>
+          {foodDiscount > 0 && (
+            <div className="flex justify-between text-[12px] font-bold text-green-600">
+              <span>Voucher ({appliedVoucher?.code})</span>
+              <span>- Rs. {foodDiscount}</span>
+            </div>
+          )}
           <div className="flex justify-between text-[12px] font-bold text-gray-500">
             <span>Delivery Fee</span>
             <span>{deliveryUnavailable ? "N/A" : `Rs. ${deliveryFee}`}</span>
           </div>
+          {deliveryDiscount > 0 && (
+            <div className="flex justify-between text-[12px] font-bold text-green-600">
+              <span>Delivery discount ({appliedVoucher?.code})</span>
+              <span>- Rs. {deliveryDiscount}</span>
+            </div>
+          )}
           <div className="flex justify-between items-center pt-1">
             <span className="text-[11px] font-black uppercase tracking-widest text-gray-900">
               Total

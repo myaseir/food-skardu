@@ -1,7 +1,10 @@
 // app/api/place-order/route.ts
 import { NextResponse } from "next/server";
+import { parsePhoneNumberFromString, type CountryCode } from "libphonenumber-js";
 import { buildOrderEmailHtml, OrderEmailData } from "@/lib/email/orderEmailTemplate";
 import { appendOrderToSheet } from "@/lib/sheets/appendOrderToSheet";
+import { computeVoucherDiscount } from "@/utils/voucher";
+import { checkVoucher } from "@/utils/voucherCheck";
 
 // Rider dispatch coordinator — the pre-filled WhatsApp button opens a chat
 // with this number; whoever holds it forwards to the riders group.
@@ -50,8 +53,10 @@ function buildRiderWhatsAppLink(payload: OrderEmailData): string {
   // "call before arriving" type notes are often about delivery handling,
   // not just kitchen prep, so it's worth a line here as well. Only shown
   // when there's an actual note (checkout sends "N/A" when left blank).
-  const note = (payload as unknown as ExtraOrderFields).customerNote;
+  const extra = payload as unknown as ExtraOrderFields;
+  const note = extra.customerNote;
   const hasNote = !!note && note !== "N/A";
+  const hasVoucher = !!extra.voucherCode && extra.voucherCode !== "None";
 
   const message =
     `🛵 New Delivery Ready\n\n` +
@@ -66,6 +71,11 @@ function buildRiderWhatsAppLink(payload: OrderEmailData): string {
     (payload.locationLink && payload.locationLink !== "Not available"
       ? `Location: ${payload.locationLink}\n\n`
       : "") +
+    // `payload.total` is the server-recomputed amount AFTER the voucher,
+    // so the rider collects the right cash.
+    (hasVoucher
+      ? `🎟️ Voucher ${extra.voucherCode}: -Rs. ${extra.totalDiscount} (already deducted)\n`
+      : "") +
     `Total to Collect (COD): Rs. ${payload.total}\n\n` +
     `~ Meal Bear Skardu`;
 
@@ -79,11 +89,18 @@ function buildRiderWhatsAppLink(payload: OrderEmailData): string {
 // execution environment is frozen/torn down, which is what was causing
 // notifications to go missing intermittently. This never throws: a failed
 // ntfy push is logged but must not fail the order.
-async function notifyNtfy(userName: string, total: number, restaurantNames: string): Promise<void> {
+async function notifyNtfy(
+  userName: string,
+  total: number,
+  restaurantNames: string,
+  voucherCode: string
+): Promise<void> {
   try {
     await fetch("https://ntfy.sh/meal_bear_skardu", {
       method: "POST",
-      body: `New order from ${userName} (Rs. ${total}) — ${restaurantNames}`,
+      body:
+        `New order from ${userName} (Rs. ${total}) — ${restaurantNames}` +
+        (voucherCode !== "None" ? ` [${voucherCode}]` : ""),
     });
   } catch (err) {
     console.error("ntfy notify failed:", err);
@@ -111,6 +128,10 @@ async function notifyNtfy(userName: string, total: number, restaurantNames: stri
 // `customerNote` follows the same pattern: checkout always sends a string
 // ("N/A" when the box was left empty), so it's passed through as-is here
 // too rather than being coerced to undefined/blank.
+//
+// Voucher fields: `voucherCode` is "None" when no voucher was used. The
+// discount numbers are OVERWRITTEN by this route with server-computed
+// values — whatever the browser sent is never trusted.
 interface ExtraOrderFields {
   subtotal?: number;
   deliveryFee?: number;
@@ -124,6 +145,13 @@ interface ExtraOrderFields {
   orderDate?: string;
   orderTime?: string;
   customerNote?: string;
+  userPhoneCountry?: string;
+  voucherCode?: string;
+  originalTotal?: number;
+  foodDiscount?: number;
+  deliveryDiscount?: number;
+  totalDiscount?: number;
+  userPhoneNormalized?: string;
 }
 
 function buildSheetPayload(payload: OrderEmailData) {
@@ -134,6 +162,9 @@ function buildSheetPayload(payload: OrderEmailData) {
     orderTime: extra.orderTime || "",
     userName: payload.userName,
     userPhone: payload.userPhone,
+    // E.164 digits, used to count per-customer voucher uses. Keep this
+    // column in the sheet: the voucher limits are counted from it.
+    userPhoneNormalized: extra.userPhoneNormalized || "",
     address: payload.address,
     restaurantNames: payload.restaurantNames,
     // Sheet cells are plain text too — same marker conversion as the rider
@@ -150,12 +181,21 @@ function buildSheetPayload(payload: OrderEmailData) {
     riderCommission: extra.riderCommission,
     platformShare: extra.platformShare,
     totalRiderPayment: extra.totalRiderPayment,
+    // Voucher tracking — lets you filter discounted customers in the sheet
+    voucherCode: extra.voucherCode || "None",
+    originalTotal: extra.originalTotal,
+    foodDiscount: extra.foodDiscount ?? 0,
+    deliveryDiscount: extra.deliveryDiscount ?? 0,
+    totalDiscount: extra.totalDiscount ?? 0,
     total: payload.total,
     paymentMethod: "COD",
     orderStatus: "New",
     locationLink: payload.locationLink,
   };
 }
+
+const reject = (error: string, status: number, voucherInvalid = false) =>
+  NextResponse.json({ ok: false, error, voucherInvalid }, { status });
 
 export async function POST(req: Request) {
   let payload: OrderEmailData;
@@ -164,6 +204,90 @@ export async function POST(req: Request) {
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 });
   }
+
+  const extra = payload as unknown as ExtraOrderFields;
+
+  // ---------------------------------------------------------------------
+  // Voucher: re-validate and recompute on the server.
+  // Nothing the browser says about discounts is trusted. We only read the
+  // voucher CODE, then look up the rules ourselves and calculate.
+  // ---------------------------------------------------------------------
+  const subtotal = Number(extra.subtotal);
+  const deliveryFee = Number(extra.deliveryFee ?? 0);
+  if (!Number.isFinite(subtotal) || subtotal < 0 || !Number.isFinite(deliveryFee) || deliveryFee < 0) {
+    return reject("Invalid order amounts.", 400);
+  }
+
+  const requestedCode =
+    typeof extra.voucherCode === "string" && extra.voucherCode !== "None"
+      ? extra.voucherCode.trim().toUpperCase()
+      : "";
+
+  // Rebuild the E.164 phone on the server from what the customer typed and
+  // their selected country, instead of trusting `userPhoneNormalized`.
+  const parsedPhone = parsePhoneNumberFromString(
+    String(payload.userPhone ?? ""),
+    (extra.userPhoneCountry || "PK") as CountryCode
+  );
+  const phoneDigits = parsedPhone?.isValid() ? parsedPhone.number.replace(/\D/g, "") : "";
+  if (!phoneDigits) {
+    return reject("Invalid WhatsApp number.", 400);
+  }
+
+  let voucherCode = "None";
+  let foodDiscount = 0;
+  let deliveryDiscount = 0;
+
+  if (requestedCode) {
+    const check = await checkVoucher(requestedCode, phoneDigits, subtotal);
+    if (!check.ok) {
+      // 409 + voucherInvalid tells the checkout page to remove the voucher
+      // and show the reason (expired, fully redeemed, already used, ...).
+      return reject(check.error, check.status === 500 ? 500 : 409, check.status !== 500);
+    }
+    const v = check.voucher;
+    const d = computeVoucherDiscount(
+      {
+        code: v.code,
+        appliesTo: v.appliesTo,
+        kind: v.kind,
+        value: v.value,
+        maxDiscount: v.maxDiscount,
+        minOrder: v.minOrder,
+      },
+      subtotal,
+      deliveryFee
+    );
+    voucherCode = v.code;
+    foodDiscount = d.foodDiscount;
+    deliveryDiscount = d.deliveryDiscount;
+  }
+
+  const originalTotal = subtotal + deliveryFee;
+  const totalDiscount = foodDiscount + deliveryDiscount;
+  const serverTotal = Math.max(0, originalTotal - totalDiscount);
+
+  // If the total the customer saw differs from what we calculate, someone
+  // edited the request (or a price changed mid-checkout). Don't guess.
+  if (Number(payload.total) !== serverTotal) {
+    console.warn(
+      `Total mismatch: client=${payload.total} server=${serverTotal} voucher=${voucherCode}`
+    );
+    return reject("Your order total changed. Please review it and try again.", 409);
+  }
+
+  // Overwrite the discount fields with the server's numbers, and use the
+  // server-built phone for per-customer counting.
+  payload = {
+    ...payload,
+    total: serverTotal,
+    voucherCode,
+    originalTotal,
+    foodDiscount,
+    deliveryDiscount,
+    totalDiscount,
+    userPhoneNormalized: phoneDigits,
+  } as unknown as OrderEmailData;
 
   const riderWhatsAppLink = buildRiderWhatsAppLink(payload);
   const customerNote = (payload as unknown as ExtraOrderFields).customerNote || "N/A";
@@ -191,7 +315,9 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         sender: { name: "Meal Bear Skardu", email: process.env.BREVO_SENDER_EMAIL },
         to: [{ email: process.env.ORDER_NOTIFY_EMAIL }],
-        subject: `New Order — Rs. ${payload.total} — ${payload.restaurantNames}`,
+        subject:
+          `New Order — Rs. ${payload.total} — ${payload.restaurantNames}` +
+          (voucherCode !== "None" ? ` — 🎟️ ${voucherCode}` : ""),
         htmlContent: html,
       }),
     });
@@ -210,6 +336,9 @@ export async function POST(req: Request) {
   // customer-facing response either), but it now always runs regardless of
   // whether the email above succeeded. This is the actual order record, so
   // it shouldn't be skippable by a notification-channel hiccup.
+  //
+  // NOTE: voucher limits ("only 50 users", "once per customer") are counted
+  // from this sheet, so a failed write here means that use isn't counted.
   const sheetResult = await appendOrderToSheet(buildSheetPayload(payload));
   if (!sheetResult.success) {
     console.error("appendOrderToSheet failed:", sheetResult.error);
@@ -218,7 +347,7 @@ export async function POST(req: Request) {
   // Rider heads-up also always runs — it doesn't depend on email or the
   // sheet succeeding, since it's built entirely from the payload already
   // in hand.
-  await notifyNtfy(payload.userName, payload.total, payload.restaurantNames);
+  await notifyNtfy(payload.userName, payload.total, payload.restaurantNames, voucherCode);
 
   return NextResponse.json({
     ok: true,

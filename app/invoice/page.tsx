@@ -9,9 +9,16 @@ interface InvoiceData {
   name: string;
   phone: string;
   address: string;
-  subtotal: number;
-  deliveryFee: number;
-  total: number;
+  subtotal: number;     // ORIGINAL food total
+  deliveryFee: number;  // ORIGINAL delivery fee
+  total: number;        // FINAL amount after any voucher
+  // Voucher fields — optional so invoice links created before vouchers
+  // existed still open and render exactly as they did.
+  voucherCode?: string; // "None" when no voucher was used
+  originalTotal?: number;
+  foodDiscount?: number;
+  deliveryDiscount?: number;
+  totalDiscount?: number;
   shops: { name: string; items: { name: string; qty: number; price: number }[] }[];
 }
 
@@ -23,6 +30,19 @@ function decodeInvoiceData(encoded: string): InvoiceData | null {
   } catch {
     return null;
   }
+}
+
+// Normalizes the voucher fields into one safe shape. `used` is true when a
+// real code is present; the discount amounts default to 0 when missing.
+function getVoucherInfo(data: InvoiceData) {
+  const code =
+    data.voucherCode && data.voucherCode.trim().toUpperCase() !== "NONE"
+      ? data.voucherCode.trim()
+      : "";
+  const food = Math.max(0, Number(data.foodDiscount) || 0);
+  const delivery = Math.max(0, Number(data.deliveryDiscount) || 0);
+  const saved = Math.max(0, Number(data.totalDiscount) || food + delivery);
+  return { used: !!code, code, food, delivery, saved };
 }
 
 // Builds a wa.me link with a pre-filled, URL-encoded message.
@@ -62,6 +82,7 @@ const GRAY_TEXT = [100, 116, 139] as const; // slate-500
 const GRAY_LINE = [235, 235, 245] as const;
 const INK = [17, 24, 39] as const; // near-black
 const WHITE = [255, 255, 255] as const;
+const GREEN = [22, 163, 74] as const; // voucher discount lines
 
 const PAGE_W = 595.28;
 const PAGE_H = 841.89;
@@ -127,6 +148,7 @@ function roundedFill(doc: jsPDF, x: number, y: number, w: number, h: number, col
 // can reference it in the WhatsApp instructions.
 function generateInvoicePdf(data: InvoiceData): string {
   const doc = new jsPDF({ unit: "pt", format: "a4" });
+  const voucher = getVoucherInfo(data);
 
   drawHeader(doc, data, "Page 1");
   let y = HEADER_H + 34;
@@ -214,9 +236,22 @@ function generateInvoicePdf(data: InvoiceData): string {
   });
 
   // --- Totals card --------------------------------------------------------
+  // Height grows with the number of voucher lines: one extra 18pt row per
+  // discount, plus a "You saved" line under the total. Without a voucher
+  // the card is exactly the original 96pt layout.
+  const discountRows: { label: string; amount: number }[] = [];
+  if (voucher.used && voucher.food > 0) {
+    discountRows.push({ label: `Voucher ${voucher.code} (food)`, amount: voucher.food });
+  }
+  if (voucher.used && voucher.delivery > 0) {
+    discountRows.push({ label: `Voucher ${voucher.code} (delivery)`, amount: voucher.delivery });
+  }
+  const showSaved = voucher.used && voucher.saved > 0;
+  const extra = discountRows.length * 18;
+
   const totalsW = 230;
   const totalsX = PAGE_W - MARGIN - totalsW;
-  const totalsH = 96;
+  const totalsH = 96 + extra + (showSaved ? 18 : 0);
   ensureRoom(totalsH + 10);
   y += 6;
 
@@ -237,16 +272,35 @@ function generateInvoicePdf(data: InvoiceData): string {
   doc.setTextColor(...INK);
   doc.text(`Rs. ${data.deliveryFee}`, totalsX + totalsW - 16, y + 40, { align: "right" });
 
+  // Voucher discount lines, in green
+  discountRows.forEach((r, i) => {
+    const rowY = y + 58 + i * 18;
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(...GREEN);
+    doc.text(r.label, totalsX + 16, rowY);
+    doc.setFont("helvetica", "bold");
+    doc.text(`- Rs. ${r.amount}`, totalsX + totalsW - 16, rowY, { align: "right" });
+  });
+
   doc.setDrawColor(...PURPLE_LINE);
   doc.setLineWidth(1);
-  doc.line(totalsX + 16, y + 52, totalsX + totalsW - 16, y + 52);
+  doc.line(totalsX + 16, y + 52 + extra, totalsX + totalsW - 16, y + 52 + extra);
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11.5);
   doc.setTextColor(...PURPLE_DARK);
-  doc.text("TOTAL", totalsX + 16, y + 78);
+  doc.text("TOTAL", totalsX + 16, y + 78 + extra);
   doc.setFontSize(18);
-  doc.text(`Rs. ${data.total}`, totalsX + totalsW - 16, y + 80, { align: "right" });
+  doc.text(`Rs. ${data.total}`, totalsX + totalsW - 16, y + 80 + extra, { align: "right" });
+
+  if (showSaved) {
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.setTextColor(...GREEN);
+    doc.text(`You saved Rs. ${voucher.saved} with ${voucher.code}`, totalsX + totalsW - 16, y + 98 + extra, {
+      align: "right",
+    });
+  }
 
   // --- Footers on every page ----------------------------------------------
   const pageCount = doc.getNumberOfPages();
@@ -277,6 +331,8 @@ function InvoiceContent() {
     return <main className="p-10 text-center text-gray-500">Invalid or missing invoice data.</main>;
   }
 
+  const voucher = getVoucherInfo(data);
+
   // Step 1: generate + download the PDF.
   // Step 2: open WhatsApp with the confirmation message prefilled.
   // The person then manually taps the 📎 attach icon in WhatsApp and
@@ -288,6 +344,7 @@ function InvoiceContent() {
     setDownloaded(true);
 
     const digitsOnly = data.phone.replace(/[^0-9]/g, "");
+    // `data.total` is the final amount after any voucher.
     const message = `Hi ${data.name}, this is Meal Bear Skardu. Your order total is Rs. ${data.total}. Reply YES to confirm.`;
 
     // Small delay so the download reliably starts before the tab loses
@@ -346,7 +403,24 @@ function InvoiceContent() {
         <div className="border-t border-gray-200 mt-4 pt-4 space-y-1">
           <div className="flex justify-between text-sm"><span>Subtotal</span><span>Rs. {data.subtotal}</span></div>
           <div className="flex justify-between text-sm"><span>Delivery Fee</span><span>Rs. {data.deliveryFee}</span></div>
+          {voucher.used && voucher.food > 0 && (
+            <div className="flex justify-between text-sm text-green-600 font-bold">
+              <span>Voucher {voucher.code} (food)</span>
+              <span>- Rs. {voucher.food}</span>
+            </div>
+          )}
+          {voucher.used && voucher.delivery > 0 && (
+            <div className="flex justify-between text-sm text-green-600 font-bold">
+              <span>Voucher {voucher.code} (delivery)</span>
+              <span>- Rs. {voucher.delivery}</span>
+            </div>
+          )}
           <div className="flex justify-between font-black text-lg pt-2"><span>Total</span><span>Rs. {data.total}</span></div>
+          {voucher.used && voucher.saved > 0 && (
+            <p className="text-right text-xs font-bold text-green-600">
+              You saved Rs. {voucher.saved} with {voucher.code}
+            </p>
+          )}
         </div>
       </div>
     </main>

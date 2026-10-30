@@ -11,9 +11,13 @@ export interface SheetOrderPayload {
   orderTime: string;
   userName: string;
   userPhone: string;
+  // E.164 digits only (e.g. 923001234567). Voucher per-customer limits are
+  // counted from this column, so it must always be written to the sheet.
+  userPhoneNormalized?: string;
   address: string;
   restaurantNames: string;
   orderItems: string;
+  customerNote?: string;
 
   subtotal?: number;
   deliveryFee?: number;
@@ -25,6 +29,15 @@ export interface SheetOrderPayload {
   riderCommission?: number | string;
   platformShare?: number | string;
   totalRiderPayment?: number | string;
+
+  // Voucher tracking. `voucherCode` is "None" when no voucher was used.
+  // `originalTotal` is food + delivery BEFORE the voucher; `total` below is
+  // what the customer actually pays.
+  voucherCode?: string;
+  originalTotal?: number;
+  foodDiscount?: number;
+  deliveryDiscount?: number;
+  totalDiscount?: number;
 
   total: number;
   paymentMethod: string;
@@ -81,4 +94,45 @@ export async function appendOrderToSheet(
   } catch (error: any) {
     return { success: false, error: error?.message || String(error) };
   }
+}
+
+// ---------------------------------------------------------------------
+// Voucher usage counting
+// ---------------------------------------------------------------------
+// Counts how many recorded orders used a voucher code, optionally only for
+// one customer (E.164 digits). Used by utils/voucherStore.ts to enforce
+// "only N users" and "once per customer" without any database.
+//
+// !! Code.gs MUST handle `action: "countVoucher"` BEFORE this is called.
+// Right now doPost treats every POST as "append a row", so calling this
+// before Code.gs is updated would add a junk row to your Orders sheet.
+//
+// Unlike appendOrderToSheet, this THROWS on failure on purpose: if we
+// can't tell how many times a voucher was used, the caller should refuse
+// the voucher rather than silently allow unlimited use.
+export async function countVoucherUses(code: string, phone?: string): Promise<number> {
+  const scriptUrl = process.env.SHEETS_WEBHOOK_URL;
+  const secret = process.env.SHEETS_WEBHOOK_SECRET;
+
+  if (!scriptUrl || !secret) {
+    throw new Error("Sheets webhook not configured");
+  }
+
+  const response = await fetch(scriptUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "countVoucher", secret, code, phone: phone ?? "" }),
+    cache: "no-store", // never serve a stale count
+  });
+
+  if (!response.ok) {
+    throw new Error(`Voucher count failed (${response.status})`);
+  }
+
+  const data = await response.json();
+  if (!data.success || typeof data.count !== "number") {
+    throw new Error(data.error || "Invalid voucher count response");
+  }
+
+  return data.count;
 }

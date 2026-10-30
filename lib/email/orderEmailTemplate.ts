@@ -9,9 +9,17 @@ export type OrderEmailData = {
   address: string;
   orderItems: string; // pre-formatted multiline string, same as your current detailedItems
   customerNote: string; // free-text customization request from checkout; "N/A" when left blank
-  subtotal: number;
-  deliveryFee: number;
-  total: number;
+  subtotal: number;     // ORIGINAL food total, before any voucher
+  deliveryFee: number;  // ORIGINAL delivery fee, before any voucher
+  total: number;        // FINAL amount the customer pays (after voucher)
+  // Voucher tracking — all optional so older callers keep compiling.
+  // `voucherCode` is "None" (or missing) when no voucher was used.
+  // These are the server-computed values from /api/place-order.
+  voucherCode?: string;
+  originalTotal?: number;      // subtotal + deliveryFee, before the voucher
+  foodDiscount?: number;       // Rs. off the food total
+  deliveryDiscount?: number;   // Rs. off the delivery fee
+  totalDiscount?: number;      // foodDiscount + deliveryDiscount
   estimatedDistanceKm: number | string; // "N/A" when route isn't manually measured yet
   estimatedDeliveryTime: string;        // "N/A" when route isn't manually measured yet
   customerLat: string;
@@ -144,11 +152,90 @@ function buildCustomerNoteSection(data: OrderEmailData): string {
         </div>`;
 }
 
+// ---------------------------------------------------------------------
+// Voucher helpers
+// ---------------------------------------------------------------------
+// A voucher counts as "used" whenever a real code is present — even if the
+// discount came out as Rs. 0 (e.g. a free-delivery code on a Rs. 0 fee) —
+// so the owner can still see which customers came in through a code.
+function hasVoucher(data: OrderEmailData): boolean {
+  return !!data.voucherCode && data.voucherCode.toUpperCase() !== "NONE";
+}
+
+function money(n: number | undefined): number {
+  return Number.isFinite(Number(n)) ? Number(n) : 0;
+}
+
+// Green banner near the top so a discounted order is recognizable at a
+// glance. Omitted entirely for orders without a voucher.
+function buildVoucherBanner(data: OrderEmailData): string {
+  if (!hasVoucher(data)) return "";
+  const food = money(data.foodDiscount);
+  const delivery = money(data.deliveryDiscount);
+  const saved = money(data.totalDiscount) || food + delivery;
+  const original = money(data.originalTotal) || money(data.subtotal) + money(data.deliveryFee);
+
+  const parts: string[] = [];
+  if (food > 0) parts.push(`Food −Rs. ${food}`);
+  if (delivery > 0) parts.push(`Delivery −Rs. ${delivery}`);
+
+  return `
+        <div style="background-color:#f0fdf4; padding:16px; border-radius:12px; margin-bottom:18px; border:1.5px solid #86efac;">
+          <h3 style="margin:0 0 8px 0; font-size:11px; text-transform:uppercase; color:#15803d; letter-spacing:1px; font-weight:800;">🎟️ Voucher Used</h3>
+          <p style="margin:0; font-size:18px; font-weight:900; color:#14532d; letter-spacing:0.5px;">${esc(String(data.voucherCode))}</p>
+          <p style="margin:6px 0 0 0; font-size:13px; line-height:1.6; color:#166534; font-weight:700;">
+            Original total Rs. ${original} → customer pays Rs. ${data.total}${saved > 0 ? ` (saved Rs. ${saved})` : ""}
+          </p>
+          ${parts.length > 0 ? `<p style="margin:4px 0 0 0; font-size:12px; color:#166534; font-weight:600;">${parts.join(" · ")}</p>` : ""}
+        </div>`;
+}
+
+// Subtotal / delivery / discount rows. Without a voucher this is exactly
+// the old two-row table. With one, the ORIGINAL amounts stay visible and
+// the discounts appear as green lines, ending in the original total.
+function buildTotalsRows(data: OrderEmailData): string {
+  const row = (label: string, value: string, color = "#111", labelColor = "#64748b") =>
+    `<tr><td style="padding:5px 0; color:${labelColor}; font-weight:600;">${label}</td><td style="padding:5px 0; color:${color}; font-weight:700; text-align:right;">${value}</td></tr>`;
+
+  if (!hasVoucher(data)) {
+    return row("Subtotal", `Rs. ${data.subtotal}`) + row("Delivery Fee", `Rs. ${data.deliveryFee}`);
+  }
+
+  const food = money(data.foodDiscount);
+  const delivery = money(data.deliveryDiscount);
+  const original = money(data.originalTotal) || money(data.subtotal) + money(data.deliveryFee);
+  const code = esc(String(data.voucherCode));
+
+  return (
+    row("Subtotal", `Rs. ${data.subtotal}`) +
+    row("Delivery Fee", `Rs. ${data.deliveryFee}`) +
+    `<tr><td colspan="2" style="padding:4px 0;"><div style="border-top:1px dashed #e2e8f0;"></div></td></tr>` +
+    row("Original Total", `Rs. ${original}`) +
+    (food > 0 ? row(`Voucher ${code} (food)`, `− Rs. ${food}`, "#16a34a", "#16a34a") : "") +
+    (delivery > 0 ? row(`Voucher ${code} (delivery)`, `− Rs. ${delivery}`, "#16a34a", "#16a34a") : "") +
+    (food === 0 && delivery === 0 ? row(`Voucher ${code}`, `Rs. 0 off`, "#64748b") : "")
+  );
+}
+
 // Internal rider-payout card — omitted entirely when the route fell back to
 // the Haversine calculator (no manual fuel/commission numbers exist yet),
 // so it never shows misleading "N/A" money figures to whoever's dispatching.
 function buildRiderPayoutSection(data: OrderEmailData): string {
   if (data.estimatedFuelCost === "N/A") return "";
+
+  // Rider figures are calculated on the ORIGINAL delivery fee. When a
+  // delivery voucher was applied, say so here so the shortfall between what
+  // the customer pays and what the rider is owed is never a surprise.
+  const delivery = money(data.deliveryDiscount);
+  const voucherNote =
+    hasVoucher(data) && delivery > 0
+      ? `
+          <div class="detail-row" style="display:table; width:100%; padding:6px 0;">
+            <div class="detail-label" style="display:table-cell; width:120px; font-weight:700; font-size:12px; color:#15803d; vertical-align:top;">Delivery Voucher</div>
+            <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#15803d;">Rs. ${delivery} given to customer (rider pay is based on the full fee)</div>
+          </div>`
+      : "";
+
   return `
         <div style="background-color:#fff7ed; padding:16px; border-radius:12px; margin-bottom:18px; border:1px solid #fed7aa;">
           <h3 style="margin:0 0 12px 0; font-size:11px; text-transform:uppercase; color:#c2410c; letter-spacing:1px; border-bottom:1px solid #fed7aa; padding-bottom:8px;">🛵 Rider Payout (Internal)</h3>
@@ -168,7 +255,7 @@ function buildRiderPayoutSection(data: OrderEmailData): string {
           <div class="detail-row" style="display:table; width:100%; padding:6px 0;">
             <div class="detail-label" style="display:table-cell; width:120px; font-weight:700; font-size:12px; color:#9a3412; vertical-align:top;">Platform Earning</div>
             <div class="detail-value" style="display:table-cell; font-weight:700; font-size:13px; color:#111;">Rs. ${esc(String(data.platformShare))}</div>
-          </div>
+          </div>${voucherNote}
           <div class="detail-row" style="display:table; width:100%; padding:8px 0 0 0; border-top:1px dashed #fed7aa; margin-top:4px;">
             <div class="detail-label" style="display:table-cell; width:120px; font-weight:800; font-size:12px; color:#c2410c; vertical-align:top;">Total to Rider</div>
             <div class="detail-value" style="display:table-cell; font-weight:900; font-size:15px; color:#c2410c;">Rs. ${esc(String(data.totalRiderPayment))}</div>
@@ -208,7 +295,12 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
       <div style="border-top:6px solid #9333ea; padding:20px; text-align:center; border-bottom:1px solid #eee; position:relative;">
         <a href="${data.invoiceLink}" style="position:absolute; top:12px; right:12px; background-color:#f3e8ff; color:#9333ea; font-size:10px; font-weight:800; text-decoration:none; padding:5px 10px; border-radius:20px;">🧾 Invoice</a>
         <h1 style="margin:0; font-size:19px; font-weight:900; color:#111; letter-spacing:-0.5px;">Meal <span style="color:#9333ea;">Bear Skardu</span></h1>
-        <div style="margin-top:10px; display:inline-block; background-color:#f3e8ff; color:#9333ea; padding:5px 14px; border-radius:20px; font-weight:700; font-size:11px; letter-spacing:1px; text-transform:uppercase;">🚨 New Order Received</div>
+        <div style="margin-top:10px; display:inline-block; background-color:#f3e8ff; color:#9333ea; padding:5px 14px; border-radius:20px; font-weight:700; font-size:11px; letter-spacing:1px; text-transform:uppercase;">🚨 New Order Received</div>${
+          hasVoucher(data)
+            ? `
+        <div style="margin-top:8px;"><span style="display:inline-block; background-color:#dcfce7; color:#15803d; padding:4px 12px; border-radius:20px; font-weight:800; font-size:11px; letter-spacing:0.5px;">🎟️ ${esc(String(data.voucherCode))}</span></div>`
+            : ""
+        }
       </div>
 
       <div style="background-color:#111827; padding:16px 20px; text-align:center;">
@@ -220,6 +312,8 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
         <p style="font-size:13px; margin-top:0; margin-bottom:20px; color:#475569; line-height:1.5;">
           <strong style="color:#111;">Action required:</strong> a new order has been placed and needs preparation + delivery.
         </p>
+
+        ${buildVoucherBanner(data)}
 
         <div style="background-color:#f8fafc; padding:16px; border-radius:12px; margin-bottom:18px; border:1px solid #e2e8f0;">
           <h3 style="margin:0 0 12px 0; font-size:11px; text-transform:uppercase; color:#64748b; letter-spacing:1px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">Customer &amp; Delivery Details</h3>
@@ -263,13 +357,17 @@ export function buildOrderEmailHtml(data: OrderEmailData): string {
         <div style="border-radius:12px; overflow:hidden; border:1px solid #e2e8f0; margin-bottom:18px;">
           <div style="padding:14px 16px; background-color:#ffffff;">
             <table style="width:100%; border-collapse:collapse; font-size:13px;">
-              <tr><td style="padding:5px 0; color:#64748b; font-weight:600;">Subtotal</td><td style="padding:5px 0; color:#111; font-weight:700; text-align:right;">Rs. ${data.subtotal}</td></tr>
-              <tr><td style="padding:5px 0; color:#64748b; font-weight:600;">Delivery Fee</td><td style="padding:5px 0; color:#111; font-weight:700; text-align:right;">Rs. ${data.deliveryFee}</td></tr>
+              ${buildTotalsRows(data)}
             </table>
           </div>
           <div style="background-color:#111827; padding:18px 16px; text-align:center;">
             <p style="margin:0; font-size:11px; color:#9ca3af; text-transform:uppercase; font-weight:800; letter-spacing:1.5px;">Total to Collect (COD)</p>
-            <p class="total-amount" style="margin:6px 0 0 0; font-size:32px; font-weight:900; color:#ffffff; letter-spacing:-1px;">Rs. ${data.total}</p>
+            <p class="total-amount" style="margin:6px 0 0 0; font-size:32px; font-weight:900; color:#ffffff; letter-spacing:-1px;">Rs. ${data.total}</p>${
+              hasVoucher(data) && money(data.totalDiscount) > 0
+                ? `
+            <p style="margin:6px 0 0 0; font-size:12px; font-weight:700; color:#86efac;">after ${esc(String(data.voucherCode))} · saved Rs. ${money(data.totalDiscount)}</p>`
+                : ""
+            }
           </div>
         </div>
 
