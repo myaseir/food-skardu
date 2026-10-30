@@ -10,21 +10,15 @@ import ProductCard, { ProductCardProps } from "./ProductCard";
 // Official Panda Mart style categories
 export const MART_CATEGORIES = [
   "All",
-  "Fresh Produce",
-  "Meat",
-  "Dairy & Eggs",
+  "Fruits & Vegetables",
+  "Atta, Rice & Pulses",
+  "Dairy, Eggs & Chilled Items",
   "Bakery & Breakfast",
-  "Groceries",
-  "Snacks & Chips",
-  "Sweets & Chocolates",
-  "Cold Beverages",
-  "Tea & Coffee",
-  "Household & Cleaning",
-  "Personal Care",
+  "Cooking Essentials",
+  "Snacks & Biscuits",
+  "Drinks & Beverages",
+  "Cleaning & Laundry",
   "Pharmacy & Wellness",
-  "Baby Care",
-  "Pet Care",
-  "Stationery & Office",
 ];
 
 // ---- Mart-only timing config ----

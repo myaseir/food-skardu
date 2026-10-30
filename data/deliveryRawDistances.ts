@@ -243,6 +243,7 @@ export const HOTELS: string[] = [
   "Skardu River Resort",
   "Morning Resort",
   "Hotel Desert Bloom Skardu",
+  "Byala Skardu",
   "TheQue Skardu",
   "Singay Homestay Skardu",
   "Baltistan Crown Resort",
@@ -999,6 +1000,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 23
     },
     "Hotel Desert Bloom Skardu": {
+      distance_km: 8.8,
+      estimated_minutes: 31
+    },
+    "Byala Skardu": {
       distance_km: 8.8,
       estimated_minutes: 31
     },
@@ -2074,6 +2079,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 23
     },
     "Hotel Desert Bloom Skardu": {
+      distance_km: 8.8,
+      estimated_minutes: 31
+    },
+    "Byala Skardu": {
       distance_km: 8.8,
       estimated_minutes: 31
     },
@@ -3155,6 +3164,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 3.3,
       estimated_minutes: 4
     },
+    "Byala Skardu": {
+      distance_km: 3.3,
+      estimated_minutes: 4
+    },
     "TheQue Skardu": {
       distance_km: 30.5,
       estimated_minutes: 26
@@ -4228,6 +4241,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 25
   },
   "Hotel Desert Bloom Skardu": {
+    distance_km: 4.6,
+    estimated_minutes: 6
+  },
+  "Byala Skardu": {
     distance_km: 4.6,
     estimated_minutes: 6
   },
@@ -5306,6 +5323,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 2.7,
       estimated_minutes: 11
     },
+    "Byala Skardu": {
+      distance_km: 2.7,
+      estimated_minutes: 11
+    },
     "TheQue Skardu": {
       distance_km: 7.2,
       estimated_minutes: 26
@@ -6124,6 +6145,7 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "Skardu River Resort": { distance_km: 6.8, estimated_minutes: 24 },
     "Morning Resort": { distance_km: 7.2, estimated_minutes: 28 },
     "Hotel Desert Bloom Skardu": { distance_km: 3.1, estimated_minutes: 10 },
+    "Byala Skardu": { distance_km: 3.1, estimated_minutes: 10 },
     "TheQue Skardu": { distance_km: 3.7, estimated_minutes: 15 },
     "Singay Homestay Skardu": { distance_km: 8.0, estimated_minutes: 30 },
     "Baltistan Crown Resort": { distance_km: 9.4, estimated_minutes: 34 },
@@ -6699,6 +6721,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     estimated_minutes: 25
   },
   "Hotel Desert Bloom Skardu": {
+    distance_km: 4.6,
+    estimated_minutes: 6
+  },
+  "Byala Skardu": {
     distance_km: 4.6,
     estimated_minutes: 6
   },
@@ -7781,6 +7807,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 4.6,
     estimated_minutes: 5
   },
+  "Byala Skardu": {
+    distance_km: 4.6,
+    estimated_minutes: 5
+  },
   "TheQue Skardu": {
     distance_km: 30.8,
     estimated_minutes: 26
@@ -8850,6 +8880,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 25
     },
     "Hotel Desert Bloom Skardu": {
+      distance_km: 4.3,
+      estimated_minutes: 5
+    },
+    "Byala Skardu": {
       distance_km: 4.3,
       estimated_minutes: 5
     },
@@ -9924,6 +9958,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 4.3,
       estimated_minutes: 5
     },
+    "Byala Skardu": {
+      distance_km: 4.3,
+      estimated_minutes: 5
+    },
     "TheQue Skardu": {
       distance_km: 30.6,
       estimated_minutes: 26
@@ -10995,6 +11033,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 4.3,
       estimated_minutes: 5
     },
+    "Byala Skardu": {
+      distance_km: 4.3,
+      estimated_minutes: 5
+    },
     "TheQue Skardu": {
       distance_km: 30.6,
       estimated_minutes: 26
@@ -12063,6 +12105,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 25
     },
     "Hotel Desert Bloom Skardu": {
+      distance_km: 4.6,
+      estimated_minutes: 5
+    },
+    "Byala Skardu": {
       distance_km: 4.6,
       estimated_minutes: 5
     },
@@ -13144,6 +13190,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 4.3,
       estimated_minutes: 6
     },
+    "Byala Skardu": {
+      distance_km: 4.3,
+      estimated_minutes: 6
+    },
     "TheQue Skardu": {
       distance_km: 30.6,
       estimated_minutes: 26
@@ -14219,6 +14269,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       estimated_minutes: 26
     },
     "Hotel Desert Bloom Skardu": {
+      distance_km: 4.3,
+      estimated_minutes: 6
+    },
+    "Byala Skardu": {
       distance_km: 4.3,
       estimated_minutes: 6
     },
@@ -15300,6 +15354,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 4.3,
       estimated_minutes: 6
     },
+    "Byala Skardu": {
+      distance_km: 4.3,
+      estimated_minutes: 6
+    },
     "TheQue Skardu": {
       distance_km: 30.6,
       estimated_minutes: 26
@@ -16371,6 +16429,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 3.9,
       estimated_minutes: 5
     },
+    "Byala Skardu": {
+      distance_km: 3.9,
+      estimated_minutes: 5
+    },
     "TheQue Skardu": {
       distance_km: 31.1,
       estimated_minutes: 27
@@ -17369,6 +17431,10 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 0.3,
       estimated_minutes: 1
     },
+    "Byala Skardu": {
+      distance_km: 0.3,
+      estimated_minutes: 1
+    },
     "TheQue Skardu": {
       distance_km: 30.3,
       estimated_minutes: 26
@@ -18231,6 +18297,7 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "Skardu River Resort": { destinationType: "Hotel", distance_km: 5.5, estimated_minutes: 19 },
   "Morning Resort": { destinationType: "Hotel", distance_km: 5.9, estimated_minutes: 23 },
   "Hotel Desert Bloom Skardu": { destinationType: "Hotel", distance_km: 7.0, estimated_minutes: 26 },
+  "Byala Skardu": { destinationType: "Hotel", distance_km: 7.0, estimated_minutes: 26 },
   "TheQue Skardu": { destinationType: "Hotel", distance_km: 0.7, estimated_minutes: 4 },
   "Singay Homestay Skardu": { destinationType: "Hotel", distance_km: 6.2, estimated_minutes: 22 },
   "Baltistan Crown Resort": { destinationType: "Hotel", distance_km: 0.4, estimated_minutes: 2 },
@@ -18464,6 +18531,7 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "SKY LAKE GUEST HOUSE":430,
   "Grand Hotel Skardu":550,
   "Skengoo Inn Hotel":70,
+  "Manthal":50,
  
   "Maple Resort":430,
   "Maple Hotel Skardu":90,

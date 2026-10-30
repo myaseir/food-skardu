@@ -52,7 +52,7 @@ export const shops: Shop[] = [
     id: "yak-and-bull",
     name: "Yak and Bull Cafe Skardu",
     type: "restaurant",
-    openTime: "12:00",
+    openTime: "12:30",
     closeTime: "01:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
@@ -71,7 +71,7 @@ export const shops: Shop[] = [
     theme: "theme1",
     templateId: "kramen", // Custom layout with stickers + click sound — see lib/templates/cafe-anime/
     openTime: "12:30",
-    closeTime: "22:00",
+    closeTime: "21:00",
     alwaysOpen: false,
     logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1790413219/WhatsApp_Image_2026-09-25_at_2.49.52_PM_ox7ev9.jpg",
     lat: 35.2905,
@@ -135,8 +135,8 @@ cuisines: ["Korean", "Ramen", "Noodles"],
     id: "dominos-skardu",
     name: "Domino's Pizza Skardu",
     type: "restaurant",
-    openTime: "13:00",
-    closeTime: "01:00",
+    openTime: "14:30",
+    closeTime: "00:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
     lat: 35.302132, // TODO: replace with real coordinates
