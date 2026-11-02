@@ -474,7 +474,7 @@ export const menu = {
         {
           id: "brg-3",
           name: "Zinger Burger",
-          price: 550,
+          price: 600,
           desc: "Served with fries",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQstpBOoytVRWkY8qLxHoazWp6y2uiHZFvS-LwInq6hXA&s=10",
           variants: []
