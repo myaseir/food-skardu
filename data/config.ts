@@ -53,7 +53,7 @@ export const shops: Shop[] = [
     name: "Yak and Bull Cafe Skardu",
     type: "restaurant",
     openTime: "12:30",
-    closeTime: "01:00",
+    closeTime: "00:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
     lat: 35.289211, lng: 75.631235, // TODO: replace with real coordinates
@@ -119,7 +119,7 @@ cuisines: ["Korean", "Ramen", "Noodles"],
     name: "The Kitchen",
     type: "restaurant",
     openTime: "12:00", // TODO: confirm actual opening time
-    closeTime: "21:00", // TODO: confirm actual closing time
+    closeTime: "20:30", // TODO: confirm actual closing time
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpO1EPdDa0L41JIdnK45cWhQVFiulx09fx2p5amMNXFXwBXUiOyj8itdI&s=10", // TODO: paste real logo URL
     lat: 35.28872, // TODO: replace with real coordinates
@@ -152,7 +152,7 @@ cuisines: ["Korean", "Ramen", "Noodles"],
     name: "Al Jannat Bakers and Sweets Skardu",
     type: "bakery",
     openTime: "011:30",
-    closeTime: "1:30", // TODO: confirm actual opening/closing hours
+    closeTime: "1:00", // TODO: confirm actual opening/closing hours
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvy9ePYYMn2brEYQeP8lw4JhnuQOPILsfwoL-A3sHWx0jVnxlPyqbcamY&s=10", // TODO: add logo image URL
     lat: 35.298864, // TODO: replace with real coordinates
@@ -187,7 +187,7 @@ cuisines: ["Korean", "Ramen", "Noodles"],
     name: "Yak Grill Skardu",
     type: "restaurant",
     openTime: "12:00",
-    closeTime: "23:30",
+    closeTime: "23:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCK1MjSAqQF5vWaFQeoB26t69zQdIJEkEBA8pGEZYAs8QhCwkmFSRmwcG&s=10",
     lat: 35.296598, // TODO: replace with real coordinates
@@ -256,7 +256,7 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     name: "Skyway Pizza Skardu",
     type: "restaurant",
     openTime: "13:00",
-    closeTime: "01:30",
+    closeTime: "01:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
     lat: 35.288921, // TODO: replace with real coordinates
@@ -273,7 +273,7 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     name: "The Food Corridor Skardu",
     type: "restaurant",
     openTime: "12:00",
-    closeTime: "24:00",
+    closeTime: "23:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhq9-b5Lbb5KFY0BOxoJrhwSbP4_aaqDECxxfbuzc8XA&s=10",
     lat: 35.2897981, // TODO: replace with real coordinates
@@ -303,8 +303,8 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     id: "sungum-hotel-restaurant",
     name: "Sungum Hotel Restaurant Skardu",
     type: "restaurant",
-    openTime: "11:00",
-    closeTime: "22:00",
+    openTime: "11:30",
+    closeTime: "20:30",
     alwaysOpen: false,
     logo: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1784291847/ChatGPT_Image_Jul_17_2026_05_37_05_PM_t6yq3u.jpg",
     lat: 35.2900162, // TODO: replace with real coordinates
@@ -324,7 +324,7 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     name: "Hassan Hussain Host",
     type: "restaurant",
     openTime: "11:00",
-    closeTime: "20:30",
+    closeTime: "20:00",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Vba66LQaBXtJejMOezwhFNWkX4NVN0yXn0RV03oYNw&s",
     lat: 35.2899888, // TODO: replace with real coordinates
@@ -359,7 +359,7 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     name: "Yak and Bull Cafe Hameed Garh",
     type: "restaurant",
     openTime: "12:00",
-    closeTime: "01:30",
+    closeTime: "00:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_s9v8YpPGvHU9y-lQBEtH1KWfYGK93JAqX_L7Zyi5mD_awCYaLjmdxcZ_&s=10",
     lat: 35.293904, lng: 75.650896, // TODO: replace with real coordinates
