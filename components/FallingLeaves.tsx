@@ -56,7 +56,11 @@ const LIGHT_ANGLE = -0.9;     // direction the light comes from (radians), upper
 const SHAFT_ALPHA = 0.14;     // max strength of the sun shafts (keep it subtle)
 const SCROLL_WIND = 0.035;    // how much scroll speed turns into wind
 const RESIZE_DEBOUNCE = 150;  // ms
-const DEFAULT_Z_INDEX = 40;
+const DEFAULT_Z_INDEX = 2147483647; // above everything (cart slider, modals, toasts)
+const PX_PER_LEAF = 36;       // one leaf per this many px of screen width, so wide screens stay full
+const MIN_LEAVES = 22;
+const MAX_LEAVES = 72;
+const SIDE_MARGIN = 0.12;     // leaves spawn this far (share of width) beyond each edge
 
 type Sprite = {
   img: HTMLCanvasElement;  // the leaf itself
@@ -199,6 +203,11 @@ const RAYS_STYLE: CSSProperties = {
   maskImage: "linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.35) 70%, transparent 100%)",
 };
 
+/**
+ * Leaves live in screen coordinates. They always enter from above the top edge, drift down
+ * across the whole width, leave below the bottom edge (or off a side) and are immediately
+ * re-spawned at the top, so the fall never stops and never bunches up in one place.
+ */
 type Leaf = {
   x: number; y: number; size: number; vy: number; vx: number;
   amp: number; freq: number; phase: number;
@@ -209,18 +218,12 @@ type Leaf = {
   temp: boolean;
   depth: number;   // 0 = far, 1 = near
   swirl: number;   // random sign/strength of scroll turbulence
-  kick: number;    // upward pop when stirred off the ground (decays)
-  canLand: boolean;
-  landY: number;   // how far above the bottom edge it comes to rest
-  landed: boolean;
-  settle: number;  // 1 -> 0 after touchdown, so it slides to a stop instead of freezing
-  stir: number;    // wind energy needed to lift it off the ground again
 };
 
 type Gust = { start: number; dur: number; strength: number; dir: 1 | -1 };
 
 type Props = {
-  /** Stacking order of the overlay. Raise/lower it relative to your modals, toasts and header. */
+  /** Stacking order of the overlay. Defaults to the maximum so it draws above everything. */
   zIndex?: number;
 };
 
@@ -262,21 +265,29 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
 
     let calm = 1; // 1 = calm (light visible), 0 = windy / scrolling fast (light dims)
     let shaftShown = SHAFT_ALPHA;
-    let landedCount = 0;
 
     // scroll tracking
     let lastScrollY = window.scrollY;
     let scrollAcc = 0;
     let scrollV = 0;
 
+    // leaf count follows the screen width, so wide screens are as full as phones
+    const baseCount = () =>
+      Math.max(MIN_LEAVES, Math.min(MAX_LEAVES, Math.round(w / PX_PER_LEAF)));
+    const extraCount = () => (w < 640 ? 9 : 18);
+
+    // Regular leaves spawn across the full width (plus a margin past both edges, so sideways
+    // drift keeps the edges as busy as the middle) and always enter from above the top edge,
+    // at staggered heights so they don't arrive in rows. `initial` spreads them over the screen.
     const spawn = (initial: boolean, fromSide?: 1 | -1): Leaf => {
       const depth = Math.random();
       const type = TYPE_POOL[Math.floor(Math.random() * TYPE_POOL.length)];
       const list = sprites[type];
+      const size = (12 + depth * 24) * TYPE_SCALE[type];
       const leaf: Leaf = {
-        x: Math.random() * w,
-        y: initial ? Math.random() * h : -40,
-        size: (12 + depth * 24) * TYPE_SCALE[type],
+        x: -w * SIDE_MARGIN + Math.random() * w * (1 + SIDE_MARGIN * 2),
+        y: initial ? Math.random() * h : -size - Math.random() * h * 0.5,
+        size,
         vy: 0.35 + depth * 0.8,
         vx: 0,
         amp: 15 + Math.random() * 35,
@@ -294,26 +305,15 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
         temp: false,
         depth,
         swirl: (Math.random() < 0.5 ? -1 : 1) * (0.5 + Math.random() * 0.5),
-        kick: 0,
-        canLand: depth > 0.3 && Math.random() < 0.35,
-        landY: 2 + Math.random() * 16,
-        landed: false,
-        settle: 0,
-        stir: 0,
       };
       if (fromSide) {
         leaf.temp = true;
-        leaf.canLand = false;
         leaf.x = fromSide > 0 ? -20 - Math.random() * 300 : w + 20 + Math.random() * 300;
         leaf.y = Math.random() * h * 0.7;
         leaf.vx = fromSide * 2;
       }
       return leaf;
     };
-
-    const baseCount = () => (w < 640 ? 24 : 46);
-    const extraCount = () => (w < 640 ? 9 : 18);
-    const maxLanded = () => (w < 640 ? 7 : 14);
 
     // Sizes the canvas. Leaves are only respawned when the width changes, so the mobile
     // URL bar showing/hiding (height-only resize) doesn't reset the whole scene.
@@ -333,10 +333,7 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       if (widthChanged || leaves.length === 0) {
-        landedCount = 0;
         leaves = Array.from({ length: baseCount() }, () => spawn(true));
-      } else {
-        for (const l of leaves) if (l.landed) l.y = h - l.landY;
       }
     };
 
@@ -350,7 +347,7 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
         start: t,
         dur: 4500 + Math.random() * 2500,
         strength: 0.8 + Math.random() * 1.0,
-        dir: Math.random() < 0.7 ? 1 : -1,
+        dir: Math.random() < 0.5 ? 1 : -1,
       };
       for (let i = 0; i < extraCount(); i++) leaves.push(spawn(false, gust.dir));
     };
@@ -411,7 +408,8 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
       }
 
       const e = env + turb * 0.7; // total "wind energy" from gusts + scrolling
-      const breeze = Math.sin(t * 0.0003) * 0.25 + 0.15;
+      // calm breeze averages to zero so leaves don't all drift to one side
+      const breeze = Math.sin(t * 0.0003) * 0.25;
       const windTarget = breeze + env * dir * 2.6 + turb * 1.2;
 
       ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -435,43 +433,12 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
       for (let i = leaves.length - 1; i >= 0; i--) {
         const l = leaves[i];
 
-        // resting on the ground
-        if (l.landed) {
-          l.settle *= Math.pow(0.9, dt);
-          l.x += l.vx * l.settle * dt;
-          l.rot += l.rotSpeed * l.settle * dt;
-          l.flip += l.flipSpeed * l.settle * dt;
-
-          if (e > l.stir) {
-            // stirred up by the wind: pop off the ground and rejoin the air
-            l.landed = false;
-            landedCount--;
-            l.x -= Math.sin(l.phase) * l.amp * (1 + e * 0.5); // keep position continuous
-            l.kick = -(1.5 + Math.random() * 2.5) * (0.6 + e);
-            l.vx += dir * (0.5 + Math.random()) * (1 + e);
-            l.rotSpeed = (Math.random() - 0.5) * 0.05;
-            l.canLand = Math.random() < 0.5;
-            l.landY = 2 + Math.random() * 16;
-            // falls through to the normal update below
-          } else {
-            // a light gust still nudges and rustles the ones that stay
-            if (e > l.stir * 0.5) {
-              l.x += dir * e * 0.5 * dt;
-              l.rot += dir * e * 0.015 * dt;
-            }
-            const c = Math.max(0.5, Math.abs(Math.cos(l.flip)));
-            drawLeaf(l, l.x, h - l.landY, c);
-            continue;
-          }
-        }
-
-        // airborne
         l.vx += (windTarget * l.resp - l.vx) * l.drag * dt;
         l.vx += l.swirl * turb * 0.12 * dt; // scrolling makes leaves flutter unpredictably
         l.x += l.vx * dt;
-        l.kick *= Math.pow(0.96, dt);
 
-        const dy = l.vy - env * l.lift + l.kick;
+        // gusts can slow the fall a little but never stop or reverse it
+        const dy = Math.max(0.15, l.vy - env * l.lift * 0.5);
         // scrolling down pushes leaves up past the viewport; near leaves move more (parallax)
         l.y += dy * dt - sv * (0.1 + 0.3 * l.depth) * dt;
 
@@ -481,33 +448,17 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
 
         const sx = l.x + Math.sin(l.phase) * l.amp * (1 + e * 0.5);
 
-        // touch down (only in calm air, only while moving downward)
-        if (
-          l.canLand && !l.temp && dy > 0 && e < 0.25 &&
-          landedCount < maxLanded() &&
-          l.y >= h - l.landY && sx > 10 && sx < w - 10
-        ) {
-          l.landed = true;
-          landedCount++;
-          l.x = sx;
-          l.y = h - l.landY;
-          l.settle = 1;
-          l.kick = 0;
-          l.stir = 0.12 + Math.random() * 0.9; // some leave on the next gust, some wait
-          drawLeaf(l, l.x, l.y, Math.max(0.5, Math.abs(Math.cos(l.flip))));
-          continue;
-        }
-
-        // off-screen handling. Gust leaves (temp) are spawned up to ~320px outside the
-        // viewport on either side, so they get a wide horizontal margin on both sides
-        // and are discarded once they leave it. Regular leaves are recycled at the top.
-        const offY = l.y > h + 40 || l.y < -160;
+        // Off-screen handling. Gust leaves (temp) are spawned up to ~320px outside the
+        // viewport on either side, so they get a wide horizontal margin and are discarded
+        // once they leave it. Regular leaves go back to above the top edge, so the fall
+        // never stops.
+        const offY = l.y > h + l.size || l.y < -h * 0.6 - 160;
         if (l.temp) {
           if (offY || sx > w + 400 || sx < -400) {
             leaves.splice(i, 1);
             continue;
           }
-        } else if (offY || sx > w + 100 || sx < -100) {
+        } else if (offY || sx > w * (1 + SIDE_MARGIN) + 60 || sx < -w * SIDE_MARGIN - 60) {
           leaves[i] = spawn(false);
           continue;
         }
