@@ -132,6 +132,23 @@ export const shops: Shop[] = [
     cuisines: ["Pakistani", "Pulao", "Biryani"],
   },
   {
+    id: "biryani-darbar",
+    name: "Biryani Darbar",
+    type: "restaurant",
+    openTime: "12:00", // TODO: confirm actual opening time
+    closeTime: "20:30", // TODO: confirm actual closing time
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtYvbgjTr9SGfUN_87ce3fbgKGRUoKxq0VLskfj4cbtw&s", // TODO: paste real logo URL
+     lat: 35.289174, // TODO: replace with real coordinates
+    lng: 75.636453,// TODO: replace with real coordinates
+    whatsapp: "923498031224",
+    rating: 0, // TODO: adjust once real reviews exist
+    reviews: 0, // TODO: adjust once real reviews exist
+    description:
+      "Biryani Darbar is a restaurant and fast food spot in Skardu, near Alamdar Chowk, known for its biryani, polawo and Pakistani classics. It also offers biryani deg for weddings, events and catering.",
+    cuisines: ["Pakistani", "Biryani", "Fast Food"],
+  },
+  {
     id: "dominos-skardu",
     name: "Domino's Pizza Skardu",
     type: "restaurant",
