@@ -10,7 +10,7 @@ export const menu = {
           id: "ypz-1",
           name: "Yak Pizza",
           price: 1250,
-          desc: "Not your ordinary pizza. Loaded with tender yak meat, molten cheese, fresh vegetables and bold mountain flavors. Rich, smoky and irresistibly delicious, a must try in Skardu.",
+          desc: "Not your ordinary pizza, A must try in Skardu.",
           image: "https://res.cloudinary.com/dxxqrjnje/image/upload/v1788719352/ChatGPT_Image_Sep_6_2026_11_28_33_PM_ykvzyo.jpg",
           variants: [
             { name: "Small", price: 1250 },

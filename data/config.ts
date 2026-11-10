@@ -113,7 +113,42 @@ export const shops: Shop[] = [
   //   rating: 4.0,
   //   reviews: 7,
   // },
- 
+ {
+    id: "thefoodcorridor-skardu",
+    name: "The Food Corridor Skardu",
+    type: "restaurant",
+    openTime: "12:00",
+    closeTime: "23:00",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhq9-b5Lbb5KFY0BOxoJrhwSbP4_aaqDECxxfbuzc8XA&s=10",
+    lat: 35.2897981, // TODO: replace with real coordinates
+    lng: 75.6406073, // TODO: replace with real coordinates
+    whatsapp: "03407620699",
+    rating: 4.1,
+    reviews: 371,
+    description:
+      "The Food Corridor in Skardu is known for its fast food and Chinese dishes.",
+    cuisines: ["Fast Food", "Chinese"],
+  },
+
+         {
+    id: "baltistan-tea-grill-house",
+    name: "Baltistan Tea and Grill House",
+    type: "restaurant",
+    openTime: "12:30",
+    closeTime: "23:00",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
+    lat: 35.298864, // TODO: replace with real coordinates
+    lng: 75.637217, // TODO: replace with real coordinates
+    whatsapp: "923554718865",
+    rating: 4.9,
+    reviews: 36,
+   description:
+  "Baltistan Tea and Grill House Skardu is a popular grill and fast food restaurant in Skardu, Gilgit-Baltistan, serving grilled food, BBQ, burgers, sandwiches, coffee, and other delicious fast food. It also offers a quiet and relaxing atmosphere with bookshelves, making it a comfortable spot for reading, studying, working, or enjoying a coffee. With beautiful views of the surrounding mountains and the Indus River, Baltistan Tea and Grill House is a great place to enjoy food, coffee, scenic views, and a peaceful experience in Skardu.",
+
+cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
+  },
   {
     id: "the-kitchen-skardu",
     name: "The Kitchen",
@@ -267,24 +302,7 @@ export const shops: Shop[] = [
   //     "The Balti Table in Skardu is famous for its traditional momos, served with pulao.",
   //   cuisines: ["Balti", "Momos", "Pulao"],
   // },
-       {
-    id: "baltistan-tea-grill-house",
-    name: "Baltistan Tea and Grill House",
-    type: "restaurant",
-    openTime: "12:30",
-    closeTime: "23:00",
-    alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
-    lat: 35.298864, // TODO: replace with real coordinates
-    lng: 75.637217, // TODO: replace with real coordinates
-    whatsapp: "923554718865",
-    rating: 4.9,
-    reviews: 36,
-   description:
-  "Baltistan Tea and Grill House Skardu is a popular grill and fast food restaurant in Skardu, Gilgit-Baltistan, serving grilled food, BBQ, burgers, sandwiches, coffee, and other delicious fast food. It also offers a quiet and relaxing atmosphere with bookshelves, making it a comfortable spot for reading, studying, working, or enjoying a coffee. With beautiful views of the surrounding mountains and the Indus River, Baltistan Tea and Grill House is a great place to enjoy food, coffee, scenic views, and a peaceful experience in Skardu.",
 
-cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
-  },
   {
     id: "skyway-pizza",
     name: "Skyway Pizza Skardu",
@@ -302,24 +320,7 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
       "Skyway Pizza in Skardu is known for its pizza and its affordable prices.",
     cuisines: ["Pizza", "Fast Food"],
   },
-  {
-    id: "thefoodcorridor-skardu",
-    name: "The Food Corridor Skardu",
-    type: "restaurant",
-    openTime: "12:00",
-    closeTime: "23:00",
-    alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhq9-b5Lbb5KFY0BOxoJrhwSbP4_aaqDECxxfbuzc8XA&s=10",
-    lat: 35.2897981, // TODO: replace with real coordinates
-    lng: 75.6406073, // TODO: replace with real coordinates
-    whatsapp: "03407620699",
-    rating: 4.1,
-    reviews: 371,
-    description:
-      "The Food Corridor in Skardu is known for its fast food and Chinese dishes.",
-    cuisines: ["Fast Food", "Chinese"],
-  },
-
+  
   // {
   //   id: "aima-kitchen",
   //   name: "Aima's Kitchen Skardu",

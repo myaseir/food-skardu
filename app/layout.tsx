@@ -8,6 +8,7 @@ import RouteProgress from "@/components/RouteLoader";
 import { LocationProvider } from "@/contexts/LocationContext";
 import LocationGate from "@/components/Locationgate"; // fixed: was "Locationgate" — case mismatch breaks the build on case-sensitive hosts (Vercel/Linux) even though it works locally on Windows/macOS
 import MaintenanceGate from "@/components/MaintenanceGate";
+import FallingLeaves from "@/components/FallingLeaves";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -207,6 +208,7 @@ export default function RootLayout({
             {children}
           </LocationGate>
         </LocationProvider>
+        <FallingLeaves />
         </MaintenanceGate>
       </body>
     </html>

@@ -47,6 +47,45 @@ import MobileAreaSheet from "@/app/checkout/MobileAreaSheet";
 const BUSINESS_WHATSAPP = "923715982735"; // TODO: replace with your real number
 
 // ---------------------------------------------------------------------
+// Returning-customer info — saved in this browser's localStorage
+// ---------------------------------------------------------------------
+// Only PERSONAL details are stored. Order-specific data (cart, note to
+// restaurant, voucher) is never saved, so every new order starts clean.
+const SAVED_INFO_KEY = "mealbear_customer_info_v1";
+
+type SavedCustomerInfo = {
+  name: string;
+  phone: string;
+  countryCode: CountryCode;
+  deliveryMode: "hotel" | "home";
+  locationName: string;
+  addressDetail: string;
+};
+
+function loadSavedCustomerInfo(): SavedCustomerInfo | null {
+  try {
+    const raw = localStorage.getItem(SAVED_INFO_KEY);
+    return raw ? (JSON.parse(raw) as SavedCustomerInfo) : null;
+  } catch {
+    return null; // storage blocked or data corrupted — just skip autofill
+  }
+}
+
+function saveCustomerInfo(info: SavedCustomerInfo) {
+  try {
+    localStorage.setItem(SAVED_INFO_KEY, JSON.stringify(info));
+  } catch {
+    // Private mode / storage full — ignore, saving is only a convenience
+  }
+}
+
+function clearSavedCustomerInfo() {
+  try {
+    localStorage.removeItem(SAVED_INFO_KEY);
+  } catch {}
+}
+
+// ---------------------------------------------------------------------
 // Country selector (dropdown) — drives WhatsApp number format below it
 // ---------------------------------------------------------------------
 // Built once at module scope since the list of countries/calling codes
@@ -204,6 +243,10 @@ export default function CheckoutPage() {
   const [step, setStep] = useState<"form" | "success">("form");
   const [isSending, setIsSending] = useState(false);
 
+  // True when this browser has saved details from a previous order —
+  // controls whether the "Clear saved info" button is shown.
+  const [hasSavedInfo, setHasSavedInfo] = useState(false);
+
   // Snapshot of the order taken right before the cart is cleared, so the
   // success screen can still build the "Confirm on WhatsApp" message
   // (the live `total` drops to Rs. 0 once the cart is emptied).
@@ -242,6 +285,37 @@ export default function CheckoutPage() {
   const [isCheckingVoucher, setIsCheckingVoucher] = useState(false);
 
   const { location: userLocation } = useUserLocation();
+
+  // ---------------------------------------------------------------------
+  // Autofill a returning customer's saved details (runs once on load).
+  // Must run in an effect (not in useState initial values), otherwise
+  // Next.js throws hydration mismatches because the server has no
+  // localStorage. Note / voucher / cart are intentionally NOT restored.
+  // ---------------------------------------------------------------------
+  useEffect(() => {
+    const saved = loadSavedCustomerInfo();
+    if (!saved) return;
+
+    const validCountry = COUNTRY_OPTIONS.some((c) => c.code === saved.countryCode);
+    const country = validCountry ? saved.countryCode : "PK";
+    const mode = saved.deliveryMode === "home" ? "home" : "hotel";
+
+    // Only restore the location if it still exists in our lists
+    // (hotels/areas may have been renamed or removed since last time).
+    const list = mode === "hotel" ? HOTELS : AREAS;
+    const locationStillValid = list.includes(saved.locationName);
+
+    setName(saved.name || "");
+    setCountryCode(country);
+    setPhone(saved.phone || "");
+    setPhoneConfirm(saved.phone || ""); // so they don't have to retype it
+    setDeliveryMode(mode);
+    if (locationStillValid) {
+      setLocationName(saved.locationName);
+      setAddressDetail(saved.addressDetail || "");
+    }
+    setHasSavedInfo(true);
+  }, []);
 
   // ---------------------------------------------------------------------
   // Live phone checks — drive the "We'll message: ..." preview and the
@@ -325,6 +399,19 @@ export default function CheckoutPage() {
       setAppliedVoucher(null);
       setVoucherError("Phone number changed. Please apply your voucher again.");
     }
+  };
+
+  // Wipes the saved details from this browser AND the form, for shared
+  // phones or when someone else is ordering from the same device.
+  const handleClearSavedInfo = () => {
+    clearSavedCustomerInfo();
+    setHasSavedInfo(false);
+    setName("");
+    setPhone("");
+    setPhoneConfirm("");
+    setLocationName("");
+    setAddressDetail("");
+    clearVoucherForPhoneChange();
   };
 
   const applyVoucher = async () => {
@@ -594,6 +681,20 @@ export default function CheckoutPage() {
 
       // Save what the success screen needs BEFORE the cart is cleared.
       setPlacedOrder({ name, total });
+
+      // Remember the customer's personal details for next time.
+      // (Deliberately NOT saving: note, voucher, or cart items.)
+      // Saved only after the server accepts the order, so a failed
+      // order never stores half-valid data.
+      saveCustomerInfo({
+        name,
+        phone,
+        countryCode,
+        deliveryMode,
+        locationName,
+        addressDetail,
+      });
+
       setStep("success");
       clearCart();
     } catch (error: any) {
@@ -700,9 +801,20 @@ export default function CheckoutPage() {
         <div className="space-y-5">
           {/* Contact Details */}
           <section className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100">
-            <h2 className="font-black uppercase text-[13px] tracking-widest mb-4 text-gray-900">
-              Contact Details
-            </h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-black uppercase text-[13px] tracking-widest text-gray-900">
+                Contact Details
+              </h2>
+              {hasSavedInfo && (
+                <button
+                  type="button"
+                  onClick={handleClearSavedInfo}
+                  className="text-[11px] font-bold text-purple-600 hover:text-purple-800 uppercase tracking-wider"
+                >
+                  Clear saved info
+                </button>
+              )}
+            </div>
             <div className="space-y-3">
               <div className="relative">
                 <User
