@@ -132,6 +132,23 @@ export const shops: Shop[] = [
     cuisines: ["Pakistani", "Pulao", "Biryani"],
   },
   {
+    id: "pathan-chapli-kabab",
+    name: "Pathan Chapli Kabab",
+    type: "restaurant",
+    openTime: "12:00", // TODO: confirm actual opening time
+    closeTime: "20:30", // TODO: confirm actual closing time
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTH_lFWpGliDJkUio2DAuny_MrPUOBMHIq9mzoLXUt2HA&s", // TODO: paste real logo URL
+      lat: 35.302132, // TODO: replace with real coordinates
+    lng: 75.625344,  // TODO: replace with real coordinates
+    whatsapp: "923710927080",
+    rating: 4.7, // TODO: adjust once real reviews exist
+    reviews: 17, // TODO: adjust once real reviews exist
+    description:
+      "Pathan Chapli Kabab is a restaurant in Skardu famous for its authentic Pathan-style chapli kabab, served fresh and hot with naan.",
+    cuisines: ["Pakistani", "Pathan", "Chapli Kabab"],
+  },
+  {
     id: "biryani-darbar",
     name: "Biryani Darbar",
     type: "restaurant",
