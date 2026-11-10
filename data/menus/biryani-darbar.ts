@@ -13,10 +13,10 @@ export const menu = {
       name: "Pakistani Delights",
       items: [
         { id: "bd-pd-1", name: "Biryani", price: 370, discountPrice: 370, desc: "Classic spiced biryani", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz7Ym9_Jnpr6giRpmfNmtp5K-jmNx2Tl65foyqeceJ1cbIQskKaTnOPFP3&s=10", variants: [] },
-        { id: "bd-pd-2", name: "Pulawo", price: 370, discountPrice: 370, desc: "Fragrant pulao", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2LqVEAQXiwwpeOGxE_Z-1oJV0g0qVfVf2sPxSxeybGYcT2s7TUyqS07Wo&s=10", variants: [] },
+        { id: "bd-pd-2", name: "Pulao", price: 370, discountPrice: 370, desc: "Fragrant pulao", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2LqVEAQXiwwpeOGxE_Z-1oJV0g0qVfVf2sPxSxeybGYcT2s7TUyqS07Wo&s=10", variants: [] },
         { id: "bd-pd-3", name: "Haleem", price: 200, discountPrice: 200, desc: "Slow-cooked traditional haleem", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcu01VB9yn9iJHQYy4PsbC4tcEkVAFSg0362VguN0ll8g9arF7ZBUMhD8x&s=10", variants: [] },
         { id: "bd-pd-4", name: "Qeema", price: 200, discountPrice: 200, desc: "Spiced minced meat", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTH19QOFw0LmfoJVqeOlYyInRfKAJZxQE0tvNgUvqmR8k-HQq97uTy2DWs&s=10", variants: [] },
-        { id: "bd-pd-5", name: "Pota Khalaji", price: 200, discountPrice: 200, desc: "Traditional pota khalaji", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-ee30J-Qir_RfrTdZD18dvnPk0zZaPBZ-QPTT-IZLSQ&s=10", variants: [] },
+        { id: "bd-pd-5", name: "Pota Kaleji", price: 200, discountPrice: 200, desc: "Traditional pota khalaji", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-ee30J-Qir_RfrTdZD18dvnPk0zZaPBZ-QPTT-IZLSQ&s=10", variants: [] },
         { id: "bd-pd-6", name: "Chicken Karahi", price: 2000, discountPrice: 2000, desc: "Karayi for sharing", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRob8nVldRgl-wPWY1Fn8rqpan4TPGYQ3Nm9Dl25_2j_b_L1LZ7Oiv0IqU&s=10", variants: [] },
         { id: "bd-pd-7", name: "Chicken Handi", price: 2200, discountPrice: 2200, desc: "Handi for sharing", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPpeq2VTQfq5OpcGV1EdZ4BUitfl6633_8yLnhUC8kGyJ-Af82uqKc2vLB&s=10", variants: [] }
       ]
@@ -30,7 +30,7 @@ export const menu = {
         { id: "bd-ff-4", name: "Fries", price: 100, discountPrice: 100, desc: "Crispy golden fries", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX6F-5hulILYwE4O6bqEy5QTbDUfrBS0p99hNZbROQ6w&s=10", variants: [] },
         { id: "bd-ff-5", name: "Shawarma", price: 200, discountPrice: 200, desc: "Chicken shawarma", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT3DloUz1p25J_rUwDvPewqE-fzza-UnpeM0iG8woUIA&s=10", variants: [] },
         { id: "bd-ff-6", name: "Chicken Roll", price: 200, discountPrice: 200, desc: "Chicken roll", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNPcfwmj4jczCksq7QBOX1yV70f9xxm5G0aa6cogY_oNs4Po7epMWQusg&s=10", variants: [] },
-        { id: "bd-ff-7", name: "Beef Khawab Roll", price: 200, discountPrice: 200, desc: "Beef khawab roll", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUQIzWtJ8dClc_erHs3jW6O9l33DvTSmpVzYknAz2qBVBL4uX0GPTQ1TjE&s=10", variants: [] }
+        { id: "bd-ff-7", name: "Beef kabab Roll", price: 200, discountPrice: 200, desc: "Beef khawab roll", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUQIzWtJ8dClc_erHs3jW6O9l33DvTSmpVzYknAz2qBVBL4uX0GPTQ1TjE&s=10", variants: [] }
       ]
     },
     // {
