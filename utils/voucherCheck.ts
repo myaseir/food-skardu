@@ -48,7 +48,7 @@ export async function checkVoucher(
   try {
     if (voucher.maxUses != null) {
       const used = await countRedemptionsTotal(code);
-      if (used >= voucher.maxUses) return fail("This voucher has been fully redeemed.");
+      if (used >= voucher.maxUses) return fail("Sorry, all vouchers have been claimed.");
     }
     if (voucher.perCustomerLimit != null) {
       const used = await countRedemptionsByPhone(code, phoneDigits);

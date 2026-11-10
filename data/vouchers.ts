@@ -11,7 +11,7 @@ export const vouchers: Voucher[] = [
     maxDiscount: 300,
     minOrder: 500,
     expiresAt: "2026-10-25T23:59:59+05:00",
-    maxUses: 50,
+    maxUses: 1,
     usedCount: 0, // not used here; counted from your orders instead
     perCustomerLimit: 1,
     active: true,
@@ -24,7 +24,7 @@ export const vouchers: Voucher[] = [
     maxDiscount: 1000,
     minOrder: 500,
     expiresAt: "2026-10-25T23:59:59+05:00",
-    maxUses: 50,
+    maxUses: 15,
     usedCount: 0, // not used here; counted from your orders instead
     perCustomerLimit: 1,
     active: true,
@@ -36,8 +36,8 @@ export const vouchers: Voucher[] = [
     value: 50,
     maxDiscount: 1000,
     minOrder: 500,
-    expiresAt: "2026-10-25T23:59:59+05:00",
-    maxUses: 50,
+    expiresAt: "2026-11-25T23:59:59+05:00",
+    maxUses: 15,
     usedCount: 0, // not used here; counted from your orders instead
     perCustomerLimit: 1,
     active: true,
