@@ -29,19 +29,19 @@ export const vouchers: Voucher[] = [
     perCustomerLimit: 1,
     active: true,
   },
-  {
-    code: "YASIR24",
-    appliesTo: "DELIVERY",
-    kind: "PERCENT",
-    value: 50,
-    maxDiscount: 1000,
-    minOrder: 500,
-    expiresAt: "2026-11-25T23:59:59+05:00",
-    maxUses: 15,
-    usedCount: 0, // not used here; counted from your orders instead
-    perCustomerLimit: 1,
-    active: true,
-  },
+ {
+  code: "MEAL26",
+  appliesTo: "DELIVERY",
+  kind: "PERCENT",
+  value: 50, // 50% off delivery charges
+  maxDiscount: 200, // Maximum discount of Rs. 200
+  minOrder: 500, // Minimum order of Rs. 500
+  expiresAt: "2026-11-12T23:59:59+05:00",
+  maxUses: 15, // First 15 customers only
+  usedCount: 0,
+  perCustomerLimit: 1, // One use per customer
+  active: true,
+},
   {
     code: "FREEDEL",
     appliesTo: "DELIVERY",
