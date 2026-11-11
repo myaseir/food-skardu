@@ -36,8 +36,8 @@ export const vouchers: Voucher[] = [
   value: 50, // 50% off delivery charges
   maxDiscount: 200, // Maximum discount of Rs. 200
   minOrder: 500, // Minimum order of Rs. 500
-  expiresAt: "2026-11-12T23:59:59+05:00",
-  maxUses: 15, // First 15 customers only
+  expiresAt: "2026-11-13T23:59:59+05:00",
+  maxUses: 20, // First 15 customers only
   usedCount: 0,
   perCustomerLimit: 1, // One use per customer
   active: true,
