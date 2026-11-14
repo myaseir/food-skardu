@@ -232,7 +232,15 @@ export const HOTELS: string[] = [
   "North Hills Skardu",
   "Pinnacle Executive Lodges",
   "Safena Hotel Skardu",
+  "The Lavish Hotel",
+  "Decent Lodge Hotel Skardu",
+  "Indus View Hotel Skardu",
+  "GB Guest House, Hoto",
+  "North Fields Resort, Hoto",
+
+  "Hotel Blangsa Indus View",
   "Indus Cabana Lodge, Hoto",
+  "Nestopia Hotel Skardu, Hoto",
   "Eat and Read Hotel and Restaurant",
   "Jabal e Rawah Skardu",
   "Byarsa Hotel Skardu",
@@ -985,7 +993,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 15,
       estimated_minutes: 23
     },
+    "The Lavish Hotel": {
+      distance_km: 15,
+      estimated_minutes: 23
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 23
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 23
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 23
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 23
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 15,
+      estimated_minutes: 23
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 23
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 15,
       estimated_minutes: 23
     },
@@ -2064,7 +2100,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 17,
       estimated_minutes: 29
     },
+    "The Lavish Hotel": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 17,
       estimated_minutes: 29
     },
@@ -3146,7 +3210,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 16,
       estimated_minutes: 27
     },
+    "The Lavish Hotel": {
+      distance_km: 16,
+      estimated_minutes: 27
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 16,
+      estimated_minutes: 27
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 16,
+      estimated_minutes: 27
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 16,
+      estimated_minutes: 27
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 16,
+      estimated_minutes: 27
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 16,
+      estimated_minutes: 27
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 16,
+      estimated_minutes: 27
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 16,
       estimated_minutes: 27
     },
@@ -4226,7 +4318,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 15,
     estimated_minutes: 22
   },
+  "The Lavish Hotel": {
+    distance_km: 15,
+    estimated_minutes: 22
+  },
+  "Decent Lodge Hotel Skardu": {
+    distance_km: 15,
+    estimated_minutes: 22
+  },
+  "Indus View Hotel Skardu": {
+    distance_km: 15,
+    estimated_minutes: 22
+  },
+  "GB Guest House, Hoto": {
+    distance_km: 15,
+    estimated_minutes: 22
+  },
+  "North Fields Resort, Hoto": {
+    distance_km: 15,
+    estimated_minutes: 22
+  },
+  "Hotel Blangsa Indus View": {
+    distance_km: 15,
+    estimated_minutes: 22
+  },
   "Indus Cabana Lodge, Hoto": {
+    distance_km: 15,
+    estimated_minutes: 22
+  },
+  "Nestopia Hotel Skardu, Hoto": {
     distance_km: 15,
     estimated_minutes: 22
   },
@@ -5305,7 +5425,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 15,
       estimated_minutes: 21
     },
+    "The Lavish Hotel": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 15,
       estimated_minutes: 21
     },
@@ -6382,7 +6530,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 15,
       estimated_minutes: 21
     },
+    "The Lavish Hotel": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 21
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 15,
       estimated_minutes: 21
     },
@@ -7243,7 +7419,14 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     "North Hills Skardu": { distance_km: 1.2, estimated_minutes: 6 },
     "Pinnacle Executive Lodges": { distance_km: 7.0, estimated_minutes: 26 },
     "Safena Hotel Skardu": { distance_km: 16, estimated_minutes: 28 },
+    "The Lavish Hotel": { distance_km: 16, estimated_minutes: 28 },
+    "Decent Lodge Hotel Skardu": { distance_km: 16, estimated_minutes: 28 },
+    "Indus View Hotel Skardu": { distance_km: 16, estimated_minutes: 28 },
+    "GB Guest House, Hoto": { distance_km: 16, estimated_minutes: 28 },
+    "North Fields Resort, Hoto": { distance_km: 16, estimated_minutes: 28 },
+    "Hotel Blangsa Indus View": { distance_km: 16, estimated_minutes: 28 },
     "Indus Cabana Lodge, Hoto": { distance_km: 16, estimated_minutes: 28 },
+    "Nestopia Hotel Skardu, Hoto": { distance_km: 16, estimated_minutes: 28 },
     "Eat and Read Hotel and Restaurant": { distance_km: 16, estimated_minutes: 28 },
     "Jabal e Rawah Skardu": { distance_km: 6.8, estimated_minutes: 16 },
     "Byarsa Hotel Skardu": { distance_km: 26, estimated_minutes: 38 },
@@ -7787,7 +7970,36 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 5.6,
     estimated_minutes: 12
   },
+  "The Lavish Hotel": {
+    distance_km: 5.6,
+    estimated_minutes: 12
+  },
+  "Decent Lodge Hotel Skardu": {
+    distance_km: 5.6,
+    estimated_minutes: 12
+  },
+  "Indus View Hotel Skardu": {
+    distance_km: 5.6,
+    estimated_minutes: 12
+  },
+  "GB Guest House, Hoto": {
+    distance_km: 5.6,
+    estimated_minutes: 12
+  },
+  "North Fields Resort, Hoto": {
+    distance_km: 5.6,
+    estimated_minutes: 12
+  },
+  
+  "Hotel Blangsa Indus View": {
+    distance_km: 5.6,
+    estimated_minutes: 12
+  },
   "Indus Cabana Lodge, Hoto": {
+    distance_km: 5.6,
+    estimated_minutes: 12
+  },
+  "Nestopia Hotel Skardu, Hoto": {
     distance_km: 5.6,
     estimated_minutes: 12
   },
@@ -8866,7 +9078,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
     distance_km: 16,
     estimated_minutes: 26
   },
+  "The Lavish Hotel": {
+    distance_km: 16,
+    estimated_minutes: 26
+  },
+  "Decent Lodge Hotel Skardu": {
+    distance_km: 16,
+    estimated_minutes: 26
+  },
+  "Indus View Hotel Skardu": {
+    distance_km: 16,
+    estimated_minutes: 26
+  },
+  "GB Guest House, Hoto": {
+    distance_km: 16,
+    estimated_minutes: 26
+  },
+  "North Fields Resort, Hoto": {
+    distance_km: 16,
+    estimated_minutes: 26
+  },
+  "Hotel Blangsa Indus View": {
+    distance_km: 16,
+    estimated_minutes: 26
+  },
   "Indus Cabana Lodge, Hoto": {
+    distance_km: 16,
+    estimated_minutes: 26
+  },
+  "Nestopia Hotel Skardu, Hoto": {
     distance_km: 16,
     estimated_minutes: 26
   },
@@ -9942,7 +10182,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 15,
       estimated_minutes: 25
     },
+    "The Lavish Hotel": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 15,
       estimated_minutes: 25
     },
@@ -11017,7 +11285,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 15,
       estimated_minutes: 25
     },
+    "The Lavish Hotel": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 15,
       estimated_minutes: 25
     },
@@ -12092,7 +12388,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 15,
       estimated_minutes: 25
     },
+    "The Lavish Hotel": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 25
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 15,
       estimated_minutes: 25
     },
@@ -13167,7 +13491,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 16,
       estimated_minutes: 28
     },
+    "The Lavish Hotel": {
+      distance_km: 16,
+      estimated_minutes: 28
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 16,
+      estimated_minutes: 28
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 16,
+      estimated_minutes: 28
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 16,
+      estimated_minutes: 28
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 16,
+      estimated_minutes: 28
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 16,
+      estimated_minutes: 28
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 16,
+      estimated_minutes: 28
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 16,
       estimated_minutes: 28
     },
@@ -14249,7 +14601,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 15,
       estimated_minutes: 26
     },
+    "The Lavish Hotel": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 15,
       estimated_minutes: 26
     },
@@ -15331,7 +15711,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 15,
       estimated_minutes: 26
     },
+    "The Lavish Hotel": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 15,
       estimated_minutes: 26
     },
@@ -16413,7 +16821,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 15,
       estimated_minutes: 26
     },
+    "The Lavish Hotel": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 15,
       estimated_minutes: 26
     },
@@ -17495,7 +17931,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 15,
       estimated_minutes: 26
     },
+    "The Lavish Hotel": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 15,
+      estimated_minutes: 26
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 15,
       estimated_minutes: 26
     },
@@ -18570,7 +19034,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 17,
       estimated_minutes: 29
     },
+    "The Lavish Hotel": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 17,
+      estimated_minutes: 29
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 17,
       estimated_minutes: 29
     },
@@ -19572,7 +20064,35 @@ export const RESTAURANT_TO_AREA: Record<string, Record<string, DistanceTimeEntry
       distance_km: 15.2,
       estimated_minutes: 12
     },
+    "The Lavish Hotel": {
+      distance_km: 15.2,
+      estimated_minutes: 12
+    },
+    "Decent Lodge Hotel Skardu": {
+      distance_km: 15.2,
+      estimated_minutes: 12
+    },
+    "Indus View Hotel Skardu": {
+      distance_km: 15.2,
+      estimated_minutes: 12
+    },
+    "GB Guest House, Hoto": {
+      distance_km: 15.2,
+      estimated_minutes: 12
+    },
+    "North Fields Resort, Hoto": {
+      distance_km: 15.2,
+      estimated_minutes: 12
+    },
+    "Hotel Blangsa Indus View": {
+      distance_km: 15.2,
+      estimated_minutes: 12
+    },
     "Indus Cabana Lodge, Hoto": {
+      distance_km: 15.2,
+      estimated_minutes: 12
+    },
+    "Nestopia Hotel Skardu, Hoto": {
       distance_km: 15.2,
       estimated_minutes: 12
     },
@@ -20479,7 +20999,14 @@ export const AREA_TO_OFFICE: Record<string, DestinationToOfficeEntry> = {
   "North Hills Skardu": { destinationType: "Hotel", distance_km: 4.8, estimated_minutes: 18 },
   "Pinnacle Executive Lodges": { destinationType: "Hotel", distance_km: 3.5, estimated_minutes: 12 },
   "Safena Hotel Skardu": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
+  "The Lavish Hotel": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
+  "Decent Lodge Hotel Skardu": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
+  "Indus View Hotel Skardu": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
+  "GB Guest House, Hoto": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
+  "North Fields Resort, Hoto": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
+  "Hotel Blangsa Indus View": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
   "Indus Cabana Lodge, Hoto": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
+  "Nestopia Hotel Skardu, Hoto": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
   "Eat and Read Hotel and Restaurant": { destinationType: "Hotel", distance_km: 16, estimated_minutes: 26 },
   "Jabal e Rawah Skardu": { destinationType: "Hotel", distance_km: 6.6, estimated_minutes: 15 },
   "Byarsa Hotel Skardu": { destinationType: "Hotel", distance_km: 26, estimated_minutes: 37 },
@@ -20693,7 +21220,7 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Hussainabad":180,
   "University of Baltistan (UOB)":150,
   "Thorgu":400,
-  "Orgventure Resorts Skardu":980,
+  "Orgventure Resorts Skardu":900,
   "Himalaya Hotel Hussainabad, Skardu":180,
   "Himmel Skardu by Luxux":4000,
   "Rafsal A Countryside Cottage":120,
@@ -20705,7 +21232,15 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Hotel walnut":700,
   "Grand view hotel":600,
   "Safena Hotel Skardu":600,
+  "The Lavish Hotel":800,
+  "Decent Lodge Hotel Skardu":800,
+  "Indus View Hotel Skardu":800,
+  "GB Guest House, Hoto":800,
+  "North Fields Resort, Hoto":800,
+  "Hotel Blangsa Indus View":800,
   "Indus Cabana Lodge, Hoto":700,
+  "Nestopia Hotel Skardu, Hoto":800,
+  
   "Comfort inn hotel":400,
   "Skardu bliss hotel":500,
   "Eat and Read Hotel and Restaurant":800,
@@ -20727,6 +21262,7 @@ export const DESTINATION_EXTRA_CHARGE: Record<string, number> = {
   "Grand Hotel Skardu":550,
   "Skengoo Inn Hotel":70,
   "Manthal":50,
+  "Hoto":500,
  
   "Maple Resort":430,
   "Maple Hotel Skardu":90,

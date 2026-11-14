@@ -10,7 +10,7 @@ import { useAvailability } from "@/hooks/useAvailability";
 import { estimateDeliveryTime } from "@/utils/deliveryCalculator";
 
 // Add/remove shop ids here to control what shows in the carousel
-const FEATURED_SHOP_IDS = ["yak-and-bull" ,"mfc","dominos-skardu","thefoodcorridor-skardu","yak-grill-skardu","the-balti-table", ];
+const FEATURED_SHOP_IDS = ["yak-and-bull" ,"mfc","thefoodcorridor-skardu","yak-grill-skardu","the-balti-table", ];
 
 // ---------------------------------------------------------------------------
 // BADGES — pick which restaurants get a badge and which kind.

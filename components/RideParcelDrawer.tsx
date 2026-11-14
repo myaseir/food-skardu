@@ -1049,7 +1049,7 @@ export default function RideParcelForm() {
       <div className="mb-8 flex items-center justify-center gap-2.5">
         <div className="h-15 w-15 shrink-0 overflow-hidden rounded-xl shadow-md shadow-purple-600/30">
           <img
-            src="https://lh3.googleusercontent.com/gps-cs-s/AHRPTWlnZLphO962Ub_SJzR903k14i87FPHsHowAZKIwaLkq_zwtiwmwz366IV0K9jJGp_oRVbNxuWx4TtI4-aJYJOMwR8b8VglQkgrw5BPVnEzWz8bfqpjIvFFvB19NEZF6EnFjr5cajNHhzGm5=s680-w680-h510-rw"
+            src="https://res.cloudinary.com/dxxqrjnje/image/upload/v1794662847/WhatsApp_Image_2026-07-12_at_12.27.07_PM_qznbtq.jpg"
             alt="Meal Bear logo"
             className="h-full w-full object-cover"
           />

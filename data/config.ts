@@ -200,22 +200,22 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
       "Biryani Darbar is a restaurant and fast food spot in Skardu, near Alamdar Chowk, known for its biryani, polawo and Pakistani classics. It also offers biryani deg for weddings, events and catering.",
     cuisines: ["Pakistani", "Biryani", "Fast Food"],
   },
-  {
-    id: "dominos-skardu",
-    name: "Domino's Pizza Skardu",
-    type: "restaurant",
-    openTime: "14:30",
-    closeTime: "00:00",
-    alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
-    lat: 35.302132, // TODO: replace with real coordinates
-    lng: 75.625344, // TODO: replace with real coordinates
-    whatsapp: "923441518777",
-    rating: 4.4, // adjust as needed
-    reviews: 49,
-    description: "Domino's Pizza in Skardu is famous for its pizza.",
-    cuisines: ["Pizza", "Fast Food"],
-  },
+  // {
+  //   id: "dominos-skardu",
+  //   name: "Domino's Pizza Skardu",
+  //   type: "restaurant",
+  //   openTime: "14:30",
+  //   closeTime: "00:00",
+  //   alwaysOpen: false,
+  //   logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQipAadvX55uIxjvM_YfwT8z-A_IxMxT3Quh1MHxi1g9g&s", // TODO: paste real logo URL
+  //   lat: 35.302132, // TODO: replace with real coordinates
+  //   lng: 75.625344, // TODO: replace with real coordinates
+  //   whatsapp: "923441518777",
+  //   rating: 4.4, // adjust as needed
+  //   reviews: 49,
+  //   description: "Domino's Pizza in Skardu is famous for its pizza.",
+  //   cuisines: ["Pizza", "Fast Food"],
+  // },
 {
     id: "aljannat-bakers",
     name: "Al Jannat Bakers and Sweets Skardu",
