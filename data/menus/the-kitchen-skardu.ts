@@ -33,7 +33,7 @@ export const menu = {
           name: "Sada Biryani",
           price: 300,
           discountPrice: 300,
-          desc: "Plain biryani rice, no chicken",
+          desc: "No chicken",
           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWVyM9kAiegClpBY3xjR4DZSe0AFsDExytrCGrw9T0NbyQXQpxlb2m8m8&s=10",
           variants: []
         },
