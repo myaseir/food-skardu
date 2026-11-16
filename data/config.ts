@@ -188,7 +188,7 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     name: "Biryani Darbar",
     type: "restaurant",
     openTime: "12:00", // TODO: confirm actual opening time
-    closeTime: "20:30", // TODO: confirm actual closing time
+    closeTime: "20:00", // TODO: confirm actual closing time
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtYvbgjTr9SGfUN_87ce3fbgKGRUoKxq0VLskfj4cbtw&s", // TODO: paste real logo URL
      lat: 35.289174, // TODO: replace with real coordinates
