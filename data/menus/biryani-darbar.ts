@@ -25,12 +25,12 @@ export const menu = {
       name: "Fast Food Special",
       items: [
         { id: "bd-ff-1", name: "Zinger Burger", price: 400, discountPrice: 400, desc: "Crispy zinger burger", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmTnT7nH1rUbUQH4J9kXKj8M9VbtTeboFLC_Jol4Ku66v-CHoXUDR3AdJ6&s=10", variants: [] },
-        { id: "bd-ff-2", name: "Broast 2 Pc", price: 600, discountPrice: 600, desc: "2 pieces of crispy broast", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu9YOpAEcNFcqSm-KM_cF99qC69hsxpX9Fngt69p-u8yxaXJvKX1GWJs&s=10", variants: [] },
+        // { id: "bd-ff-2", name: "Broast 2 Pc", price: 600, discountPrice: 600, desc: "2 pieces of crispy broast", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu9YOpAEcNFcqSm-KM_cF99qC69hsxpX9Fngt69p-u8yxaXJvKX1GWJs&s=10", variants: [] },
         { id: "bd-ff-3", name: "Egg Burger", price: 150, discountPrice: 150, desc: "Egg burger", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8MCNi7cfq9lAdaki6HVPz8Cn719YMcA8a2_4lnYKf5g&s=10", variants: [] },
         { id: "bd-ff-4", name: "Fries", price: 100, discountPrice: 100, desc: "Crispy golden fries", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX6F-5hulILYwE4O6bqEy5QTbDUfrBS0p99hNZbROQ6w&s=10", variants: [] },
         { id: "bd-ff-5", name: "Shawarma", price: 200, discountPrice: 200, desc: "Chicken shawarma", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT3DloUz1p25J_rUwDvPewqE-fzza-UnpeM0iG8woUIA&s=10", variants: [] },
         { id: "bd-ff-6", name: "Chicken Roll", price: 200, discountPrice: 200, desc: "Chicken roll", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNPcfwmj4jczCksq7QBOX1yV70f9xxm5G0aa6cogY_oNs4Po7epMWQusg&s=10", variants: [] },
-        { id: "bd-ff-7", name: "Beef kabab Roll", price: 200, discountPrice: 200, desc: "Beef khawab roll", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUQIzWtJ8dClc_erHs3jW6O9l33DvTSmpVzYknAz2qBVBL4uX0GPTQ1TjE&s=10", variants: [] }
+        // { id: "bd-ff-7", name: "Beef kabab Roll", price: 200, discountPrice: 200, desc: "Beef khawab roll", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUQIzWtJ8dClc_erHs3jW6O9l33DvTSmpVzYknAz2qBVBL4uX0GPTQ1TjE&s=10", variants: [] }
       ]
     },
     // {
