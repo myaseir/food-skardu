@@ -221,7 +221,7 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     name: "Al Jannat Bakers and Sweets Skardu",
     type: "bakery",
     openTime: "011:30",
-    closeTime: "1:00", // TODO: confirm actual opening/closing hours
+    closeTime: "0:30", // TODO: confirm actual opening/closing hours
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvy9ePYYMn2brEYQeP8lw4JhnuQOPILsfwoL-A3sHWx0jVnxlPyqbcamY&s=10", // TODO: add logo image URL
     lat: 35.298864, // TODO: replace with real coordinates
@@ -308,7 +308,7 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     name: "Skyway Pizza Skardu",
     type: "restaurant",
     openTime: "13:00",
-    closeTime: "01:00",
+    closeTime: "00:30",
     alwaysOpen: false,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
     lat: 35.288921, // TODO: replace with real coordinates
