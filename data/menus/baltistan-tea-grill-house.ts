@@ -334,9 +334,9 @@ export const menu = {
         { id: "sn-6", name: "Banana Cake Slice", price: 300, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwECtWzsQzOpo8Xbj5Q9LDarHGWBlRWOe99VYrvrBhLIa4zT_g7ksnNqI&s=10", variants: [] },
         { id: "sn-5", name: "Walnut Cake Slice", price: 350, desc: "", image: "https://addictedtodates.com/wp-content/uploads/2023/11/dates-and-walnut-cake.jpg", variants: [] },
         // { id: "sn-8", name: "Icecream", price: 300, desc: "", image: "", variants: [] }, // NEW — TODO: add image
-        { id: "sn-2", name: "Pakora Plate", price: 300, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZuz-g7QHNhZVzRXDyrxnk3NM9sqr2A8DRuERi00dv0GYNQh7WOmLlhRLr&s=10", variants: [] },
-        { id: "sn-1", name: "Vegetable Samosa", price: 50, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFo8MJN5TkDh6H9JiFVJqg_-QvFVeOINBS6oySRxLCCKniRZG-VR-yFYw&s=10", variants: [] },
-        { id: "sn-3", name: "Vegetable Roll", price: 70, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS96twAIzDQEiuy0qbuyz2CVD_j94iddLBBbAorQ1lMw7Rey1Ay30274fo&s=10", variants: [] }
+        // { id: "sn-2", name: "Pakora Plate", price: 300, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZuz-g7QHNhZVzRXDyrxnk3NM9sqr2A8DRuERi00dv0GYNQh7WOmLlhRLr&s=10", variants: [] },
+        // { id: "sn-1", name: "Vegetable Samosa", price: 50, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFo8MJN5TkDh6H9JiFVJqg_-QvFVeOINBS6oySRxLCCKniRZG-VR-yFYw&s=10", variants: [] },
+        // { id: "sn-3", name: "Vegetable Roll", price: 70, desc: "", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS96twAIzDQEiuy0qbuyz2CVD_j94iddLBBbAorQ1lMw7Rey1Ay30274fo&s=10", variants: [] }
         // Plain / Masala / Loaded Fries are listed under the "Fries" category above.
       ]
     },

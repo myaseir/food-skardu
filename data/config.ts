@@ -184,6 +184,39 @@ cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
     cuisines: ["Pakistani", "Pathan", "Chapli Kabab"],
   },
   {
+    id: "yakandtrout",
+    name: "The Yak & Trout",
+    type: "restaurant",
+    openTime: "12:00", // TODO: confirm actual opening time
+    closeTime: "20:30", // TODO: confirm actual closing time
+    alwaysOpen: false,
+    logo: "https://scontent.fisb29-1.fna.fbcdn.net/v/t39.30808-6/853152386_122093839011539571_9105109906546179367_n.jpg?stp=dst-jpg_tt6&cstp=mx486x476&ctp=s486x476&_nc_cat=100&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=utivO2qOaX8Q7kNvwFZuSgR&_nc_oc=Adp4kNfPu_W9xoi-6eQEsEYKadLz30w0kPrZEoj1e771N2qH3W56HCmMn73v6ut5z8U&_nc_zt=23&_nc_ht=scontent.fisb29-1.fna&_nc_gid=RF2lnx1tgMOG5dZ3cEslIg&_nc_ss=7b389&oh=00_AQTSgiS_OhTzp5jS0W2y6_wMHUJxH-WaCGmU9xii3d5TNg&oe=6B0B1588", // TODO: paste real logo URL
+  lat: 35.289174, // TODO: replace with real coordinates
+    lng: 75.636453,  // TODO: replace with real coordinates
+    whatsapp: "923710927080",
+    rating: 5, // TODO: adjust once real reviews exist
+    reviews: 5, // TODO: adjust once real reviews exist
+    description:
+      "The Yak & Trout is a fine dining restaurant in Skardu known for its yak specialties and fresh trout and fish, alongside desi entrees, pizza, burgers, pasta and soups.",
+  cuisines: ["Pakistani", "Fine Dining", "Yak", "Trout & Fish", "Fast Food"],
+  },
+  {
+    id: "once-more",
+    name: "Once More",
+    type: "restaurant",
+    openTime: "12:00", // TODO: confirm actual opening time
+    closeTime: "20:30", // TODO: confirm actual closing time
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7f-j3FTCR0TTrBrlf8CB0jKA5kaOGjihjldZ5n9mvzQ&s=10", // TODO: paste real logo URL
+    lat: 35.289211, lng: 75.631235,  // TODO: replace with real coordinates
+    whatsapp: "923710927080",
+    rating: 4.3, // TODO: adjust once real reviews exist
+    reviews: 53, // TODO: adjust once real reviews exist
+    description:
+      "Once More is a restaurant in Skardu serving Pakistani favourites like karahi, korma and roast, along with Chinese dishes, breakfast and soups.",
+    cuisines: ["Pakistani", "Chinese", "Breakfast", "Soup"],
+  },
+  {
     id: "biryani-darbar",
     name: "Biryani Darbar",
     type: "restaurant",

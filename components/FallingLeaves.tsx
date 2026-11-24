@@ -2,217 +2,146 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
-type Pair = [string, string];
-type LeafType = "chinar" | "poplar" | "apricot" | "willow" | "walnut";
+type FlakeKind = "dot" | "crystal";
 
 /**
- * Skardu / Baltistan autumn:
- *  - chinar   (Platanus orientalis): big 5-lobed leaves, orange -> crimson
- *  - poplar   (Populus):            pointed diamond leaves, golden yellow
- *  - apricot  (orchards):           pointed oval leaves, orange -> red
- *  - willow   (along streams):      long narrow leaves, pale yellow
- *  - walnut   (leaflets):           pointed elliptical, yellow-brown
+ * Winter theme:
+ *  - dot:     soft round snowflakes (the bulk of the snowfall, great for depth)
+ *  - crystal: six-armed ice crystals that slowly tumble
+ * Plus a cold, pale-blue glow at the top of the screen that dims when the wind picks up.
  */
-const PALETTES: Record<LeafType, Pair[]> = {
-  chinar: [["#f08a2c", "#a8340f"], ["#e0642a", "#8a1f10"], ["#f2a23a", "#b4501a"], ["#d9482a", "#7a1810"]],
-  poplar: [["#fbe05a", "#d49a1c"], ["#f5cd3c", "#c08414"], ["#ffe987", "#d8a82a"]],
-  apricot: [["#f3873a", "#b53d12"], ["#e86a2e", "#9a2a10"], ["#f6b13f", "#c8641a"]],
-  willow: [["#e9e27a", "#b9a73a"], ["#f2e68c", "#c8b44a"], ["#d8d86a", "#a79a30"]],
-  walnut: [["#c99a3a", "#7d5518"], ["#d7ac45", "#8a601c"], ["#b9812f", "#6d4414"]],
-};
-
-const TYPE_POOL: LeafType[] = [
-  "chinar", "chinar", "chinar",
-  "poplar", "poplar", "poplar",
-  "apricot", "apricot",
-  "willow", "willow",
-  "walnut",
-];
-
-const TYPE_SCALE: Record<LeafType, number> = {
-  chinar: 1.3, poplar: 0.95, apricot: 0.95, willow: 1.15, walnut: 0.95,
-};
-
-const PROFILES: Record<
-  string,
-  { w: number; p: number; q: number; teeth: number; serr: number; veins: number }
-> = {
-  poplar: { w: 22, p: 1.3, q: 0.8, teeth: 14, serr: 0.05, veins: 5 },
-  apricot: { w: 21, p: 1.45, q: 0.7, teeth: 20, serr: 0.035, veins: 6 },
-  willow: { w: 7.5, p: 1.0, q: 0.95, teeth: 0, serr: 0, veins: 0 },
-  walnut: { w: 15, p: 1.0, q: 0.95, teeth: 0, serr: 0, veins: 6 },
-};
-
-const CHINAR_HALF: [number, number][] = [
-  [35, 13], [37, 20], [40, 25], [57, 22], [48, 30], [45, 34], [53, 47], [42, 44], [37, 50], [34, 56],
+const KIND_POOL: FlakeKind[] = [
+  "dot", "dot", "dot", "dot", "dot",
+  "crystal", "crystal", "crystal", "crystal",
 ];
 
 // --- tuning knobs ---
-const SPRITE_SIZE = 96;       // biggest leaf is ~47 CSS px, i.e. ~94 device px at 2x DPR
-const MAX_DPR = 2;            // cap the canvas resolution so 3x phones don't pay for it
-const VARIANTS_PER_TYPE = 4;  // 20 sprites in total
-const MAX_FPS = 30;           // motion is slow, 30fps is hard to tell apart and halves the work
-const LIGHT_ANGLE = -0.9;     // direction the light comes from (radians), upper-left
-const SHAFT_ALPHA = 0.14;     // max strength of the sun shafts (keep it subtle)
-const SCROLL_WIND = 0.035;    // how much scroll speed turns into wind
-const RESIZE_DEBOUNCE = 150;  // ms
+const DOT_SPRITE_SIZE = 48;
+const CRYSTAL_SPRITE_SIZE = 96;
+const MAX_DPR = 2;             // cap the canvas resolution so 3x phones don't pay for it
+const DOT_VARIANTS = 3;
+const CRYSTAL_VARIANTS = 6;
+const MAX_FPS = 30;            // motion is slow, 30fps is hard to tell apart and halves the work
+const GLOW_ALPHA = 0.12;       // max strength of the frosty light (keep it subtle)
+const SCROLL_WIND = 0.035;     // how much scroll speed turns into wind
+const RESIZE_DEBOUNCE = 150;   // ms
 const DEFAULT_Z_INDEX = 2147483647; // above everything (cart slider, modals, toasts)
-const PX_PER_LEAF = 36;       // one leaf per this many px of screen width, so wide screens stay full
-const MIN_LEAVES = 22;
-const MAX_LEAVES = 72;
-const SIDE_MARGIN = 0.12;     // leaves spawn this far (share of width) beyond each edge
+const PX_PER_FLAKE = 24;       // one flake per this many px of screen width, so wide screens stay full
+const MIN_FLAKES = 40;
+const MAX_FLAKES = 130;
+const SIDE_MARGIN = 0.12;      // flakes spawn this far (share of width) beyond each edge
 
-type Sprite = {
-  img: HTMLCanvasElement;  // the leaf itself
-  dark: HTMLCanvasElement; // dark silhouette, overlaid on the shaded side
-  glow: HTMLCanvasElement; // warm silhouette, overlaid on the lit side
-};
+type Sprite = HTMLCanvasElement;
 
-function makeLeafCanvas(type: LeafType, [light, dark]: Pair) {
-  const S = SPRITE_SIZE;
+// soft round flake with an icy-blue falloff so it stays visible on light backgrounds too
+function makeDotSprite(hardness: number): Sprite {
+  const S = DOT_SPRITE_SIZE;
+  const c = document.createElement("canvas");
+  c.width = c.height = S;
+  const g = c.getContext("2d")!;
+  const r = S / 2;
+  const grad = g.createRadialGradient(r, r, 0, r, r, r);
+  grad.addColorStop(0, "rgba(255,255,255,1)");
+  grad.addColorStop(0.25 + hardness * 0.25, "rgba(246,251,255,0.95)");
+  grad.addColorStop(0.7, "rgba(190,220,250,0.5)");
+  grad.addColorStop(1, "rgba(165,205,245,0)");
+  g.fillStyle = grad;
+  g.beginPath();
+  g.arc(r, r, r, 0, Math.PI * 2);
+  g.fill();
+  return c;
+}
+
+// six-armed ice crystal; branches are mirrored on all arms so it looks like a real snowflake
+function makeCrystalSprite(): Sprite {
+  const S = CRYSTAL_SPRITE_SIZE;
   const c = document.createElement("canvas");
   c.width = c.height = S;
   const g = c.getContext("2d")!;
   g.scale(S / 64, S / 64);
-  g.lineJoin = "round";
+  g.translate(32, 32);
   g.lineCap = "round";
+  g.lineJoin = "round";
 
-  const curve = (Math.random() - 0.5) * 6;
-  const cx = (t: number) => 32 + curve * Math.sin(Math.PI * t);
-  const veins: [number, number, number, number][] = [];
-  let stemTop = 55;
+  const R = 24 + Math.random() * 5;
+  const branchCount = 2 + Math.floor(Math.random() * 2); // 2 or 3 pairs of branches
+  const branches = Array.from({ length: branchCount }, (_, i) => ({
+    d: R * (0.38 + (i / branchCount) * 0.5 + Math.random() * 0.05),
+    len: R * (0.22 + Math.random() * 0.16) * (1 - i * 0.12),
+    ang: Math.PI / 3 + (Math.random() - 0.5) * 0.25,
+  }));
+  const tipFork = Math.random() < 0.5;
 
-  g.beginPath();
-  if (type === "chinar") {
-    const jitter = () => (Math.random() - 0.5) * 1.6;
-    const half = CHINAR_HALF.map(([x, y]) => [x + jitter(), y + jitter()] as [number, number]);
-    g.moveTo(32, 3);
-    half.forEach(([x, y]) => g.lineTo(x, y));
-    for (let i = half.length - 1; i >= 0; i--) g.lineTo(64 - half[i][0], half[i][1]);
-    [[32, 4], [57, 22], [53, 47], [7, 22], [11, 47]].forEach(([x, y]) => veins.push([32, 55, x, y]));
-    stemTop = 56;
-  } else {
-    const { w, p, q, teeth, serr, veins: nv } = PROFILES[type];
-    const N = 48, y0 = 3, y1 = 56;
-    const half = (t: number) => {
-      const base = w * Math.pow(Math.max(0, Math.sin(Math.PI * Math.pow(t, p))), q);
-      const saw = teeth ? ((t * teeth) % 1) - 0.5 : 0;
-      return base * (1 + serr * 2 * saw * Math.sin(Math.PI * t));
-    };
-    g.moveTo(cx(0), y0);
-    for (let i = 1; i <= N; i++) { const t = i / N; g.lineTo(cx(t) + half(t), y0 + t * (y1 - y0)); }
-    for (let i = N; i >= 0; i--) { const t = i / N; g.lineTo(cx(t) - half(t), y0 + t * (y1 - y0)); }
-    veins.push([cx(0), y0, cx(1), y1]);
-    for (let i = 1; i <= nv; i++) {
-      const t = 0.14 + (i / (nv + 1)) * 0.75;
-      const tt = Math.max(0, t - 0.12);
-      const y = y0 + t * (y1 - y0);
-      const x = cx(t);
-      const hw = half(tt) * 0.85;
-      veins.push([x, y, x + hw, y0 + tt * (y1 - y0)]);
-      veins.push([x, y, x - hw, y0 + tt * (y1 - y0)]);
+  const drawArms = () => {
+    for (let a = 0; a < 6; a++) {
+      g.save();
+      g.rotate((a * Math.PI) / 3);
+      g.beginPath();
+      g.moveTo(0, 0);
+      g.lineTo(0, -R);
+      branches.forEach(({ d, len, ang }) => {
+        [-1, 1].forEach((s) => {
+          g.moveTo(0, -d);
+          g.lineTo(s * Math.sin(ang) * len, -d - Math.cos(ang) * len);
+        });
+      });
+      if (tipFork) {
+        [-1, 1].forEach((s) => {
+          g.moveTo(0, -R);
+          g.lineTo(s * 3.2, -R - 3.6);
+        });
+      }
+      g.stroke();
+      g.restore();
     }
-  }
-  g.closePath();
+  };
 
-  const grad = g.createLinearGradient(10, 6, 54, 58);
-  grad.addColorStop(0, light);
-  grad.addColorStop(1, dark);
-  g.fillStyle = grad;
+  // soft icy glow underneath, then a crisp white core on top
+  g.shadowColor = "rgba(120,180,240,0.9)";
+  g.shadowBlur = 5;
+  g.strokeStyle = "rgba(160,205,245,0.6)";
+  g.lineWidth = 3.2;
+  drawArms();
+
+  g.shadowBlur = 0;
+  g.strokeStyle = "#ffffff";
+  g.lineWidth = 1.6;
+  drawArms();
+
+  g.fillStyle = "#ffffff";
+  g.beginPath();
+  g.arc(0, 0, 2.4, 0, Math.PI * 2);
   g.fill();
 
-  g.save();
-  g.clip();
-
-  const shade = g.createLinearGradient(8, 0, 56, 0);
-  shade.addColorStop(0, "rgba(255,255,255,0.14)");
-  shade.addColorStop(0.5, "rgba(255,255,255,0)");
-  shade.addColorStop(1, "rgba(0,0,0,0.16)");
-  g.fillStyle = shade;
-  g.fillRect(0, 0, 64, 64);
-
-  const tipTone = g.createLinearGradient(0, 0, 0, 30);
-  tipTone.addColorStop(0, "rgba(90,40,10,0.22)");
-  tipTone.addColorStop(1, "rgba(90,40,10,0)");
-  g.fillStyle = tipTone;
-  g.fillRect(0, 0, 64, 30);
-
-  const spots = Math.floor(Math.random() * 4);
-  for (let i = 0; i < spots; i++) {
-    g.fillStyle = `rgba(70,30,10,${0.1 + Math.random() * 0.12})`;
-    g.beginPath();
-    g.arc(18 + Math.random() * 28, 12 + Math.random() * 40, 1 + Math.random() * 2.2, 0, Math.PI * 2);
-    g.fill();
-  }
-
-  g.strokeStyle = "rgba(60,25,5,0.3)";
-  g.lineWidth = 0.9;
-  g.beginPath();
-  veins.forEach(([x1, y1, x2, y2]) => { g.moveTo(x1, y1); g.lineTo(x2, y2); });
-  g.stroke();
-  g.restore();
-
-  g.strokeStyle = "rgba(0,0,0,0.2)";
-  g.lineWidth = 0.9;
-  g.stroke();
-
-  g.strokeStyle = dark;
-  g.lineWidth = 1.8;
-  g.beginPath();
-  g.moveTo(32, stemTop);
-  g.lineTo(32 + curve * 0.4, 63);
-  g.stroke();
-
   return c;
 }
 
-// a flat-colored copy of the leaf silhouette (used for lighting overlays)
-function tinted(img: HTMLCanvasElement, color: string) {
-  const c = document.createElement("canvas");
-  c.width = c.height = img.width;
-  const g = c.getContext("2d")!;
-  g.drawImage(img, 0, 0);
-  g.globalCompositeOperation = "source-atop";
-  g.fillStyle = color;
-  g.fillRect(0, 0, c.width, c.height);
-  return c;
-}
-
-function buildSprite(type: LeafType, pair: Pair): Sprite {
-  const img = makeLeafCanvas(type, pair);
-  return {
-    img,
-    dark: tinted(img, "rgb(40,14,4)"),
-    glow: tinted(img, "rgb(255,226,150)"),
-  };
-}
-
-// Sun shafts + glow as pure CSS. Only the opacity changes, which the browser composites on the GPU.
-const RAYS_STYLE: CSSProperties = {
-  opacity: SHAFT_ALPHA,
+// Cold light + glow as pure CSS. Only the opacity changes, which the browser composites on the GPU.
+const GLOW_STYLE: CSSProperties = {
+  opacity: GLOW_ALPHA,
   willChange: "opacity",
   background: [
-    "radial-gradient(ellipse 90% 70% at 20% -5%, rgba(255,228,160,0.5), rgba(255,228,160,0) 70%)",
-    "linear-gradient(115deg, transparent 6%, rgba(255,226,150,0.8) 10%, transparent 15%)",
-    "linear-gradient(115deg, transparent 24%, rgba(255,226,150,0.6) 28%, transparent 36%)",
-    "linear-gradient(115deg, transparent 44%, rgba(255,226,150,0.9) 47%, transparent 52%)",
-    "linear-gradient(115deg, transparent 62%, rgba(255,226,150,0.55) 67%, transparent 76%)",
-    "linear-gradient(115deg, transparent 82%, rgba(255,226,150,0.7) 85%, transparent 90%)",
+    "radial-gradient(ellipse 100% 70% at 50% -10%, rgba(200,228,255,0.7), rgba(200,228,255,0) 70%)",
+    "linear-gradient(105deg, transparent 8%, rgba(210,235,255,0.55) 12%, transparent 17%)",
+    "linear-gradient(105deg, transparent 30%, rgba(210,235,255,0.45) 34%, transparent 42%)",
+    "linear-gradient(105deg, transparent 54%, rgba(210,235,255,0.6) 57%, transparent 62%)",
+    "linear-gradient(105deg, transparent 74%, rgba(210,235,255,0.4) 78%, transparent 86%)",
   ].join(","),
-  WebkitMaskImage: "linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.35) 70%, transparent 100%)",
-  maskImage: "linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.35) 70%, transparent 100%)",
+  WebkitMaskImage: "linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.35) 65%, transparent 100%)",
+  maskImage: "linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.35) 65%, transparent 100%)",
 };
 
 /**
- * Leaves live in screen coordinates. They always enter from above the top edge, drift down
+ * Flakes live in screen coordinates. They always enter from above the top edge, drift down
  * across the whole width, leave below the bottom edge (or off a side) and are immediately
- * re-spawned at the top, so the fall never stops and never bunches up in one place.
+ * re-spawned at the top, so the snowfall never stops and never bunches up in one place.
  */
-type Leaf = {
+type Flake = {
   x: number; y: number; size: number; vy: number; vx: number;
   amp: number; freq: number; phase: number;
   rot: number; rotSpeed: number;
   flip: number; flipSpeed: number;
+  kind: FlakeKind;
   sprite: Sprite; alpha: number;
   resp: number; drag: number; lift: number;
   temp: boolean;
@@ -227,11 +156,11 @@ type Props = {
   zIndex?: number;
 };
 
-export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
+export default function FallingSnow({ zIndex = DEFAULT_Z_INDEX }: Props) {
   const ref = useRef<HTMLCanvasElement>(null);
-  const raysRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
 
-  // Start as "reduced" so nothing (not even the sun shafts) renders on the server or on the
+  // Start as "reduced" so nothing (not even the glow) renders on the server or on the
   // first client paint. The real preference is read in the effect below and then tracked live.
   const [reduced, setReduced] = useState(true);
 
@@ -248,7 +177,7 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
 
     const canvas = ref.current;
     if (!canvas) return;
-    const raysEl = raysRef.current;
+    const glowEl = glowRef.current;
     const ctx = canvas.getContext("2d")!;
     const MIN_FRAME = 1000 / MAX_FPS - 2;
 
@@ -257,48 +186,49 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
     let idleHandle = 0;
     let resizeTimer = 0;
 
-    const sprites = {} as Record<LeafType, Sprite[]>;
+    const sprites = { dot: [], crystal: [] } as Record<FlakeKind, Sprite[]>;
     let w = 0, h = 0, dpr = 1, raf = 0, last = performance.now(), running = true;
-    let leaves: Leaf[] = [];
+    let flakes: Flake[] = [];
     let gust: Gust | null = null;
     let nextGust = performance.now() + 6000 + Math.random() * 3000;
 
-    let calm = 1; // 1 = calm (light visible), 0 = windy / scrolling fast (light dims)
-    let shaftShown = SHAFT_ALPHA;
+    let calm = 1; // 1 = calm (glow visible), 0 = windy / scrolling fast (glow dims)
+    let glowShown = GLOW_ALPHA;
 
     // scroll tracking
     let lastScrollY = window.scrollY;
     let scrollAcc = 0;
     let scrollV = 0;
 
-    // leaf count follows the screen width, so wide screens are as full as phones
+    // flake count follows the screen width, so wide screens are as full as phones
     const baseCount = () =>
-      Math.max(MIN_LEAVES, Math.min(MAX_LEAVES, Math.round(w / PX_PER_LEAF)));
-    const extraCount = () => (w < 640 ? 9 : 18);
+      Math.max(MIN_FLAKES, Math.min(MAX_FLAKES, Math.round(w / PX_PER_FLAKE)));
+    const extraCount = () => (w < 640 ? 14 : 28);
 
-    // Regular leaves spawn across the full width (plus a margin past both edges, so sideways
+    // Regular flakes spawn across the full width (plus a margin past both edges, so sideways
     // drift keeps the edges as busy as the middle) and always enter from above the top edge,
     // at staggered heights so they don't arrive in rows. `initial` spreads them over the screen.
-    const spawn = (initial: boolean, fromSide?: 1 | -1): Leaf => {
+    const spawn = (initial: boolean, fromSide?: 1 | -1): Flake => {
       const depth = Math.random();
-      const type = TYPE_POOL[Math.floor(Math.random() * TYPE_POOL.length)];
-      const list = sprites[type];
-      const size = (12 + depth * 24) * TYPE_SCALE[type];
-      const leaf: Leaf = {
+      const kind = KIND_POOL[Math.floor(Math.random() * KIND_POOL.length)];
+      const list = sprites[kind];
+      const size = kind === "dot" ? 6 + depth * 12 : 11 + depth * 19;
+      const flake: Flake = {
         x: -w * SIDE_MARGIN + Math.random() * w * (1 + SIDE_MARGIN * 2),
         y: initial ? Math.random() * h : -size - Math.random() * h * 0.5,
         size,
-        vy: 0.35 + depth * 0.8,
+        vy: 0.25 + depth * 0.75,
         vx: 0,
-        amp: 15 + Math.random() * 35,
-        freq: 0.0006 + Math.random() * 0.0008,
+        amp: 10 + Math.random() * 28,
+        freq: 0.0005 + Math.random() * 0.0007,
         phase: Math.random() * Math.PI * 2,
         rot: Math.random() * Math.PI * 2,
-        rotSpeed: (Math.random() - 0.5) * 0.03,
+        rotSpeed: kind === "crystal" ? (Math.random() - 0.5) * 0.02 : 0,
         flip: Math.random() * Math.PI * 2,
-        flipSpeed: 0.01 + Math.random() * 0.03,
+        flipSpeed: 0.008 + Math.random() * 0.02,
+        kind,
         sprite: list[Math.floor(Math.random() * list.length)],
-        alpha: 0.5 + depth * 0.45,
+        alpha: 0.45 + depth * 0.5,
         resp: 0.5 + Math.random() * 0.8,
         drag: 0.015 + Math.random() * 0.03,
         lift: Math.random() * 0.9,
@@ -307,15 +237,15 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
         swirl: (Math.random() < 0.5 ? -1 : 1) * (0.5 + Math.random() * 0.5),
       };
       if (fromSide) {
-        leaf.temp = true;
-        leaf.x = fromSide > 0 ? -20 - Math.random() * 300 : w + 20 + Math.random() * 300;
-        leaf.y = Math.random() * h * 0.7;
-        leaf.vx = fromSide * 2;
+        flake.temp = true;
+        flake.x = fromSide > 0 ? -20 - Math.random() * 300 : w + 20 + Math.random() * 300;
+        flake.y = Math.random() * h * 0.7;
+        flake.vx = fromSide * 2;
       }
-      return leaf;
+      return flake;
     };
 
-    // Sizes the canvas. Leaves are only respawned when the width changes, so the mobile
+    // Sizes the canvas. Flakes are only respawned when the width changes, so the mobile
     // URL bar showing/hiding (height-only resize) doesn't reset the whole scene.
     // Does nothing until the sprites exist (a resize can arrive before init has run).
     const applySize = () => {
@@ -332,8 +262,8 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
       // cropped/padded instead of stretched
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
-      if (widthChanged || leaves.length === 0) {
-        leaves = Array.from({ length: baseCount() }, () => spawn(true));
+      if (widthChanged || flakes.length === 0) {
+        flakes = Array.from({ length: baseCount() }, () => spawn(true));
       }
     };
 
@@ -349,32 +279,21 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
         strength: 0.8 + Math.random() * 1.0,
         dir: Math.random() < 0.5 ? 1 : -1,
       };
-      for (let i = 0; i < extraCount(); i++) leaves.push(spawn(false, gust.dir));
+      for (let i = 0; i < extraCount(); i++) flakes.push(spawn(false, gust.dir));
     };
 
-    // draws one leaf (in CSS px, scaled by dpr), then a light/dark overlay depending on its angle
-    const drawLeaf = (l: Leaf, sx: number, y: number, c: number) => {
-      const sc = Math.max(0.12, c);
-      const a = l.alpha * (0.7 + 0.3 * c);
-      const s = l.size;
-      const cr = Math.cos(l.rot);
-      const sr = Math.sin(l.rot);
+    // draws one flake (in CSS px, scaled by dpr). Crystals tilt like they're tumbling in 3D.
+    const drawFlake = (f: Flake, sx: number, y: number, tw: number) => {
+      const sc = f.kind === "crystal" ? 0.55 + 0.45 * Math.abs(Math.cos(f.flip)) : 1;
+      const a = f.alpha * tw;
+      const s = f.size;
+      const cr = Math.cos(f.rot);
+      const sr = Math.sin(f.rot);
 
       // one setTransform instead of save/translate/rotate/scale/restore
       ctx.setTransform(cr * sc * dpr, sr * sc * dpr, -sr * dpr, cr * dpr, sx * dpr, y * dpr);
       ctx.globalAlpha = a;
-      ctx.drawImage(l.sprite.img, -s / 2, -s / 2, s, s);
-
-      // lit from one side: glows warm when facing the light, darkens when turned away
-      const facing = Math.cos(l.flip) >= 0 ? 1 : -1;
-      const lit = Math.cos(l.rot - LIGHT_ANGLE) * facing;
-      if (lit > 0.05) {
-        ctx.globalAlpha = a * lit * 0.22;
-        ctx.drawImage(l.sprite.glow, -s / 2, -s / 2, s, s);
-      } else if (lit < -0.05) {
-        ctx.globalAlpha = a * -lit * 0.32;
-        ctx.drawImage(l.sprite.dark, -s / 2, -s / 2, s, s);
-      }
+      ctx.drawImage(f.sprite, -s / 2, -s / 2, s, s);
     };
 
     const step = (t: number) => {
@@ -408,62 +327,64 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
       }
 
       const e = env + turb * 0.7; // total "wind energy" from gusts + scrolling
-      // calm breeze averages to zero so leaves don't all drift to one side
+      // calm breeze averages to zero so flakes don't all drift to one side
       const breeze = Math.sin(t * 0.0003) * 0.25;
       const windTarget = breeze + env * dir * 2.6 + turb * 1.2;
 
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // ---- sun shafts (CSS layer): visible in calm moments, dim when windy ----
-      if (raysEl) {
+      // ---- frosty glow (CSS layer): visible in calm moments, dims when windy ----
+      if (glowEl) {
         const calmTarget = Math.max(0, 1 - e * 1.4);
         calm += (calmTarget - calm) * Math.min(1, 0.03 * dt);
         const flick =
           (0.8 + 0.2 * Math.sin(t * 0.0011) * Math.sin(t * 0.0029 + 1.3)) *
           (0.85 + 0.15 * Math.sin(t * 0.0004));
-        const target = SHAFT_ALPHA * calm * flick;
-        if (Math.abs(target - shaftShown) > 0.004) {
-          shaftShown = target;
-          raysEl.style.opacity = target.toFixed(3);
+        const target = GLOW_ALPHA * calm * flick;
+        if (Math.abs(target - glowShown) > 0.004) {
+          glowShown = target;
+          glowEl.style.opacity = target.toFixed(3);
         }
       }
 
-      // ---- leaves ----
-      for (let i = leaves.length - 1; i >= 0; i--) {
-        const l = leaves[i];
+      // ---- flakes ----
+      for (let i = flakes.length - 1; i >= 0; i--) {
+        const f = flakes[i];
 
-        l.vx += (windTarget * l.resp - l.vx) * l.drag * dt;
-        l.vx += l.swirl * turb * 0.12 * dt; // scrolling makes leaves flutter unpredictably
-        l.x += l.vx * dt;
+        f.vx += (windTarget * f.resp - f.vx) * f.drag * dt;
+        f.vx += f.swirl * turb * 0.12 * dt; // scrolling makes flakes flutter unpredictably
+        f.x += f.vx * dt;
 
         // gusts can slow the fall a little but never stop or reverse it
-        const dy = Math.max(0.15, l.vy - env * l.lift * 0.5);
-        // scrolling down pushes leaves up past the viewport; near leaves move more (parallax)
-        l.y += dy * dt - sv * (0.1 + 0.3 * l.depth) * dt;
+        const dy = Math.max(0.12, f.vy - env * f.lift * 0.4);
+        // scrolling down pushes flakes up past the viewport; near flakes move more (parallax)
+        f.y += dy * dt - sv * (0.1 + 0.3 * f.depth) * dt;
 
-        l.phase += l.freq * 16.67 * dt * (1 + e * 1.2);
-        l.rot += (l.rotSpeed * (1 + e * 3) + env * dir * 0.02) * dt;
-        l.flip += l.flipSpeed * dt * (1 + e * 2.5);
+        f.phase += f.freq * 16.67 * dt * (1 + e * 1.2);
+        f.rot += (f.rotSpeed * (1 + e * 3) + (f.kind === "crystal" ? env * dir * 0.01 : 0)) * dt;
+        f.flip += f.flipSpeed * dt * (1 + e * 2);
 
-        const sx = l.x + Math.sin(l.phase) * l.amp * (1 + e * 0.5);
+        const sx = f.x + Math.sin(f.phase) * f.amp * (1 + e * 0.5);
 
-        // Off-screen handling. Gust leaves (temp) are spawned up to ~320px outside the
+        // Off-screen handling. Gust flakes (temp) are spawned up to ~320px outside the
         // viewport on either side, so they get a wide horizontal margin and are discarded
-        // once they leave it. Regular leaves go back to above the top edge, so the fall
+        // once they leave it. Regular flakes go back to above the top edge, so the snowfall
         // never stops.
-        const offY = l.y > h + l.size || l.y < -h * 0.6 - 160;
-        if (l.temp) {
+        const offY = f.y > h + f.size || f.y < -h * 0.6 - 160;
+        if (f.temp) {
           if (offY || sx > w + 400 || sx < -400) {
-            leaves.splice(i, 1);
+            flakes.splice(i, 1);
             continue;
           }
         } else if (offY || sx > w * (1 + SIDE_MARGIN) + 60 || sx < -w * SIDE_MARGIN - 60) {
-          leaves[i] = spawn(false);
+          flakes[i] = spawn(false);
           continue;
         }
 
-        drawLeaf(l, sx, l.y, Math.abs(Math.cos(l.flip)));
+        // crystals shimmer a little as they turn
+        const tw = f.kind === "crystal" ? 0.8 + 0.2 * Math.sin(f.flip * 1.7) : 1;
+        drawFlake(f, sx, f.y, tw);
       }
     };
 
@@ -476,7 +397,7 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
         // stop instead of throwing on every frame
         running = false;
         cancelAnimationFrame(raf);
-        console.error("FallingLeaves stopped:", err);
+        console.error("FallingSnow stopped:", err);
       }
     };
 
@@ -503,13 +424,12 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
     // build sprites when the browser is idle so first paint isn't blocked
     const init = () => {
       if (cancelled) return;
-      (Object.keys(PALETTES) as LeafType[]).forEach((type) => {
-        sprites[type] = [];
-        const pal = PALETTES[type];
-        for (let i = 0; i < VARIANTS_PER_TYPE; i++) {
-          sprites[type].push(buildSprite(type, pal[i % pal.length]));
-        }
-      });
+      for (let i = 0; i < DOT_VARIANTS; i++) {
+        sprites.dot.push(makeDotSprite(i / Math.max(1, DOT_VARIANTS - 1)));
+      }
+      for (let i = 0; i < CRYSTAL_VARIANTS; i++) {
+        sprites.crystal.push(makeCrystalSprite());
+      }
       started = true;
       applySize();
       last = performance.now();
@@ -541,16 +461,16 @@ export default function FallingLeaves({ zIndex = DEFAULT_Z_INDEX }: Props) {
     };
   }, [reduced]);
 
-  // reduced motion: render nothing at all (no canvas, no sun shafts)
+  // reduced motion: render nothing at all (no canvas, no glow)
   if (reduced) return null;
 
   return (
     <>
       <div
-        ref={raysRef}
+        ref={glowRef}
         aria-hidden="true"
         className="pointer-events-none fixed inset-0"
-        style={{ ...RAYS_STYLE, zIndex }}
+        style={{ ...GLOW_STYLE, zIndex }}
       />
       <canvas
         ref={ref}
