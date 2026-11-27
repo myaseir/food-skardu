@@ -131,24 +131,24 @@ export const shops: Shop[] = [
     cuisines: ["Fast Food", "Chinese"],
   },
 
-         {
-    id: "baltistan-tea-grill-house",
-    name: "Baltistan Tea and Grill House",
-    type: "restaurant",
-    openTime: "12:30",
-    closeTime: "23:00",
-    alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
-    lat: 35.298864, // TODO: replace with real coordinates
-    lng: 75.637217, // TODO: replace with real coordinates
-    whatsapp: "923554718865",
-    rating: 4.9,
-    reviews: 36,
-   description:
-  "Baltistan Tea and Grill House Skardu is a popular grill and fast food restaurant in Skardu, Gilgit-Baltistan, serving grilled food, BBQ, burgers, sandwiches, coffee, and other delicious fast food. It also offers a quiet and relaxing atmosphere with bookshelves, making it a comfortable spot for reading, studying, working, or enjoying a coffee. With beautiful views of the surrounding mountains and the Indus River, Baltistan Tea and Grill House is a great place to enjoy food, coffee, scenic views, and a peaceful experience in Skardu.",
+//          {
+//     id: "baltistan-tea-grill-house",
+//     name: "Baltistan Tea and Grill House",
+//     type: "restaurant",
+//     openTime: "12:30",
+//     closeTime: "23:00",
+//     alwaysOpen: false,
+//     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_kbQo7Hg9dJ0cNp8MBi2eIwtU5H9YtFc6jZ50JvxeA&s",
+//     lat: 35.298864, // TODO: replace with real coordinates
+//     lng: 75.637217, // TODO: replace with real coordinates
+//     whatsapp: "923554718865",
+//     rating: 4.9,
+//     reviews: 36,
+//    description:
+//   "Baltistan Tea and Grill House Skardu is a popular grill and fast food restaurant in Skardu, Gilgit-Baltistan, serving grilled food, BBQ, burgers, sandwiches, coffee, and other delicious fast food. It also offers a quiet and relaxing atmosphere with bookshelves, making it a comfortable spot for reading, studying, working, or enjoying a coffee. With beautiful views of the surrounding mountains and the Indus River, Baltistan Tea and Grill House is a great place to enjoy food, coffee, scenic views, and a peaceful experience in Skardu.",
 
-cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
-  },
+// cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
+//   },
   {
     id: "the-kitchen-skardu",
     name: "The Kitchen",
