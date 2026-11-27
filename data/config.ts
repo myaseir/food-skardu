@@ -131,6 +131,24 @@ export const shops: Shop[] = [
     cuisines: ["Fast Food", "Chinese"],
   },
 
+  {
+  id: "saspolo-fried-chicken",
+  name: "Saspolo Fried Chicken",
+  type: "restaurant",
+  openTime: "12:00", // TODO: confirm real opening time
+  closeTime: "22:00", // TODO: confirm real closing time
+  alwaysOpen: false,
+  logo: "https://play-lh.googleusercontent.com/0WERsNXSo1GjCplYc6q7ZshijcEhiHmfenIhpLRz_U2YyopcW365KU6h0YV6Uh8wPSlunekqfqxZw5c1Z1zoVw", // TODO: add Saspolo logo URL
+  lat: 35.2899888, // TODO: replace with real coordinates
+    lng: 75.6415605, // TODO: replace with real coordinates (copied from the old entry)
+  whatsapp: "03423249977",
+  rating: 4.7, // TODO: add real rating
+  reviews: 60, // TODO: add real review count
+  description:
+    "Saspolo Fried Chicken in Skardu serves crispy fried chicken, burgers, shawarma and rolls. Find us opposite Uswa School and College, Ali Patel Campus, with a second branch at Hussain Abad Waterfall.",
+  cuisines: ["Fast Food", "Fried Chicken", "Shawarma"],
+},
+
 //          {
 //     id: "baltistan-tea-grill-house",
 //     name: "Baltistan Tea and Grill House",
@@ -149,6 +167,23 @@ export const shops: Shop[] = [
 
 // cuisines: ["Grill", "BBQ", "Fast Food", "Burgers", "Sandwiches", "Coffee"],
 //   },
+  {
+    id: "skyway-pizza",
+    name: "Skyway Pizza Skardu",
+    type: "restaurant",
+    openTime: "13:00",
+    closeTime: "00:30",
+    alwaysOpen: false,
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
+    lat: 35.288921, // TODO: replace with real coordinates
+    lng: 75.629178, // TODO: replace with real coordinates
+    whatsapp: "923554524401",
+    rating: 4.0,
+    reviews: 115,
+    description:
+      "Skyway Pizza in Skardu is known for its pizza and its affordable prices.",
+    cuisines: ["Pizza", "Fast Food"],
+  },
   {
     id: "the-kitchen-skardu",
     name: "The Kitchen",
@@ -336,23 +371,7 @@ export const shops: Shop[] = [
   //   cuisines: ["Balti", "Momos", "Pulao"],
   // },
 
-  {
-    id: "skyway-pizza",
-    name: "Skyway Pizza Skardu",
-    type: "restaurant",
-    openTime: "13:00",
-    closeTime: "00:30",
-    alwaysOpen: false,
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtUeS45GsAE9jnvKmammejtmSPfBAW92Su-zP4Wj8yMw&s=10",
-    lat: 35.288921, // TODO: replace with real coordinates
-    lng: 75.629178, // TODO: replace with real coordinates
-    whatsapp: "923554524401",
-    rating: 4.0,
-    reviews: 115,
-    description:
-      "Skyway Pizza in Skardu is known for its pizza and its affordable prices.",
-    cuisines: ["Pizza", "Fast Food"],
-  },
+  
   
   // {
   //   id: "aima-kitchen",

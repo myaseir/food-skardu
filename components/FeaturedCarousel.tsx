@@ -10,7 +10,7 @@ import { useAvailability } from "@/hooks/useAvailability";
 import { estimateDeliveryTime } from "@/utils/deliveryCalculator";
 
 // Add/remove shop ids here to control what shows in the carousel
-const FEATURED_SHOP_IDS = ["yak-and-bull" ,"mfc","thefoodcorridor-skardu","yak-grill-skardu","the-balti-table", ];
+const FEATURED_SHOP_IDS = ["yak-and-bull" ,"mfc","saspolo-fried-chicken","thefoodcorridor-skardu","yak-grill-skardu","skyway-pizza", ];
 
 // ---------------------------------------------------------------------------
 // BADGES — pick which restaurants get a badge and which kind.
@@ -24,7 +24,7 @@ const FEATURED_SHOP_IDS = ["yak-and-bull" ,"mfc","thefoodcorridor-skardu","yak-g
 //   border -> thin outline color: "#fef08a"
 // Colors are inline styles, so they don't depend on Tailwind.
 // ---------------------------------------------------------------------------
-type BadgeKind = "Must Try" | "most-ordered" | "fan-favorite" | "fast";
+type BadgeKind = "Must Try" | "most-ordered" | "budget-friendly" | "fast";
 
 type CustomBadge = {
   kind?: BadgeKind;
@@ -44,6 +44,7 @@ const SHOP_BADGES: Record<string, BadgeKind | CustomBadge> = {
   },
   
   // "baltistan-tea-grill-house": "fan-favorite",
+  "saspolo-fried-chicken": "budget-friendly",
   
   "mfc": "most-ordered",
 };
@@ -67,8 +68,8 @@ const BADGE_STYLES: Record<
     color: "#ffffff",
     border: "rgba(255,255,255,0.4)",
   },
- "fan-favorite": {
-  label: "Fan Favorite",
+ "budget-friendly": {
+  label: "Budget Friendly",
   Icon: Heart,
   bg: "linear-gradient(90deg,#3b82f6,#4f46e5)",
   color: "#ffffff",
